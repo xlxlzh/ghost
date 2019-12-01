@@ -2,7 +2,7 @@ aux_source_directory(./src ENGINE_CODE)
 source_group("src" FILES ${ENGINE_CODE})
 
 aux_source_directory(./src/Win32 WIN32_CODE)
-source_group("src\\Win32" ${WIN32_CODE})
+source_group("src\\Win32" FILES ${WIN32_CODE})
 
 file(GLOB ENGINE_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
 source_group("include" FILES ${ENGINE_HEADERS})
