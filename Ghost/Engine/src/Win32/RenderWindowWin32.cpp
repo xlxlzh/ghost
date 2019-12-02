@@ -44,6 +44,16 @@ namespace ghost
 
 	LRESULT CALLBACK RenderWindowWin32::WndPro(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
+		switch (message)
+		{
+		case WM_KEYDOWN:
+			switch (wParam)
+			{
+			case VK_ESCAPE:
+				break;
+			}
+			break;
+		}
 		return ::DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
@@ -61,5 +71,14 @@ namespace ghost
 		{
 			::UpdateWindow(_windowHandle);
 		}
+	}
+
+	void RenderWindowWin32::_messageLoop()
+	{
+		MSG msg;
+		memset(&msg, 0, sizeof(msg));
+
+		::DispatchMessage(&msg);
+		::TranslateMessage(&msg);
 	}
 }

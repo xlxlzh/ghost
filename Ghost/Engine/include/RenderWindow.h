@@ -5,9 +5,15 @@
 
 namespace ghost
 {
+	class Application;
+
 	class RenderWindow
 	{
+		friend class Application;
+
 	public:
+		RenderWindow(Application* app) : _app(app) { }
+
 		bool initialize(int width, int height, const std::string windowName, bool fullscreen);
 
 		int getWidth() const { return _width; }
@@ -25,10 +31,14 @@ namespace ghost
 		virtual void _showWindow() const = 0;
 		virtual void _updateWindow() const = 0;
 
+		virtual void _messageLoop() { }
+
 	protected:
 		std::string _windowTitle;
 		int _width, _height;
 		bool _fullscreen;
+
+		Application* _app;
 	};
 }
 
