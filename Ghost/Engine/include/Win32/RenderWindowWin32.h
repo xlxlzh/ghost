@@ -10,7 +10,7 @@ namespace ghost
 	class RenderWindowWin32 : public RenderWindow
 	{
 	public:
-		RenderWindowWin32(Application* app) : RenderWindow(app) { }
+		RenderWindowWin32(Application* app);
 
 		virtual const void* getWindowHandle() const override;
 

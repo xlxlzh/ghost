@@ -1,7 +1,15 @@
 #include "RenderWindowWin32.h"
+#include "Application.h"
 
 namespace ghost
 {
+	static Application* application = nullptr;
+
+	RenderWindowWin32::RenderWindowWin32(Application* app) : RenderWindow(app)
+	{
+		application = app;
+	}
+
 	const void* RenderWindowWin32::getWindowHandle() const
 	{
 		return static_cast<void*>(_windowHandle);
@@ -47,11 +55,21 @@ namespace ghost
 		switch (message)
 		{
 		case WM_KEYDOWN:
+			application->onKeydown();
 			switch (wParam)
 			{
 			case VK_ESCAPE:
+				application->exitApplication();
 				break;
 			}
+			break;
+
+		case WM_QUIT:
+			break;
+
+		case WM_DESTROY:
+			application->exitApplication();
+			::DestroyWindow((HWND)application->getAttachWindow());
 			break;
 		}
 		return ::DefWindowProc(hWnd, message, wParam, lParam);
@@ -78,7 +96,10 @@ namespace ghost
 		MSG msg;
 		memset(&msg, 0, sizeof(msg));
 
-		::DispatchMessage(&msg);
-		::TranslateMessage(&msg);
+		if (::PeekMessage(&msg, _windowHandle, 0, 0, PM_REMOVE))
+		{
+			::TranslateMessage(&msg);
+			::DispatchMessage(&msg);
+		}
 	}
 }

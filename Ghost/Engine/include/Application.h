@@ -17,6 +17,8 @@ namespace ghost
 
 		virtual void tick(float deltaTime) { }
 
+		const void* getAttachWindow() { return _window->getWindowHandle(); }
+
 		void run();
 
 		void exitApplication() { _exit = true; }
