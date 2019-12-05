@@ -102,4 +102,99 @@ namespace ghost
 			_data = nullptr;
 		}
 	}
+
+	FileStream::FileStream(const std::string& fileName, AccessMode mode /* = AccessMode::AM_READ */)
+		: DataStream(fileName, mode)
+	{
+		_fileStream = new std::fstream();
+		unsigned flag = getStreamFlag(mode);
+
+		if (_fileStream)
+		{
+			_fileStream->open(fileName.c_str(), flag);
+		}
+	}
+
+	unsigned FileStream::getStreamFlag(AccessMode mode)
+	{
+		unsigned flag = 0;
+		if (mode & AccessMode::AM_READ)
+		{
+			flag |= std::ios::in;
+		}
+
+		if (mode & AccessMode::AM_WRITE)
+		{
+			flag |= std::ios::out;
+		}
+
+		return flag;
+	}
+
+	std::size_t FileStream::read(void* buf, std::size_t count)
+	{
+		if (_fileStream && isReadable())
+		{
+			_fileStream->read(static_cast<char*>(buf), count);
+			return _fileStream->gcount();
+		}
+
+		return 0;
+	}
+
+	std::size_t FileStream::write(const void* buf, size_t count)
+	{
+		std::size_t writeCount = 0;
+		if (_fileStream && isWriteable())
+		{
+			_fileStream->write(static_cast<const char*>(buf), static_cast<std::streamsize>(count));
+			writeCount = count;
+		}
+
+		return writeCount;
+	}
+
+	void FileStream::skip(std::size_t count)
+	{
+		if (_fileStream)
+		{
+			_fileStream->clear();
+			_fileStream->seekg(count, std::ios::cur);
+		}
+	}
+
+	void FileStream::seek(std::size_t pos)
+	{
+		if (_fileStream)
+		{
+			_fileStream->clear();
+			_fileStream->seekg(pos, std::ios::beg);
+		}
+	}
+
+	std::size_t FileStream::tell() const
+	{
+		if (_fileStream)
+		{
+			_fileStream->clear();
+			return _fileStream->tellg();
+		}
+
+		return 0;
+	}
+
+	bool FileStream::eof() const
+	{
+		return _fileStream && _fileStream->eof();
+	}
+
+	void FileStream::close()
+	{
+		if (_fileStream)
+		{
+			_fileStream->close();
+			delete _fileStream;
+			_fileStream = nullptr;
+		}
+	}
 }

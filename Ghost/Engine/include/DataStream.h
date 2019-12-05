@@ -81,6 +81,8 @@ namespace ghost
 	class FileStream : public DataStream
 	{
 	public:
+		FileStream(const std::string& fileName, AccessMode mode = AccessMode::AM_READ);
+
 		virtual std::size_t read(void* buf, std::size_t count) override;
 		virtual std::size_t write(const void* buf, size_t count) override;
 
@@ -93,6 +95,9 @@ namespace ghost
 		virtual void close() override;
 
 	protected:
+		unsigned getStreamFlag(AccessMode mode);
 
+	protected:
+		std::fstream* _fileStream;
 	};
 }
