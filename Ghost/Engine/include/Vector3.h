@@ -19,6 +19,9 @@ namespace ghost
 
 		Vector3<T>& operator= (const Vector3<T>& rhs) { _x = rhs._x; _y = rhs._y; _z = rhs._z; return *this; }
 
+		bool operator== (const Vector3<T>& rhs) const { return this->equal(rhs); }
+		bool operator!= (const Vector3<T>& rhs) const { return this->equal(rhs); }
+
 		Vector3<T>& operator+= (const Vector3<T>& rhs) { _x += rhs._x; _y += rhs._y; _z += rhs._z; return *this; }
 		Vector3<T>& operator+= (const Vector3<T>& rhs) { _x += rhs._x; _y += rhs._y; _z += rhs._z; return *this; }
 		Vector3<T>& operator*= (const Vector3<T>& rhs) { _x *= rhs._x; _y *= rhs._y; _z *= rhs._z; return *this; }
@@ -34,7 +37,14 @@ namespace ghost
 		Vector3<T> operator/ (const T& rhs) const { return Vector2<T>(__x / rhs, _y / rhs, _z / rhs); }
 		Vector3<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; _z /= rhs; return *this; }
 
-		T dot(const Vector3<T>& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
+		Vector3<T> operator- () const { return Vector3<T>(-_x, -_y, -_z); }
+
+		T dotProduct(const Vector3<T>& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
+
+		bool equal(const Vector3<T>& rhs) const
+		{
+			return MathUtilities::equal(_x, rhs._x) && MathUtilities::equal(_y, rhs._y) && MathUtilities::equal(_z, rhs._z);
+		}
 
 		T length() const
 		{
@@ -44,6 +54,16 @@ namespace ghost
 		Vector3<T> crossProduct(const Vector3<T>& rhs) const
 		{
 			return Vector3<T>(_y * rhs._z - _z * rhs._y, _z * rhs._x - _x * rhs._z, _x * rhs._y - _y * rhs._x);
+		}
+
+		void normalize()
+		{
+			T vecLength = length();
+			assert(vecLength > 0.0f);
+
+			_x /= vecLength;
+			_y /= vecLength;
+			_z /= vecLength;
 		}
 
 	public:
