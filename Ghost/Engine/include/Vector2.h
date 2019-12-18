@@ -6,7 +6,6 @@ namespace ghost
 	template<typename T>
 	class Vector2
 	{
-		friend Vector2<T> operator* (const Vector2<T>& rhs);
 	public:
 		Vector2() : _x(0), _y(0) { }
 		Vector2(T x, T y) : _x(x), _y(y) { }

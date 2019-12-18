@@ -41,9 +41,20 @@ namespace ghost
 			return MathUtilities::sqrt<T>(_x * _x + _y * _y + _z * _z);
 		}
 
+		Vector3<T> crossProduct(const Vector3<T>& rhs) const
+		{
+			return Vector3<T>(_y * rhs._z - _z * rhs._y, _z * rhs._x - _x * rhs._z, _x * rhs._y - _y * rhs._x);
+		}
+
 	public:
 		T _x, _y, _z;
 	};
+
+	template<typename T>
+	Vector3<T> operator* (const T& lhs, const Vector3<T>& rhs)
+	{
+		return rhs * lhs;
+	}
 
 	using Vector3f = Vector3<float>;
 }
