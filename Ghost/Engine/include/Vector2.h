@@ -30,7 +30,7 @@ namespace ghost
 
 		Vector2<T> operator* (const T& rhs) const { return Vector2<T>(rhs * _x, rhs * _y); }
 		Vector2<T>& operator*= (const T& rhs) { _x *= rhs; _y *= rhs; return *this; }
-		Vector2<T> operator/ (const T& rhs) const { return Vector2<T>(rhs / _x, rhs / _y); }
+		Vector2<T> operator/ (const T& rhs) const { return Vector2<T>(_x / rhs, _y / rhs); }
 		Vector2<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; return *this; }
 
 		T dot(const Vector2<T>& rhs) const { return _x * rhs._x + _y * rhs._y; }

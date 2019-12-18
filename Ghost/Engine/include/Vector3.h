@@ -1,6 +1,8 @@
 #ifndef _VECTOR3_H_
 #define _VECTOR3_H_
 
+#include "MathUtilities.h"
+
 namespace ghost
 {
 	template<typename T>
@@ -22,9 +24,28 @@ namespace ghost
 		Vector3<T>& operator*= (const Vector3<T>& rhs) { _x *= rhs._x; _y *= rhs._y; _z *= rhs._z; return *this; }
 		Vector3<T>& operator/= (const Vector3<T>& rhs) { _x /= rhs._x; _y /= rhs._y; _z /= rhs._z; return *this; }
 
+		Vector3<T> operator+ (const Vector3<T>& rhs) const { return Vector3<T>(_x + rhs._x, _y + rhs._y, _z + rhs._z); }
+		Vector3<T> operator- (const Vector3<T>& rhs) const { return Vector3<T>(_x - rhs._x, _y - rhs._y, _z - rhs._z); }
+		Vector3<T> operator* (const Vector3<T>& rhs) const { return Vector3<T>(_x * rhs._x, _y * rhs._y, _z * rhs._z); }
+		Vector3<T> operator/ (const Vector3<T>& rhs) const { return Vector3<T>(_x / rhs._x, _y / rhs._y, _z / rhs._z); }
+
+		Vector3<T> operator* (const T& rhs) const { return Vector3<T>(rhs * _x, rhs * _y, rhs * _z); }
+		Vector3<T>& operator*= (const T& rhs) { _x *= rhs; _y *= rhs; _z *= rhs; return *this; }
+		Vector3<T> operator/ (const T& rhs) const { return Vector2<T>(__x / rhs, _y / rhs, _z / rhs); }
+		Vector3<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; _z /= rhs; return *this; }
+
+		T dot(const Vector3<T>& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
+
+		T length() const
+		{
+			return MathUtilities::sqrt<T>(_x * _x + _y * _y + _z * _z);
+		}
+
 	public:
 		T _x, _y, _z;
 	};
+
+	using Vector3f = Vector3<float>;
 }
 
 #endif
