@@ -29,9 +29,53 @@ namespace ghost
 			return ::sqrt(x);
 		}
 
+        template<typename T>
+        static T sin(T angle)
+        {
+            float radian = static_cast<float>(angle * PI / 180.0f);
+            return ::sinf(radian);
+        }
+
+        template<>
+        static double sin(double angle)
+        {
+            double radian = static_cast<double>(angle * PI / 180.0f);
+            return ::sin(radian);
+        }
+
+        template<typename T>
+        static T cos(T angle)
+        {
+            float radian = static_cast<float>(angle * PI / 180.0f);
+            return ::cosf(radian);
+        }
+
+        template<>
+        static double cos(double angle)
+        {
+            double radian = static_cast<double>(angle * PI / 180.0f);
+            return ::cos(radian);
+        }
+
+        template<typename T>
+        static T tan(T angle)
+        {
+            float radian = static_cast<float>(angle * PI / 180.0f);
+            return ::tanf(static_cast<float>(radian));
+        }
+
+        template<>
+        static double tan(double angle)
+        {
+            double radian = static_cast<double>(angle * PI / 180.0f);
+            return ::tan(radian);
+        }
+
 	public:
 		static float PRECISION_FLOAT;
+        static float PI;
 	};
 
 	float MathUtilities::PRECISION_FLOAT = 1.0e-10f;
+    float MathUtilities::PI = 3.1415926535f;
 }

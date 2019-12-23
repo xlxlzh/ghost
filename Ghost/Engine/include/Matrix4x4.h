@@ -196,6 +196,63 @@ namespace ghost
 		}
 
 	public:
+		static Matrix4x4<T> scaleMatrix(T x, T y, T z)
+		{
+			Matrix4x4<T> m;
+
+			m._11 = x;
+			m._22 = y;
+			m._33 = z;
+
+			return m;
+		}
+
+		static Matrix4x4<T> transformMatrix(T x, T y, T z)
+		{
+			Matrix4x4<T> m;
+
+			m._41 = x;
+			m._42 = y;
+			m._43 = z;
+
+			return m;
+		}
+
+		static Matrix4x4<T> rotationMatrixXAxis(T angle)
+		{
+			Matrix4x4<T> m;
+            m._22 = MathUtilities::cos<T>(angle);
+            m._23 = -MathUtilities::sin<T>(angle);
+            m._32 = MathUtilities::sin<T>(angle);
+            m._33 = MathUtilities::cos<T>(angle);
+			return m;
+		}
+
+        static Matrix4x4<T> rotationMatrixYAxis(T angle)
+        {
+            Matrix4x4<T> m;
+
+            m._11 = MathUtilities::cos<T>(angle);
+            m._13 = MathUtilities::sin<T>(angle);
+            m._31 = -MathUtilities::sin<T>(angle);
+            m._33 = MathUtilities::cos<T>(angle);
+
+            return m;
+        }
+
+        static Matrix4x4<T> rotationMatrixZAxis(T angle)
+        {
+            Matrix4x4<T> m;
+
+            m._11 = MathUtilities::cos<T>(angle);
+            m._12 = -MathUtilities::sin<T>(angle);
+            m._21 = MathUtilities::sin<T>(angle);
+            m._22 = MathUtilities::cos<T>(angle);
+
+            return m;
+        }
+		
+	public:
 		union
 		{
 			struct 
