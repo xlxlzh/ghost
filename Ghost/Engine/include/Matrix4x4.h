@@ -179,6 +179,10 @@ namespace ghost
 			{
 				return m;
 			}
+
+            d = 1.0f / d;
+
+            return m;
 		}
 
 		T determinant() const
