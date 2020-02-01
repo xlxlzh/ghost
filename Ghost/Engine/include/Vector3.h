@@ -56,7 +56,7 @@ namespace ghost
 			return Vector3<T>(_y * rhs._z - _z * rhs._y, _z * rhs._x - _x * rhs._z, _x * rhs._y - _y * rhs._x);
 		}
 
-		void normalize()
+		Vector3<T> normalize()
 		{
 			T vecLength = length();
 			assert(vecLength > 0.0f);
@@ -64,6 +64,8 @@ namespace ghost
 			_x /= vecLength;
 			_y /= vecLength;
 			_z /= vecLength;
+
+            return *this;
 		}
 
 	public:

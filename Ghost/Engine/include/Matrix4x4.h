@@ -279,15 +279,41 @@ namespace ghost
             return m;
         }
 
-        static Matrix4x4<T> perspectiveMatrix()
+        static Matrix4x4<T> perspectiveMatrix(float fov, float aspect, float n, float f)
         {
             Matrix4x4<T> m;
+
+            float yScale = MathUtilities::cot(fov / 2.0);
+            float xScale = yScale / aspect;
+
+            m._11 = xScale;
+            m._22 = yScale;
+            m._33 = f / (f - n);
+            m._43 = -n * f / (f - n);
+            m._34 = 1.0;
+
             return m;
         }
 
-        static Matrix4x4<T> orthoMatrix()
+        static Matrix4x4<T> orthoMatrix(float w, float h, float n, float f)
         {
             Matrix4x4<T> m;
+
+            m._11 = 2.0 / w;
+            m._22 = 2.0 / h;
+            m._33 = 1.0 / (f - n);
+            m._43 = -n / (f - n);
+            m._44 = 1.0;
+
+            return m;
+        }
+
+        static Matrix4x4<T> viewMatrix(Vector3<T> pos, Vector3<T> lookAt, Vector3<T> up)
+        {
+            Matrix4x4<T> m;
+
+            //TODO
+
             return m;
         }
 		

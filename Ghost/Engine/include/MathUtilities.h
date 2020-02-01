@@ -71,6 +71,22 @@ namespace ghost
             return ::tan(radian);
         }
 
+        template<typename T>
+        static T cot(T angle)
+        {
+            float radian = static_cast<float>(angle * PI / 180.0f);
+            float ret =  ::tanf(static_cast<float>(radian));
+            return 1.0 / ret;
+        }
+
+        template<>
+        static double cot(double angle)
+        {
+            double radian = static_cast<double>(angle * PI / 180.0f);
+            double ret = ::tan(radian);
+            return 1.0 / ret;
+        }
+
 	public:
 		static float PRECISION_FLOAT;
         static float PI;
