@@ -7,6 +7,8 @@ namespace ghost
 	class SingleTon
 	{
 	public:
+        SingleTon() = default;
+
 		static T* getInstance()
 		{
 			if (_instance == nullptr)
