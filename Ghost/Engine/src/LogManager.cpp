@@ -13,7 +13,6 @@ namespace ghost
     {
         if (_stream.is_open())
         {
-            _stream.flush();
             _stream.close();
         }
     }
