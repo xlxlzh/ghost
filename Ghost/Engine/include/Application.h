@@ -8,16 +8,26 @@
 
 namespace ghost
 {
+    enum ApplicationType
+    {
+        APP_WIN32,
+        APP_LINUX,
+        APP_NUM
+    };
+
 	class Application : public MessageHandler
 	{
 	public:
 		Application() = default;
 		
-		virtual bool initialize(int w, int h, const std::string& wname, bool fullscreen = false) = 0;
+		bool initialize(ApplicationType appType, int w, int h, const std::string& wname, bool fullscreen = false);
 
 		virtual void tick(float deltaTime) { }
+        virtual void onInit() { }
+        virtual void onExit() { }
 
 		const void* getAttachWindow() { return _window->getWindowHandle(); }
+        const RenderWindow* getWindow() const { return _window; }
 
 		void run();
 
@@ -34,6 +44,8 @@ namespace ghost
 		bool _exit;
 		bool _initialize;
 	};
+
+    using ApplicationPtr = std::shared_ptr<Application>;
 }
 
 #endif
