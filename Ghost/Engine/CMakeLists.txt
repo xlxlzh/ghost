@@ -16,8 +16,13 @@ source_group("include\\Win32" FILES ${WIN32_HEADERS})
 file(GLOB D3D11_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/D3D11/*.h")
 source_group("include\\D3D11" FILES ${D3D11_HEADERS})
 
+find_package(DirectX11 REQUIRED)
+include_directories(${DirectX11_INCLUDE_DIR})
+
 include_directories(include)
 include_directories(include/Win32)
 include_directories(include/D3D11)
 
-add_library(GhostEngine STATIC ${ENGINE_CODE} ${ENGINE_HEADERS} ${WIN32_CODE} ${WIN32_HEADERS} ${D3D11_HEADERS} ${D3D11_CODE})
+add_library(GhostEngine SHARED ${ENGINE_CODE} ${ENGINE_HEADERS} ${WIN32_CODE} ${WIN32_HEADERS} ${D3D11_HEADERS} ${D3D11_CODE})
+
+target_link_libraries(GhostEngine ${DirectX11_LIBRARY})
