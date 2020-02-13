@@ -3,6 +3,7 @@
 
 #include <d3d11.h>
 #include "RenderSystem.h"
+#include "D3D11RenderDevice.h"
 
 namespace ghost
 {

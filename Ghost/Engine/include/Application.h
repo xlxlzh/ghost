@@ -15,7 +15,7 @@ namespace ghost
         APP_NUM
     };
 
-	class Application : public MessageHandler
+	class GHOST_API Application : public MessageHandler
 	{
 	public:
 		Application() = default;

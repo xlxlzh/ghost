@@ -1,9 +1,11 @@
 #ifndef _MESSAGE_HANDLER_H_
 #define _MESSAGE_HANDLER_H_
 
+#include "Ghost.h"
+
 namespace ghost
 {
-	class MessageHandler
+	class GHOST_API MessageHandler
 	{
 	public:
 		virtual void onMouseRightClick() { }

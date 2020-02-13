@@ -16,6 +16,8 @@ source_group("include\\Win32" FILES ${WIN32_HEADERS})
 file(GLOB D3D11_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/D3D11/*.h")
 source_group("include\\D3D11" FILES ${D3D11_HEADERS})
 
+add_definitions(-DGHOST_EXPORT)
+
 find_package(DirectX11 REQUIRED)
 include_directories(${DirectX11_INCLUDE_DIR})
 

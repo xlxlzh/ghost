@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include "SingleTon.h"
+#include "Ghost.h"
 
 namespace ghost
 {
@@ -31,7 +32,7 @@ namespace ghost
         "[ERROR]"
     };
 
-    class Log
+    class GHOST_API Log
     {
     public:
         Log(std::string name, LogLevel level = LOG_NORMAL, bool timestamp = true);
@@ -51,7 +52,7 @@ namespace ghost
 
     using LogPtr = std::shared_ptr<Log>;
 
-    class LogManager : public SingleTon<LogManager>
+    class GHOST_API LogManager : public SingleTon<LogManager>
     {
     public:
         LogManager() = default;

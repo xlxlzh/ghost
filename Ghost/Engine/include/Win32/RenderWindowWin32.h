@@ -7,7 +7,7 @@
 
 namespace ghost
 {
-	class RenderWindowWin32 : public RenderWindow
+	class GHOST_API RenderWindowWin32 : public RenderWindow
 	{
 	public:
 		RenderWindowWin32(Application* app);

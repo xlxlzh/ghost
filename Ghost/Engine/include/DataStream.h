@@ -1,4 +1,5 @@
 #include <fstream>
+#include "Ghost.h"
 
 namespace ghost
 {
@@ -11,7 +12,7 @@ namespace ghost
 
 	using uchar = unsigned char;
 
-	class DataStream
+	class GHOST_API DataStream
 	{
 	public:
 		DataStream(AccessMode mode = AccessMode::AM_READ) : _accessMode(mode), _size(0) { }
@@ -50,7 +51,7 @@ namespace ghost
 		unsigned _size;
 	};
 
-	class MemoryDataStream : public DataStream
+	class GHOST_API MemoryDataStream : public DataStream
 	{
 	public:
 		MemoryDataStream(void* mem, std::size_t size, bool freeOnClose = false, bool readonly = false);
@@ -78,7 +79,7 @@ namespace ghost
 		bool _freeOnClose;
 	};
 
-	class FileStream : public DataStream
+	class GHOST_API FileStream : public DataStream
 	{
 	public:
 		FileStream(const std::string& fileName, AccessMode mode = AccessMode::AM_READ);

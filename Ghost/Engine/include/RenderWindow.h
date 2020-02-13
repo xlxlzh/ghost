@@ -2,12 +2,13 @@
 #define _RENDER_WINDOW_H_
 
 #include <string>
+#include "Ghost.h"
 
 namespace ghost
 {
 	class Application;
 
-	class RenderWindow
+	class GHOST_API RenderWindow
 	{
 		friend class Application;
 

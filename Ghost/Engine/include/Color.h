@@ -1,9 +1,11 @@
 #ifndef _COLOR_H_
 #define _COLOR_H_
 
+#include "Ghost.h"
+
 namespace ghost
 {
-    class Color
+    class GHOST_API Color
     {
     public:
         Color() = default;
