@@ -5,6 +5,7 @@ namespace ghost
 {
     class GHOST_API D3D11RenderDevice : public RenderDevice
     {
+        friend class D3D11RenderSystem;
     public:
         virtual bool initDevice(bool fullscreen, unsigned msaaCount) override;
         virtual bool checkSampleCount(unsigned checkCount) override;

@@ -7,10 +7,11 @@ using namespace ghost;
 
 INT WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd )
 {
-    Engine::getInstance()->initEngine(RENDER_D3D11);
+    ApplicationPtr app = std::make_shared<Application>();
+    app->initialize(APP_WIN32, 800, 600, "Ghost");
 
-    Application* app = new Application();
-	app->initialize(APP_WIN32 ,1200, 900, "Ghost");
+    Engine::getInstance()->initEngine(RENDER_D3D11, app, _4x);
+
 	app->show();
 	app->run();
 	return 0;

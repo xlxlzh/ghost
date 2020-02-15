@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "RenderDevice.h"
+#include "Color.h"
 
 namespace ghost
 {
@@ -24,12 +25,12 @@ namespace ghost
     class RenderSystem
     {
     public:
-        virtual bool initRendersystem() = 0;
+        virtual bool initRendersystem(MSAA msaa = _4x) = 0;
 
         virtual void setRenderTarget() = 0;
         virtual void setRenderTargets() = 0;
         virtual void setDepthstencil() = 0;
-        virtual void setClearColor() = 0;
+        virtual void setClearColor(Color cl = Color::Black) = 0;
         virtual void clearRenderTarget() = 0;
         virtual void clearRenderTargets() = 0;
 
@@ -40,7 +41,24 @@ namespace ghost
         virtual void endScene() = 0;
 
     protected:
+        unsigned _getMsaaCount(MSAA msaa)
+        {
+            switch (msaa)
+            {
+            case ghost::_2x:
+                return 2;
+            case ghost::_4x:
+                return 4;
+            case ghost::_8x:
+                return 8;
+            default:
+                return 1;
+            }
+        }
+
+    protected:
         RenderDevicePtr _device;
+        Color _clearColor;
     };
 
     using RenderSystemPtr = std::shared_ptr<RenderSystem>;

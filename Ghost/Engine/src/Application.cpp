@@ -16,6 +16,7 @@ namespace ghost
         }
 
         _initialize = _window->initialize(w, h, wname, fullscreen);
+        _appType = appType;
 
         return _initialize;
     }

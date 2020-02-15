@@ -2,10 +2,10 @@
 
 namespace ghost
 {
-    bool D3D11RenderSystem::initRendersystem()
+    bool D3D11RenderSystem::initRendersystem(MSAA msaa /* = _4x */)
     {
         _device = std::make_shared<D3D11RenderDevice>();
-        _device->initDevice(false, 4);
+        _device->initDevice(false, _getMsaaCount(msaa));
 
         return true;
     }
@@ -24,9 +24,9 @@ namespace ghost
 
     }
 
-    void D3D11RenderSystem::setClearColor()
+    void D3D11RenderSystem::setClearColor(Color cl /* = Color::Black */)
     {
-
+        _clearColor = cl;
     }
 
     void D3D11RenderSystem::clearRenderTarget()

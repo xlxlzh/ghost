@@ -1,4 +1,5 @@
 #include "D3D11RenderDevice.h"
+#include "Engine.h"
 
 namespace ghost
 {
@@ -22,7 +23,7 @@ namespace ghost
 
         D3D_FEATURE_LEVEL featureLevels[] =
         {
-            D3D_FEATURE_LEVEL_11_1,
+            //D3D_FEATURE_LEVEL_11_1,
             D3D_FEATURE_LEVEL_11_0
         };
 
@@ -75,11 +76,13 @@ namespace ghost
 
         _dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(_dxgiFactory.GetAddressOf()));
 
+        ApplicationPtr appPtr = Engine::getInstance()->getApplication();
+
         DXGI_SWAP_CHAIN_DESC swapchainDesc;
         memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC));
         swapchainDesc.BufferCount = 1;
-        swapchainDesc.BufferDesc.Width = _width;
-        swapchainDesc.BufferDesc.Height = _height;
+        swapchainDesc.BufferDesc.Width = appPtr->getWindow()->getWidth();
+        swapchainDesc.BufferDesc.Height = appPtr->getWindow()->getHeight();
         swapchainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         swapchainDesc.BufferDesc.RefreshRate.Numerator = 60;
         swapchainDesc.BufferDesc.RefreshRate.Denominator = 1;
@@ -87,11 +90,11 @@ namespace ghost
         swapchainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
         swapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapchainDesc.Flags = 0;
-        swapchainDesc.OutputWindow = nullptr;
+        swapchainDesc.OutputWindow = (HWND)appPtr->getAttachWindow();
         swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-        swapchainDesc.Windowed = _fullscreen;
+        swapchainDesc.Windowed = !_fullscreen;
         swapchainDesc.SampleDesc.Count = _sampleCount;
-        swapchainDesc.SampleDesc.Quality = _sampleQulity;
+        swapchainDesc.SampleDesc.Quality = _sampleQulity - 1;
 
         hr = _dxgiFactory->CreateSwapChain(_device.Get(), &swapchainDesc, _dxgiSwapchain.GetAddressOf());
         if (FAILED(hr))
@@ -116,11 +119,11 @@ namespace ghost
         depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
         depthDesc.CPUAccessFlags = 0;
         depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-        depthDesc.Height = _height;
+        depthDesc.Height = appPtr->getWindow()->getHeight();
         depthDesc.MipLevels = 1;
         depthDesc.MiscFlags = 0;
         depthDesc.Usage = D3D11_USAGE_DEFAULT;
-        depthDesc.Width = _width;
+        depthDesc.Width = appPtr->getWindow()->getWidth();
 
         if (_sampleCount > 1)
         {

@@ -22,6 +22,8 @@ namespace ghost
 		
 		bool initialize(ApplicationType appType, int w, int h, const std::string& wname, bool fullscreen = false);
 
+        virtual ApplicationType getApplicationType() const { return _appType; }
+
 		virtual void tick(float deltaTime) { }
         virtual void onInit() { }
         virtual void onExit() { }
@@ -43,6 +45,7 @@ namespace ghost
 
 		bool _exit;
 		bool _initialize;
+        ApplicationType _appType;
 	};
 
     using ApplicationPtr = std::shared_ptr<Application>;
