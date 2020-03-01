@@ -31,7 +31,8 @@ namespace ghost
 
     void D3D11RenderSystem::clearRenderTarget()
     {
-
+        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(_device);
+        d3dDevice->_context->ClearRenderTargetView(d3dDevice->_defaultRenderView.Get(), _clearColor.getColorPtr());
     }
 
     void D3D11RenderSystem::clearRenderTargets()
@@ -56,6 +57,7 @@ namespace ghost
 
     void D3D11RenderSystem::endScene()
     {
-
+        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(_device);
+        d3dDevice->_dxgiSwapchain->Present(0, 0);
     }
 }

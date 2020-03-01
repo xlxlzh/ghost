@@ -31,4 +31,6 @@ namespace ghost
         IDXGIFactoryPtr _dxgiFactory;
         IDXGIAdapterPtr _dxgiAdapter;
     };
+
+    using D3D11RenderDevicePtr = std::shared_ptr<D3D11RenderDevice>;
 }
