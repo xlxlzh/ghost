@@ -26,6 +26,7 @@ namespace ghost
 		void updateWindow() const;
 
 		virtual void* getWindowHandle() const = 0;
+        virtual void setWindowTitle(const std::string& title) = 0;
 
 	protected:
 		virtual bool _createWindow() = 0;

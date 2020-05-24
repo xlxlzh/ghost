@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "RenderWindowWin32.h"
+#include "TimerWin32.h"
 
 namespace ghost
 {
@@ -9,6 +10,7 @@ namespace ghost
         {
         case ghost::APP_WIN32:
             _window = new RenderWindowWin32(this);
+            _applicationTimer = std::make_shared<TimerWin32>();
             break;
         default:
             _window = new RenderWindowWin32(this);
@@ -21,6 +23,16 @@ namespace ghost
         return _initialize;
     }
 
+    float Application::getFPS() const
+    {
+        if (_msPerFrame != 0.0)
+        {
+            return 1000.0 / _msPerFrame;
+        }
+
+        return 0.0;
+    }
+
 	void Application::run()
 	{
 		if (!_initialize)
@@ -28,11 +40,16 @@ namespace ghost
 
         onInit();
 
+        _applicationTimer->start();
+
 		while (!_exit)
 		{
 			_messageLoop();
             onUpdate();
-			tick(0.0f);
+
+            float elapseTime = _applicationTimer->getElapsedTimeMS();
+            onTick(elapseTime);
+            _updateFrameTime(elapseTime);
 		}
 
         onExit();

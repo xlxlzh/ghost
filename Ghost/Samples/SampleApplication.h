@@ -8,4 +8,5 @@ public:
     virtual void onInit() override;
     virtual void onExit() override;
     virtual void onUpdate() override;
+    virtual void onTick(float deltaTime) override;
 };

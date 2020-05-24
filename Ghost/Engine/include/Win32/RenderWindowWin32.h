@@ -13,6 +13,7 @@ namespace ghost
 		RenderWindowWin32(Application* app);
 
 		virtual void* getWindowHandle() const override;
+        virtual void setWindowTitle(const std::string& title) override;
 
 	protected:
 		virtual void _showWindow() const override;

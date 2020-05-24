@@ -15,6 +15,12 @@ namespace ghost
 		return static_cast<void*>(_windowHandle);
 	}
 
+    void RenderWindowWin32::setWindowTitle(const std::string& title)
+    {
+        _windowTitle = title;
+        ::SetWindowText(_windowHandle, _windowTitle.c_str());
+    }
+
 	bool RenderWindowWin32::_createWindow()
 	{
 		HINSTANCE hIn = ::GetModuleHandle(nullptr);

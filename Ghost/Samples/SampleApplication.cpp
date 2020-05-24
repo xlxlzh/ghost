@@ -13,6 +13,13 @@ void SampleApplication::onExit()
 
 }
 
+void SampleApplication::onTick(float deltaTime)
+{
+    char fpsTitle[128] = { 0 };
+    sprintf(fpsTitle, "SampleApplication--%f", 1000.0 / deltaTime);
+    getWindow()->setWindowTitle(fpsTitle);
+}
+
 void SampleApplication::onUpdate()
 {
     auto ri = Engine::getInstance()->getRenderSystem();
