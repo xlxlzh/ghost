@@ -12,7 +12,7 @@ namespace ghost
 	public:
 		RenderWindowWin32(Application* app);
 
-		virtual const void* getWindowHandle() const override;
+		virtual void* getWindowHandle() const override;
 
 	protected:
 		virtual void _showWindow() const override;

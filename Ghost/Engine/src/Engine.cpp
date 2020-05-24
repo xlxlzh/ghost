@@ -4,20 +4,13 @@
 
 namespace ghost
 {
-    bool Engine::initEngine(RendersystemType type, ApplicationPtr app, MSAA msaa)
+    bool Engine::initEngine(void* window, RendersystemType type, MSAA msaa, unsigned w, unsigned h)
     {
         LogManager::getInstance()->addLog("GhostDebug.txt");
-
-        ApplicationType appType = app->getApplicationType();
 
         switch (type)
         {
         case ghost::RENDER_D3D11:
-            if (appType != ApplicationType::APP_WIN32)
-            {
-                LogManager::getInstance()->logError("Platform can not match");
-                return false;
-            }
             _renderSystem = std::make_shared<D3D11RenderSystem>();
             break;
         default:
@@ -25,8 +18,10 @@ namespace ghost
             break;
         }
 
-        _application = app;
         _renderSystem->initRendersystem();
+        _window = window;
+        _width = w;
+        _height = h;
 
         return true;
     }

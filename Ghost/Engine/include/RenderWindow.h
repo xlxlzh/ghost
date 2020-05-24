@@ -25,7 +25,7 @@ namespace ghost
 		void showWindow() const;
 		void updateWindow() const;
 
-		virtual const void* getWindowHandle() const = 0;
+		virtual void* getWindowHandle() const = 0;
 
 	protected:
 		virtual bool _createWindow() = 0;

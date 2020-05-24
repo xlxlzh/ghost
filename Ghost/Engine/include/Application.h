@@ -28,7 +28,7 @@ namespace ghost
         virtual void onInit() { }
         virtual void onExit() { }
 
-		const void* getAttachWindow() { return _window->getWindowHandle(); }
+		void* getAttachWindow() { return _window->getWindowHandle(); }
         const RenderWindow* getWindow() const { return _window; }
 
 		void run();

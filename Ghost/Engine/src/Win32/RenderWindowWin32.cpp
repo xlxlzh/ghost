@@ -10,7 +10,7 @@ namespace ghost
 		application = app;
 	}
 
-	const void* RenderWindowWin32::getWindowHandle() const
+	void* RenderWindowWin32::getWindowHandle() const
 	{
 		return static_cast<void*>(_windowHandle);
 	}
