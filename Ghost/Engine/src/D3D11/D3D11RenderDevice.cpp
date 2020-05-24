@@ -1,5 +1,6 @@
 #include "D3D11RenderDevice.h"
 #include "Engine.h"
+#include "LogManager.h"
 
 namespace ghost
 {
@@ -99,6 +100,7 @@ namespace ghost
         hr = _dxgiFactory->CreateSwapChain(_device.Get(), &swapchainDesc, _dxgiSwapchain.GetAddressOf());
         if (FAILED(hr))
         {
+            LogManager::getInstance()->logDebug("CreateSwapChain failed.");
             return false;
         }
 

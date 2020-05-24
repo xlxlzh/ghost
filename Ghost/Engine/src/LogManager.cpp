@@ -60,7 +60,9 @@ namespace ghost
 
     void LogManager::logDebug(const std::string& message)
     {
+#ifdef _DEBUG
         logMessage(LOG_DEBUG, message);
+#endif
     }
 
     void LogManager::logInfo(const std::string& message)

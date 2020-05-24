@@ -8,6 +8,10 @@ namespace ghost
     {
         LogManager::getInstance()->addLog("GhostDebug.txt");
 
+        _window = window;
+        _width = w;
+        _height = h;
+
         switch (type)
         {
         case ghost::RENDER_D3D11:
@@ -19,9 +23,6 @@ namespace ghost
         }
 
         _renderSystem->initRendersystem();
-        _window = window;
-        _width = w;
-        _height = h;
 
         return true;
     }
