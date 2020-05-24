@@ -31,6 +31,7 @@ namespace ghost
 		while (!_exit)
 		{
 			_messageLoop();
+            onUpdate();
 			tick(0.0f);
 		}
 

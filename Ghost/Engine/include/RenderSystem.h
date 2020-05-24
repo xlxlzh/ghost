@@ -22,6 +22,13 @@ namespace ghost
         _8x,
     };
 
+    enum TargetClear
+    {
+        CLEAR_COLOR = 0x01,
+        CLEAR_DEPTH = 0x02,
+        CLEAR_STENCIL = 0x04
+    };
+
     class RenderSystem
     {
     public:

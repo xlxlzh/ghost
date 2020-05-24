@@ -7,4 +7,5 @@ class SampleApplication : public Application
 public:
     virtual void onInit() override;
     virtual void onExit() override;
+    virtual void onUpdate() override;
 };

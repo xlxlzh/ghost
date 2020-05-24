@@ -27,6 +27,7 @@ namespace ghost
 		virtual void tick(float deltaTime) { }
         virtual void onInit() { }
         virtual void onExit() { }
+        virtual void onUpdate() { }
 
 		void* getAttachWindow() { return _window->getWindowHandle(); }
         const RenderWindow* getWindow() const { return _window; }
