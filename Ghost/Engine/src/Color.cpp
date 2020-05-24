@@ -5,6 +5,11 @@
 
 namespace ghost
 {
+    Color Color::Black = Color(0.0, 0.0, 0.0);
+    Color Color::Red = Color(1.0, 0.0, 0.0);
+    Color Color::Blue = Color(0.0, 0.0, 1.0);
+    Color Color::Green = Color(0.0, 1.0, 0.0);
+
     bool Color::operator== (const Color& rhs) const
     {
         return MathUtilities::equal<float>(_r, rhs._r) &&

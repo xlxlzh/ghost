@@ -59,11 +59,6 @@ namespace ghost
             float _color[4];
         };
     };
-
-    Color Color::Black = Color(0.0, 0.0, 0.0);
-    Color Color::Red = Color(1.0, 0.0, 0.0);
-    Color Color::Blue = Color(0.0, 0.0, 1.0);
-    Color Color::Green = Color(0.0, 1.0, 0.0);
 }
 
 #endif
