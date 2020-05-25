@@ -25,7 +25,10 @@ namespace ghost
         D3D_FEATURE_LEVEL featureLevels[] =
         {
             //D3D_FEATURE_LEVEL_11_1,
-            D3D_FEATURE_LEVEL_11_0
+            D3D_FEATURE_LEVEL_11_0,
+            D3D_FEATURE_LEVEL_10_1,
+            D3D_FEATURE_LEVEL_10_0,
+            D3D_FEATURE_LEVEL_9_3,
         };
 
         unsigned featureNums = ARRAYSIZE(featureLevels);

@@ -41,15 +41,16 @@ namespace ghost
         onInit();
 
         _applicationTimer->start();
-
+        static float beginTime = _applicationTimer->getElapsedTimeMS();
 		while (!_exit)
 		{
 			_messageLoop();
             onUpdate();
 
-            float elapseTime = _applicationTimer->getElapsedTimeMS();
-            onTick(elapseTime);
-            _updateFrameTime(elapseTime);
+            float currentTime = _applicationTimer->getElapsedTimeMS();
+            onTick(currentTime - beginTime);
+            _updateFrameTime(currentTime - beginTime);
+            beginTime = currentTime;
 		}
 
         onExit();
