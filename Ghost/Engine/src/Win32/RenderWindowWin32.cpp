@@ -45,8 +45,11 @@ namespace ghost
 			return false;
 		}
 
+        RECT rect = { 0.0, 0.0, _width, _height};
+        ::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
 		_windowHandle = ::CreateWindowEx(0, "RenderWindowWin32", _windowTitle.c_str(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-			_width, _height, nullptr, nullptr, hIn, nullptr);
+            rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hIn, nullptr);
 		if (!_windowHandle)
 		{
 			::MessageBox(nullptr, "RenderWindow create failed.", "Error", MB_OK);
