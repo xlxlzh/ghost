@@ -1,4 +1,5 @@
 #include "Resource.h"
+#include <sstream>
 
 namespace ghost
 {
@@ -13,6 +14,11 @@ namespace ghost
     Resource::~Resource()
     {
 
+    }
+
+    Resource* Resource::clone()
+    {
+        return nullptr;
     }
 
     void Resource::initDefault()
@@ -48,6 +54,22 @@ namespace ghost
     }
 
 
+    /*
+    @Brief: ResourceManager
+    */
+    void ResourceManager::registerResourceFactory(int type, ResourceFactory* factory)
+    {
+        _resourceFactories[type] = factory;
+    }
+
+    void ResourceManager::registerResourceFactory(ResourceFactory* factory)
+    {
+        if (factory == nullptr)
+            return;
+
+        _resourceFactories[factory->getType()] = factory;
+    }
+
     ResHandle ResourceManager::addResource(int type, const std::string &name, int flags)
     {
         if (name == "")
@@ -64,11 +86,93 @@ namespace ghost
             }
         }
 
-        return 0;
+        Resource* newRes = nullptr;
+        auto factory = _resourceFactories.find(type);
+        if (factory != _resourceFactories.end())
+            factory->second->createResource(name, flags);
+
+        if (newRes == nullptr)
+            return 0;
+
+        return addResource(*newRes);
+    }
+
+    ResHandle ResourceManager::addResource(Resource& resource)
+    {
+        for (unsigned i = 0; i < _resources.size(); ++i)
+        {
+            if (_resources[i] == nullptr)
+            {
+                resource._handle = i + 1;
+                _resources[i] = &resource;
+                return resource._handle;
+            }
+        }
+
+        resource._handle = _resources.size() + 1;
+        _resources.push_back(&resource);
+        return resource._handle;
     }
 
     int ResourceManager::removeResource(Resource &resource)
     {
         return 0;
+    }
+
+    Resource* ResourceManager::findResource(int type, const std::string& name) const
+    {
+        for (auto res : _resources)
+        {
+            if (res && res->_type == type && res->_name == name)
+            {
+                return res;
+            }
+        }
+
+        return nullptr;
+    }
+
+    void ResourceManager::clear()
+    {
+        for (unsigned i = 0; i < _resources.size(); ++i)
+        {
+            if (_resources[i])
+            {
+                _resources[i]->release();
+                delete _resources[i];
+                _resources[i] = nullptr;
+            }
+        }
+    }
+
+    ResHandle ResourceManager::cloneResource(Resource& sourceResource, const std::string& name)
+    {
+        if (name != "")
+        {
+            for (unsigned i = 0; i < _resources.size(); ++i)
+            {
+                if (_resources[i] != nullptr && _resources[i]->_name == name)
+                {
+                    return 0;
+                }
+            }
+        }
+
+        Resource* newResource = sourceResource.clone();
+        if (newResource == nullptr)
+            return 0;
+
+        newResource->_name = name != "" ? name : "tmpResource";
+        newResource->_refCount = 0;
+        int handle = addResource(*newResource);
+
+        if (name == "")
+        {
+            std::stringstream ss;
+            ss << sourceResource._name << "|" << handle;
+            newResource->_name = ss.str();
+        }
+
+        return handle;
     }
 }

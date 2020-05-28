@@ -3,7 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <cassert>
 #include "SingleTon.h"
+#include "Ghost.h"
 
 namespace ghost
 {
@@ -15,12 +18,14 @@ namespace ghost
         RESOURCE_SCENE,
     };
 
-    class Resource
+    using ResHandle = unsigned int;
+    class GHOST_API Resource
     {
         friend class ResourceManager;
     public:
         Resource(int type, const std::string &name, int flags);
         virtual ~Resource();
+        virtual Resource* clone();
 
         virtual void initDefault();
         virtual void release();
@@ -29,6 +34,12 @@ namespace ghost
 
         int getType() const { return _type; }
         int getFlags() const { return _flags; }
+        const std::string& getName() const { return _name; }
+        bool isLoaded() const { return _loaded; }
+        ResHandle getHandle() const { return _handle; }
+
+        void addRef() { ++_refCount; }
+        void subRef() { --_refCount; assert(_refCount >= 0); }
 
     protected:
         std::string          _name;
@@ -36,19 +47,37 @@ namespace ghost
         bool                 _loaded = false;
         int                  _flags = 0;
 
+        ResHandle            _handle = 0;
+
         unsigned             _refCount = 0;
     };
 
-
-    using ResHandle = unsigned int;
-    class ResourceManager : public SingleTon<ResourceManager>
+    class GHOST_API ResourceFactory
     {
     public:
+        virtual Resource* createResource(const std::string& name, int flags) = 0;
+        virtual int getType() = 0;
+    };
+
+    
+    class GHOST_API ResourceManager : public SingleTon<ResourceManager>
+    {
+    public:
+        void registerResourceFactory(ResourceFactory* factory);
+        void registerResourceFactory(int type, ResourceFactory* factory);
+
         ResHandle addResource(int type, const std::string &name, int flags);
+        ResHandle addResource(Resource& resource);
         int removeResource(Resource &resource);
+        Resource* findResource(int type, const std::string& name) const;
+
+        ResHandle cloneResource(Resource& sourceResource, const std::string& name);
+
+        void clear();
 
     protected:
         std::vector<Resource*> _resources;
+        std::unordered_map<int, ResourceFactory*> _resourceFactories;
     };
 }
 
