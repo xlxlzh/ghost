@@ -20,7 +20,7 @@ namespace ghost
         bool _fullscreen;
     };
 
-    using RenderDevicePtr = std::shared_ptr<RenderDevice>;
+    DECLAR_SMART_POINTER(RenderDevice)
 }
 
 #endif

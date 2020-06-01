@@ -2,12 +2,16 @@
 
 namespace ghost
 {
-    class Texture2D : public Resource
+    class GHOST_API Texture2D : public Resource
     {
     public:
+        unsigned getWidth() const { return _width; }
+        unsigned getHeight() const { return _height; }
 
     protected:
         unsigned _width;
         unsigned _height;
     };
+
+    DECLAR_SMART_POINTER(Texture2D)
 }

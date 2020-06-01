@@ -32,5 +32,5 @@ namespace ghost
         IDXGIAdapterPtr _dxgiAdapter;
     };
 
-    using D3D11RenderDevicePtr = std::shared_ptr<D3D11RenderDevice>;
+    DECLAR_SMART_POINTER(D3D11RenderDevice)
 }

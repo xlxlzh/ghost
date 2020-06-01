@@ -12,4 +12,10 @@
 #endif
 #endif
 
+#define DECLAR_SMART_POINTER(obj)  \
+using obj##Ptr = std::shared_ptr<obj>;  \
+using obj##WeakPtr = std::weak_ptr<obj>; \
+using obj##UniquePtr = std::unique_ptr<obj>;
+
+
 #endif // !_GHOST_H_

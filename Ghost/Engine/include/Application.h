@@ -57,7 +57,7 @@ namespace ghost
         float _msPerFrame;
 	};
 
-    using ApplicationPtr = std::shared_ptr<Application>;
+    DECLAR_SMART_POINTER(Application)
 }
 
 #endif
