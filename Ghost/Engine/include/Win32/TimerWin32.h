@@ -1,3 +1,6 @@
+#ifndef _TIMER_WIN32_H_
+#define _TIMER_WIN32_H_
+
 #include "Timer.h"
 #include <windows.h>
 
@@ -19,3 +22,5 @@ namespace ghost
         DWORD_PTR      _affMask;
     };
 }
+
+#endif

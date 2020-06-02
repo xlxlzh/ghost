@@ -1,5 +1,5 @@
-#ifndef _D3D11_COMPTR_H_
-#define _D3D11_COMPTR_H_
+#ifndef _D3D12_COMPTR_H_
+#define _D3D12_COMPTR_H_
 
 #include <wrl/client.h>
 #include <d3d12.h>

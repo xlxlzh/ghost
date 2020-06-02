@@ -1,3 +1,6 @@
+#ifndef _TEXTURE2D_H_
+#define _TEXTURE2D_H_
+
 #include "Resource.h"
 
 namespace ghost
@@ -15,3 +18,5 @@ namespace ghost
 
     DECLAR_SMART_POINTER(Texture2D)
 }
+
+#endif

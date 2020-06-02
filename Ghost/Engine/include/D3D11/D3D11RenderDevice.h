@@ -1,3 +1,6 @@
+#ifndef _D3D11_RENDERDEVICE_H_
+#define _D3D11_RENDERDEVICE_H_
+
 #include "RenderDevice.h"
 #include "D3D11ComPtr.h"
 
@@ -34,3 +37,5 @@ namespace ghost
 
     DECLAR_SMART_POINTER(D3D11RenderDevice)
 }
+
+#endif
