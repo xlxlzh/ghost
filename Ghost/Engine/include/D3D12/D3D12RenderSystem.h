@@ -10,11 +10,11 @@ namespace ghost
     class D3D12RenderSystem : public RenderSystem
     {
     public:
-        virtual bool initRendersystem(MSAA msaa = _4x) override;
+        virtual bool initRendersystem() override;
 
-        virtual void setRenderTarget() override;
+        virtual void setRenderTarget(int index, RenderTargetPtr rt) override;
         virtual void setRenderTargets() override;
-        virtual void setDepthstencil() override;
+        virtual void setDepthstencil(DepthStencilTargetPtr depth) override;
         virtual void setClearColor(Color cl = Color::Black) override;
         virtual void clearRenderTarget() override;
         virtual void clearRenderTargets() override;

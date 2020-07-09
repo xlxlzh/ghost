@@ -13,6 +13,9 @@ namespace ghost
         virtual bool initDevice(bool fullscreen, unsigned msaaCount) override;
         virtual bool checkSampleCount(unsigned checkCount) override;
 
+        ID3D11DevicePtr getDevice() const { return _device; }
+        ID3D11DeviceContextPtr getContext() const { return _context; }
+
     private:
         bool _initSwapchain();
 

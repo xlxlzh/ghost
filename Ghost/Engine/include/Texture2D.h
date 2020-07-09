@@ -8,6 +8,9 @@ namespace ghost
     class GHOST_API Texture2D : public Resource
     {
     public:
+        Texture2D();
+        Texture2D(const std::string& name, int flag);
+        ~Texture2D();
         unsigned getWidth() const { return _width; }
         unsigned getHeight() const { return _height; }
 

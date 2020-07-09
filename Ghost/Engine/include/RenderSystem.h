@@ -2,8 +2,11 @@
 #define _RENDERSYSTEM_H_
 
 #include <memory>
+#include <array>
 #include "RenderDevice.h"
 #include "Color.h"
+#include "RenderTarget.h"
+#include "DepthStencilTarget.h"
 
 namespace ghost
 {
@@ -29,14 +32,16 @@ namespace ghost
         CLEAR_STENCIL = 0x04
     };
 
+    static const int MAX_RENDERTARGETS = 8;
+
     class RenderSystem
     {
     public:
-        virtual bool initRendersystem(MSAA msaa = _4x) = 0;
+        virtual bool initRendersystem() = 0;
 
-        virtual void setRenderTarget() = 0;
+        virtual void setRenderTarget(int index, RenderTargetPtr rt) = 0;
         virtual void setRenderTargets() = 0;
-        virtual void setDepthstencil() = 0;
+        virtual void setDepthstencil(DepthStencilTargetPtr depth) = 0;
         virtual void setClearColor(Color cl = Color::Black) = 0;
         virtual void clearRenderTarget() = 0;
         virtual void clearRenderTargets() = 0;
@@ -48,27 +53,14 @@ namespace ghost
         virtual void endScene() = 0;
 
     protected:
-        unsigned _getMsaaCount(MSAA msaa)
-        {
-            switch (msaa)
-            {
-            case ghost::_2x:
-                return 2;
-            case ghost::_4x:
-                return 4;
-            case ghost::_8x:
-                return 8;
-            default:
-                return 1;
-            }
-        }
-
-    protected:
-        RenderDevicePtr _device;
         Color _clearColor;
+
+        unsigned _currentRenderTargets = 0;
+        std::array<RenderTargetPtr, MAX_RENDERTARGETS> _renderTargets;
+        DepthStencilTargetPtr _depthStencil = nullptr;
     };
 
-    using RenderSystemPtr = std::shared_ptr<RenderSystem>;
+    DECLAR_SMART_POINTER(RenderSystem)
 }
 
 #endif

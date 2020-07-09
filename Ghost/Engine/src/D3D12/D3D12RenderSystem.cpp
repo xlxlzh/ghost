@@ -2,13 +2,13 @@
 
 namespace ghost
 {
-    bool D3D12RenderSystem::initRendersystem(MSAA msaa /* = _4x */)
+    bool D3D12RenderSystem::initRendersystem()
     {
 
         return true;
     }
 
-    void D3D12RenderSystem::setRenderTarget()
+    void D3D12RenderSystem::setRenderTarget(int index, RenderTargetPtr rt)
     {
 
     }
@@ -17,7 +17,7 @@ namespace ghost
     {
 
     }
-    void D3D12RenderSystem::setDepthstencil()
+    void D3D12RenderSystem::setDepthstencil(DepthStencilTargetPtr depth)
     {
 
     }

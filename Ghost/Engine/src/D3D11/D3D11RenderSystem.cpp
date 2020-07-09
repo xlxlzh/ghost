@@ -1,16 +1,14 @@
 #include "D3D11RenderSystem.h"
+#include "Engine.h"
 
 namespace ghost
 {
-    bool D3D11RenderSystem::initRendersystem(MSAA msaa /* = _4x */)
+    bool D3D11RenderSystem::initRendersystem()
     {
-        _device = std::make_shared<D3D11RenderDevice>();
-        _device->initDevice(false, _getMsaaCount(msaa));
-
         return true;
     }
 
-    void D3D11RenderSystem::setRenderTarget()
+    void D3D11RenderSystem::setRenderTarget(int index, RenderTargetPtr rt)
     {
 
     }
@@ -19,7 +17,7 @@ namespace ghost
     {
 
     }
-    void D3D11RenderSystem::setDepthstencil()
+    void D3D11RenderSystem::setDepthstencil(DepthStencilTargetPtr depth)
     {
 
     }
@@ -31,7 +29,7 @@ namespace ghost
 
     void D3D11RenderSystem::clearRenderTarget()
     {
-        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(_device);
+        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(Engine::getInstance()->getRenderDevice());
         d3dDevice->_context->ClearRenderTargetView(d3dDevice->_defaultRenderView.Get(), _clearColor.getColorPtr());
     }
 
@@ -57,7 +55,7 @@ namespace ghost
 
     void D3D11RenderSystem::endScene()
     {
-        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(_device);
+        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(Engine::getInstance()->getRenderDevice());
         d3dDevice->_dxgiSwapchain->Present(0, 0);
     }
 }

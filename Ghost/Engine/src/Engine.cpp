@@ -15,13 +15,16 @@ namespace ghost
         switch (type)
         {
         case ghost::RENDER_D3D11:
+            _renderDevice = std::make_shared<D3D11RenderDevice>();
             _renderSystem = std::make_shared<D3D11RenderSystem>();
             break;
         default:
+            _renderDevice = std::make_shared<D3D11RenderDevice>();
             _renderSystem = std::make_shared<D3D11RenderSystem>();
             break;
         }
 
+        _renderDevice->initDevice(false, msaa);
         _renderSystem->initRendersystem();
 
         return true;
