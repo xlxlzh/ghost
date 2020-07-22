@@ -13,5 +13,22 @@ namespace ghost
     {
 
     }
+
+    unsigned D3D11RenderTarget::getNumOfViews() const
+    {
+        return _numViews;
+    }
+
+    ID3D11RenderTargetViewPtr D3D11RenderTarget::getRenderTargetViewByIndex(unsigned index /* = 0 */)
+    {
+        ID3D11RenderTargetViewPtr rt = _renderTargets[index];
+        return rt ? rt : nullptr;
+    }
+
+    ID3D11Texture2DPtr D3D11RenderTarget::getSurface(unsigned index /* = 0 */)
+    {
+        ID3D11Texture2DPtr rt = _renderTextures[index];
+        return rt ? rt : nullptr;
+    }
 }
 

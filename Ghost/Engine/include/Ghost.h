@@ -17,5 +17,7 @@ using obj##Ptr = std::shared_ptr<obj>;  \
 using obj##WeakPtr = std::weak_ptr<obj>; \
 using obj##UniquePtr = std::unique_ptr<obj>;
 
+#define GHOST_SMARTPOINTER_CAST(castType, p) std::dynamic_pointer_cast<castType>(p);
+
 
 #endif // !_GHOST_H_

@@ -10,23 +10,14 @@ namespace ghost
     class D3D11RenderSystem : public RenderSystem
     {
     public:
-        virtual bool initRendersystem() override;
-
-        virtual void setRenderTarget(int index, RenderTargetPtr rt) override;
-        virtual void setRenderTargets() override;
-        virtual void setDepthstencil(DepthStencilTargetPtr depth) override;
-        virtual void setClearColor(Color cl = Color::Black) override;
-        virtual void clearRenderTarget() override;
-        virtual void clearRenderTargets() override;
+        virtual void setRenderTarget(RenderTargetPtr rt) override;
+        virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
         virtual void drawPrimitive() override;
         virtual void drawPrimitiveIndexed() override;
         virtual void drawPrimitiveInstance() override;
 
         virtual void endScene() override;
-
-    private:
-
     };
 }
 

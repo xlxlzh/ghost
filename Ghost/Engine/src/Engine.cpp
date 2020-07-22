@@ -25,7 +25,7 @@ namespace ghost
         }
 
         _renderDevice->initDevice(false, msaa);
-        _renderSystem->initRendersystem();
+        _renderSystem->attachRenderDevice(_renderDevice);
 
         return true;
     }

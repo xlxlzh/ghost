@@ -2,37 +2,13 @@
 
 namespace ghost
 {
-    bool D3D12RenderSystem::initRendersystem()
-    {
-
-        return true;
-    }
-
-    void D3D12RenderSystem::setRenderTarget(int index, RenderTargetPtr rt)
+    void D3D12RenderSystem::setRenderTarget(RenderTargetPtr rt)
     {
 
     }
 
-    void D3D12RenderSystem::setRenderTargets()
+    void D3D12RenderSystem::clearRenderTarget(TargetClear clearFlag /* = CLEAR_ALL */, Color col /* = Color::Black */, float z /* = 1.0 */, unsigned stencil /* = 0.0 */)
     {
-
-    }
-    void D3D12RenderSystem::setDepthstencil(DepthStencilTargetPtr depth)
-    {
-
-    }
-
-    void D3D12RenderSystem::setClearColor(Color cl /* = Color::Black */)
-    {
-    }
-
-    void D3D12RenderSystem::clearRenderTarget()
-    {
-    }
-
-    void D3D12RenderSystem::clearRenderTargets()
-    {
-
     }
 
     void D3D12RenderSystem::drawPrimitive()

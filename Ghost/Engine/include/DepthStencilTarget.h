@@ -9,20 +9,19 @@ namespace ghost
     class GHOST_API DepthStencilTarget
     {
     public:
-        DepthStencilTarget(Texture2D* tex) : _linkTexture(tex) { }
+        DepthStencilTarget() = default;
         virtual ~DepthStencilTarget() { }
 
-        unsigned getWidth() const { return _linkTexture->getWidth(); }
-        unsigned getHeight() const { return _linkTexture->getHeight(); }
-
-        Texture2D* getTexture() const { return _linkTexture; }
+        unsigned getWidth() const { return _width; }
+        unsigned getHeight() const { return _height; }
 
     protected:
         virtual void _onCreateDepthStencilTarget() = 0;
         virtual void _onDestoryDepthStencilTarget() = 0;
 
     protected:
-        Texture2D* _linkTexture;
+        unsigned _width = 0;
+        unsigned _height = 0;
     };
 
     DECLAR_SMART_POINTER(DepthStencilTarget)

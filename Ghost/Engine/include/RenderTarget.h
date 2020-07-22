@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 #include "Texture2D.h"
+#include "DepthStencilTarget.h"
 
 namespace ghost
 {
@@ -17,6 +18,9 @@ namespace ghost
         unsigned getHeight() const { return _height; }
         unsigned getDepth() const { return _depth; }
 
+        void attachDepthBuffer(DepthStencilTargetPtr depth) { _depthBuffer = depth; }
+        DepthStencilTargetPtr getAttachDepthBuffer() { return _depthBuffer; }
+
     protected:
         virtual void _onCreateRenderTarget() = 0;
         virtual void _onDestoryRenderTarget() = 0;
@@ -25,6 +29,8 @@ namespace ghost
         unsigned _width;
         unsigned _height;
         unsigned _depth;
+
+        DepthStencilTargetPtr _depthBuffer = nullptr;
     };
 
     DECLAR_SMART_POINTER(RenderTarget)
