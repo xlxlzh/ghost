@@ -31,6 +31,7 @@ namespace ghost
         CLEAR_COLOR = 0x01,
         CLEAR_DEPTH = 0x02,
         CLEAR_STENCIL = 0x04,
+        CLEAR_DEPTH_STENCIL = CLEAR_DEPTH | CLEAR_STENCIL,
         CLEAR_ALL = CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL
     };
 

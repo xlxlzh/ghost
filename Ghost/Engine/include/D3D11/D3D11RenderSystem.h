@@ -18,6 +18,9 @@ namespace ghost
         virtual void drawPrimitiveInstance() override;
 
         virtual void endScene() override;
+
+    protected:
+        void _clearRenderTarget(Color cl);
     };
 }
 
