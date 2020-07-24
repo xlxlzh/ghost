@@ -31,21 +31,6 @@ namespace ghost
 
     }
 
-    bool Resource::load(const char *data, int size)
-    {
-        if (_loaded)
-            return false;
-
-        if (data == 0x0 || size <= 0)
-        {
-            return false;
-        }
-
-        _loaded = true;
-
-        return true;
-    }
-
     void Resource::unload()
     {
         release();
@@ -89,7 +74,7 @@ namespace ghost
         Resource* newRes = nullptr;
         auto factory = _resourceFactories.find(type);
         if (factory != _resourceFactories.end())
-            factory->second->createResource(name, flags);
+            newRes = factory->second->createResource(name, flags);
 
         if (newRes == nullptr)
             return 0;

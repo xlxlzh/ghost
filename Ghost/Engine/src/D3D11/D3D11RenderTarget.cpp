@@ -7,6 +7,10 @@ namespace ghost
     void D3D11RenderTarget::_onCreateRenderTarget()
     {
         RenderSystemPtr renderSystem = Engine::getInstance()->getRenderSystem();
+        if (_numRTs > 0 && _width > 0 && _height)
+        {
+
+        }
     }
 
     void D3D11RenderTarget::_onDestoryRenderTarget()
@@ -16,7 +20,7 @@ namespace ghost
 
     unsigned D3D11RenderTarget::getNumOfViews() const
     {
-        return _numViews;
+        return _numRTs;
     }
 
     ID3D11RenderTargetViewPtr D3D11RenderTarget::getRenderTargetViewByIndex(unsigned index /* = 0 */)

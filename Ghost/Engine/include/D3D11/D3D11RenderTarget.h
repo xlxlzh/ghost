@@ -24,7 +24,6 @@ namespace ghost
     protected:
         ID3D11RenderTargetViewPtr _renderTargets[GHOST_MAX_RENDERTARGETS] = {0};
         ID3D11Texture2DPtr _renderTextures[GHOST_MAX_RENDERTARGETS] = { 0 };
-        unsigned _numViews = 0;
     };
 
     DECLAR_SMART_POINTER(D3D11RenderTarget)

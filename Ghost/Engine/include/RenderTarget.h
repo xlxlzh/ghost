@@ -4,13 +4,21 @@
 #include "Ghost.h"
 #include "Texture2D.h"
 #include "DepthStencilTarget.h"
+#include "Color.h"
+#include "RenderConfig.h"
 
 namespace ghost
 {
+    struct RenderTargetDesc
+    {
+        GhostColorFormat Format;
+    };
+
     class GHOST_API RenderTarget
     {
     public:
         RenderTarget() { }
+        RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool depth, bool msaa);
         virtual ~RenderTarget() { }
 
         void setSize(unsigned w, unsigned h, unsigned d = 1);
@@ -20,16 +28,25 @@ namespace ghost
 
         void attachDepthBuffer(DepthStencilTargetPtr depth) { _depthBuffer = depth; }
         DepthStencilTargetPtr getAttachDepthBuffer() { return _depthBuffer; }
+        void detachDepthBuffer() { _depthBuffer = nullptr; }
+
+        void attachRenderTexture(Texture2DPtr tex);
 
     protected:
-        virtual void _onCreateRenderTarget() = 0;
-        virtual void _onDestoryRenderTarget() = 0;
+        virtual void _onCreateRenderTarget() { }
+        virtual void _onDestoryRenderTarget() { }
+        virtual void _onUpdateRenderTarget() { }
 
     protected:
         unsigned _width;
         unsigned _height;
-        unsigned _depth;
+        unsigned _depth = 1;
 
+        unsigned _numRTs = 0;
+
+        bool _msaa = false;
+        bool _depthAttach = false;
+        GhostColorFormat _formats[GHOST_MAX_RENDERTARGETS];
         DepthStencilTargetPtr _depthBuffer = nullptr;
     };
 

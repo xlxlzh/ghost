@@ -12,6 +12,11 @@ namespace ghost
 
     }
 
+    bool Texture2D::load(DataStream& dataStream)
+    {
+        return true;
+    }
+
     Texture2D::~Texture2D()
     {
 

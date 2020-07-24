@@ -7,6 +7,7 @@
 #include <cassert>
 #include "SingleTon.h"
 #include "Ghost.h"
+#include "DataStream.h"
 
 namespace ghost
 {
@@ -23,18 +24,20 @@ namespace ghost
     {
         friend class ResourceManager;
     public:
+        Resource(int type) : _type(type) { }
         Resource(int type, const std::string &name, int flags);
         virtual ~Resource();
         virtual Resource* clone();
 
         virtual void initDefault();
         virtual void release();
-        virtual bool load(const char *data, int size);
-        void unload();
+        virtual bool load(DataStream& dataStream) = 0;
+        virtual void unload();
 
         int getType() const { return _type; }
         int getFlags() const { return _flags; }
         const std::string& getName() const { return _name; }
+        void setName(std::string& name) { _name = name; }
         bool isLoaded() const { return _loaded; }
         ResHandle getHandle() const { return _handle; }
 
@@ -42,7 +45,7 @@ namespace ghost
         void subRef() { --_refCount; assert(_refCount >= 0); }
 
     protected:
-        std::string          _name;
+        std::string          _name{0};
         int                  _type = RESOURCE_NONE;
         bool                 _loaded = false;
         int                  _flags = 0;
@@ -52,6 +55,8 @@ namespace ghost
         unsigned             _refCount = 0;
     };
 
+    DECLAR_SMART_POINTER(Resource);
+
     class GHOST_API ResourceFactory
     {
     public:
@@ -59,7 +64,6 @@ namespace ghost
         virtual int getType() = 0;
     };
 
-    
     class GHOST_API ResourceManager : public SingleTon<ResourceManager>
     {
     public:

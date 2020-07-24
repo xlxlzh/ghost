@@ -1,3 +1,6 @@
+#ifndef _DATA_STREAM_H_
+#define _DATA_STREAM_H_
+
 #include <fstream>
 #include "Ghost.h"
 
@@ -102,3 +105,5 @@ namespace ghost
 		std::fstream* _fileStream;
 	};
 }
+
+#endif

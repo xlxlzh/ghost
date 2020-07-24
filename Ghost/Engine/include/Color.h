@@ -5,6 +5,14 @@
 
 namespace ghost
 {
+    enum GhostColorFormat
+    {
+        GHOST_FORMAT_UNKNOWN,
+        GHOST_FORMAT_A8R8G8B8,
+        GHOST_FORMAT_R8G8B8A8,
+        GHOST_FORMAT_D24S8
+    };
+
     class GHOST_API Color
     {
     public:

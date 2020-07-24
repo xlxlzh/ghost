@@ -2,6 +2,7 @@
 #define _TEXTURE2D_H_
 
 #include "Resource.h"
+#include "Color.h"
 
 namespace ghost
 {
@@ -14,9 +15,17 @@ namespace ghost
         unsigned getWidth() const { return _width; }
         unsigned getHeight() const { return _height; }
 
+        virtual bool load(DataStream& dataStream) override;
+
     protected:
         unsigned _width;
         unsigned _height;
+
+        bool _mipmap;
+        int _mipmapLevel;
+
+        GhostColorFormat _format;
+        void* _datas;
     };
 
     DECLAR_SMART_POINTER(Texture2D)
