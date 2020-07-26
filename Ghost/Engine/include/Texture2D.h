@@ -24,8 +24,9 @@ namespace ghost
         bool _mipmap;
         int _mipmapLevel;
 
-        GhostColorFormat _format;
-        void* _datas;
+        GhostColorFormat _format = GHOST_FORMAT_UNKNOWN;
+        void* _datas = nullptr;
+        unsigned _dataSize = 0;
     };
 
     DECLAR_SMART_POINTER(Texture2D)

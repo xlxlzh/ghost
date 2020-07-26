@@ -23,6 +23,6 @@ void SampleApplication::onTick(float deltaTime)
 void SampleApplication::onUpdate()
 {
     auto ri = Engine::getInstance()->getRenderSystem();
-    ri->clearRenderTarget();
+    ri->clearRenderTarget(TargetClear::CLEAR_ALL, Color::Blue);
     ri->endScene();
 }

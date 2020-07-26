@@ -18,6 +18,11 @@ namespace ghost
 
     }
 
+    void D3D11RenderTarget::_onUpdateRenderTarget()
+    {
+
+    }
+
     unsigned D3D11RenderTarget::getNumOfViews() const
     {
         return _numRTs;

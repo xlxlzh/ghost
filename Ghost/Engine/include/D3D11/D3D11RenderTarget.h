@@ -20,6 +20,7 @@ namespace ghost
     protected:
         virtual void _onCreateRenderTarget() override;
         virtual void _onDestoryRenderTarget() override;
+        virtual void _onUpdateRenderTarget() override;
 
     protected:
         ID3D11RenderTargetViewPtr _renderTargets[GHOST_MAX_RENDERTARGETS] = {0};
