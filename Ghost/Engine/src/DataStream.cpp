@@ -10,6 +10,7 @@ namespace ghost
 		_pos = _data;
 		_end = _data + size;
 		_freeOnClose = freeOnClose;
+        _size = size;
 
 		assert(_end >= _pos);
 	}
@@ -21,6 +22,7 @@ namespace ghost
 		_pos = _data;
 		_end = _data + size;
 		_freeOnClose = freeOnClose;
+        _size = size;
 
 		assert(_end >= _pos);
 	}
@@ -112,6 +114,12 @@ namespace ghost
 		if (_fileStream)
 		{
 			_fileStream->open(fileName.c_str(), flag);
+            if (_fileStream->is_open())
+            {
+                _fileStream->seekg(0, std::ios::end);
+                _size = _fileStream->tellg();
+                _fileStream->seekg(0, std::ios::beg);
+            }
 		}
 	}
 
