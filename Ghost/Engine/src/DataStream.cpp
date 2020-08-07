@@ -113,7 +113,7 @@ namespace ghost
 
 		if (_fileStream)
 		{
-			_fileStream->open(fileName.c_str(), flag);
+			_fileStream->open(fileName.c_str(), flag | std::ios::binary);
             if (_fileStream->is_open())
             {
                 _fileStream->seekg(0, std::ios::end);
