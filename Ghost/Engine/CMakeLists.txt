@@ -32,6 +32,8 @@ include_directories(include/Win32)
 include_directories(include/D3D11)
 include_directories(include/D3D12)
 
+include_directories(../../External/stb)
+
 add_library(GhostEngine SHARED ${ENGINE_CODE} ${ENGINE_HEADERS} ${WIN32_CODE} ${WIN32_HEADERS} ${D3D11_HEADERS} ${D3D11_CODE} ${D3D12_HEADERS} ${D3D12_CODE})
 
 target_link_libraries(GhostEngine ${DirectX11_LIBRARY})

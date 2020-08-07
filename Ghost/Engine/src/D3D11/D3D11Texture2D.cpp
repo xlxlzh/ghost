@@ -12,6 +12,8 @@ namespace ghost
             tex->load(*dataStream);
         }
 
+        SAFE_DELETE(dataStream);
+
         return tex;
     }
 

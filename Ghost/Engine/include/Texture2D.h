@@ -12,21 +12,25 @@ namespace ghost
         Texture2D();
         Texture2D(const std::string& name, int flag);
         ~Texture2D();
-        unsigned getWidth() const { return _width; }
-        unsigned getHeight() const { return _height; }
+        int getWidth() const { return _width; }
+        int getHeight() const { return _height; }
 
         virtual bool load(DataStream& dataStream) override;
 
     protected:
-        unsigned _width;
-        unsigned _height;
+        void _setData(const unsigned char* data);
+
+    protected:
+        int _width;
+        int _height;
+        int _components;
 
         bool _mipmap;
         int _mipmapLevel;
 
         GhostColorFormat _format = GHOST_FORMAT_UNKNOWN;
-        void* _datas = nullptr;
-        unsigned _dataSize = 0;
+        unsigned char* _datas = nullptr;
+        int _dataSize = 0;
     };
 
     DECLAR_SMART_POINTER(Texture2D)
