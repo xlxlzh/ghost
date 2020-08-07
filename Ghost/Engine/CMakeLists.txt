@@ -36,4 +36,4 @@ include_directories(../../External/stb)
 
 add_library(GhostEngine SHARED ${ENGINE_CODE} ${ENGINE_HEADERS} ${WIN32_CODE} ${WIN32_HEADERS} ${D3D11_HEADERS} ${D3D11_CODE} ${D3D12_HEADERS} ${D3D12_CODE})
 
-target_link_libraries(GhostEngine ${DirectX11_LIBRARY})
+target_link_libraries(GhostEngine ${DirectX11_LIBRARY} TinyXML2)
