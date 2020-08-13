@@ -9,11 +9,11 @@
 
 namespace ghost
 {
-    enum ApplicationType
+    enum PlatformType
     {
-        APP_WIN32,
-        APP_LINUX,
-        APP_NUM
+        PLATFORM_WIN32,
+        PLATFORM_LINUX,
+        PLATFORM_NUM
     };
 
 	class GHOST_API Application : public MessageHandler
@@ -21,9 +21,9 @@ namespace ghost
 	public:
 		Application() = default;
 		
-		bool initialize(ApplicationType appType, int w, int h, const std::string& wname, bool fullscreen = false);
+		bool initialize(PlatformType appType, int w, int h, const std::string& wname, bool fullscreen = false);
 
-        virtual ApplicationType getApplicationType() const { return _appType; }
+        virtual PlatformType getPlatformType() const { return _platformType; }
 
 		virtual void onTick(float deltaTime) { }
         virtual void onInit() { }
@@ -50,7 +50,7 @@ namespace ghost
 
 		bool _exit;
 		bool _initialize;
-        ApplicationType _appType;
+        PlatformType _platformType;
 
         TimerPtr _applicationTimer;
 

@@ -4,11 +4,11 @@
 
 namespace ghost
 {
-    bool Application::initialize(ApplicationType appType, int w, int h, const std::string& wname, bool fullscreen /* = false */)
+    bool Application::initialize(PlatformType appType, int w, int h, const std::string& wname, bool fullscreen /* = false */)
     {
         switch (appType)
         {
-        case ghost::APP_WIN32:
+        case ghost::PLATFORM_WIN32:
             _window = new RenderWindowWin32(this);
             _applicationTimer = std::make_shared<TimerWin32>();
             break;
@@ -18,7 +18,7 @@ namespace ghost
         }
 
         _initialize = _window->initialize(w, h, wname, fullscreen);
-        _appType = appType;
+        _platformType = appType;
 
         return _initialize;
     }
