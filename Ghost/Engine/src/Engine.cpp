@@ -3,6 +3,7 @@
 #include "Resource.h"
 #include "D3D11RenderSystem.h"
 #include "D3D11Texture2D.h"
+#include "FileSystemWin32.h"
 
 namespace ghost
 {
@@ -22,10 +23,13 @@ namespace ghost
             _renderSystem = std::make_shared<D3D11RenderSystem>();
 
             resMan->registerResourceFactory(new D3D11TextureFactory());
+
+            _fileSystem = std::make_shared<FileSystemWin32>();
             break;
         default:
             _renderDevice = std::make_shared<D3D11RenderDevice>();
             _renderSystem = std::make_shared<D3D11RenderSystem>();
+            _fileSystem = std::make_shared<FileSystemWin32>();
             break;
         }
 

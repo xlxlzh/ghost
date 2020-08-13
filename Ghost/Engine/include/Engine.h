@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "RenderSystem.h"
+#include "FileSystem.h"
 
 namespace ghost
 {
@@ -13,6 +14,8 @@ namespace ghost
 
         RenderSystemPtr getRenderSystem() const { return _renderSystem; }
         RenderDevicePtr getRenderDevice() const { return _renderDevice; }
+
+        FileSystemPtr getFileSystem() const { return _fileSystem; }
 
         void* getWindow() const { return _window; }
         unsigned getWidth() const { return _width; }
@@ -38,6 +41,8 @@ namespace ghost
         RenderDevicePtr _renderDevice;
         void* _window;
         unsigned _width, _height;
+
+        FileSystemPtr _fileSystem;
     };
 }
 
