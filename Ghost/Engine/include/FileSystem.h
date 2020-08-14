@@ -30,6 +30,9 @@ namespace ghost
 
     GHOST_API std::string GetExtension(const std::string& fullPath, bool lowercase = true);
     GHOST_API std::string GetNativePath(const std::string& pathName);
+    GHOST_API std::string GetInternalPath(const std::string& pathName);
+    GHOST_API std::string AddTrailingSlash(const std::string& pathName);
+    GHOST_API std::string RemoveTrailingSlash(const std::string& pathName);
 }
 
 #endif
