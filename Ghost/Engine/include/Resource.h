@@ -38,7 +38,7 @@ namespace ghost
         int getType() const { return _type; }
         int getFlags() const { return _flags; }
         const std::string& getName() const { return _name; }
-        void setName(std::string& name) { _name = name; }
+        void setName(const std::string& name) { _name = name; }
         bool isLoaded() const { return _loaded; }
         ResHandle getHandle() const { return _handle; }
 
@@ -75,6 +75,7 @@ namespace ghost
         virtual Resource* createResource(const std::string& name, int flags) override
         {
             Resource* res = new T();
+            res->setName(name);
             return res;
         }
 

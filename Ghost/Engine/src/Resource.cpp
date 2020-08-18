@@ -74,8 +74,10 @@ namespace ghost
 
         Resource* newRes = nullptr;
         auto factory = _resourceFactories.find(type);
-        if (factory != _resourceFactories.end())
-            newRes = factory->second->createResource(name, flags);
+        if (factory == _resourceFactories.end())
+            return 0;
+
+        newRes = factory->second->createResource(name, flags);
 
         if (newRes == nullptr)
             return 0;
@@ -86,6 +88,7 @@ namespace ghost
         {
             dataStream->close();
             SAFE_DELETE(dataStream);
+            factory->second->destoryResource(newRes);
             return 0;
         }
 
@@ -93,6 +96,7 @@ namespace ghost
         {
             dataStream->close();
             SAFE_DELETE(dataStream);
+            factory->second->destoryResource(newRes);
             return 0;
         }
 
