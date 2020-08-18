@@ -4,6 +4,7 @@
 #include "D3D11RenderSystem.h"
 #include "D3D11Texture2D.h"
 #include "FileSystemWin32.h"
+#include "Material.h"
 
 namespace ghost
 {
@@ -22,7 +23,7 @@ namespace ghost
             _renderDevice = std::make_shared<D3D11RenderDevice>();
             _renderSystem = std::make_shared<D3D11RenderSystem>();
 
-            resMan->registerResourceFactory(new D3D11TextureFactory());
+            resMan->registerResourceFactory(new ResourceFactoryIml<D3D11Texture2D>());
 
             _fileSystem = std::make_shared<FileSystemWin32>();
             break;
@@ -32,6 +33,8 @@ namespace ghost
             _fileSystem = std::make_shared<FileSystemWin32>();
             break;
         }
+
+        resMan->registerResourceFactory(new ResourceFactoryIml<Material>());
 
         _renderDevice->initDevice(false, msaa);
         _renderSystem->attachRenderDevice(_renderDevice);

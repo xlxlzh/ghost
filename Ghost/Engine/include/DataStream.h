@@ -46,6 +46,8 @@ namespace ghost
 		virtual bool eof() const = 0;
 		virtual void close() = 0;
 
+        virtual bool isOpened() const = 0;
+
 		std::size_t getSize() const { return _size; }
 
 	protected:
@@ -74,6 +76,8 @@ namespace ghost
 		virtual bool eof() const override;
 		virtual void close() override;
 
+        virtual bool isOpened() const override;
+
 	protected:
 		uchar* _data;
 		uchar* _pos;
@@ -97,6 +101,8 @@ namespace ghost
 
 		virtual bool eof() const override;
 		virtual void close() override;
+
+        virtual bool isOpened() const override;
 
 	protected:
 		unsigned getStreamFlag(AccessMode mode);

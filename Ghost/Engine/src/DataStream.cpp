@@ -105,6 +105,11 @@ namespace ghost
 		}
 	}
 
+    bool MemoryDataStream::isOpened() const 
+    {
+        return _data != nullptr;
+    }
+
 	FileStream::FileStream(const std::string& fileName, AccessMode mode /* = AccessMode::AM_READ */)
 		: DataStream(fileName, mode)
 	{
@@ -205,4 +210,9 @@ namespace ghost
 			_fileStream = nullptr;
 		}
 	}
+
+    bool FileStream::isOpened() const
+    {
+        return _fileStream && _fileStream->is_open();
+    }
 }

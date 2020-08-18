@@ -17,6 +17,8 @@ namespace ghost
 
         virtual bool load(DataStream& dataStream) override;
 
+        static int getTypeStatic() { return RESOURCE_TEXTURE2D; }
+
     protected:
         void _setData(const unsigned char* data);
 

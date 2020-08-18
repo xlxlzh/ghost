@@ -16,6 +16,7 @@ namespace ghost
         RESOURCE_NONE,
         RESOURCE_TEXTURE2D,
         RESOURCE_MATERIAL,
+        RESOURCE_SHADER,
         RESOURCE_SCENE,
     };
 
@@ -44,6 +45,8 @@ namespace ghost
         void addRef() { ++_refCount; }
         void subRef() { --_refCount; assert(_refCount >= 0); }
 
+        static int getTypeStatic() { return RESOURCE_NONE; }
+
     protected:
         std::string          _name{0};
         int                  _type = RESOURCE_NONE;
@@ -61,7 +64,29 @@ namespace ghost
     {
     public:
         virtual Resource* createResource(const std::string& name, int flags) = 0;
+        virtual void destoryResource(Resource* res) = 0;
         virtual int getType() = 0;
+    };
+
+    template <typename T>
+    class GHOST_API ResourceFactoryIml : public ResourceFactory
+    {
+    public:
+        virtual Resource* createResource(const std::string& name, int flags) override
+        {
+            Resource* res = new T();
+            return res;
+        }
+
+        virtual void destoryResource(Resource* res)
+        {
+            SAFE_DELETE(res);
+        }
+
+        virtual int getType()
+        {
+            return T::getTypeStatic();
+        }
     };
 
     class GHOST_API ResourceManager : public SingleTon<ResourceManager>
@@ -79,9 +104,14 @@ namespace ghost
 
         void clear();
 
+        void setResourcesPath(const std::string resourcesPath) { _resourcesPath = resourcesPath; }
+        const std::string& getResourcesPath() const { return _resourcesPath; }
+
     protected:
         std::vector<Resource*> _resources;
         std::unordered_map<int, ResourceFactory*> _resourceFactories;
+
+        std::string _resourcesPath{};
     };
 }
 

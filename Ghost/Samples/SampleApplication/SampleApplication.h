@@ -9,4 +9,10 @@ public:
     virtual void onExit() override;
     virtual void onUpdate() override;
     virtual void onTick(float deltaTime) override;
+
+private:
+    void _generateResourcesPath(const std::string& workdir);
+
+private:
+    std::string _resourcesPath{};
 };

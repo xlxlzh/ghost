@@ -9,9 +9,10 @@ void SampleApplication::onInit()
     ri->setClearColor(Color::Blue);
 
     auto fileSystem = Engine::getInstance()->getFileSystem();
-    fileSystem->setCurrentDir("../Resources");
-    //MessageBoxA(nullptr, fileSystem->getCurrentDir().c_str(), __FUNCTION__, MB_OK);
-    //ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "light.material.xml", 0);
+    _generateResourcesPath(fileSystem->getCurrentDir());
+
+    ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
+    ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0);
 }
 
 void SampleApplication::onExit()
@@ -31,4 +32,11 @@ void SampleApplication::onUpdate()
     auto ri = Engine::getInstance()->getRenderSystem();
     ri->clearRenderTarget(TargetClear::CLEAR_ALL, Color::Blue);
     ri->endScene();
+}
+
+void SampleApplication::_generateResourcesPath(const std::string& workdir)
+{
+    _resourcesPath.clear();
+    _resourcesPath = AddTrailingSlash(workdir);
+    _resourcesPath = _resourcesPath + "../../../Resources/";
 }

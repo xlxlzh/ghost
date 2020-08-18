@@ -1,5 +1,6 @@
 #include "Resource.h"
 #include <sstream>
+#include "DataStream.h"
 
 namespace ghost
 {
@@ -78,6 +79,22 @@ namespace ghost
 
         if (newRes == nullptr)
             return 0;
+
+        std::string realPath = _resourcesPath + name;
+        DataStream* dataStream = new FileStream(realPath);
+        if (dataStream && !dataStream->isOpened())
+        {
+            dataStream->close();
+            SAFE_DELETE(dataStream);
+            return 0;
+        }
+
+        if (!newRes->load(*dataStream))
+        {
+            dataStream->close();
+            SAFE_DELETE(dataStream);
+            return 0;
+        }
 
         return addResource(*newRes);
     }
