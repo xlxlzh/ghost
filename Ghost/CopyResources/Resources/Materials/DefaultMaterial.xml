@@ -1,2 +1,3 @@
 <Material>
+<Shader source="Shaders/DefaultShader.hlsl" />
 </Material>

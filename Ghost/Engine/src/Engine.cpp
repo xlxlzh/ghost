@@ -5,6 +5,7 @@
 #include "D3D11Texture2D.h"
 #include "FileSystemWin32.h"
 #include "Material.h"
+#include "ShaderResource.h"
 
 namespace ghost
 {
@@ -35,6 +36,7 @@ namespace ghost
         }
 
         resMan->registerResourceFactory(new ResourceFactoryIml<Material>());
+        resMan->registerResourceFactory(new ResourceFactoryIml<ShaderResource>());
 
         _renderDevice->initDevice(false, msaa);
         _renderSystem->attachRenderDevice(_renderDevice);

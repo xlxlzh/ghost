@@ -1,14 +1,14 @@
-#include "Shader.h"
+#include "ShaderResource.h"
 
 namespace ghost
 {
-    Shader::Shader(int type, const std::string& name, int flag) :
+    ShaderResource::ShaderResource(int type, const std::string& name, int flag) :
         Resource(RESOURCE_SHADER, name, flag)
     {
 
     }
 
-    bool Shader::load(DataStream& dataStream)
+    bool ShaderResource::load(DataStream& dataStream)
     {
         int dataSize = dataStream.getSize();
         if (dataSize <= 0)
