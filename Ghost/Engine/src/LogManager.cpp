@@ -1,6 +1,8 @@
 #include "LogManager.h"
 #include <ctime>
 #include <iomanip>
+#include <cstdio>
+#include <cstdarg>
 
 namespace ghost
 {
@@ -103,5 +105,18 @@ namespace ghost
     {
         auto log = _logs.find(name);
         return log == _logs.end() ? nullptr : log->second;
+    }
+
+    std::string FormatStringToString(const char * fmt, ...)
+    {
+        static char resultBuffer[128]{ 0 };
+        memset(&resultBuffer[0], 0, 128);
+
+        va_list args;
+        va_start(args, fmt);
+        vsprintf_s(resultBuffer, fmt, args);
+        va_end(args);
+
+        return std::string(resultBuffer);
     }
 }

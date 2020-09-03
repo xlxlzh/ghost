@@ -74,6 +74,15 @@ namespace ghost
         std::map<std::string, LogPtr> _logs;
         LogPtr _defeaultLog;
     };
+
+    GHOST_API std::string FormatStringToString(const char* fmt, ...);
+
+    #define GHOST_LOG_FORMAT(level, fmt, ...) LogManager::getInstance()->logMessage(level, FormatStringToString(fmt, ##__VA_ARGS__));
+    #define GHOST_LOG_FORMAT_DEBUG(fmt, ...) GHOST_LOG_FORMAT(LOG_DEBUG, fmt, ##__VA_ARGS__)
+    #define GHOST_LOG_FORMAT_INFO(fmt, ...) GHOST_LOG_FORMAT(LOG_INFO, fmt, ##__VA_ARGS__)
+    #define GHOST_LOG_FORMAT_WARNNING(fmt, ...) GHOST_LOG_FORMAT(LOG_WARNING, fmt, ##__VA_ARGS__)
+    #define GHOST_LOG_FORMAT_ERROR(fmt, ...) GHOST_LOG_FORMAT(LOG_ERROR, fmt, ##__VA_ARGS__)
+
 }
 
 #endif
