@@ -100,6 +100,7 @@ namespace ghost
         ResHandle addResource(Resource& resource);
         int removeResource(Resource &resource);
         Resource* findResource(int type, const std::string& name) const;
+        Resource* getResourceByHandle(ResHandle handle);
 
         ResHandle cloneResource(Resource& sourceResource, const std::string& name);
 

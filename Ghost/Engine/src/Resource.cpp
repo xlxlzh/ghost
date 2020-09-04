@@ -138,6 +138,14 @@ namespace ghost
         return nullptr;
     }
 
+    Resource* ResourceManager::getResourceByHandle(ResHandle handle)
+    {
+        if (handle - 1 >= _resources.size() || handle <= 0)
+            return nullptr;
+
+        return _resources[handle - 1];
+    }
+
     void ResourceManager::clear()
     {
         for (unsigned i = 0; i < _resources.size(); ++i)
