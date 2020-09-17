@@ -3,6 +3,7 @@
 
 #include <wrl/client.h>
 #include <d3d11.h>
+#include <d3dcompiler.h>
 
 using namespace Microsoft::WRL;
 
@@ -21,6 +22,8 @@ using ID3D11RenderTargetViewPtr     = ComPtr<ID3D11RenderTargetView>;
 using ID3D11UnorderedAccessViewPtr  = ComPtr<ID3D11UnorderedAccessView>;
 using ID3D11DepthStencilViewPtr     = ComPtr<ID3D11DepthStencilView>;
 using ID3D11BlendStatePtr           = ComPtr<ID3D11BlendState>;
+
+using ID3D11ShaderReflectionPtr     = ComPtr<ID3D11ShaderReflection>;
 
 using IDXGIAdapterPtr               = ComPtr<IDXGIAdapter>;
 using IDXGIDevicePtr                = ComPtr<IDXGIDevice>;
