@@ -1,3 +1,9 @@
 <Material>
-<Shader source="Shaders/DefaultShader.hlsl" />
+    <Defines>
+        <GHOST_USE_NORMAL value="" />
+        <GHOST_USE_TANGENT value="" />
+    </Defines>
+    <Shader source="Shaders/DefaultShader.hlsl">
+        <VS entry="vs_main" />
+    </Shader>
 </Material>
