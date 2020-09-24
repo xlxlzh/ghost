@@ -3,7 +3,7 @@ uniform float4x4 matWorldViewProj;
 
 cbuffer UpdatePerFrame
 {
-    float4 abcd;
+    float4x4 TestConstBuffer;
 };
 
 Texture2D texAlbedo;
@@ -21,4 +21,9 @@ struct vs_input
 float4 vs_main(vs_input input) : SV_POSITION
 {
     return mul(input.position, matWorld);
+}
+
+float4 ps_main() : SV_TARGET
+{
+    return float4(1.0, 0.0, 0.0, 1.0);
 }
