@@ -185,8 +185,23 @@ namespace ghost
         if (rowdata == nullptr || dataSize <= 0)
             return false;
 
+        std::vector<D3D_SHADER_MACRO> macros{};
+        for (const auto& define : defines)
+        {
+            D3D_SHADER_MACRO macro{ 0 };
+            macro.Name = define.first.c_str();
+            macro.Definition = define.second.c_str();
+
+            macros.push_back(macro);
+        }
+
+        D3D_SHADER_MACRO endMacro{ 0 };
+        endMacro.Name = nullptr;
+        endMacro.Definition = nullptr;
+        macros.push_back(endMacro);
+
         ID3DBlobPtr byteCode, errorMsg;
-        HRESULT hr = D3DCompile(rowdata, dataSize, shader.getName().c_str(), nullptr, nullptr, entry, ShaderProfile[type], 0, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
+        HRESULT hr = D3DCompile(rowdata, dataSize, shader.getName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], 0, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
         if (FAILED(hr) || errorMsg)
         {
             if (errorMsg)

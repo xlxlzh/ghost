@@ -1,7 +1,7 @@
 <Material>
     <Defines>
-        <GHOST_USE_NORMAL value="" />
-        <GHOST_USE_TANGENT value="" />
+        <GHOST_USE_NORMAL value="1" />
+        <GHOST_USE_TANGENT value="1" />
     </Defines>
     <Shader source="Shaders/DefaultShader.hlsl">
         <VS entry="vs_main" />
