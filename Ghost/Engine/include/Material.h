@@ -2,6 +2,9 @@
 #define _MATERIAL_H_
 
 #include "Resource.h"
+#include "ShaderResource.h"
+
+#include <unordered_map>
 
 namespace ghost
 {
@@ -13,10 +16,13 @@ namespace ghost
 
         virtual bool load(DataStream& dataStream) override;
 
+        void apply();
+
         static int getTypeStatic() { return RESOURCE_MATERIAL; }
 
     private:
-
+        ShaderResource* _shaderResource{ nullptr };
+        std::unordered_map<std::string, std::string> _defines{};
     };
 }
 

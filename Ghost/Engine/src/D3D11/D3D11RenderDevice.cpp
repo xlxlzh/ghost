@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "LogManager.h"
 
+#pragma comment(lib, "d3dcompiler.lib")
+
 namespace ghost
 {
     bool D3D11RenderDevice::initDevice(bool fullscreen, unsigned msaaCount)
@@ -161,5 +163,44 @@ namespace ghost
         unsigned checkQuality = 0;
         _device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, checkCount, &checkQuality);
         return checkQuality != 0;
+    }
+
+    static const char* ShaderProfile[] =
+    {
+        "vs_4_0",
+        "ps_4_0",
+        "gs_4_0",
+        "hs_4_0",
+        "ds_4_0",
+    };
+
+    bool D3D11RenderDevice::compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader)
+    {
+        if (type == SHADER_NONE || !entry)
+            return false;
+
+        unsigned char* rowdata = shader.getRawdata();
+        int dataSize = shader.getRawdataSize();
+
+        if (rowdata == nullptr || dataSize <= 0)
+            return false;
+
+        ID3DBlobPtr byteCode, errorMsg;
+        HRESULT hr = D3DCompile(rowdata, dataSize, shader.getName().c_str(), nullptr, nullptr, entry, ShaderProfile[type], 0, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
+        if (FAILED(hr) || errorMsg)
+        {
+            if (errorMsg)
+            {
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", shader.getName(), (char*)errorMsg->GetBufferPointer());
+            }   
+            else
+            {
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed.", shader.getName());
+            }
+        }
+
+        shader.updateByteCodes(type, (unsigned char*)byteCode->GetBufferPointer(), byteCode->GetBufferSize());
+
+        return true;
     }
 }

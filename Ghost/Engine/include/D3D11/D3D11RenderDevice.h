@@ -13,6 +13,8 @@ namespace ghost
         virtual bool initDevice(bool fullscreen, unsigned msaaCount) override;
         virtual bool checkSampleCount(unsigned checkCount) override;
 
+        virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) override;
+
         ID3D11DevicePtr getDevice() const { return _device; }
         ID3D11DeviceContextPtr getContext() const { return _context; }
 

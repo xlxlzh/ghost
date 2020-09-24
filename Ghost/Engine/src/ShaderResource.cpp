@@ -2,6 +2,17 @@
 
 namespace ghost
 {
+    ShaderType GetShaderTypeByName(const char* typeName)
+    {
+        for (int i = 0; i < SHADER_NONE; ++i)
+        {
+            if (strcmp(typeName, ShaderTypeName[i]) == 0)
+                return (ShaderType)i;
+        }
+
+        return SHADER_NONE;
+    }
+
     ShaderResource::ShaderResource(int type, const std::string& name, int flag) :
         Resource(RESOURCE_SHADER, name, flag)
     {
@@ -19,5 +30,30 @@ namespace ghost
         dataStream.read(_rawData, _rawDataSize);
 
         return true;
+    }
+
+    void ShaderResource::updateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize)
+    {
+        if (!byteCodes || codeSize < 0 || type == SHADER_NONE)
+            return;
+
+        auto currentByteCode = _byteCodes.find(type);
+        if (currentByteCode != _byteCodes.end())
+        {
+            SAFE_DELETE_ARRAY(currentByteCode->second.ByteCode);
+            currentByteCode->second.ByteCodeSize = 0;
+
+            _byteCodes[type].ByteCodeSize = codeSize;
+            _byteCodes[type].ByteCode = new unsigned char[codeSize];
+            memcpy(_byteCodes[type].ByteCode, byteCodes, codeSize);
+        }
+        else
+        {
+            ShaderByteCode newByteCode{};
+            newByteCode.ByteCodeSize = codeSize;
+            newByteCode.ByteCode = new unsigned char[codeSize];
+            memcpy(newByteCode.ByteCode, byteCodes, codeSize);
+            _byteCodes[type] = newByteCode;
+        }
     }
 }

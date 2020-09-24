@@ -1,6 +1,8 @@
 #include "Material.h"
 #include "../../External/tinyxml2/tinyxml2.h"
 #include "DataStream.h"
+#include "Engine.h"
+#include "LogManager.h"
 
 namespace ghost
 {
@@ -22,13 +24,30 @@ namespace ghost
         tinyxml2::XMLElement* root = doc.RootElement();
         if (strcmp(root->Name(), "Material") != 0)
         {
+            GHOST_LOG_FORMAT_ERROR("Can not find <Material> element in material %s.", this->getName().c_str());
             SAFE_DELETE_ARRAY(data);
             return false;
+        }
+
+        _defines.clear();
+        tinyxml2::XMLElement* shaderDefines = root->FirstChildElement("Defines");
+        if (shaderDefines)
+        {
+            tinyxml2::XMLElement* definesElement = shaderDefines->FirstChildElement();
+            while (definesElement)
+            {
+                const char* definesName = definesElement->Name();
+                const char* definesValue = definesElement->Attribute("value");
+                _defines[definesName] = definesValue;
+
+                definesElement = definesElement->NextSiblingElement();
+            }
         }
 
         tinyxml2::XMLElement* shader = root->FirstChildElement("Shader");
         if (!shader)
         {
+            GHOST_LOG_FORMAT_ERROR("Can not find <Shader> element in material %s.", this->getName().c_str());
             SAFE_DELETE_ARRAY(data);
             return false;
         }
@@ -37,8 +56,43 @@ namespace ghost
         if (shaderSource)
         {
             ResHandle shaderHandle = ResourceManager::getInstance()->addResource(RESOURCE_SHADER, shaderSource->Value(), 0);
+            _shaderResource = dynamic_cast<ShaderResource*>(ResourceManager::getInstance()->getResourceByHandle(shaderHandle));
+
+            const tinyxml2::XMLElement* shaderEntry = shader->FirstChildElement();
+            while (shaderEntry)
+            {
+                const char* name = shaderEntry->Name();
+                ShaderType type = GetShaderTypeByName(name);
+
+                const tinyxml2::XMLAttribute* entry = shaderEntry->FindAttribute("entry");
+                if (entry)
+                {
+                    const char* entryName = entry->Value();
+                    auto renderDevice = Engine::getInstance()->getRenderDevice();
+                    renderDevice->compileShader(type, entryName, _defines, *_shaderResource);
+                }
+
+                shaderEntry = shaderEntry->NextSiblingElement();
+            }
+        }
+
+        const tinyxml2::XMLElement* uniforms = root->FirstChildElement("Uniforms");
+        if (uniforms)
+        {
+            //TODO
+        }
+
+        const tinyxml2::XMLElement* samplers = root->FirstChildElement("Samplers");
+        if (samplers)
+        {
+            //TODO
         }
 
         return true;
+    }
+
+    void Material::apply()
+    {
+        auto renderDevice = Engine::getInstance()->getRenderDevice();
     }
 }

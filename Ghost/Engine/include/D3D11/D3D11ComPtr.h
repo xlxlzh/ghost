@@ -30,5 +30,7 @@ using IDXGIDevicePtr                = ComPtr<IDXGIDevice>;
 using IDXGIFactoryPtr               = ComPtr<IDXGIFactory>;
 using IDXGISwapChainPtr             = ComPtr<IDXGISwapChain>;
 
+using ID3DBlobPtr                   = ComPtr<ID3DBlob>;
+
 
 #endif // !_D3D11_COMPTR_H_

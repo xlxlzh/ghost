@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "Ghost.h"
+#include "ShaderResource.h"
 
 namespace ghost
 {
@@ -11,6 +12,8 @@ namespace ghost
     public:
         virtual bool initDevice(bool fullscreen, unsigned msaaCount) = 0;
         virtual bool checkSampleCount(unsigned checkCount) = 0;
+        
+        virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
 
     protected:
         unsigned _sampleCount;
