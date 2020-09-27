@@ -13,7 +13,7 @@ namespace ghost
 		Vector3(T x, T y, T z) : _x(x), _y(y), _z(z) { }
 		Vector3(T rhs) : _x(rhs), _y(rhs), _z(rhs) { }
 		Vector3(const T* arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]) { }
-		Vector3(T const* arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]) { }
+		Vector3(T *const arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]) { }
 
 		Vector3(const Vector3<T>& rhs) : _x(rhs._x), _y(rhs._y), _z(rhs._z) { }
 
@@ -23,7 +23,7 @@ namespace ghost
 		bool operator!= (const Vector3<T>& rhs) const { return !this->equal(rhs); }
 
 		Vector3<T>& operator+= (const Vector3<T>& rhs) { _x += rhs._x; _y += rhs._y; _z += rhs._z; return *this; }
-		Vector3<T>& operator+= (const Vector3<T>& rhs) { _x += rhs._x; _y += rhs._y; _z += rhs._z; return *this; }
+		Vector3<T>& operator-= (const Vector3<T>& rhs) { _x -= rhs._x; _y -= rhs._y; _z -= rhs._z; return *this; }
 		Vector3<T>& operator*= (const Vector3<T>& rhs) { _x *= rhs._x; _y *= rhs._y; _z *= rhs._z; return *this; }
 		Vector3<T>& operator/= (const Vector3<T>& rhs) { _x /= rhs._x; _y /= rhs._y; _z /= rhs._z; return *this; }
 
