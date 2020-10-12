@@ -1,3 +1,6 @@
+#ifndef _MATH_UTILITIES_H_
+#define _MATH_UTILITIES_H_
+
 #include <cmath>
 
 namespace ghost
@@ -91,7 +94,6 @@ namespace ghost
 		static float PRECISION_FLOAT;
         static float PI;
 	};
-
-	float MathUtilities::PRECISION_FLOAT = 1.0e-10f;
-    float MathUtilities::PI = 3.1415926535f;
 }
+
+#endif
