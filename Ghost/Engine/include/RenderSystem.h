@@ -8,6 +8,7 @@
 #include "RenderTarget.h"
 #include "DepthStencilTarget.h"
 #include "RenderConfig.h"
+#include "Material.h"
 
 namespace ghost
 {
@@ -44,6 +45,8 @@ namespace ghost
         virtual void setClearColor(Color cl = Color::Black);
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) = 0;
 
+        virtual void setMaterial(const Material& mat);
+
         virtual void drawPrimitive() = 0;
         virtual void drawPrimitiveIndexed() = 0;
         virtual void drawPrimitiveInstance() = 0;
@@ -55,6 +58,8 @@ namespace ghost
 
         RenderTargetPtr _activeRenerTarget = nullptr;
         RenderDevicePtr _renderDevice = nullptr;
+
+        Material _currentMaterial;
     };
 
     DECLAR_SMART_POINTER(RenderSystem)
