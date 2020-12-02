@@ -9,12 +9,13 @@ namespace ghost
     class GHOST_API Shader
     {
     public:
-        Shader() { _type = SHADER_NONE; }
+        Shader() = default;
+        virtual ~Shader() { }
 
-        ShaderType getType() const { return _type; }
+        void* getRawShaderPointer(ShaderType type) const;
 
     protected:
-        ShaderType _type;
+        std::unordered_map<ShaderType, void*> _shaders;
     };
 }
 
