@@ -47,6 +47,7 @@ namespace ghost
 
         virtual void setMaterial(const Material& mat);
 
+        virtual void setShader(const Shader* shader) = 0;
         virtual void drawPrimitive() = 0;
         virtual void drawPrimitiveIndexed() = 0;
         virtual void drawPrimitiveInstance() = 0;

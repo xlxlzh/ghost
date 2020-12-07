@@ -14,6 +14,7 @@ namespace ghost
         virtual bool checkSampleCount(unsigned checkCount) override;
 
         virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) override;
+        virtual Shader* createShader(const ShaderResource* shadersRes) override;
 
         ID3D11DevicePtr getDevice() const { return _device; }
         ID3D11DeviceContextPtr getContext() const { return _context; }

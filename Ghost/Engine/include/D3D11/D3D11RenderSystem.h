@@ -13,6 +13,7 @@ namespace ghost
         virtual void setRenderTarget(RenderTargetPtr rt) override;
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
+        virtual void setShader(const Shader* shader) override;
         virtual void drawPrimitive() override;
         virtual void drawPrimitiveIndexed() override;
         virtual void drawPrimitiveInstance() override;

@@ -32,6 +32,13 @@ namespace ghost
         return true;
     }
 
+    const ShaderByteCode* ShaderResource::getByteCodeByType(ShaderType type) const
+    {
+        //The code maybe cause memory crash, will be fix later.
+        auto byteCode = _byteCodes.find(type);
+        return byteCode == _byteCodes.end() ? nullptr : &byteCode->second;
+    }
+
     void ShaderResource::updateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize)
     {
         if (!byteCodes || codeSize < 0 || type == SHADER_NONE)

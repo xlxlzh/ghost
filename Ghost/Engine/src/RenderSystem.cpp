@@ -11,5 +11,7 @@ namespace ghost
     void RenderSystem::setMaterial(const Material& mat)
     {
         _currentMaterial = mat;
+
+        _currentMaterial.apply();
     }
 }

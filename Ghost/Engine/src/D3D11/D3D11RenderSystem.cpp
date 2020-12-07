@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "D3D11RenderTarget.h"
 #include "D3D11DepthStencilTarget.h"
+#include "D3D11HardwareShader.h"
 
 namespace ghost
 {
@@ -116,6 +117,27 @@ namespace ghost
     void D3D11RenderSystem::drawPrimitiveInstance()
     {
 
+    }
+
+    void D3D11RenderSystem::setShader(const Shader* shader)
+    {
+        if (shader && shader->isValid())
+        {
+            const D3D11HarderwareShader* d3dshader = dynamic_cast< const D3D11HarderwareShader*>(shader);
+            if (d3dshader)
+            {
+                D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+                if (d3dshader->isShaderTypeValid(SHADER_VS))
+                {
+                    device->_context->VSSetShader((ID3D11VertexShader*)d3dshader->_shaders[SHADER_VS], nullptr, 0);
+                }
+
+                if (d3dshader->isShaderTypeValid(SHADER_PS))
+                {
+                    device->_context->PSSetShader((ID3D11PixelShader*)d3dshader->_shaders[SHADER_PS], nullptr, 0);
+                }
+            }
+        }
     }
 
     void D3D11RenderSystem::endScene()

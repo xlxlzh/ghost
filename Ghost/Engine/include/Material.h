@@ -2,9 +2,10 @@
 #define _MATERIAL_H_
 
 #include "Resource.h"
-#include "ShaderResource.h"
+#include "Shader.h"
 
 #include <unordered_map>
+#include <array>
 
 namespace ghost
 {
@@ -23,6 +24,8 @@ namespace ghost
     private:
         ShaderResource* _shaderResource{ nullptr };
         std::unordered_map<std::string, std::string> _defines{};
+        std::array<void*, (std::size_t)SHADER_NONE> _shaders;
+        Shader* _handwareShader{ nullptr };
     };
 }
 

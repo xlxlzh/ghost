@@ -1,6 +1,7 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 
+#include <array>
 #include "Ghost.h"
 #include "ShaderResource.h"
 
@@ -13,9 +14,14 @@ namespace ghost
         virtual ~Shader() { }
 
         void* getRawShaderPointer(ShaderType type) const;
+        void updateRawShaderPointer(ShaderType type, void* shader);
+
+        bool isShaderTypeValid(ShaderType type) const;
+
+        bool isValid() const;
 
     protected:
-        std::unordered_map<ShaderType, void*> _shaders;
+        std::array<void*, (std::size_t)SHADER_NONE > _shaders;
     };
 }
 

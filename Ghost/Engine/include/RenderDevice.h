@@ -7,6 +7,8 @@
 
 namespace ghost
 {
+    class Shader;
+
     class GHOST_API RenderDevice
     {
     public:
@@ -14,6 +16,7 @@ namespace ghost
         virtual bool checkSampleCount(unsigned checkCount) = 0;
         
         virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
+        virtual Shader* createShader(const ShaderResource* shadersRes) = 0;
 
     protected:
         unsigned _sampleCount;

@@ -82,6 +82,12 @@ namespace ghost
             //TODO
         }
 
+        const tinyxml2::XMLElement* textures = root->FirstChildElement("Textures");
+        if (textures)
+        {
+
+        }
+
         const tinyxml2::XMLElement* samplers = root->FirstChildElement("Samplers");
         if (samplers)
         {
@@ -93,6 +99,21 @@ namespace ghost
 
     void Material::apply()
     {
-        auto renderDevice = Engine::getInstance()->getRenderDevice();
+        if (_shaderResource == nullptr)
+            return;
+
+        if (!_handwareShader)
+        {
+            auto renderDevice = Engine::getInstance()->getRenderDevice();
+            _handwareShader = renderDevice->createShader(_shaderResource);
+        }
+
+        auto rendersystem = Engine::getInstance()->getRenderSystem();
+
+        //Setup shader
+        if (_handwareShader && _handwareShader->isValid())
+        {
+            rendersystem->setShader(_handwareShader);
+        }
     }
 }

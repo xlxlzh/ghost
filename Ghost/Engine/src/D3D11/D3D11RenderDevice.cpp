@@ -1,6 +1,7 @@
-#include "D3D11RenderDevice.h"
 #include "Engine.h"
 #include "LogManager.h"
+#include "D3D11HardwareShader.h"
+#include "D3D11RenderDevice.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -217,5 +218,45 @@ namespace ghost
         shader.updateByteCodes(type, (unsigned char*)byteCode->GetBufferPointer(), byteCode->GetBufferSize());
 
         return true;
+    }
+
+    Shader* D3D11RenderDevice::createShader(const ShaderResource* shadersRes)
+    {
+        if (shadersRes == nullptr)
+            return nullptr;
+
+        Shader* hardwareShader = new D3D11HarderwareShader();
+        for (int i = 0; i < (int)SHADER_NONE; ++i)
+        {
+            const ShaderByteCode* byteCode = shadersRes->getByteCodeByType((ShaderType)i);
+            if (byteCode && byteCode->ByteCode && byteCode->ByteCodeSize > 0)
+            {
+                HRESULT hr = S_OK;
+                switch (i)
+                {
+                case SHADER_VS:
+                {
+                    ID3D11VertexShader* vertexShader = nullptr;
+                    _device->CreateVertexShader(byteCode->ByteCode, byteCode->ByteCodeSize, nullptr, &vertexShader);
+                    if (SUCCEEDED(hr))
+                        hardwareShader->updateRawShaderPointer((ShaderType)i, vertexShader);
+                    break;
+                }      
+                case SHADER_PS:
+                {
+                    ID3D11PixelShader* pixelShader = nullptr;
+                    _device->CreatePixelShader(byteCode->ByteCode, byteCode->ByteCodeSize, nullptr, &pixelShader);
+                    if (SUCCEEDED(hr))
+                        hardwareShader->updateRawShaderPointer((ShaderType)i, pixelShader);
+                    break;
+                }
+                    
+                default:
+                    break;
+                }
+            }
+        }
+
+        return hardwareShader;
     }
 }

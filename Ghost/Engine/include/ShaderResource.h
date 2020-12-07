@@ -48,6 +48,10 @@ namespace ghost
 
         void updateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize);
 
+        const ShaderByteCode* getByteCodeByType(ShaderType type) const;
+
+        int getValidShaderCount() const;
+
     protected:
         unsigned char* _rawData = nullptr;
         int _rawDataSize = 0;
