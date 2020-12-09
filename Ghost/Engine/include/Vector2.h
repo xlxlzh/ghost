@@ -11,7 +11,7 @@ namespace ghost
 		Vector2(T x, T y) : _x(x), _y(y) { }
 		Vector2(T rhs) : _x(rhs), _y(rhs) { }
 		Vector2(const T* arr) : _x(arr[0]), _y(arr[1]) { }
-		Vector2(T const* arr) : _x(arr[0]), _y(arr[1]) { }
+		Vector2(T* const arr) : _x(arr[0]), _y(arr[1]) { }
 
 		Vector2(const Vector2<T>& rhs) : _x(rhs._x), _y(rhs._y) { }
 
