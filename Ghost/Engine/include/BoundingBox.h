@@ -21,6 +21,8 @@ namespace ghost
 
         bool contains(const Vector3<float>& point) const;
 
+        void setExtents(const Vector3f& minV, const Vector3f& maxV) { _min = minV; _max = maxV; }
+
     public:
         Vector3<float> _min;
         Vector3<float> _max;
