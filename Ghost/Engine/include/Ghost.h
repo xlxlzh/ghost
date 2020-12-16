@@ -2,6 +2,8 @@
 
 #define _GHOST_H_
 
+#include <memory>
+
 #ifdef GHOST_LIB_STATIC
 #define GHOST_API
 #else
