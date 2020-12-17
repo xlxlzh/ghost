@@ -2,6 +2,9 @@
 #include "LogManager.h"
 #include "D3D11HardwareShader.h"
 #include "D3D11RenderDevice.h"
+#include "D3D11ConstBuffer.h"
+#include "D3D11VertexBuffer.h"
+#include "D3D11IndexBuffer.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -258,5 +261,20 @@ namespace ghost
         }
 
         return hardwareShader;
+    }
+
+    ConstBufferPtr D3D11RenderDevice::createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name)
+    {
+        return std::make_shared<D3D11ConstBuffer>(bufferSize, usage, *this, name);
+    }
+
+    IndexBufferPtr D3D11RenderDevice::createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage)
+    {
+        return std::make_shared<D3D11IndexBuffer>(iType, numIndexes, usage, *this, false);
+    }
+
+    VertexBufferPtr D3D11RenderDevice::createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage)
+    {
+        return std::make_shared<D3D11VertexBuffer>(VertexSize, numVertices, usage, *this, false);
     }
 }
