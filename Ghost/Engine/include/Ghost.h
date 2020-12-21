@@ -3,6 +3,7 @@
 #define _GHOST_H_
 
 #include <memory>
+#include <assert.h>
 
 #ifdef GHOST_LIB_STATIC
 #define GHOST_API
