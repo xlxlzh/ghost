@@ -24,6 +24,8 @@ namespace ghost
         void _increaseNumNodes();
         void _decreaseNumNodes();
 
+        void _getChildIndexes(const BoundingBox& box, int& x, int& y, int& z) const;
+
     private:
         Octree* _children[2][2][2]{ nullptr };
         Octree* _parent{ nullptr };

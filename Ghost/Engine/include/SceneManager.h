@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 #include "SceneNode.h"
+#include "Camera.h"
 
 namespace ghost
 {
@@ -13,19 +14,32 @@ namespace ghost
         SceneManager(const BoundingBox& box, int depth);
         ~SceneManager();
 
-        void addNode(SceneNode* node, Octree* octree, int depth);
-        bool deleteNode(SceneNode* node);
+        void addNodeToRoot(SceneNode* node);
+        void addNode(SceneNode* node, SceneNode* parent);
 
-        void update();
+        void updateSceneGraph(Camera* camera);
+
+        void render(Camera* camera);
+
+        SceneNode* getRootNode() const { return _sceneNodes[0]; }
+
+        BoundingBox& getBoundingBox() { return _boundingBox; }
+
+        void updateNode(SceneNode* node);
 
     private:
         void _initTree(const BoundingBox& box, int depth);
+
+        void _addNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
+        bool _deleteNodeFromTree(SceneNode* node);
 
     private:
         Octree* _octree{ nullptr };
         int _maxDepth{ 0 };
 
         BoundingBox _boundingBox;
+
+        std::vector<SceneNode*> _sceneNodes;
     };
 }
 

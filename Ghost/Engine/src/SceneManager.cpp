@@ -7,6 +7,9 @@ namespace ghost
     {
         BoundingBox box(-10000, -10000, -10000, 10000, 10000, 10000);
 
+        SceneNode* root = new GroupNode(this);
+        _sceneNodes.push_back(root);
+
         _octree = nullptr;
         _initTree(box, 8);
     }
@@ -34,20 +37,152 @@ namespace ghost
         _octree->_halfSize = (box._max - box._min) / 2.0;
     }
 
-    void SceneManager::addNode(SceneNode* node, Octree* octree, int depth)
+    void SceneManager::addNodeToRoot(SceneNode* node)
+    {
+        if (!node)
+            return;
+
+        SceneNode* root = getRootNode();
+        if (!root)
+            return;
+
+        addNode(node, root);
+    }
+
+    void SceneManager::addNode(SceneNode* node, SceneNode* parent)
+    {
+        if (!parent)
+            parent = getRootNode();
+
+        node->_parent = parent;
+        parent->_children.push_back(node);
+
+        auto nodeIt = std::find(_sceneNodes.begin(), _sceneNodes.end(), node);
+        if (nodeIt == _sceneNodes.end())
+            _sceneNodes.push_back(node);
+
+        node->markDirty();
+
+        _octree->addNode(node);
+    }
+
+    void SceneManager::_addNodeToTree(SceneNode* node, Octree* octree, int depth)
     {
         if (!_octree)
             return;
 
+        _sceneNodes.push_back(node);
 
+        const BoundingBox& nodeBounding = node->getBoundingBox();
+        if (depth < _maxDepth && octree->isTwiceSize(nodeBounding))
+        {
+            int x, y, z;
+            octree->_getChildIndexes(nodeBounding, x, y, z);
+            if (octree->_children[x][y][z] == nullptr)
+            {
+                octree->_children[x][y][z] = new Octree(octree);
+
+                const Vector3f& treeMin = octree->_boundingBox._min;
+                const Vector3f& treeMax = octree->_boundingBox._max;
+                Vector3f treeCenter = octree->_boundingBox.getCenter();
+                Vector3f minV, maxV;
+
+                if (x == 0)
+                {
+                    minV._x = treeMin._x;
+                    maxV._x = treeCenter._x;
+                }
+                else
+                {
+                    minV._x = treeCenter._x;
+                    maxV._x = treeMax._x;
+                }
+
+                if (y == 0)
+                {
+                    minV._y = treeMin._y;
+                    maxV._y = treeCenter._y;
+                }
+                else
+                {
+                    minV._y = treeCenter._y;
+                    maxV._y = treeMax._y;
+                }
+
+                if (z == 0)
+                {
+                    minV._z = treeMin._z;
+                    maxV._z = treeCenter._z;
+                }
+                else
+                {
+                    minV._z = treeCenter._z;
+                    maxV._z = treeMax._z;
+                }
+
+                octree->_children[x][y][z]->_boundingBox.setExtents(minV, maxV);
+                octree->_children[x][y][z]->_halfSize = (maxV - minV) / 2.0;
+            }
+
+            _addNodeToTree(node, octree->_children[x][y][z], ++depth);
+        }
+        else
+        {
+            octree->addNode(node);
+        }
     }
 
-    bool SceneManager::deleteNode(SceneNode* node)
+    bool SceneManager::_deleteNodeFromTree(SceneNode* node)
     {
+        if (!_octree)
+            return false;
+
+        Octree* tree = node->getTree();
+        if (tree)
+            tree->removeNode(node);
+
+        node->setTree(nullptr);
+
+        //Only remove from octree
+        //_sceneNodes.erase(std::find(_sceneNodes.begin(), _sceneNodes.end(), node));
+
         return true;
     }
 
-    void SceneManager::update()
+    void SceneManager::updateNode(SceneNode* node)
+    {
+        const BoundingBox& box = node->getBoundingBox();
+        if (!_octree)
+            return;
+
+        if (node->getTree() == nullptr)
+        {
+            if (!node->isIn(_octree->_boundingBox))
+                _octree->addNode(node);
+            else
+                _addNodeToTree(node, _octree);
+
+            return;
+        }
+
+        if (!node->isIn(node->getTree()->_boundingBox))
+        {
+            _deleteNodeFromTree(node);
+
+            if (!node->isIn(_octree->_boundingBox))
+                _octree->addNode(node);
+            else
+                _addNodeToTree(node, _octree);
+        }
+    }
+
+    void SceneManager::updateSceneGraph(Camera* camera)
+    {
+        (void)camera;
+        getRootNode()->update();
+    }
+
+    void SceneManager::render(Camera* camera)
     {
 
     }

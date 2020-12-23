@@ -69,7 +69,30 @@ namespace ghost
 
     bool Octree::isTwiceSize(const BoundingBox& box) const
     {
+        Vector3f halfSize = _boundingBox.getHalfSize();
+        Vector3f boxSize = box.getSize();
 
-        return false;
+        return (boxSize._x <= halfSize._x) && (boxSize._y <= halfSize._y) && (boxSize._z <= halfSize._z);
+    }
+
+    void Octree::_getChildIndexes(const BoundingBox& box, int& x, int& y, int& z) const
+    {
+        Vector3f treeCenter = _boundingBox.getCenter();
+        Vector3f boxCenter = box.getCenter();
+
+        if (boxCenter._x > treeCenter._x)
+            x = 1;
+        else
+            x = 0;
+
+        if (boxCenter._y > treeCenter._y)
+            y = 1;
+        else
+            y = 0;
+
+        if (boxCenter._z > treeCenter._z)
+            z = 1;
+        else
+            z = 0;
     }
 }
