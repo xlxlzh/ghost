@@ -18,6 +18,7 @@ namespace ghost
         RESOURCE_MATERIAL,
         RESOURCE_SHADER,
         RESOURCE_SCENE,
+        RESOURCE_MESH,
     };
 
     using ResHandle = unsigned int;

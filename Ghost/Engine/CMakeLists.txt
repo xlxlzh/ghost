@@ -34,6 +34,13 @@ include_directories(include/D3D12)
 
 include_directories(../../External/stb)
 
+include_directories(../../External/assimp/)
+include_directories(../../External/assimp/Compiler)
+
+link_directories(../../External/assimp/assimp/lib)
+
+set(GHOST_ASSIMP "assimp-vc141-mt")
+
 add_library(GhostEngine SHARED ${ENGINE_CODE} ${ENGINE_HEADERS} ${WIN32_CODE} ${WIN32_HEADERS} ${D3D11_HEADERS} ${D3D11_CODE} ${D3D12_HEADERS} ${D3D12_CODE})
 
-target_link_libraries(GhostEngine ${DirectX11_LIBRARY} TinyXML2)
+target_link_libraries(GhostEngine ${DirectX11_LIBRARY} TinyXML2 ${GHOST_ASSIMP})

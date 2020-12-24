@@ -1,5 +1,8 @@
 #include "Application.h"
 
+#include "SceneManager.h"
+#include "Camera.h"
+
 using namespace ghost;
 
 class SampleApplication : public Application
@@ -15,4 +18,7 @@ private:
 
 private:
     std::string _resourcesPath{};
+
+    SceneManager* _scene;
+    Camera* _mainCamera;
 };

@@ -13,6 +13,17 @@ void SampleApplication::onInit()
 
     ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
     ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0);
+
+    ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/house.obj", 0);
+
+    _scene = new SceneManager();
+    _mainCamera = new Camera(_scene);
+
+    _scene->addNodeToRoot(_mainCamera);
+
+    VertexBufferPtr buffer = Engine::getInstance()->getRenderDevice()->createVertexBuffer(4, 1, BufferUsage::USAGE_DYNAMIC);
+    int test = 999999;
+    buffer->writeData(0, 4, &test, true);
 }
 
 void SampleApplication::onExit()
@@ -29,6 +40,8 @@ void SampleApplication::onTick(float deltaTime)
 
 void SampleApplication::onUpdate()
 {
+    _scene->updateSceneGraph(_mainCamera);
+    _scene->render(_mainCamera);
     auto ri = Engine::getInstance()->getRenderSystem();
     ri->clearRenderTarget(TargetClear::CLEAR_ALL, Color::Blue);
     ri->endScene();
