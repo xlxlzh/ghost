@@ -222,6 +222,16 @@ namespace ghost
 			_41 = 0, _42 = 0, _43 = 0, _44 = 1;
 		}
 
+        void translate(T x, T y, T z)
+        {
+            *this *= transformMatrix(x, y, z);
+        }
+
+        void scale(T x, T y, T z)
+        {
+            *this *= scaleMatrix(x, y, z);
+        }
+
 	public:
 		static Matrix4x4<T> scaleMatrix(T x, T y, T z)
 		{
