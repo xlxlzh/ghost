@@ -5,12 +5,24 @@ namespace ghost
 {
     SceneNode::SceneNode(SceneManager* owner) : _owner(owner), _dirty(true), _parent(nullptr)
     {
-
+        _absTrans.identify();
+        _relTrans.identify();
     }
 
     void SceneNode::setTransform(const Vector3f& pos, const Vector3f& rotation, const Vector3f& scale)
     {
-        //TODO
+        _relTrans = Matrix4x4f::scaleMatrix(scale._x, scale._y, scale._z);
+        _relTrans.rotate(rotation._x, rotation._y, rotation._z);
+        _relTrans.translate(pos._x, pos._y, pos._z);
+
+        markDirty();
+    }
+
+    void SceneNode::setTransform(const Matrix4x4f& mat)
+    {
+        _relTrans = mat;
+
+        markDirty();
     }
 
     void SceneNode::getTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale)
@@ -24,7 +36,7 @@ namespace ghost
             return;
 
         if (_parent != nullptr)
-            ;
+            _absTrans = _parent->_absTrans * _relTrans;
         else
             _absTrans = _relTrans;
 

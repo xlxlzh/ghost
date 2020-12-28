@@ -34,6 +34,7 @@ namespace ghost
         Matrix4x4f& getRelTrans() { return _relTrans; }
         Matrix4x4f& getAbsTrans() { return _absTrans; }
         void setTransform(const Vector3f& pos, const Vector3f& rotation, const Vector3f& scale);
+        void setTransform(const Matrix4x4f& mat);
         void getTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale);
 
         void update();
