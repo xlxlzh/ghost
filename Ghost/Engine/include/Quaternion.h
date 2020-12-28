@@ -8,7 +8,16 @@ namespace ghost
     {
     public:
         Quaternion() : _x(0.0), _y(0.0), _z(0.0), _w(0.0) { }
-        Quaternion(T x, T y, T z, T w) £º _x(x), _y(y), _z(z), _w(w) { }
+        Quaternion(T x, T y, T z, T w) : _x(x), _y(y), _z(z), _w(w) { }
+
+        Quaternion(const T eulerX, const T eulerY, const T eulerZ)
+        {
+            Quaternion<T> roll(0, 0, MathUtilities::sin<T>(eulerZ * 0.5), MathUtilities::cos<T>(eulerZ * 0.5));
+            Quaternion<T> pitch(MathUtilities::sin<T>(eulerX * 0.5), 0, 0, MathUtilities::cos<T>(eulerX * 0.5));
+            Quaternion<T> yaw(0, MathUtilities::sin<T>(eulerY * 0.5), 0, MathUtilities::cos<T>(eulerY * 0.5));
+
+            *this = roll * pitch * yaw;
+        }
 
         Quaternion<T> operator* (const Quaternion<T>& q) const
         {

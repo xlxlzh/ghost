@@ -262,6 +262,11 @@ namespace ghost
             *this *= scaleMatrix(x, y, z);
         }
 
+        void rotate(T x, T y, T z)
+        {
+            *this *= rotationMatrix(x, y, z);
+        }
+
 	public:
 		static Matrix4x4<T> scaleMatrix(T x, T y, T z)
 		{
@@ -323,6 +328,11 @@ namespace ghost
         {
             axis = axis * MathUtilities::sin<T>(angle * 0.5f);
             return Matrix4x4<T>(Quaternion<T>(axis._x, axis._y, axis._z, MathUtilities::cos<float>(angle * 0.5)));
+        }
+
+        static Matrix4x4<T> rotationMatrix(const T angleX, const T angleY, const T angleZ)
+        {
+            return Matrix4x4<T>(Quaternion<T>(angleX, angleY, angleZ));
         }
 
         static Matrix4x4<T> perspectiveMatrix(float fov, float aspect, float n, float f)
