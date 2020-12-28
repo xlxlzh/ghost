@@ -368,7 +368,33 @@ namespace ghost
         {
             Matrix4x4<T> m;
 
-            //TODO
+            Vector3<T> dir = lookAt - pos;
+            dir.normalize();
+
+            Vector3<T> r = up.crossProduct(dir);
+            r.normalize();
+
+            up = dir.crossProduct(r);
+            up.normalize();
+
+            T x = -pos.dotProduct(r);
+            T y = -pos.dotProduct(up);
+            T z = -pos.dotProduct(dir);
+
+            m._11 = r._x;
+            m._21 = r._y;
+            m._31 = r._z;
+            m._41 = x;
+
+            m._12 = up._x;
+            m._22 = up._y;
+            m._32 = up._z;
+            m._42 = y;
+
+            m._13 = dir._x;
+            m._23 = dir._y;
+            m._33 = dir._z;
+            m._43 = z;
 
             return m;
         }
