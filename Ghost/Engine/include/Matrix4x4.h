@@ -1,6 +1,8 @@
 #ifndef _mRIX4X4_H_
 #define _mRIX4X4_H_
 
+#include "Quaternion.h"
+
 namespace ghost
 {
 	template<typename T>
@@ -36,6 +38,34 @@ namespace ghost
 			_31 = rhs._31, _32 = rhs._32, _33 = rhs._33, _34 = rhs._34;
 			_41 = rhs._41, _42 = rhs._42, _43 = rhs._43, _44 = rhs._44;
 		}
+
+        Matrix4x4(const Quaternion<T>& q)
+        {
+            float x2 = q._x + q._x, y2 = q._y + q._y, z2 = q._z + q._z;
+            float xx = q._x * x2, xy = q._x * y2, xz = q._x * z2;
+            float yy = q._y * y2, yz = q._y * z2, zz = q._z * z2;
+            float wx = q._w * x2, wy = q._w * y2, wz = q._w * z2;
+
+            _11 = 1 - (yy + zz);
+            _12 = xy - wz;
+            _13 = xz + wy;
+            _14 = 0;
+
+            _21 = xy + wz;
+            _22 = 1 - (xx + zz);
+            _23 = yz - wx;
+            _24 = 0;
+
+            _31 = xz - wy;
+            _32 = yz + wx;
+            _33 = 1 - (xx + yy);
+            _34 = 0;
+
+            _41 = 0;
+            _42 = 0;
+            _43 = 0;
+            _44 = 1;
+        }
 
 		Matrix4x4<T>& operator= (const Matrix4x4<T>& rhs)
 		{
@@ -287,6 +317,12 @@ namespace ghost
             m._22 = MathUtilities::cos<T>(angle);
 
             return m;
+        }
+
+        static Matrix4x4<T> rotationMatrix(Vector3<T> axis, float angle)
+        {
+            axis = axis * MathUtilities::sin<T>(angle * 0.5f);
+            return Matrix4x4<T>(Quaternion<T>(axis._x, axis._y, axis._z, MathUtilities::cos<float>(angle * 0.5)));
         }
 
         static Matrix4x4<T> perspectiveMatrix(float fov, float aspect, float n, float f)
