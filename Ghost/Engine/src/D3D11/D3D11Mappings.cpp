@@ -1,4 +1,5 @@
 #include "D3D11Mappings.h"
+#include "IndexBuffer.h"
 
 namespace ghost
 {
@@ -15,5 +16,10 @@ namespace ghost
     bool D3D11Mappings::isDynamic(BufferUsage usage)
     {
         return (usage & BufferUsage::USAGE_DYNAMIC);
+    }
+
+    DXGI_FORMAT D3D11Mappings::getFormat(IndexBuffer::IndexType type)
+    {
+        return type == IndexBuffer::INDEX_32BIT ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
     }
 }

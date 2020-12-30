@@ -14,6 +14,7 @@ namespace ghost
         static UINT getAccessFlags(BufferUsage usage);
         static bool isDynamic(BufferUsage usage);
 
+        static DXGI_FORMAT getFormat(IndexBuffer::IndexType type);
     };
 }
 
