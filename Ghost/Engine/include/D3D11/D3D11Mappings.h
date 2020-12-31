@@ -4,6 +4,8 @@
 #include "Ghost.h"
 #include "D3D11ComPtr.h"
 #include "Buffer.h"
+#include "IndexBuffer.h"
+#include "RenderSystem.h"
 
 namespace ghost
 {
@@ -15,6 +17,10 @@ namespace ghost
         static bool isDynamic(BufferUsage usage);
 
         static DXGI_FORMAT getFormat(IndexBuffer::IndexType type);
+
+        static D3D11_PRIMITIVE_TOPOLOGY getPrimitiveType(PrimitiveType pType);
+
+        static const char* getSemanticName(VertexElementSemantic semantic);
     };
 }
 

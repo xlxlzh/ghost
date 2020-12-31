@@ -1,5 +1,4 @@
 #include "D3D11Mappings.h"
-#include "IndexBuffer.h"
 
 namespace ghost
 {
@@ -21,5 +20,51 @@ namespace ghost
     DXGI_FORMAT D3D11Mappings::getFormat(IndexBuffer::IndexType type)
     {
         return type == IndexBuffer::INDEX_32BIT ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
+    }
+
+    D3D11_PRIMITIVE_TOPOLOGY D3D11Mappings::getPrimitiveType(PrimitiveType pType)
+    {
+        switch (pType)
+        {
+        case PRIMITIVE_POINTLIST:
+            return D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+        case PRIMITIVE_LINELIST:
+            return D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+        case PRIMITIVE_LINESTRIP:
+            return D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
+        case PRIMITIVE_TRIANGLELIST:
+            return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+        case PRIMITIVE_TRIANGLESTRIP:
+            return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+        default:
+            return D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
+        }
+    }
+
+    const char* D3D11Mappings::getSemanticName(VertexElementSemantic semantic)
+    {
+        switch (semantic)
+        {
+        case VES_POSITION:
+            return "POSITION";
+        case VES_BLEND_WEIGHTS:
+            return "BLENDWEIGHT";
+        case VES_BLEND_INDICES:
+            return "BLENDINDICES";
+        case VES_NORMAL:
+            return "NORMAL";
+        case VES_DIFFUSE:
+            return "COLOR";
+        case VES_SPECULAR:
+            return "COLOR";
+        case VES_TEXTURE_COORDINATES:
+            return "TEXCOORD";
+        case VES_BINORMAL:
+            return "BINNORMAL";
+        case VES_TANGENT:
+            return "TANGENT";
+        }
+
+        return "";
     }
 }
