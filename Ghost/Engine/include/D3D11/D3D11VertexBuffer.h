@@ -31,6 +31,8 @@ namespace ghost
         D3D11Buffer* _buffer;
 
     };
+
+    DECLAR_SMART_POINTER(D3D11VertexBuffer)
 }
 
 #endif
