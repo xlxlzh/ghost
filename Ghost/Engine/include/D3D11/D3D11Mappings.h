@@ -17,6 +17,7 @@ namespace ghost
         static bool isDynamic(BufferUsage usage);
 
         static DXGI_FORMAT getFormat(IndexBuffer::IndexType type);
+        static DXGI_FORMAT getFormat(VertexElementType vElemType);
 
         static D3D11_PRIMITIVE_TOPOLOGY getPrimitiveType(PrimitiveType pType);
 

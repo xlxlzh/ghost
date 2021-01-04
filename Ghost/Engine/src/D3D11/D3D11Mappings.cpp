@@ -22,6 +22,24 @@ namespace ghost
         return type == IndexBuffer::INDEX_32BIT ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
     }
 
+    DXGI_FORMAT D3D11Mappings::getFormat(VertexElementType vElemType)
+    {
+        switch (vElemType)
+        {
+        case VET_FLOAT_1:
+            return DXGI_FORMAT_R32_FLOAT;
+        case VET_FLOAT_2:
+            return DXGI_FORMAT_R32G32_FLOAT;
+        case VET_FLOAT_3:
+            return DXGI_FORMAT_R32G32B32_FLOAT;
+        case VET_FLOAT_4:
+            return DXGI_FORMAT_R32G32B32A32_FLOAT;
+        }
+
+        //Default float3
+        return DXGI_FORMAT_R32G32B32_FLOAT;
+    }
+
     D3D11_PRIMITIVE_TOPOLOGY D3D11Mappings::getPrimitiveType(PrimitiveType pType)
     {
         switch (pType)
