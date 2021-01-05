@@ -3,6 +3,7 @@
 #include "D3D11RenderDevice.h"
 
 #include "LogManager.h"
+#include "Mesh.h"
 
 namespace ghost
 {
@@ -41,6 +42,7 @@ namespace ghost
 
     void* D3D11Buffer::_mapImpl(unsigned offset, unsigned length, BufferLockFlag flag)
     {
+        void* pRet = nullptr;
         if (length > _bufferSize)
         {
             _desc.ByteWidth = _bufferSize;
@@ -76,7 +78,6 @@ namespace ghost
                 break;
             }
 
-            void* pRet = nullptr;
             D3D11_MAPPED_SUBRESOURCE mapSub;
             mapSub.pData = nullptr;
             
@@ -88,12 +89,13 @@ namespace ghost
             }
 
             pRet = static_cast<void*>(static_cast<char*>(mapSub.pData) + offset);
-            return pRet;
         }
         else
         {
             //TODO
         }
+
+        return pRet;
     }
 
     void D3D11Buffer::_unmapImpl()
@@ -106,6 +108,9 @@ namespace ghost
     {
         void* pData = map(offset, length, discardBuffer ? BufferLockFlag::LOCK_DISCARD : BufferLockFlag::LOCK_NORMAL);
         memcpy(pData, src, length);
+        MeshVertex* forDebug = (MeshVertex*)pData;
+        ++forDebug;
+        ++forDebug;
         unmap();
     }
 

@@ -7,6 +7,8 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "ConstBuffer.h"
+#include "VertexDeclaration.h"
+#include "Material.h"
 
 namespace ghost
 {
@@ -20,10 +22,12 @@ namespace ghost
         
         virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
         virtual Shader* createShader(const ShaderResource* shadersRes) = 0;
+        virtual void reflectShader(const ShaderResource* shadersRes, ShaderParamsList& params) = 0;
 
         virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage) = 0;
         virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage) = 0;
         virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name) = 0;
+        virtual VertexDeclarationPtr createVertexDeclaration() = 0;
 
     protected:
         unsigned _sampleCount;

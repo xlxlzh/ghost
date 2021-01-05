@@ -5,7 +5,7 @@ namespace ghost
     D3D11IndexBuffer::D3D11IndexBuffer(IndexType iType, unsigned numIndex, BufferUsage usage, D3D11RenderDevice& device, bool useSystemMem) :
         IndexBuffer(iType, numIndex, usage, useSystemMem)
     {
-        _buffer = new D3D11Buffer(D3D11Buffer::BUFFER_INDEX, numIndex, usage, useSystemMem, device);
+        _buffer = new D3D11Buffer(D3D11Buffer::BUFFER_INDEX, _bufferSize, usage, useSystemMem, device);
     }
 
     D3D11IndexBuffer::~D3D11IndexBuffer()

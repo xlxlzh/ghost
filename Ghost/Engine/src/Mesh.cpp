@@ -1,4 +1,10 @@
 #include "Mesh.h"
+#include "Engine.h"
+
+//assimp
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
 
 namespace ghost
@@ -25,6 +31,29 @@ namespace ghost
 
             for (auto mesh : _assimpMeshes)
                 _processMesh(mesh, scene);
+        }
+
+        if (!_vertices.empty())
+        {
+            _vertexBuffer = Engine::getInstance()->getRenderDevice()->createVertexBuffer(
+                sizeof(MeshVertex), _vertices.size(), BufferUsage::USAGE_DYNAMIC);
+            _vertexBuffer->writeData(0, sizeof(MeshVertex) * _vertices.size(), &_vertices[0], true);
+
+            _bindings = std::make_shared<VertexBufferBinding>();
+            _bindings->setBinding(0, _vertexBuffer);
+
+            _indexBuffer = Engine::getInstance()->getRenderDevice()->createIndexBuffer(
+            IndexBuffer::INDEX_32BIT, _indices.size(), BufferUsage::USAGE_DYNAMIC);
+            _indexBuffer->writeData(0, sizeof(unsigned int) * _indices.size(), &_indices[0], true);
+
+            _vertexDec = Engine::getInstance()->getRenderDevice()->createVertexDeclaration();
+
+            unsigned offset = 0;
+            _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_POSITION);
+            offset += VertexElement::getTypeSize(VET_FLOAT_3);
+            _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_NORMAL);
+            offset += VertexElement::getTypeSize(VET_FLOAT_3);
+            _vertexDec->addElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
         }
 
         return true;

@@ -9,6 +9,7 @@
 #include "DepthStencilTarget.h"
 #include "RenderConfig.h"
 #include "Material.h"
+#include "VertexBufferBinding.h"
 
 namespace ghost
 {
@@ -36,6 +37,18 @@ namespace ghost
         CLEAR_ALL = CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL
     };
 
+    enum PrimitiveType
+    {
+        PRIMITIVE_UNDEFINED             = 0,
+        PRIMITIVE_POINTLIST             = 1,
+
+        PRIMITIVE_LINELIST              = 2,
+        PRIMITIVE_LINESTRIP             = 3,
+
+        PRIMITIVE_TRIANGLELIST          = 4,
+        PRIMITIVE_TRIANGLESTRIP         = 5
+    };
+
     class RenderSystem
     {
     public:
@@ -45,14 +58,24 @@ namespace ghost
         virtual void setClearColor(Color cl = Color::Black);
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) = 0;
 
-        virtual void setMaterial(const Material& mat);
+        virtual void setVertexBuffer(VertexBufferPtr vBuffer) = 0;
+        virtual void setVertexBufferBinding(VertexBufferBinding* binding) = 0;
+        virtual void setIndexBuffer(IndexBufferPtr iBuffer) = 0;
+        virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) = 0;
+
+        virtual void setPrimitiveType(PrimitiveType pType) = 0;
+
+        virtual void setMaterial(Material* mat);
 
         virtual void setShader(const Shader* shader) = 0;
-        virtual void drawPrimitive() = 0;
-        virtual void drawPrimitiveIndexed() = 0;
+        virtual void drawPrimitive(unsigned numVertices, unsigned startIndex) = 0;
+        virtual void drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) = 0;
         virtual void drawPrimitiveInstance() = 0;
 
         virtual void endScene() = 0;
+
+        //Test interface
+        virtual void useDefaultRenderTarget() { }
 
     protected:
         Color _clearColor;
@@ -60,7 +83,7 @@ namespace ghost
         RenderTargetPtr _activeRenerTarget = nullptr;
         RenderDevicePtr _renderDevice = nullptr;
 
-        Material _currentMaterial;
+        Material* _currentMaterial;
     };
 
     DECLAR_SMART_POINTER(RenderSystem)

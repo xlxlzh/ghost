@@ -58,6 +58,8 @@ namespace ghost
             ResHandle shaderHandle = ResourceManager::getInstance()->addResource(RESOURCE_SHADER, shaderSource->Value(), 0);
             _shaderResource = dynamic_cast<ShaderResource*>(ResourceManager::getInstance()->getResourceByHandle(shaderHandle));
 
+            auto renderDevice = Engine::getInstance()->getRenderDevice();
+
             const tinyxml2::XMLElement* shaderEntry = shader->FirstChildElement();
             while (shaderEntry)
             {
@@ -68,11 +70,17 @@ namespace ghost
                 if (entry)
                 {
                     const char* entryName = entry->Value();
-                    auto renderDevice = Engine::getInstance()->getRenderDevice();
                     renderDevice->compileShader(type, entryName, _defines, *_shaderResource);
                 }
 
                 shaderEntry = shaderEntry->NextSiblingElement();
+            }
+
+            //Shader reflection
+            const ShaderByteCode* byteCode = _shaderResource->getByteCodeByType(SHADER_VS);
+            if (byteCode)
+            {
+                renderDevice->reflectShader(_shaderResource, _params);
             }
         }
 

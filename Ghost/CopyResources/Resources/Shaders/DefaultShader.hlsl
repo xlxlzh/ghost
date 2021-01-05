@@ -13,14 +13,14 @@ SamplerState samplerNormal;
 
 struct vs_input
 {
-    float4 position : POSITION0;
+    float3 position : POSITION0;
+    float3 normal   : NORMAL0;
     float2 uv       : TEXCOORD0;
-    float3 normal   : NORMAL;
 };
 
 float4 vs_main(vs_input input) : SV_POSITION
 {
-    return mul(input.position, matWorld);
+    return float4(input.position, 1.0);
 }
 
 float4 ps_main() : SV_TARGET

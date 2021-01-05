@@ -5,6 +5,7 @@
 #include "D3D11ConstBuffer.h"
 #include "D3D11VertexBuffer.h"
 #include "D3D11IndexBuffer.h"
+#include "D3D11VertexDeclaration.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -72,6 +73,9 @@ namespace ghost
         _sampleCount = msaaCount;
         _sampleQulity = msaaQuality;
         _fullscreen = fullscreen;
+
+        _width = Engine::getInstance()->getWidth();
+        _height = Engine::getInstance()->getHeight();
 
         return _initSwapchain();
     }
@@ -216,6 +220,8 @@ namespace ghost
             {
                 GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed.", shader.getName());
             }
+
+            return false;
         }
 
         shader.updateByteCodes(type, (unsigned char*)byteCode->GetBufferPointer(), byteCode->GetBufferSize());
@@ -263,6 +269,51 @@ namespace ghost
         return hardwareShader;
     }
 
+    void D3D11RenderDevice::reflectShader(const ShaderResource* shadersRes, ShaderParamsList& params)
+    {
+        if (!shadersRes)
+            return;
+
+        for (unsigned i = 0; i < ShaderType::SHADER_NONE; ++i)
+        {
+            const ShaderByteCode* byteCode = shadersRes->getByteCodeByType((ShaderType)i);
+            if (!byteCode)
+                continue;
+
+            ID3D11ShaderReflectionPtr shaderRef = nullptr;
+            HRESULT hr = D3DReflect(&byteCode->ByteCode[0], byteCode->ByteCodeSize, IID_ID3D11ShaderReflection, (void**)shaderRef.ReleaseAndGetAddressOf());
+            if (FAILED(hr))
+            {
+                GHOST_LOG_FORMAT_ERROR("D3D11RenderDevice::reflectShader error");
+                return;
+            }
+
+            D3D11_SHADER_DESC shaderDesc;
+            hr = shaderRef->GetDesc(&shaderDesc);
+            if (FAILED(hr))
+            {
+                GHOST_LOG_FORMAT_ERROR("Can not get reflect info for D3D11 shader.");
+                return;
+            }
+
+            //For vertex shader, we should reflect vertex inputlayout
+            if (i == ShaderType::SHADER_VS)
+            {
+                for (UINT i = 0; i < shaderDesc.InputParameters; ++i)
+                {
+                    D3D11_SIGNATURE_PARAMETER_DESC curParam;
+                    shaderRef->GetInputParameterDesc(i, &curParam);
+
+                    InputSignature sig;
+                    sig._index = curParam.SemanticIndex;
+                    sig._semantic = curParam.SemanticName;
+                    sig._slot = curParam.Stream;
+                    params[SHADER_VS]._sigDesc.push_back(InputSignature(sig));
+                }
+            }
+        }
+    }
+
     ConstBufferPtr D3D11RenderDevice::createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name)
     {
         return std::make_shared<D3D11ConstBuffer>(bufferSize, usage, *this, name);
@@ -276,5 +327,10 @@ namespace ghost
     VertexBufferPtr D3D11RenderDevice::createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage)
     {
         return std::make_shared<D3D11VertexBuffer>(VertexSize, numVertices, usage, *this, false);
+    }
+
+    VertexDeclarationPtr D3D11RenderDevice::createVertexDeclaration()
+    {
+        return std::make_shared<D3D11VertexDeclaration>(*this);
     }
 }

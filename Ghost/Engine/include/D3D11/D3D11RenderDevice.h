@@ -15,10 +15,12 @@ namespace ghost
 
         virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) override;
         virtual Shader* createShader(const ShaderResource* shadersRes) override;
+        virtual void reflectShader(const ShaderResource* shadersRes, ShaderParamsList& params) override;
 
         virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage) override;
         virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage) override;
         virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name) override;
+        virtual VertexDeclarationPtr createVertexDeclaration() override;
 
         ID3D11DevicePtr getDevice() const { return _device; }
         ID3D11DeviceContextPtr getContext() const { return _context; }

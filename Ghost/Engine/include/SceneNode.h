@@ -17,6 +17,7 @@ namespace ghost
 
     class Octree;
     class SceneManager;
+    class Camera;
 
     class GHOST_API SceneNode
     {
@@ -45,6 +46,8 @@ namespace ghost
         bool isIn(const BoundingBox& inBox) const { return true; }
 
         virtual SceneNodeType getType() const { return SCENENODE_UNDEFINED; }
+
+        virtual void render(Camera* cam) { }
 
     protected:
         std::string _name;

@@ -1,8 +1,13 @@
 #include "D3D11RenderSystem.h"
 #include "Engine.h"
+#include "D3D11Mappings.h"
 #include "D3D11RenderTarget.h"
 #include "D3D11DepthStencilTarget.h"
 #include "D3D11HardwareShader.h"
+#include "D3D11VertexBuffer.h"
+#include "D3D11IndexBuffer.h"
+#include "D3D11VertexDeclaration.h"
+#include "LogManager.h"
 
 namespace ghost
 {
@@ -104,14 +109,137 @@ namespace ghost
         }
     }
 
-    void D3D11RenderSystem::drawPrimitive()
+    void D3D11RenderSystem::setVertexBuffer(VertexBufferPtr vBuffer)
     {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
+        D3D11VertexBufferPtr vBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11VertexBuffer, vBuffer);
+        ID3D11Buffer* buffers[] = {vBufferPtr->getD3DVertexBuffer()};
+        UINT strides[] = { vBufferPtr->getVertexSize() };
+        UINT offset = 0;
+
+        devicePtr->_context->IASetVertexBuffers(0, 0, buffers, strides, &offset);
     }
 
-    void D3D11RenderSystem::drawPrimitiveIndexed()
+    void D3D11RenderSystem::setVertexBufferBinding(VertexBufferBinding* binding)
     {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
+        const VertexBufferBindingMap& bindings = binding->getBindings();
+        for (auto itBind : bindings)
+        {
+            D3D11VertexBufferPtr d3d11Buffer = GHOST_SMARTPOINTER_CAST(D3D11VertexBuffer, itBind.second);
+
+            UINT stride = d3d11Buffer->getVertexSize();
+            UINT offset = 0;
+            UINT slot = itBind.first;
+
+            ID3D11Buffer* vBuffer = d3d11Buffer->getD3DVertexBuffer();
+            devicePtr->_context->IASetVertexBuffers(slot, 1, &vBuffer, &stride, &offset);
+        }
+    }
+
+    void D3D11RenderSystem::setIndexBuffer(IndexBufferPtr iBuffer)
+    {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+
+        D3D11IndexBufferPtr iBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11IndexBuffer, iBuffer);
+        devicePtr->_context->IASetIndexBuffer(iBufferPtr->getD3DIndexBuffer(), D3D11Mappings::getFormat(iBufferPtr->getIndexType()), 0);
+    }
+
+    void D3D11RenderSystem::setVertexDeclaration(VertexDeclarationPtr vDecl)
+    {
+        if (_currentMaterial)
+        {
+            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+
+            D3D11VertexDeclarationPtr d3d11Decl = GHOST_SMARTPOINTER_CAST(D3D11VertexDeclaration, vDecl);
+
+            InputSignatureList* signatures = _currentMaterial->getShaderInputSignature();
+            auto inputIt = _inputlayouts.find(signatures);
+            if (inputIt != _inputlayouts.end())
+            {
+                ID3D11InputLayout* d3d11Input = inputIt->second.Get();
+                devicePtr->_context->IASetInputLayout(d3d11Input);
+            }
+            else
+            {
+                const auto& elements = d3d11Decl->getElements();
+
+                std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc;
+
+                InputSignatureList sigs = *signatures;
+                for (auto& matSig : sigs)
+                {
+                    bool found = false;
+                    std::list<VertexElement>::const_iterator itEle;
+                    for (itEle = elements.begin(); itEle != elements.end(); ++itEle)
+                    {
+                        const char* semanticName = D3D11Mappings::getSemanticName(itEle->getSemantic());
+                        unsigned semanticIndex = itEle->getIndex();
+
+                        if (strcmp(semanticName, matSig._semantic.c_str()) == 0
+                            && semanticIndex == matSig._index)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        GHOST_LOG_FORMAT_ERROR("No vertex element for semantic %s%s in shader %s found",
+                            matSig._semantic.c_str(), matSig._index, _currentMaterial->getName());
+                    }
+
+                    D3D11_INPUT_ELEMENT_DESC elem = {};
+                    elem.SemanticName = matSig._semantic.c_str();
+                    elem.SemanticIndex = matSig._index;
+                    elem.Format = D3D11Mappings::getFormat(itEle->getType());
+                    elem.InputSlot = itEle->getStreamSlot();
+                    elem.AlignedByteOffset = itEle->getOffset();
+                    elem.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+                    elem.InstanceDataStepRate = 0;
+                    inputDesc.push_back(elem);
+                }
+
+                if (!inputDesc.empty())
+                {
+                    auto shaderRes = _currentMaterial->getLinkedShader();
+                    auto shaderBytecode = shaderRes->getByteCodeByType(SHADER_VS);
+
+                    ID3D11InputLayoutPtr inputlayoutPtr = nullptr;
+                    HRESULT hr = devicePtr->_device->CreateInputLayout(&inputDesc[0], inputDesc.size(),
+                        &shaderBytecode->ByteCode[0], shaderBytecode->ByteCodeSize, inputlayoutPtr.ReleaseAndGetAddressOf());
+                    if (FAILED(hr))
+                    {
+                        GHOST_LOG_FORMAT_ERROR("Can not CreateInputLayout");
+                    }
+
+                    _inputlayouts[signatures] = inputlayoutPtr;
+
+                    devicePtr->_context->IASetInputLayout(inputlayoutPtr.Get());
+                }
+            }
+        }
+    }
+
+    void D3D11RenderSystem::setPrimitiveType(PrimitiveType pType)
+    {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_context->IASetPrimitiveTopology(D3D11Mappings::getPrimitiveType(pType));
+    }
+
+    void D3D11RenderSystem::drawPrimitive(unsigned numVertices, unsigned startIndex)
+    {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_context->Draw(numVertices, startIndex);
+    }
+
+    void D3D11RenderSystem::drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex)
+    {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_context->DrawIndexed(numIndices, indexLocation, baseVertIndex);
     }
 
     void D3D11RenderSystem::drawPrimitiveInstance()
@@ -144,5 +272,22 @@ namespace ghost
     {
         D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(Engine::getInstance()->getRenderDevice());
         d3dDevice->_dxgiSwapchain->Present(0, 0);
+    }
+
+    void D3D11RenderSystem::useDefaultRenderTarget()
+    {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+
+        D3D11_VIEWPORT vp;
+        vp.Width = devicePtr->_width;
+        vp.Height = devicePtr->_height;
+        vp.TopLeftX = 0.0;
+        vp.TopLeftY = 0.0;
+        vp.MinDepth = 0.0;
+        vp.MaxDepth = 1.0;
+
+        devicePtr->_context->RSSetViewports(1, &vp);
+
+        devicePtr->_context->OMSetRenderTargets(1, devicePtr->_defaultRenderView.GetAddressOf(), devicePtr->_defaultDepthView.Get());
     }
 }

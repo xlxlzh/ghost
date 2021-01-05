@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "Octree.h"
+#include "Engine.h"
 
 namespace ghost
 {
@@ -184,6 +185,16 @@ namespace ghost
 
     void SceneManager::render(Camera* camera)
     {
+        auto renderSystem = Engine::getInstance()->getRenderSystem();
+        renderSystem->useDefaultRenderTarget();
+        renderSystem->clearRenderTarget();
 
+        //Now, we don't cull scene, just render all the objects. I will do other works later.
+        for (auto& sc : _sceneNodes)
+        {
+            sc->render(camera);
+        }
+
+        renderSystem->endScene();
     }
 }

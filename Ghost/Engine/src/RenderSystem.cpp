@@ -8,10 +8,13 @@ namespace ghost
         _clearColor = cl;
     }
 
-    void RenderSystem::setMaterial(const Material& mat)
+    void RenderSystem::setMaterial(Material* mat)
     {
-        _currentMaterial = mat;
+        if (_currentMaterial != mat)
+        {
+            _currentMaterial = mat;
 
-        _currentMaterial.apply();
+            _currentMaterial->apply();
+        }
     }
 }

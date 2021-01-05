@@ -13,8 +13,8 @@ namespace ghost
         virtual void setRenderTarget(RenderTargetPtr rt) override;
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
-        virtual void drawPrimitive() override;
-        virtual void drawPrimitiveIndexed() override;
+        virtual void drawPrimitive(unsigned numVertices, unsigned startIndex) override;
+        virtual void drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) override;
         virtual void drawPrimitiveInstance() override;
 
         virtual void endScene() override;

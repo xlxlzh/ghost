@@ -10,10 +10,13 @@ namespace ghost
         {
         case INDEX_16BIT:
             _indexSize = sizeof(unsigned short);
+            break;
         case INDEX_32BIT:
             _indexSize = sizeof(unsigned int);
             break;
         }
+
+        _bufferSize = numIndex * _indexSize;
     }
 
     IndexBuffer::~IndexBuffer()

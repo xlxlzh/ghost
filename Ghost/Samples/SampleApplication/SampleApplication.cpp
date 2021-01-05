@@ -1,5 +1,6 @@
 #include "SampleApplication.h"
 #include "Engine.h"
+#include "MeshNode.h"
 #include <windows.h>
 
 void SampleApplication::onInit()
@@ -12,18 +13,21 @@ void SampleApplication::onInit()
     _generateResourcesPath(fileSystem->getCurrentDir());
 
     ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
-    ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0);
+    ResHandle matHanle = ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0);
+    Material* matDef = (Material*)ResourceManager::getInstance()->getResourceByHandle(matHanle);
 
-    ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/house.obj", 0);
+    ResHandle houseNodeHandle = ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/house.obj", 0);
+    Mesh* houseRes = (Mesh*)ResourceManager::getInstance()->getResourceByHandle(houseNodeHandle);
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
 
-    _scene->addNodeToRoot(_mainCamera);
+    MeshNode* houseNode = new MeshNode(_scene);
+    houseNode->setMesh(houseRes);
+    houseNode->setMaterial(matDef);
+    _scene->addNodeToRoot(houseNode);
 
-    VertexBufferPtr buffer = Engine::getInstance()->getRenderDevice()->createVertexBuffer(4, 1, BufferUsage::USAGE_DYNAMIC);
-    int test = 999999;
-    buffer->writeData(0, 4, &test, true);
+    _scene->addNodeToRoot(_mainCamera);
 }
 
 void SampleApplication::onExit()
@@ -42,9 +46,6 @@ void SampleApplication::onUpdate()
 {
     _scene->updateSceneGraph(_mainCamera);
     _scene->render(_mainCamera);
-    auto ri = Engine::getInstance()->getRenderSystem();
-    ri->clearRenderTarget(TargetClear::CLEAR_ALL, Color::Blue);
-    ri->endScene();
 }
 
 void SampleApplication::_generateResourcesPath(const std::string& workdir)

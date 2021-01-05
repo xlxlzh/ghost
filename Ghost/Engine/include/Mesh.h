@@ -11,6 +11,11 @@
 #include "Vector3.h"
 #include "Vector2.h"
 
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexDeclaration.h"
+#include "VertexBufferBinding.h"
+
 namespace ghost
 {
     struct GHOST_API MeshVertex
@@ -23,6 +28,7 @@ namespace ghost
     //We only just use a model contain one submesh, next to do others.
     class GHOST_API Mesh : public Resource
     {
+        friend class MeshNode;
     public:
         Mesh() : Mesh(RESOURCE_MESH, "", 0) { }
         Mesh(int type, const std::string& name, int flags);
@@ -40,6 +46,13 @@ namespace ghost
 
         std::vector<MeshVertex> _vertices;
         std::vector<unsigned> _indices;
+
+        VertexBufferPtr _vertexBuffer;
+        IndexBufferPtr _indexBuffer;
+
+        VertexBufferBindingPtr _bindings;
+
+        VertexDeclarationPtr _vertexDec;
     };
 }
 

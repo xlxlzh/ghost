@@ -11,12 +11,12 @@ namespace ghost
     {
     }
 
-    void D3D12RenderSystem::drawPrimitive()
+    void D3D12RenderSystem::drawPrimitive(unsigned numVertices, unsigned startIndex)
     {
 
     }
 
-    void D3D12RenderSystem::drawPrimitiveIndexed()
+    void D3D12RenderSystem::drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex)
     {
 
     }
