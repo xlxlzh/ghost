@@ -20,6 +20,8 @@ namespace ghost
         virtual void* map(unsigned offset, unsigned length, BufferLockFlag flag) override;
         virtual void unmap() override;
 
+        ID3D11Buffer* getD3DConstBuffer() const;
+
     protected:
         //Not use two interface, use it at impl.
         virtual void* _mapImpl(unsigned offset, unsigned length, BufferLockFlag flag) override { return nullptr; }
@@ -28,6 +30,8 @@ namespace ghost
     private:
         D3D11Buffer* _buffer;
     };
+
+    DECLAR_SMART_POINTER(D3D11ConstBuffer);
 }
 
 #endif

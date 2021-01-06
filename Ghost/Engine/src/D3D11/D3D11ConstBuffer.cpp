@@ -33,4 +33,9 @@ namespace ghost
     {
         _buffer->writeData(offset, length, src, discardBuffer);
     }
+
+    ID3D11Buffer* D3D11ConstBuffer::getD3DConstBuffer() const
+    {
+        return _buffer->getD3DBuffer();
+    }
 }
