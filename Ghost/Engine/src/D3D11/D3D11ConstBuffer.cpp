@@ -3,7 +3,7 @@
 namespace ghost
 {
     D3D11ConstBuffer::D3D11ConstBuffer(unsigned bufferSize, BufferUsage usage, D3D11RenderDevice& device, const std::string& name /* = "" */) :
-        ConstBuffer(bufferSize ,usage, false),
+        ConstBuffer(bufferSize ,usage, name),
         _buffer(nullptr)
     {
         _buffer = new D3D11Buffer(D3D11Buffer::BUFFER_CONSTANT, bufferSize, usage, false, device);
