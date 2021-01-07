@@ -108,9 +108,6 @@ namespace ghost
     {
         void* pData = map(offset, length, discardBuffer ? BufferLockFlag::LOCK_DISCARD : BufferLockFlag::LOCK_NORMAL);
         memcpy(pData, src, length);
-        MeshVertex* forDebug = (MeshVertex*)pData;
-        ++forDebug;
-        ++forDebug;
         unmap();
     }
 
