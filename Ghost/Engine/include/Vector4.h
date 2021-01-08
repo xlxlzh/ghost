@@ -13,7 +13,7 @@ namespace ghost
 		Vector4(T x, T y, T z, T w) : _x(x), _y(y), _z(z), _w(w) { }
 		Vector4(T rhs) : _x(rhs), _y(rhs), _z(rhs), _w(rhs) { }
 		Vector4(const T* arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]), _w(arr[3]) { }
-		Vector4(T const* arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]), _w(arr[3]) { }
+		Vector4(T* const arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]), _w(arr[3]) { }
 
 		Vector4(const Vector4<T>& rhs) : _x(rhs._x), _y(rhs._y), _z(rhs._z), _w(rhs._w) { }
 

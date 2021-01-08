@@ -183,6 +183,11 @@ namespace ghost
 			return *this;
 		}
 
+        const T* getAddress()
+        {
+            return &_m[0];
+        }
+        
 		Matrix4x4<T> transpose() const
 		{
 			Matrix4x4<T> m(*this);
