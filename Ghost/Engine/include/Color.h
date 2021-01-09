@@ -56,6 +56,7 @@ namespace ghost
         static Color Red;
         static Color Blue;
         static Color Green;
+        static Color White;
 
     public:
         union
