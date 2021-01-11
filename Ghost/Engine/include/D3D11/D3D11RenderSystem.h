@@ -17,6 +17,7 @@ namespace ghost
         virtual void setVertexBufferBinding(VertexBufferBinding* binding) override;
         virtual void setIndexBuffer(IndexBufferPtr iBuffer) override;
         virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) override;
+        virtual void setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) override;
 
         virtual void setPrimitiveType(PrimitiveType pType) override;
 

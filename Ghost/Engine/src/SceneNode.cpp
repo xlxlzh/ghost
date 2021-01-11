@@ -43,6 +43,8 @@ namespace ghost
         
         _owner->updateNode(this);
 
+        onPostUpdate();
+
         _dirty = false;
 
         for (auto& child : _children)

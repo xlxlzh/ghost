@@ -7,6 +7,7 @@
 #include "D3D11VertexBuffer.h"
 #include "D3D11IndexBuffer.h"
 #include "D3D11VertexDeclaration.h"
+#include "D3D11ConstBuffer.h"
 #include "LogManager.h"
 
 namespace ghost
@@ -224,6 +225,38 @@ namespace ghost
         }
     }
 
+    void D3D11RenderSystem::setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer)
+    {
+        if (_currentMaterial == nullptr)
+            return;
+
+        unsigned slot = _currentMaterial->getConstBufferSlot(shaderType, constBuffer->getName());
+
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        D3D11ConstBufferPtr constBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11ConstBuffer, constBuffer);
+        ID3D11Buffer* buffers[] = { constBufferPtr->getD3DConstBuffer() };
+        switch (shaderType)
+        {
+        case SHADER_VS:
+            devicePtr->_context->VSSetConstantBuffers(slot, 1, buffers);
+            break;
+        case SHADER_PS:
+            devicePtr->_context->PSSetConstantBuffers(slot, 1, buffers);
+            break;
+        case SHADER_GS:
+            devicePtr->_context->GSSetConstantBuffers(slot, 1, buffers);
+            break;
+        case SHADER_HS:
+            devicePtr->_context->HSSetConstantBuffers(slot, 1, buffers);
+            break;
+        case SHADER_DS:
+            devicePtr->_context->DSSetConstantBuffers(slot, 1, buffers);
+            break;
+        default:
+            break;
+        }
+    }
+
     void D3D11RenderSystem::setPrimitiveType(PrimitiveType pType)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
@@ -244,7 +277,7 @@ namespace ghost
 
     void D3D11RenderSystem::drawPrimitiveInstance()
     {
-
+        //TODO
     }
 
     void D3D11RenderSystem::setShader(const Shader* shader)

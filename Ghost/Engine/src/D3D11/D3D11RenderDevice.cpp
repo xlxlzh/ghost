@@ -209,12 +209,13 @@ namespace ghost
         macros.push_back(endMacro);
 
         ID3DBlobPtr byteCode, errorMsg;
-        HRESULT hr = D3DCompile(rowdata, dataSize, shader.getName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], 0, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
+        HRESULT hr = D3DCompile(rowdata, dataSize, shader.getName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], D3DCOMPILE_PACK_MATRIX_ROW_MAJOR | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
         if (FAILED(hr) || errorMsg)
         {
             if (errorMsg)
             {
-                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", shader.getName(), (char*)errorMsg->GetBufferPointer());
+                const char* msg = (const char*)errorMsg->GetBufferPointer();
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", shader.getName(), (const char*)errorMsg->GetBufferPointer());
             }   
             else
             {
@@ -229,7 +230,7 @@ namespace ghost
         return true;
     }
 
-    Shader* D3D11RenderDevice::createShader(const ShaderResource* shadersRes)
+    Shader* D3D11RenderDevice::createShader(const ShaderResourcePtr& shadersRes)
     {
         if (shadersRes == nullptr)
             return nullptr;
@@ -269,7 +270,7 @@ namespace ghost
         return hardwareShader;
     }
 
-    void D3D11RenderDevice::reflectShader(const ShaderResource* shadersRes, ShaderParamsList& params)
+    void D3D11RenderDevice::reflectShader(const ShaderResourcePtr& shadersRes, ShaderParamsList& params)
     {
         if (!shadersRes)
             return;
@@ -309,6 +310,46 @@ namespace ghost
                     sig._semantic = curParam.SemanticName;
                     sig._slot = curParam.Stream;
                     params[SHADER_VS]._sigDesc.push_back(InputSignature(sig));
+                }
+            }
+
+            //Reflect const buffers.
+            ConstBufferParamsList& constBufferLists = params[i]._constBuffers;
+            for (unsigned i = 0; i < shaderDesc.BoundResources; ++i)
+            {
+                D3D11_SHADER_INPUT_BIND_DESC inputBindDesc;
+                shaderRef->GetResourceBindingDesc(i, &inputBindDesc);
+
+                if (inputBindDesc.Type == D3D_SIT_CBUFFER)
+                {
+                    ConstBufferInfo cbInfo;
+                    cbInfo._name = inputBindDesc.Name;
+                    cbInfo._bindPoint = inputBindDesc.BindPoint;
+
+                    ID3D11ShaderReflectionConstantBuffer* cb = shaderRef->GetConstantBufferByName(inputBindDesc.Name);
+                    D3D11_SHADER_BUFFER_DESC cbDesc;
+                    cb->GetDesc(&cbDesc);
+                    cbInfo._bufferSize = cbDesc.Size;
+
+                    for (unsigned j = 0; j < cbDesc.Variables; ++j)
+                    {
+                        ID3D11ShaderReflectionVariable* var = cb->GetVariableByIndex(j);
+                        D3D11_SHADER_VARIABLE_DESC varDesc;
+                        var->GetDesc(&varDesc);
+
+                        ConstBufferVariable bufferVar;
+                        bufferVar._name = varDesc.Name;
+                        bufferVar._offset = varDesc.StartOffset;
+                        bufferVar._size = varDesc.Size;
+
+                        cbInfo._variables.push_back(bufferVar);
+                    }
+
+                    constBufferLists.push_back(cbInfo);
+                }
+                else if (inputBindDesc.Type == D3D_SIT_TEXTURE)
+                {
+                    //TODO
                 }
             }
         }

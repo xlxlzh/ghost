@@ -1,15 +1,23 @@
-uniform float4x4 matWorld;
-uniform float4x4 matWorldViewProj;
-
-cbuffer UpdatePerFrame
+cbuffer PerObject
 {
-    float4x4 TestConstBuffer;
+    float4x4 matWorldViewProj;
+    float4x4 matWorld;
+    float4x4 matWorldInverseTranspose;
+};
+
+cbuffer PerFrame
+{
+    float4 cameraPos;
+};
+
+cbuffer MainLight
+{
+    float3 lightDir;
+    float3 lightColor;
 };
 
 Texture2D texAlbedo;
 Texture2D texNormal;
-
-SamplerState samplerNormal;
 
 struct vs_input
 {
@@ -18,12 +26,28 @@ struct vs_input
     float2 uv       : TEXCOORD0;
 };
 
-float4 vs_main(vs_input input) : SV_POSITION
+struct ps_input
 {
-    return float4(input.position, 1.0);
+    float4 position : SV_POSITION;
+    float3 wpos : POSITION;
+    float3 wnormal : NORMAL;
+};
+
+ps_input vs_main(vs_input input)
+{
+    ps_input pInput;
+    pInput.position = mul(float4(input.position, 1.0), matWorldViewProj);
+    pInput.wnormal = mul(input.normal ,(float3x3)matWorldInverseTranspose);
+    pInput.wpos = mul(float4(input.position, 1.0), matWorld).xyz;
+    return pInput;
 }
 
-float4 ps_main() : SV_TARGET
+float4 ps_main(ps_input pInput) : SV_TARGET
 {
-    return float4(1.0, 0.0, 0.0, 1.0);
+    float3 eyeDir = normalize(cameraPos.xyz - pInput.wpos);
+    float3 wnormal = normalize(pInput.wnormal);
+    float diffuse = saturate(dot(eyeDir, wnormal));
+
+    float3 color = diffuse * lightColor;
+    return float4(color, 1.0);
 }

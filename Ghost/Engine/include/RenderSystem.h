@@ -62,10 +62,11 @@ namespace ghost
         virtual void setVertexBufferBinding(VertexBufferBinding* binding) = 0;
         virtual void setIndexBuffer(IndexBufferPtr iBuffer) = 0;
         virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) = 0;
+        virtual void setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) = 0;
 
         virtual void setPrimitiveType(PrimitiveType pType) = 0;
 
-        virtual void setMaterial(Material* mat);
+        virtual void setMaterial(const MaterialPtr& mat);
 
         virtual void setShader(const Shader* shader) = 0;
         virtual void drawPrimitive(unsigned numVertices, unsigned startIndex) = 0;
@@ -83,7 +84,7 @@ namespace ghost
         RenderTargetPtr _activeRenerTarget = nullptr;
         RenderDevicePtr _renderDevice = nullptr;
 
-        Material* _currentMaterial;
+        MaterialPtr _currentMaterial = nullptr;
     };
 
     DECLAR_SMART_POINTER(RenderSystem)

@@ -21,7 +21,10 @@ namespace ghost
         RESOURCE_MESH,
     };
 
-    using ResHandle = unsigned int;
+    class Resource;
+
+    DECLAR_SMART_POINTER(Resource);
+
     class GHOST_API Resource
     {
         friend class ResourceManager;
@@ -29,7 +32,7 @@ namespace ghost
         Resource(int type) : _type(type) { }
         Resource(int type, const std::string &name, int flags);
         virtual ~Resource();
-        virtual Resource* clone();
+        virtual ResourcePtr clone();
 
         virtual void initDefault();
         virtual void release();
@@ -41,10 +44,6 @@ namespace ghost
         const std::string& getName() const { return _name; }
         void setName(const std::string& name) { _name = name; }
         bool isLoaded() const { return _loaded; }
-        ResHandle getHandle() const { return _handle; }
-
-        void addRef() { ++_refCount; }
-        void subRef() { --_refCount; assert(_refCount >= 0); }
 
         static int getTypeStatic() { return RESOURCE_NONE; }
 
@@ -53,19 +52,13 @@ namespace ghost
         int                  _type = RESOURCE_NONE;
         bool                 _loaded = false;
         int                  _flags = 0;
-
-        ResHandle            _handle = 0;
-
-        unsigned             _refCount = 0;
     };
-
-    DECLAR_SMART_POINTER(Resource);
 
     class GHOST_API ResourceFactory
     {
     public:
-        virtual Resource* createResource(const std::string& name, int flags) = 0;
-        virtual void destoryResource(Resource* res) = 0;
+        virtual ResourcePtr createResource(const std::string& name, int flags) = 0;
+        virtual void destoryResource(ResourcePtr res) = 0;
         virtual int getType() = 0;
     };
 
@@ -73,16 +66,16 @@ namespace ghost
     class GHOST_API ResourceFactoryIml : public ResourceFactory
     {
     public:
-        virtual Resource* createResource(const std::string& name, int flags) override
+        virtual ResourcePtr createResource(const std::string& name, int flags) override
         {
-            Resource* res = new T();
+            ResourcePtr res = MAKE_SMART_POINTER(T);
             res->setName(name);
             return res;
         }
 
-        virtual void destoryResource(Resource* res)
+        virtual void destoryResource(ResourcePtr res)
         {
-            SAFE_DELETE(res);
+            res.reset();
         }
 
         virtual int getType()
@@ -97,13 +90,12 @@ namespace ghost
         void registerResourceFactory(ResourceFactory* factory);
         void registerResourceFactory(int type, ResourceFactory* factory);
 
-        ResHandle addResource(int type, const std::string &name, int flags);
-        ResHandle addResource(Resource& resource);
+        ResourcePtr addResource(int type, const std::string &name, int flags);
+        ResourcePtr addResource(ResourcePtr& resource);
         int removeResource(Resource &resource);
-        Resource* findResource(int type, const std::string& name) const;
-        Resource* getResourceByHandle(ResHandle handle);
+        ResourcePtr findResource(int type, const std::string& name) const;
 
-        ResHandle cloneResource(Resource& sourceResource, const std::string& name);
+        ResourcePtr cloneResource(Resource& sourceResource, const std::string& name);
 
         void clear();
 
@@ -111,7 +103,7 @@ namespace ghost
         const std::string& getResourcesPath() const { return _resourcesPath; }
 
     protected:
-        std::vector<Resource*> _resources;
+        std::vector<ResourcePtr> _resources;
         std::unordered_map<int, ResourceFactory*> _resourceFactories;
 
         std::string _resourcesPath{};

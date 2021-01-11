@@ -55,8 +55,7 @@ namespace ghost
         const tinyxml2::XMLAttribute* shaderSource = shader->FindAttribute("source");
         if (shaderSource)
         {
-            ResHandle shaderHandle = ResourceManager::getInstance()->addResource(RESOURCE_SHADER, shaderSource->Value(), 0);
-            _shaderResource = dynamic_cast<ShaderResource*>(ResourceManager::getInstance()->getResourceByHandle(shaderHandle));
+            _shaderResource = GHOST_SMARTPOINTER_CAST(ShaderResource, ResourceManager::getInstance()->addResource(RESOURCE_SHADER, shaderSource->Value(), 0));
 
             auto renderDevice = Engine::getInstance()->getRenderDevice();
 
@@ -123,5 +122,18 @@ namespace ghost
         {
             rendersystem->setShader(_handwareShader);
         }
+    }
+
+    unsigned Material::getConstBufferSlot(ShaderType type, const std::string& name)
+    {
+        ShaderParams param = _params[type];
+        auto& buffers = param._constBuffers;
+        for (auto& cb : buffers)
+        {
+            if (cb._name == name)
+                return cb._bindPoint;
+        }
+
+        return 0;
     }
 }

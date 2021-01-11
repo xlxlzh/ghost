@@ -3,11 +3,6 @@
 
 #include "Resource.h"
 
-//assimp
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-
 #include "Vector3.h"
 #include "Vector2.h"
 
@@ -15,6 +10,7 @@
 #include "IndexBuffer.h"
 #include "VertexDeclaration.h"
 #include "VertexBufferBinding.h"
+#include "ConstBuffer.h"
 
 namespace ghost
 {
@@ -36,14 +32,11 @@ namespace ghost
         virtual bool load(DataStream& dataStream) override;
 
         static int getTypeStatic() { return RESOURCE_MESH; }
+        
+        std::vector<MeshVertex>& getVertices() { return _vertices; }
+        std::vector<unsigned>& getIndices() { return _indices; }
 
     private:
-        void _processMeshNode(aiNode* node, const aiScene* scene);
-        void _processMesh(aiMesh* mesh, const aiScene* scene);
-
-    private:
-        std::vector<aiMesh*> _assimpMeshes;
-
         std::vector<MeshVertex> _vertices;
         std::vector<unsigned> _indices;
 
@@ -53,7 +46,11 @@ namespace ghost
         VertexBufferBindingPtr _bindings;
 
         VertexDeclarationPtr _vertexDec;
+
+        ConstBufferPtr _objConstBuffer;
     };
+
+    DECLAR_SMART_POINTER(Mesh);
 }
 
 #endif

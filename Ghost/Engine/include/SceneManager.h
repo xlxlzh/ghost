@@ -4,6 +4,7 @@
 #include "Ghost.h"
 #include "SceneNode.h"
 #include "Camera.h"
+#include "Light.h"
 
 namespace ghost
 {
@@ -32,6 +33,8 @@ namespace ghost
 
         void _addNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
         bool _deleteNodeFromTree(SceneNode* node);
+
+        Light* _getMainLigt() const;
 
     private:
         Octree* _octree{ nullptr };

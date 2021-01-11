@@ -177,6 +177,34 @@ namespace ghost
         }
     }
 
+    Light* SceneManager::_getMainLigt() const
+    {
+        bool hasLight = false;
+        Light* mainLight = nullptr;
+
+        for (auto& node : _sceneNodes)
+        {
+            if (node->getType() == SCENENODE_LIGHT)
+            {
+                Light* l = (Light*)node;
+
+                if (!hasLight)
+                {
+                    hasLight = true;
+                    mainLight = l;
+                }
+
+                if (l->getLightType() == LIGHT_DIRECTIONAL)
+                {
+                    mainLight = l;
+                    break;
+                }
+            }
+        }
+
+        return mainLight;
+    }
+
     void SceneManager::updateSceneGraph(Camera* camera)
     {
         (void)camera;
@@ -186,6 +214,17 @@ namespace ghost
     void SceneManager::render(Camera* camera)
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
+
+        camera->prepareForRendering();
+        renderSystem->setConstBuffer(SHADER_PS, camera->_cameraParams);
+
+        Light* mainLight = _getMainLigt();
+        if (mainLight)
+        {
+            mainLight->prepareForRendering();
+            renderSystem->setConstBuffer(SHADER_PS, mainLight->_lightBuffer);
+        }
+
         renderSystem->useDefaultRenderTarget();
         renderSystem->clearRenderTarget();
 

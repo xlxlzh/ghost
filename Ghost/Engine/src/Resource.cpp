@@ -17,7 +17,7 @@ namespace ghost
 
     }
 
-    Resource* Resource::clone()
+    ResourcePtr Resource::clone()
     {
         return nullptr;
     }
@@ -56,7 +56,7 @@ namespace ghost
         _resourceFactories[factory->getType()] = factory;
     }
 
-    ResHandle ResourceManager::addResource(int type, const std::string &name, int flags)
+    ResourcePtr ResourceManager::addResource(int type, const std::string &name, int flags)
     {
         if (name == "")
             return 0;
@@ -67,12 +67,12 @@ namespace ghost
             {
                 if (_resources[i]->_type == type)
                 {
-                    return i + 1;
+                    return _resources[i];
                 }
             }
         }
 
-        Resource* newRes = nullptr;
+        ResourcePtr newRes = nullptr;
         auto factory = _resourceFactories.find(type);
         if (factory == _resourceFactories.end())
             return 0;
@@ -100,24 +100,22 @@ namespace ghost
             return 0;
         }
 
-        return addResource(*newRes);
+        return addResource(newRes);
     }
 
-    ResHandle ResourceManager::addResource(Resource& resource)
+    ResourcePtr ResourceManager::addResource(ResourcePtr& resource)
     {
         for (unsigned i = 0; i < _resources.size(); ++i)
         {
             if (_resources[i] == nullptr)
             {
-                resource._handle = i + 1;
-                _resources[i] = &resource;
-                return resource._handle;
+                _resources[i] = resource;
+                return resource;
             }
         }
 
-        resource._handle = _resources.size() + 1;
-        _resources.push_back(&resource);
-        return resource._handle;
+        _resources.push_back(resource);
+        return resource;
     }
 
     int ResourceManager::removeResource(Resource &resource)
@@ -125,7 +123,7 @@ namespace ghost
         return 0;
     }
 
-    Resource* ResourceManager::findResource(int type, const std::string& name) const
+    ResourcePtr ResourceManager::findResource(int type, const std::string& name) const
     {
         for (auto res : _resources)
         {
@@ -138,14 +136,6 @@ namespace ghost
         return nullptr;
     }
 
-    Resource* ResourceManager::getResourceByHandle(ResHandle handle)
-    {
-        if (handle - 1 >= _resources.size() || handle <= 0)
-            return nullptr;
-
-        return _resources[handle - 1];
-    }
-
     void ResourceManager::clear()
     {
         for (unsigned i = 0; i < _resources.size(); ++i)
@@ -153,13 +143,13 @@ namespace ghost
             if (_resources[i])
             {
                 _resources[i]->release();
-                delete _resources[i];
+                _resources[i].reset();
                 _resources[i] = nullptr;
             }
         }
     }
 
-    ResHandle ResourceManager::cloneResource(Resource& sourceResource, const std::string& name)
+    ResourcePtr ResourceManager::cloneResource(Resource& sourceResource, const std::string& name)
     {
         if (name != "")
         {
@@ -172,21 +162,20 @@ namespace ghost
             }
         }
 
-        Resource* newResource = sourceResource.clone();
+        ResourcePtr newResource = sourceResource.clone();
         if (newResource == nullptr)
             return 0;
 
         newResource->_name = name != "" ? name : "tmpResource";
-        newResource->_refCount = 0;
-        int handle = addResource(*newResource);
+        addResource(newResource);
 
         if (name == "")
         {
             std::stringstream ss;
-            ss << sourceResource._name << "|" << handle;
+            ss << sourceResource._name << "|" << "emptyName";
             newResource->_name = ss.str();
         }
 
-        return handle;
+        return newResource;
     }
 }

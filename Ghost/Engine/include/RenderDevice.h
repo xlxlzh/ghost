@@ -21,8 +21,8 @@ namespace ghost
         virtual bool checkSampleCount(unsigned checkCount) = 0;
         
         virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
-        virtual Shader* createShader(const ShaderResource* shadersRes) = 0;
-        virtual void reflectShader(const ShaderResource* shadersRes, ShaderParamsList& params) = 0;
+        virtual Shader* createShader(const ShaderResourcePtr& shadersRes) = 0;
+        virtual void reflectShader(const ShaderResourcePtr& shadersRes, ShaderParamsList& params) = 0;
 
         virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage) = 0;
         virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage) = 0;

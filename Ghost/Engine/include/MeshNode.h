@@ -4,27 +4,34 @@
 #include "SceneNode.h"
 #include "Camera.h"
 #include "Material.h"
+#include "ConstBuffer.h"
+#include "Mesh.h"
 
 namespace ghost
 {
-    class Mesh;
     class GHOST_API MeshNode : public SceneNode
     {
     public:
         MeshNode(SceneManager* owner) : SceneNode(owner) { }
         ~MeshNode() { }
 
-        void setMesh(Mesh* mesh) { _mesh = mesh; }
-        const Mesh* getMesh() const { return _mesh; }
+        void setMesh(const MeshPtr& mesh) { _mesh = mesh; }
+        const MeshPtr& getMesh() const { return _mesh; }
 
-        void setMaterial(Material* mat) { _material = mat; }
+        void prepareRendering(Camera* cam);
+
+        void setMaterial(const MaterialPtr& mat) { _material = mat; }
 
         virtual void render(Camera* cam);
 
-    protected:
-        Mesh* _mesh = nullptr;
+        GET_SCENENODE_TYPE(MESH)
 
-        Material* _material = nullptr;
+    protected:
+        MeshPtr _mesh = nullptr;
+
+        MaterialPtr _material = nullptr;
+
+        ConstBufferPtr _meshParams;
     };
 }
 

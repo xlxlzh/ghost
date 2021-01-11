@@ -12,8 +12,11 @@ namespace ghost
     {
         SCENENODE_UNDEFINED,
         SCENENODE_CAMERA,
-        SCENENODE_LIGHT
+        SCENENODE_LIGHT,
+        SCENENODE_MESH
     };
+
+    #define GET_SCENENODE_TYPE(NodeType) virtual SceneNodeType getType() const { return SCENENODE_##NodeType; }
 
     class Octree;
     class SceneManager;
@@ -45,9 +48,12 @@ namespace ghost
 
         bool isIn(const BoundingBox& inBox) const { return true; }
 
-        virtual SceneNodeType getType() const { return SCENENODE_UNDEFINED; }
-
         virtual void render(Camera* cam) { }
+
+        GET_SCENENODE_TYPE(UNDEFINED)
+
+    protected:
+        virtual void onPostUpdate() { }
 
     protected:
         std::string _name;

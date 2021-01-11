@@ -34,31 +34,35 @@ namespace ghost
 
     using InputSignatureList = std::vector<InputSignature>;
 
-//     struct InputSignatureDesc
-//     {
-//         InputSignatureList _signatures;
-// 
-//         bool operator < (const InputSignatureDesc& rhs)
-//         {
-//             bool bRet = true;
-//             if (_signatures.size() > rhs._signatures.size())
-//                 bRet = false;
-//             else if (_signatures.size() == rhs._signatures.size())
-//             {
-// 
-//             }
-// 
-//             return bRet;
-//         }
-//     };
+    struct GHOST_API ConstBufferVariable 
+    {
+        std::string _name;
+        unsigned _offset;
+        unsigned _size;
+    };
+
+    using ConstBufferVariableList = std::vector<ConstBufferVariable>;
+
+    struct GHOST_API ConstBufferInfo
+    {
+        std::string _name;
+        unsigned _bindPoint;
+        unsigned _bufferSize;
+
+        ConstBufferVariableList _variables;
+    };
+
+    using ConstBufferParamsList = std::vector<ConstBufferInfo>;
 
     class GHOST_API ShaderParams
     {
     public:
         InputSignatureList _sigDesc;
+        ConstBufferParamsList _constBuffers;
     };
 
     using ShaderParamsList = std::array<ShaderParams, (std::size_t)SHADER_NONE>;
+
     class GHOST_API Material : public Resource
     {
     public:
@@ -72,16 +76,20 @@ namespace ghost
         InputSignatureList* getShaderInputSignature() { return &_params[SHADER_VS]._sigDesc; }
 
         static int getTypeStatic() { return RESOURCE_MATERIAL; }
-        ShaderResource* getLinkedShader() { return _shaderResource; }
+        ShaderResourcePtr getLinkedShader() { return _shaderResource; }
+
+        unsigned getConstBufferSlot(ShaderType type, const std::string& name);
 
     private:
-        ShaderResource* _shaderResource{ nullptr };
+        ShaderResourcePtr _shaderResource{ nullptr };
         std::unordered_map<std::string, std::string> _defines{};
         std::array<void*, (std::size_t)SHADER_NONE> _shaders;
         Shader* _handwareShader{ nullptr };
 
         ShaderParamsList _params;
     };
+
+    DECLAR_SMART_POINTER(Material);
 }
 
 #endif

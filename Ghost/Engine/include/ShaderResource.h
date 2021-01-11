@@ -58,6 +58,8 @@ namespace ghost
 
         std::unordered_map<ShaderType, ShaderByteCode> _byteCodes{};
     };
+
+    DECLAR_SMART_POINTER(ShaderResource);
 }
 
 #endif
