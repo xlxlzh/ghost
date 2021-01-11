@@ -12,8 +12,8 @@ cbuffer PerFrame
 
 cbuffer MainLight
 {
-    float3 lightDir;
-    float3 lightColor;
+    float4 lightDirPadding;
+    float4 lightColor;
 };
 
 Texture2D texAlbedo;
@@ -48,6 +48,6 @@ float4 ps_main(ps_input pInput) : SV_TARGET
     float3 wnormal = normalize(pInput.wnormal);
     float diffuse = saturate(dot(eyeDir, wnormal));
 
-    float3 color = diffuse * lightColor;
+    float3 color = diffuse * lightColor.xyz;
     return float4(color, 1.0);
 }
