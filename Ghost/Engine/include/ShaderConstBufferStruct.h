@@ -25,6 +25,11 @@ namespace ghost
         Vector4f _lightDirAndPadding;
         Vector4f _lightColor;
     };
+
+    struct GHOST_API SceneGlobalParams
+    {
+        Vector4f _ambientColor;
+    };
 }
 
 #endif

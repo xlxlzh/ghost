@@ -7,7 +7,7 @@ void SampleApplication::onInit()
 {
     Engine::getInstance()->initEngine(getAttachWindow(), RENDER_D3D11, _4x, _window->getWidth(), _window->getHeight());
     auto ri = Engine::getInstance()->getRenderSystem();
-    ri->setClearColor(Color::Blue);
+    ri->setClearColor(Color::Black);
 
     auto fileSystem = Engine::getInstance()->getFileSystem();
     _generateResourcesPath(fileSystem->getCurrentDir());
@@ -20,19 +20,19 @@ void SampleApplication::onInit()
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
-    _mainCamera->setProjectParams(90, _window->getHeight() / (float)_window->getWidth(), 1.0f, 1000.0f);
+    _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 1000.0f);
     _mainCamera->setTransform(Vector3f(0.0, 40.0, 0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
     MeshNode* dragonNode = new MeshNode(_scene);
     dragonNode->setMesh(dragonMesh);
     dragonNode->setMaterial(matPtr);
-    dragonNode->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 60.0, 0.0), Vector3f(2, 2, 2));
+    dragonNode->setTransform(Vector3f(-5.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
     _scene->addNodeToRoot(dragonNode);
 
     MeshNode* bunny = new MeshNode(_scene);
-    bunny->setMesh(dragonMesh);
+    bunny->setMesh(bunnyMesh);
     bunny->setMaterial(matPtr);
-    bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 60.0, 0.0), Vector3f(2, 2, 2));
+    bunny->setTransform(Vector3f(5,40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
     _scene->addNodeToRoot(bunny);
 
     Light* mainLight = new Light(_scene);

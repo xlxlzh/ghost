@@ -16,6 +16,11 @@ cbuffer MainLight
     float4 lightColor;
 };
 
+cbuffer SceneGlobalParams
+{
+    float4 ambientColor;
+};
+
 Texture2D texAlbedo;
 Texture2D texNormal;
 
@@ -48,6 +53,6 @@ float4 ps_main(ps_input pInput) : SV_TARGET
     float3 wnormal = normalize(pInput.wnormal);
     float diffuse = saturate(dot(eyeDir, wnormal));
 
-    float3 color = diffuse * lightColor.xyz;
+    float3 color = diffuse * lightColor.xyz + ambientColor.rgb;
     return float4(color, 1.0);
 }

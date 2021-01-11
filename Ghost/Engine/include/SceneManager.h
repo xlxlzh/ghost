@@ -28,6 +28,9 @@ namespace ghost
 
         void updateNode(SceneNode* node);
 
+        void setAmbientColor(const Color& cl) { _ambientColor = cl; }
+        void prepareRendering();
+
     private:
         void _initTree(const BoundingBox& box, int depth);
 
@@ -43,6 +46,11 @@ namespace ghost
         BoundingBox _boundingBox;
 
         std::vector<SceneNode*> _sceneNodes;
+        std::vector<Light*> _lights;
+
+        Color _ambientColor;
+
+        ConstBufferPtr _sceneGlobalBuffer;
     };
 }
 

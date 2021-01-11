@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Octree.h"
 #include "Engine.h"
+#include "ShaderConstBufferStruct.h"
 
 namespace ghost
 {
@@ -13,6 +14,8 @@ namespace ghost
 
         _octree = nullptr;
         _initTree(box, 8);
+
+        _ambientColor = Color(0.2, 0.2, 0.2);
     }
 
     SceneManager::SceneManager(const BoundingBox& box, int depth)
@@ -60,7 +63,11 @@ namespace ghost
 
         auto nodeIt = std::find(_sceneNodes.begin(), _sceneNodes.end(), node);
         if (nodeIt == _sceneNodes.end())
+        {
             _sceneNodes.push_back(node);
+            if (node->getType() == SCENENODE_LIGHT)
+                _lights.push_back((Light*)node);
+        }
 
         node->markDirty();
 
@@ -179,30 +186,27 @@ namespace ghost
 
     Light* SceneManager::_getMainLigt() const
     {
-        bool hasLight = false;
-        Light* mainLight = nullptr;
+        if (_lights.empty())
+            return nullptr;
 
-        for (auto& node : _sceneNodes)
+        for (unsigned i = 0; i < _lights.size(); ++i)
         {
-            if (node->getType() == SCENENODE_LIGHT)
-            {
-                Light* l = (Light*)node;
-
-                if (!hasLight)
-                {
-                    hasLight = true;
-                    mainLight = l;
-                }
-
-                if (l->getLightType() == LIGHT_DIRECTIONAL)
-                {
-                    mainLight = l;
-                    break;
-                }
-            }
+            Light* l = _lights[i];
+            if (l->getLightType() == LIGHT_DIRECTIONAL)
+                return l;
         }
 
-        return mainLight;
+        return _lights[0];
+    }
+
+    void SceneManager::prepareRendering()
+    {
+        if (_sceneGlobalBuffer == nullptr)
+            _sceneGlobalBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(SceneGlobalParams), BufferUsage::USAGE_DYNAMIC, "SceneGlobalParams");
+
+        SceneGlobalParams params;
+        params._ambientColor = Vector4f(_ambientColor._r, _ambientColor._g, _ambientColor._b, 1.0);
+        _sceneGlobalBuffer->writeData(0, sizeof(SceneGlobalParams), &params, true);
     }
 
     void SceneManager::updateSceneGraph(Camera* camera)
@@ -215,6 +219,9 @@ namespace ghost
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
 
+        prepareRendering();
+        renderSystem->setConstBuffer(SHADER_PS, _sceneGlobalBuffer);
+
         camera->prepareForRendering();
         renderSystem->setConstBuffer(SHADER_PS, camera->_cameraParams);
 
@@ -226,7 +233,7 @@ namespace ghost
         }
 
         renderSystem->useDefaultRenderTarget();
-        renderSystem->clearRenderTarget();
+        renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
 
         //Now, we don't cull scene, just render all the objects. I will do other works later.
         for (auto& sc : _sceneNodes)
