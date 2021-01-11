@@ -40,7 +40,7 @@ namespace ghost
         resMan->registerResourceFactory(new ResourceFactoryIml<ShaderResource>());
         resMan->registerResourceFactory(new ResourceFactoryIml<Mesh>());
 
-        _renderDevice->initDevice(false, msaa);
+        _renderDevice->initDevice(false, GetMSAASampleCount(msaa));
         _renderSystem->attachRenderDevice(_renderDevice);
         return true;
     }

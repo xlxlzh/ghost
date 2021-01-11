@@ -23,10 +23,14 @@ namespace ghost
 
     enum MSAA
     {
+        _1x,
         _2x,
         _4x,
         _8x,
+        _16x,
     };
+
+    GHOST_API unsigned GetMSAASampleCount(MSAA ms);
 
     enum TargetClear
     {
@@ -54,8 +58,10 @@ namespace ghost
     public:
         void attachRenderDevice(RenderDevicePtr device) { _renderDevice = device; }
 
-        virtual void setRenderTarget(RenderTargetPtr rt) = 0;
         virtual void setClearColor(Color cl = Color::Black);
+        Color getClearColor() const { return _clearColor; }
+
+        virtual void setRenderTarget(RenderTargetPtr rt) = 0;
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) = 0;
 
         virtual void setVertexBuffer(VertexBufferPtr vBuffer) = 0;

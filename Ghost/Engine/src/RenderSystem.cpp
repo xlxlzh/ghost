@@ -3,6 +3,25 @@
 
 namespace ghost
 {
+    unsigned GetMSAASampleCount(MSAA ms)
+    {
+        switch (ms)
+        {
+        case _1x:
+            return 1;
+        case _2x:
+            return 2;
+        case _4x:
+            return 4;
+        case _8x:
+            return 8;
+        case _16x:
+            return 16;
+        }
+
+        return 1;
+    }
+
     void RenderSystem::setClearColor(Color cl /* = Color::Black */)
     {
         _clearColor = cl;
