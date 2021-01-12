@@ -35,6 +35,9 @@ namespace ghost
         void setRadius(float radius) { _radius = radius; }
         float getRadius() const { return _radius; }
 
+        void setLightShiness(float sh) { _shiness = sh; }
+        float getLightShiness() const { return _shiness; }
+
         void prepareForRendering();
 
         GET_SCENENODE_TYPE(LIGHT)
@@ -46,13 +49,17 @@ namespace ghost
         LightType _lightType;
         Color _lightColor;
         
+        //Directional and spot use it
         Vector3f _lightDir;
+
+        //Spot and point light use it
         Vector3f _position;
 
         float _spotOuter;
         float _spotInner;
         float _falloff;
         float _radius;
+        float _shiness;
 
         //Rendering
         ConstBufferPtr _lightBuffer = nullptr;

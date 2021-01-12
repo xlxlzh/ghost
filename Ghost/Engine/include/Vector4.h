@@ -2,6 +2,7 @@
 #define _VECTOR4_H_
 
 #include "MathUtilities.h"
+#include "Matrix4x4.h"
 
 namespace ghost
 {
@@ -29,6 +30,14 @@ namespace ghost
 		Vector4<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; _z /= rhs; _w /= rhs return *this; }
 
 		Vector4<T> operator- () const { return Vector4<T>(-_x, -_y, -_z, -_w); }
+
+        Vector4<T> operator* (const Matrix4x4<T>& rhs) const
+        {
+            return Vector4<T>(_x * rhs._11 + _y * rhs._21 + _z * rhs._31 + _w * rhs._41,
+                _x * rhs._12 + _y * rhs._22 + _z * rhs._32 + _w * rhs._42,
+                _x * rhs._13 + _y * rhs._23 + _z * rhs._33 + _w * rhs._43
+                _x * rhs._14 + _y * rhs._24 + _z * rhs._34 + _w * rhs._44);
+        }
 
 		bool equal(const Vector4<T>& rhs) const
 		{

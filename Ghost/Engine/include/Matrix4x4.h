@@ -5,6 +5,9 @@
 
 namespace ghost
 {
+    template <typename T>
+    class Vector3;
+
 	template<typename T>
 	class Matrix4x4
 	{

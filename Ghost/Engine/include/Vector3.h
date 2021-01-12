@@ -2,6 +2,7 @@
 #define _VECTOR3_H_
 
 #include "MathUtilities.h"
+#include "Matrix4x4.h"
 
 namespace ghost
 {
@@ -38,6 +39,14 @@ namespace ghost
 		Vector3<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; _z /= rhs; return *this; }
 
 		Vector3<T> operator- () const { return Vector3<T>(-_x, -_y, -_z); }
+
+        Vector3<T> operator* (const Matrix4x4<T>& rhs) const
+        {
+            return Vector3<T>(_x * rhs._11 + _y * rhs._21 + _z * rhs._31 + rhs._41,
+                _x * rhs._12 + _y * rhs._22 + _z * rhs._32 + rhs._42,
+                _x * rhs._13 + _y * rhs._23 + _z * rhs._33 + rhs._43
+                );
+        }
 
 		T dotProduct(const Vector3<T>& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
 

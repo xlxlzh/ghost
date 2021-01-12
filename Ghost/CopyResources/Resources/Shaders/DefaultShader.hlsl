@@ -12,7 +12,7 @@ cbuffer PerFrame
 
 cbuffer MainLight
 {
-    float4 lightDirPadding;
+    float4 lightDirRadius;
     float4 lightColor;
 };
 
@@ -51,8 +51,15 @@ float4 ps_main(ps_input pInput) : SV_TARGET
 {
     float3 eyeDir = normalize(cameraPos.xyz - pInput.wpos);
     float3 wnormal = normalize(pInput.wnormal);
-    float diffuse = saturate(dot(eyeDir, wnormal));
 
-    float3 color = diffuse * lightColor.xyz + ambientColor.rgb;
+    float3 lightDir = normalize(-lightDirRadius.xyz);
+    float3 h = normalize(eyeDir + lightDir);
+
+    float ndl = saturate(dot(wnormal, lightDir));
+    float ndh = saturate(dot(wnormal, h));
+
+    float specular = pow(ndh, lightColor.w);
+
+    float3 color = ndl * lightColor.xyz + specular * ndl * lightColor.xyz + ambientColor.rgb;
     return float4(color, 1.0);
 }

@@ -17,6 +17,7 @@ void SampleApplication::onInit()
 
     MeshPtr dragonMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/dragon.obj", 0));
     MeshPtr bunnyMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/bunny.obj", 0));
+    MeshPtr buddhaMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/Buddha.obj", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
@@ -26,18 +27,25 @@ void SampleApplication::onInit()
     MeshNode* dragonNode = new MeshNode(_scene);
     dragonNode->setMesh(dragonMesh);
     dragonNode->setMaterial(matPtr);
-    dragonNode->setTransform(Vector3f(-5.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
+    dragonNode->setTransform(Vector3f(-8.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
     _scene->addNodeToRoot(dragonNode);
 
     MeshNode* bunny = new MeshNode(_scene);
     bunny->setMesh(bunnyMesh);
     bunny->setMaterial(matPtr);
-    bunny->setTransform(Vector3f(5,40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
+    bunny->setTransform(Vector3f(2,40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
     _scene->addNodeToRoot(bunny);
+
+    MeshNode* buddha = new MeshNode(_scene);
+    buddha->setMesh(buddhaMesh);
+    buddha->setMaterial(matPtr);
+    buddha->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(5, 5, 5));
+    _scene->addNodeToRoot(buddha);
 
     Light* mainLight = new Light(_scene);
     mainLight->setLightType(LIGHT_DIRECTIONAL);
     mainLight->setLightColor(Color(1.0, 1.0, 1.0));
+    mainLight->setLightShiness(100);
     _scene->addNodeToRoot(mainLight);
 
     _scene->addNodeToRoot(_mainCamera);

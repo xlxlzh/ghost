@@ -3,10 +3,11 @@
 
 #include <string>
 #include "Ghost.h"
+#include "SingleTon.h"
 
 namespace ghost
 {
-    class GHOST_API GhostConfig
+    class GHOST_API GhostConfig : public SingleTon<GhostConfig>
     {
     public:
         const std::string& getLogFile() const { return _logFile; }

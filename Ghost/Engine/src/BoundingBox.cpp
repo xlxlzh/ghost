@@ -21,12 +21,12 @@ namespace ghost
 
     Vector3<float> BoundingBox::getHalfSize() const
     {
-        return (_max - _min) * 0.5;
+        return (_max - _min) * 0.5f;
     }
 
     Vector3<float> BoundingBox::getCenter() const
     {
-        return (_max + _min) * 0.5;
+        return (_max + _min) * 0.5f;
     }
 
     bool BoundingBox::contains(const Vector3<float>& point) const

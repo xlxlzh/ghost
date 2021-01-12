@@ -22,7 +22,9 @@ namespace ghost
 
     struct GHOST_API MainLight
     {
-        Vector4f _lightDirAndPadding;
+        //xyz: lightdir
+        //w: ligth radius, use for spot and point light
+        Vector4f _lightDirAndRadius;
         Vector4f _lightColor;
     };
 
