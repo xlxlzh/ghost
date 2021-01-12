@@ -53,9 +53,37 @@ namespace ghost
         PRIMITIVE_TRIANGLESTRIP         = 5
     };
 
+    enum CullMode
+    {
+        CULL_CW,
+        CULL_CCW,
+        CULL_NONE,
+    };
+
+    enum FillMode
+    {
+        FILL_SOLID,
+        FILL_WIREFRAME,
+    };
+
+    enum CompareFunction
+    {
+        COMPARISON_NEVER,
+        COMPARISON_ALWAYS,
+        COMPARISON_LESS,
+        COMPARISON_LESS_EQUAL,
+        COMPARISON_EQUAL,
+        COMPARISON_NOT_EQUAL,
+        COMPARISON_GREATER_EQUAL,
+        COMPARISON_GREATER
+    };
+
     class RenderSystem
     {
     public:
+        RenderSystem();
+        virtual ~RenderSystem();
+
         void attachRenderDevice(RenderDevicePtr device) { _renderDevice = device; }
 
         virtual void setClearColor(Color cl = Color::Black);
@@ -81,6 +109,14 @@ namespace ghost
 
         virtual void endScene() = 0;
 
+        virtual void setCullMode(CullMode cull) = 0;
+        virtual void setFillMode(FillMode fillMode) = 0;
+        virtual void setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction) = 0;
+        virtual void setDepthTestEnable(bool enable) = 0;
+        virtual void setDepthWriteEnable(bool enable) = 0;
+        virtual void setDepthFunction(CompareFunction fun) = 0;
+        virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) = 0;
+
         //Test interface
         virtual void useDefaultRenderTarget() { }
 
@@ -91,6 +127,10 @@ namespace ghost
         RenderDevicePtr _renderDevice = nullptr;
 
         MaterialPtr _currentMaterial = nullptr;
+
+        CullMode _cullingMode;
+        FillMode _fillMode;
+
     };
 
     DECLAR_SMART_POINTER(RenderSystem)

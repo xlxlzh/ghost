@@ -307,6 +307,71 @@ namespace ghost
         d3dDevice->_dxgiSwapchain->Present(0, 0);
     }
 
+    void D3D11RenderSystem::setCullMode(CullMode cull)
+    {
+        _cullingMode = cull;
+
+        _rasterizerDescChagned = true;
+        _rasterizer.CullMode = D3D11Mappings::getCullMode(cull);
+    }
+
+    void D3D11RenderSystem::setFillMode(FillMode fillMode)
+    {
+        _fillMode = fillMode;
+
+        _rasterizerDescChagned = true;
+        _rasterizer.FillMode = D3D11Mappings::getFillMode(fillMode);
+    }
+
+    void D3D11RenderSystem::setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
+    {
+        setDepthTestEnable(depthTest);
+        setDepthWriteEnable(depthWrite);
+        setDepthFunction(depthFunction);
+    }
+
+    void D3D11RenderSystem::setDepthTestEnable(bool enable)
+    {
+        _depthStencilDesc.DepthEnable = enable;
+        _depthStencilDescChanged = true;
+    }
+
+    void D3D11RenderSystem::setDepthWriteEnable(bool enable)
+    {
+        if (enable)
+        {
+            _depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+        }
+        else
+        {
+            _depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+        }
+
+        _depthStencilDescChanged = true;
+    }
+
+    void D3D11RenderSystem::setDepthFunction(CompareFunction fun)
+    {
+        _depthStencilDesc.DepthFunc = D3D11Mappings::getComparison(fun);
+        _depthStencilDescChanged = true;
+    }
+
+    void D3D11RenderSystem::setColorBufferEnable(bool r, bool g, bool b, bool a)
+    {
+        UINT8 val = 0;
+        if (r)
+            val |= D3D11_COLOR_WRITE_ENABLE_RED;
+        if (g)
+            val |= D3D11_COLOR_WRITE_ENABLE_GREEN;
+        if (b)
+            val |= D3D11_COLOR_WRITE_ENABLE_BLUE;
+        if (a)
+            val |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
+
+        _blendDesc.RenderTarget[0].RenderTargetWriteMask = val;
+        _blendDescChanged = true;
+    }
+
     void D3D11RenderSystem::useDefaultRenderTarget()
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);

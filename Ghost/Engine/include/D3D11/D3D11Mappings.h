@@ -22,6 +22,10 @@ namespace ghost
         static D3D11_PRIMITIVE_TOPOLOGY getPrimitiveType(PrimitiveType pType);
 
         static const char* getSemanticName(VertexElementSemantic semantic);
+
+        static D3D11_CULL_MODE getCullMode(CullMode cull);
+        static D3D11_FILL_MODE getFillMode(FillMode fill);
+        static D3D11_COMPARISON_FUNC getComparison(CompareFunction func);
     };
 }
 

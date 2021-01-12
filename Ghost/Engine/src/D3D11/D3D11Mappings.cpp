@@ -85,4 +85,57 @@ namespace ghost
 
         return "";
     }
+
+    D3D11_CULL_MODE D3D11Mappings::getCullMode(CullMode cull)
+    {
+        switch (cull)
+        {
+        case CULL_CW:
+            return D3D11_CULL_BACK;
+        case CULL_CCW:
+            return D3D11_CULL_FRONT;
+        case CULL_NONE:
+            return D3D11_CULL_NONE;
+        }
+
+        return D3D11_CULL_BACK;
+    }
+
+    D3D11_FILL_MODE D3D11Mappings::getFillMode(FillMode fill)
+    {
+        switch (fill)
+        {
+        case FILL_SOLID:
+            return D3D11_FILL_SOLID;
+        case FILL_WIREFRAME:
+            return D3D11_FILL_WIREFRAME;
+        }
+
+        return D3D11_FILL_SOLID;
+    }
+
+    D3D11_COMPARISON_FUNC D3D11Mappings::getComparison(CompareFunction func)
+    {
+        switch (func)
+        {
+        case COMPARISON_NEVER:
+            return D3D11_COMPARISON_NEVER;
+        case COMPARISON_ALWAYS:
+            return D3D11_COMPARISON_ALWAYS;
+        case COMPARISON_LESS:
+            return D3D11_COMPARISON_LESS;
+        case COMPARISON_LESS_EQUAL:
+            return D3D11_COMPARISON_LESS_EQUAL;
+        case COMPARISON_EQUAL:
+            return D3D11_COMPARISON_EQUAL;
+        case COMPARISON_NOT_EQUAL:
+            return D3D11_COMPARISON_NOT_EQUAL;
+        case COMPARISON_GREATER_EQUAL:
+            return D3D11_COMPARISON_GREATER_EQUAL;
+        case COMPARISON_GREATER:
+            return D3D11_COMPARISON_GREATER;
+        }
+
+        return D3D11_COMPARISON_ALWAYS;
+    }
 }

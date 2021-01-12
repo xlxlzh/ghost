@@ -30,11 +30,28 @@ namespace ghost
 
         virtual void endScene() override;
 
+        virtual void setCullMode(CullMode cull) override;
+        virtual void setFillMode(FillMode fillMode) override;
+        virtual void setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction) override;
+        virtual void setDepthTestEnable(bool enable) override;
+        virtual void setDepthWriteEnable(bool enable) override;
+        virtual void setDepthFunction(CompareFunction fun) override;
+        virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) override;
+
     protected:
         void _clearRenderTarget(Color cl);
 
     protected:
         std::map<InputSignatureList*, ID3D11InputLayoutPtr> _inputlayouts;
+
+        bool _rasterizerDescChagned = false;
+        D3D11_RASTERIZER_DESC _rasterizer;
+
+        bool _depthStencilDescChanged = false;
+        D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
+
+        bool _blendDescChanged = false;
+        D3D11_BLEND_DESC _blendDesc;
     };
 }
 
