@@ -10,6 +10,9 @@ namespace ghost
     class D3D11RenderSystem : public RenderSystem
     {
     public:
+        D3D11RenderSystem();
+        ~D3D11RenderSystem();
+        
         virtual void setRenderTarget(RenderTargetPtr rt) override;
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
@@ -40,18 +43,22 @@ namespace ghost
 
     protected:
         void _clearRenderTarget(Color cl);
+        void _updateRenderStateBeforeRendering();
 
     protected:
         std::map<InputSignatureList*, ID3D11InputLayoutPtr> _inputlayouts;
 
-        bool _rasterizerDescChagned = false;
+        bool _rasterizerDescChagned = true;
         D3D11_RASTERIZER_DESC _rasterizer;
+        ID3D11RasterizerStatePtr _rasterizerState = nullptr;
 
-        bool _depthStencilDescChanged = false;
+        bool _depthStencilDescChanged = true;
         D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
+        ID3D11DepthStencilStatePtr _depthStencilState = nullptr;
 
         bool _blendDescChanged = false;
         D3D11_BLEND_DESC _blendDesc;
+        ID3D11BlendStatePtr _blendState = nullptr;
     };
 }
 

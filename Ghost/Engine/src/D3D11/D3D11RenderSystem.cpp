@@ -12,6 +12,25 @@
 
 namespace ghost
 {
+    D3D11RenderSystem::D3D11RenderSystem()
+    {
+        ZeroMemory(&_depthStencilDesc, sizeof(_depthStencilDesc));
+        ZeroMemory(&_rasterizer, sizeof(_rasterizer));
+        ZeroMemory(&_blendDesc, sizeof(_blendDesc));
+
+        setDepthBufferParams(true, true, COMPARISON_LESS_EQUAL);
+
+        _rasterizer.FillMode = D3D11Mappings::getFillMode(_fillMode);
+        _rasterizer.CullMode = D3D11Mappings::getCullMode(_cullingMode);
+        _rasterizer.DepthClipEnable = true;
+        _rasterizer.MultisampleEnable = true;
+    }
+
+    D3D11RenderSystem::~D3D11RenderSystem()
+    {
+
+    }
+
     void D3D11RenderSystem::setRenderTarget(RenderTargetPtr rt)
     {
         _activeRenerTarget = rt;
@@ -265,12 +284,16 @@ namespace ghost
 
     void D3D11RenderSystem::drawPrimitive(unsigned numVertices, unsigned startIndex)
     {
+        _updateRenderStateBeforeRendering();
+
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         devicePtr->_context->Draw(numVertices, startIndex);
     }
 
     void D3D11RenderSystem::drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex)
     {
+        _updateRenderStateBeforeRendering();
+
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         devicePtr->_context->DrawIndexed(numIndices, indexLocation, baseVertIndex);
     }
@@ -278,6 +301,7 @@ namespace ghost
     void D3D11RenderSystem::drawPrimitiveInstance()
     {
         //TODO
+        _updateRenderStateBeforeRendering();
     }
 
     void D3D11RenderSystem::setShader(const Shader* shader)
@@ -387,5 +411,50 @@ namespace ghost
         devicePtr->_context->RSSetViewports(1, &vp);
 
         devicePtr->_context->OMSetRenderTargets(1, devicePtr->_defaultRenderView.GetAddressOf(), devicePtr->_defaultDepthView.Get());
+    }
+
+    void D3D11RenderSystem::_updateRenderStateBeforeRendering()
+    {
+        if (_rasterizerDescChagned)
+        {
+            _rasterizerDescChagned = false;
+
+            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+            HRESULT hr = devicePtr->_device->CreateRasterizerState(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
+            if (FAILED(hr))
+            {
+                GHOST_LOG_FORMAT_ERROR("Failed to create rasterizer state.");
+            }
+
+            devicePtr->_context->RSSetState(_rasterizerState.Get());
+        }
+
+        if (_depthStencilDescChanged)
+        {
+            _depthStencilDescChanged = false;
+
+            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+            HRESULT hr = devicePtr->_device->CreateDepthStencilState(&_depthStencilDesc, _depthStencilState.ReleaseAndGetAddressOf());
+            if (FAILED(hr))
+            {
+                GHOST_LOG_FORMAT_ERROR("Failed to create depthstencil state.");
+            }
+
+            devicePtr->_context->OMSetDepthStencilState(_depthStencilState.Get(), 0);
+        }
+
+        if (_blendDescChanged)
+        {
+            _blendDescChanged = false;
+
+            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+            HRESULT hr = devicePtr->_device->CreateBlendState(&_blendDesc, _blendState.ReleaseAndGetAddressOf());
+            if (FAILED(hr))
+            {
+                GHOST_LOG_FORMAT_ERROR("Failed to create blend state.");
+            }
+
+            devicePtr->_context->OMSetBlendState(_blendState.Get(), 0, 0xffffffff);
+        }
     }
 }
