@@ -10,6 +10,7 @@ namespace ghost
     Color Color::Blue = Color(0.0, 0.0, 1.0);
     Color Color::Green = Color(0.0, 1.0, 0.0);
     Color Color::White = Color(1.0, 1.0, 1.0);
+    Color Color::Gray = Color(0.5, 0.5, 0.5);
 
     bool Color::operator== (const Color& rhs) const
     {
