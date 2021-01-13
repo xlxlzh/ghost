@@ -13,6 +13,8 @@ public:
     virtual void onUpdate() override;
     virtual void onTick(float deltaTime) override;
 
+    virtual void onKeydown() override;
+
 private:
     void _generateResourcesPath(const std::string& workdir);
 

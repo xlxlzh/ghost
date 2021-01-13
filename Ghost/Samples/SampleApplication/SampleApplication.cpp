@@ -7,7 +7,7 @@ void SampleApplication::onInit()
 {
     Engine::getInstance()->initEngine(getAttachWindow(), RENDER_D3D11, _4x, _window->getWidth(), _window->getHeight());
     auto ri = Engine::getInstance()->getRenderSystem();
-    ri->setClearColor(Color::Black);
+    ri->setClearColor(Color::Gray);
 
     auto fileSystem = Engine::getInstance()->getFileSystem();
     _generateResourcesPath(fileSystem->getCurrentDir());
@@ -18,6 +18,7 @@ void SampleApplication::onInit()
     MeshPtr dragonMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/dragon.obj", 0));
     MeshPtr bunnyMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/bunny.obj", 0));
     MeshPtr buddhaMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/Buddha.obj", 0));
+    MeshPtr cubeMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/cube.obj", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
@@ -42,9 +43,16 @@ void SampleApplication::onInit()
     buddha->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(5, 5, 5));
     _scene->addNodeToRoot(buddha);
 
+    MeshNode* cube = new MeshNode(_scene);
+    cube->setMesh(cubeMesh);
+    cube->setMaterial(matPtr);
+    cube->setTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
+    _scene->addNodeToRoot(cube);
+
     Light* mainLight = new Light(_scene);
     mainLight->setLightType(LIGHT_DIRECTIONAL);
     mainLight->setLightColor(Color(1.0, 1.0, 1.0));
+    mainLight->setTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
     mainLight->setLightShiness(100);
     _scene->addNodeToRoot(mainLight);
 
@@ -61,6 +69,11 @@ void SampleApplication::onTick(float deltaTime)
     char fpsTitle[128] = { 0 };
     sprintf(fpsTitle, "SampleApplication--%0.2f", 1000.0 / deltaTime);
     getWindow()->setWindowTitle(fpsTitle);
+}
+
+void SampleApplication::onKeydown()
+{
+    Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
 }
 
 void SampleApplication::onUpdate()
