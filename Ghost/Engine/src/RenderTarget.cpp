@@ -16,6 +16,8 @@ namespace ghost
         {
             _formats[i] = formats[i];
         }
+
+        _viewport = Viewport(0.0, 0.0, _width, _height);
     }
 
     void RenderTarget::setSize(unsigned w, unsigned h, unsigned d /* = 1 */)

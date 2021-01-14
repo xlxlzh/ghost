@@ -6,6 +6,7 @@
 #include "DepthStencilTarget.h"
 #include "Color.h"
 #include "RenderConfig.h"
+#include "Viewport.h"
 
 namespace ghost
 {
@@ -32,6 +33,9 @@ namespace ghost
 
         void attachRenderTexture(Texture2DPtr tex);
 
+        const Viewport& getAttachViewport() const { return _viewport; }
+        void attachViewport(const Viewport& vp) { _viewport = vp; }
+
     protected:
         unsigned _width;
         unsigned _height;
@@ -45,6 +49,8 @@ namespace ghost
         DepthStencilTargetPtr _depthBuffer = nullptr;
 
         bool _update = true;
+
+        Viewport _viewport;
     };
 
     DECLAR_SMART_POINTER(RenderTarget)

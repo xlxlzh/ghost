@@ -59,6 +59,17 @@ namespace ghost
 
             D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
             devicePtr->_context->OMSetRenderTargets(numViews, renderViews, depthView);
+
+            const Viewport& vp = rt->getAttachViewport();
+            D3D11_VIEWPORT d3d11vp;
+            d3d11vp.TopLeftX = vp.getViewportX();
+            d3d11vp.TopLeftY = vp.getViewportY();
+            d3d11vp.Width = vp.getViewportWidth();
+            d3d11vp.Height = vp.getViewportHeight();
+            d3d11vp.MinDepth = vp.getMinZ();
+            d3d11vp.MaxDepth = vp.getMaxZ();
+
+            devicePtr->_context->RSSetViewports(1, &d3d11vp);
         }
     }
 

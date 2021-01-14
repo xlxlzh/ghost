@@ -28,7 +28,7 @@ namespace ghost
                 texDesc.Height = _height;
                 texDesc.Format = D3D11Mappings::getFormat(_formats[i]);
                 texDesc.ArraySize = 1;
-                texDesc.MipLevels = 0;
+                texDesc.MipLevels = 1;
                 texDesc.CPUAccessFlags = 0;
                 texDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
                 texDesc.Usage = D3D11_USAGE_DEFAULT;
