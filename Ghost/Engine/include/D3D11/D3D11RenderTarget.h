@@ -11,6 +11,7 @@ namespace ghost
     {
     public:
         D3D11RenderTarget() { }
+        D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool msaa, bool depth = true);
         virtual ~D3D11RenderTarget() { }
 
         unsigned getNumOfViews() const;
@@ -18,9 +19,9 @@ namespace ghost
         ID3D11Texture2DPtr getSurface(unsigned index = 0);
 
     protected:
-        virtual void _onCreateRenderTarget() override;
-        virtual void _onDestoryRenderTarget() override;
-        virtual void _onUpdateRenderTarget() override;
+        void _onCreateRenderTarget();
+        void _onDestoryRenderTarget();
+        void _onUpdateRenderTarget();
 
     protected:
         ID3D11RenderTargetViewPtr _renderTargets[GHOST_MAX_RENDERTARGETS] = {0};

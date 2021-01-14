@@ -18,6 +18,7 @@ namespace ghost
 
         static DXGI_FORMAT getFormat(IndexBuffer::IndexType type);
         static DXGI_FORMAT getFormat(VertexElementType vElemType);
+        static DXGI_FORMAT getFormat(GhostColorFormat fmt);
 
         static D3D11_PRIMITIVE_TOPOLOGY getPrimitiveType(PrimitiveType pType);
 

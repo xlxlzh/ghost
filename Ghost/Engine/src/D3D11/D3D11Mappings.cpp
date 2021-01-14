@@ -40,6 +40,25 @@ namespace ghost
         return DXGI_FORMAT_R32G32B32_FLOAT;
     }
 
+    DXGI_FORMAT D3D11Mappings::getFormat(GhostColorFormat fmt)
+    {
+        switch (fmt)
+        {
+        case GHOST_FORMAT_A8R8G8B8:
+            return DXGI_FORMAT_B8G8R8A8_UNORM;
+        case GHOST_FORMAT_R8G8B8A8:
+            return DXGI_FORMAT_R8G8B8A8_UNORM;
+        case GHOST_FORMAT_D24S8:
+            return DXGI_FORMAT_D24_UNORM_S8_UINT;
+        case GHOST_FORMAT_FLOAT_32:
+            return DXGI_FORMAT_R32_FLOAT;
+        case GHOST_FORMAT_FLOAT_16:
+            return DXGI_FORMAT_R16_FLOAT;
+        }
+
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
+    }
+
     D3D11_PRIMITIVE_TOPOLOGY D3D11Mappings::getPrimitiveType(PrimitiveType pType)
     {
         switch (pType)

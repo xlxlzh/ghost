@@ -82,6 +82,7 @@ namespace ghost
     #define GHOST_LOG_FORMAT_INFO(fmt, ...) GHOST_LOG_FORMAT(LOG_INFO, fmt, ##__VA_ARGS__)
     #define GHOST_LOG_FORMAT_WARNNING(fmt, ...) GHOST_LOG_FORMAT(LOG_WARNING, fmt, ##__VA_ARGS__)
     #define GHOST_LOG_FORMAT_ERROR(fmt, ...) GHOST_LOG_FORMAT(LOG_ERROR, fmt, ##__VA_ARGS__)
+    #define GHOST_LOG_FORMAT_ERROR_THROW(fmt, ...) GHOST_LOG_FORMAT(LOG_ERROR, fmt, ##__VA_ARGS__);throw;
 
 }
 

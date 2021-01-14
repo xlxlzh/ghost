@@ -3,7 +3,7 @@
 namespace ghost
 {
     RenderTarget::RenderTarget(unsigned w, unsigned h, unsigned numRTs, 
-        GhostColorFormat* formats, bool depth, bool msaa) :
+        GhostColorFormat* formats, bool msaa, bool depth) :
         _width(w), _height(h), _depthAttach(depth), _msaa(msaa)
     {
         _numRTs = numRTs > GHOST_MAX_RENDERTARGETS ? GHOST_MAX_RENDERTARGETS: numRTs;
@@ -16,8 +16,6 @@ namespace ghost
         {
             _formats[i] = formats[i];
         }
-
-        _onCreateRenderTarget();
     }
 
     void RenderTarget::setSize(unsigned w, unsigned h, unsigned d /* = 1 */)
@@ -25,5 +23,15 @@ namespace ghost
         _width = w;
         _height = h;
         _depth = d;
+    }
+
+    void RenderTarget::attachRenderTexture(Texture2DPtr tex)
+    {
+        
+    }
+
+    RenderTarget::~RenderTarget()
+    {
+    
     }
 }

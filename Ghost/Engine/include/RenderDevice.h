@@ -9,6 +9,7 @@
 #include "ConstBuffer.h"
 #include "VertexDeclaration.h"
 #include "Material.h"
+#include "RenderTarget.h"
 
 namespace ghost
 {
@@ -28,6 +29,13 @@ namespace ghost
         virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage) = 0;
         virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name) = 0;
         virtual VertexDeclarationPtr createVertexDeclaration() = 0;
+
+        virtual RenderTargetPtr createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool msaa, bool depth = true) = 0;
+        virtual RenderTargetPtr createSingleRenderTarget(unsigned w, unsigned h, GhostColorFormat format, bool msaa, bool depth = true);
+        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth) = 0;
+
+        unsigned getMSAACount() const { return _sampleCount; }
+        unsigned getMSAAQuality() const { return _sampleQulity; }
 
     protected:
         unsigned _sampleCount;

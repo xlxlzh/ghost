@@ -18,8 +18,8 @@ namespace ghost
     {
     public:
         RenderTarget() { }
-        RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool depth, bool msaa);
-        virtual ~RenderTarget() { }
+        RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool msaa, bool depth = true);
+        virtual ~RenderTarget();
 
         void setSize(unsigned w, unsigned h, unsigned d = 1);
         unsigned getWidth() const { return _width; }
@@ -33,11 +33,6 @@ namespace ghost
         void attachRenderTexture(Texture2DPtr tex);
 
     protected:
-        virtual void _onCreateRenderTarget() { }
-        virtual void _onDestoryRenderTarget() { }
-        virtual void _onUpdateRenderTarget() { }
-
-    protected:
         unsigned _width;
         unsigned _height;
         unsigned _depth = 1;
@@ -48,6 +43,8 @@ namespace ghost
         bool _depthAttach = false;
         GhostColorFormat _formats[GHOST_MAX_RENDERTARGETS];
         DepthStencilTargetPtr _depthBuffer = nullptr;
+
+        bool _update = true;
     };
 
     DECLAR_SMART_POINTER(RenderTarget)

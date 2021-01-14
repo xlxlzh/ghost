@@ -6,6 +6,8 @@
 #include "D3D11VertexBuffer.h"
 #include "D3D11IndexBuffer.h"
 #include "D3D11VertexDeclaration.h"
+#include "D3D11RenderTarget.h"
+#include "D3D11DepthStencilTarget.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -373,5 +375,15 @@ namespace ghost
     VertexDeclarationPtr D3D11RenderDevice::createVertexDeclaration()
     {
         return std::make_shared<D3D11VertexDeclaration>(*this);
+    }
+
+    RenderTargetPtr D3D11RenderDevice::createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool msaa, bool depth /* = true */)
+    {
+        return MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, msaa, depth);
+    }
+
+    DepthStencilTargetPtr D3D11RenderDevice::createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth)
+    {
+        return MAKE_SMART_POINTER(D3D11DepthStencilTarget, w, h, msaa, floatDepth);
     }
 }

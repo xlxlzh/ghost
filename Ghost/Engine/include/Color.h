@@ -8,9 +8,16 @@ namespace ghost
     enum GhostColorFormat
     {
         GHOST_FORMAT_UNKNOWN,
+
         GHOST_FORMAT_A8R8G8B8,
         GHOST_FORMAT_R8G8B8A8,
-        GHOST_FORMAT_D24S8
+        GHOST_FORMAT_D24S8,
+
+        GHOST_FORMAT_FLOAT_32,
+        GHOST_FORMAT_FLOAT_16,
+
+        GHOST_FORMAT_R32G32B32A32_FLOAT,
+        GHOST_FORMAT_R32G32B32_FLOAT,
     };
 
     class GHOST_API Color
