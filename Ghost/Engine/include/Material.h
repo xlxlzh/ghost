@@ -25,11 +25,6 @@ namespace ghost
         {
             return !((*this) == rhs);
         }
-
-        bool operator < (const InputSignature& rhs)
-        {
-            return _slot < rhs._slot || _index < rhs._index;
-        }
     };
 
     using InputSignatureList = std::vector<InputSignature>;
@@ -63,6 +58,38 @@ namespace ghost
 
     using ShaderParamsList = std::array<ShaderParams, (std::size_t)SHADER_NONE>;
 
+    enum RenderPass
+    {
+        RENDER_PASS_FORWARD,
+        RENDER_PASS_SHADOW,
+        RENDER_PASS_DEPTH,
+        RENDER_PASS_DEFERRED,
+    };
+
+    class GHOST_API ShaderPass
+    {
+        friend class Material;
+    public:
+        ShaderPass();
+        ShaderPass(RenderPass pass);
+        ~ShaderPass();
+
+        RenderPass getRenderPass() const { return _passType; }
+        ShaderResourcePtr getLinkedShader() { return _linkedShader; }
+        InputSignatureList* getShaderInputSignature() { return &_params[SHADER_VS]._sigDesc; }
+        unsigned getConstBufferSlot(ShaderType type, const std::string& name);
+
+    protected:
+        ShaderResourcePtr _linkedShader = nullptr;
+        RenderPass _passType;
+
+        std::unordered_map<std::string, std::string> _defines{};
+
+        Shader* _handwareShader{ nullptr };
+
+        ShaderParamsList _params;
+    };
+
     class GHOST_API Material : public Resource
     {
     public:
@@ -71,22 +98,14 @@ namespace ghost
 
         virtual bool load(DataStream& dataStream) override;
 
-        void apply();
-
-        InputSignatureList* getShaderInputSignature() { return &_params[SHADER_VS]._sigDesc; }
+        void applyToRenderPass(RenderPass pass);
 
         static int getTypeStatic() { return RESOURCE_MATERIAL; }
-        ShaderResourcePtr getLinkedShader() { return _shaderResource; }
 
-        unsigned getConstBufferSlot(ShaderType type, const std::string& name);
+        ShaderPass* getShaderPass(RenderPass pass);
 
     private:
-        ShaderResourcePtr _shaderResource{ nullptr };
-        std::unordered_map<std::string, std::string> _defines{};
-        std::array<void*, (std::size_t)SHADER_NONE> _shaders;
-        Shader* _handwareShader{ nullptr };
-
-        ShaderParamsList _params;
+        std::vector<ShaderPass> _passes;
     };
 
     DECLAR_SMART_POINTER(Material);

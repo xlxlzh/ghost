@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "Light.h"
 
+#include "RenderTarget.h"
+
 namespace ghost
 {
     class GHOST_API SceneManager
@@ -39,6 +41,10 @@ namespace ghost
 
         Light* _getMainLigt() const;
 
+        void _getRenderQueue(std::vector<SceneNode*>& nodes);
+        void _renderShadowmap(Light* light);
+        void _getShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
+
     private:
         Octree* _octree{ nullptr };
         int _maxDepth{ 0 };
@@ -51,6 +57,8 @@ namespace ghost
         Color _ambientColor;
 
         ConstBufferPtr _sceneGlobalBuffer;
+
+        RenderTargetPtr _shadowMap;
     };
 }
 

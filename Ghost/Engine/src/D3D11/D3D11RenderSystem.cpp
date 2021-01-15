@@ -182,11 +182,13 @@ namespace ghost
     {
         if (_currentMaterial)
         {
+            ShaderPass* pass = _currentMaterial->getShaderPass(_currentRenderPass);
+
             D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
             D3D11VertexDeclarationPtr d3d11Decl = GHOST_SMARTPOINTER_CAST(D3D11VertexDeclaration, vDecl);
 
-            InputSignatureList* signatures = _currentMaterial->getShaderInputSignature();
+            InputSignatureList* signatures = pass->getShaderInputSignature();
             auto inputIt = _inputlayouts.find(signatures);
             if (inputIt != _inputlayouts.end())
             {
@@ -236,7 +238,7 @@ namespace ghost
 
                 if (!inputDesc.empty())
                 {
-                    auto shaderRes = _currentMaterial->getLinkedShader();
+                    auto shaderRes = pass->getLinkedShader();
                     auto shaderBytecode = shaderRes->getByteCodeByType(SHADER_VS);
 
                     ID3D11InputLayoutPtr inputlayoutPtr = nullptr;
@@ -259,8 +261,9 @@ namespace ghost
     {
         if (_currentMaterial == nullptr)
             return;
-
-        unsigned slot = _currentMaterial->getConstBufferSlot(shaderType, constBuffer->getName());
+        
+        ShaderPass* pass = _currentMaterial->getShaderPass(_currentRenderPass);
+        unsigned slot = pass->getConstBufferSlot(shaderType, constBuffer->getName());
 
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         D3D11ConstBufferPtr constBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11ConstBuffer, constBuffer);

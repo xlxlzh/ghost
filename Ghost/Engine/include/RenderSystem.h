@@ -78,6 +78,7 @@ namespace ghost
         COMPARISON_GREATER
     };
 
+
     class RenderSystem
     {
     public:
@@ -120,6 +121,9 @@ namespace ghost
         //Test interface
         virtual void useDefaultRenderTarget() { }
 
+        void setRenderPass(RenderPass pass) { _currentRenderPass = pass; }
+        RenderPass getRenderPass() const { return _currentRenderPass; }
+
     protected:
         Color _clearColor;
 
@@ -131,6 +135,7 @@ namespace ghost
         CullMode _cullingMode;
         FillMode _fillMode;
 
+        RenderPass _currentRenderPass;
     };
 
     DECLAR_SMART_POINTER(RenderSystem)

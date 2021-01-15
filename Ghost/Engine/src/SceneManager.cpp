@@ -199,6 +199,35 @@ namespace ghost
         return _lights[0];
     }
 
+    void SceneManager::_getShadowmapRenderObjects(Light* light, std::vector<SceneNode *>& nodes)
+    {
+        for (unsigned i = 0; i < _sceneNodes.size(); ++i)
+        {
+            SceneNode* node = _sceneNodes[i];
+            if (node && node->getType() == SCENENODE_MESH)
+                nodes.push_back(node);
+        }
+    }
+
+    void SceneManager::_renderShadowmap(Light* light)
+    {
+        if (!light)
+            return;
+
+        std::vector<SceneNode*> objects;
+        _getShadowmapRenderObjects(light, objects);
+    }
+
+    void SceneManager::_getRenderQueue(std::vector<SceneNode *>& nodes)
+    {
+        for (unsigned i = 0; i < _sceneNodes.size(); ++i)
+        {
+            SceneNode* node = _sceneNodes[i];
+            if (node && node->getType() == SCENENODE_MESH)
+                nodes.push_back(node);
+        }
+    }
+
     void SceneManager::prepareRendering()
     {
         if (_sceneGlobalBuffer == nullptr)
@@ -207,6 +236,15 @@ namespace ghost
         SceneGlobalParams params;
         params._ambientColor = Vector4f(_ambientColor._r, _ambientColor._g, _ambientColor._b, 1.0);
         _sceneGlobalBuffer->writeData(0, sizeof(SceneGlobalParams), &params, true);
+
+        if (_shadowMap == nullptr)
+        {
+            //unsigned w = Engine::getInstance()->getWidth();
+            //unsigned h = Engine::getInstance()->getHeight();
+            //_shadowMap = Engine::getInstance()->getRenderDevice()->createSingleRenderTarget(w, h, GHOST_FORMAT_R8G8B8A8, false);
+            //Engine::getInstance()->getRenderSystem()->setRenderTarget(_shadowMap);
+        }
+            
     }
 
     void SceneManager::updateSceneGraph(Camera* camera)
@@ -232,7 +270,12 @@ namespace ghost
             renderSystem->setConstBuffer(SHADER_PS, mainLight->_lightBuffer);
         }
 
+        //Render Shadowmap
+        //_renderShadowmap(mainLight);
+
         renderSystem->useDefaultRenderTarget();
+        
+        renderSystem->setRenderPass(RENDER_PASS_FORWARD);
         renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
 
         //Now, we don't cull scene, just render all the objects. I will do other works later.
@@ -240,6 +283,8 @@ namespace ghost
         {
             sc->render(camera);
         }
+
+        //TODO Post processing
 
         renderSystem->endScene();
     }

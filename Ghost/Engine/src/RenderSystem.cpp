@@ -43,7 +43,7 @@ namespace ghost
         {
             _currentMaterial = mat;
 
-            _currentMaterial->apply();
+            _currentMaterial->applyToRenderPass(_currentRenderPass);
         }
     }
 }
