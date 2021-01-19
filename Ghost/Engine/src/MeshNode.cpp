@@ -5,6 +5,12 @@
 
 namespace ghost
 {
+    void MeshNode::setMesh(const MeshPtr& mesh)
+    {
+        _mesh = mesh;
+        _dirty = true;
+    }
+
     void MeshNode::prepareRendering(Camera* cam)
     {
         if (_meshParams == nullptr)
@@ -35,5 +41,39 @@ namespace ghost
 
         renderSystem->setVertexDeclaration(_mesh->_vertexDec);
         renderSystem->drawPrimitiveIndexed(_mesh->_indexBuffer->getNumIndices(), 0, 0);
+    }
+
+    void MeshNode::onPostUpdate()
+    {
+        //Reset bounding box
+        _localBox = BoundingBox();
+
+        if (!_mesh)
+            return;
+
+        //Calculate new bounding box.
+        const auto& vertices = _mesh->getVertices();
+
+        Vector3f vMin(FLT_MAX, FLT_MAX, FLT_MAX);
+        Vector3f vMax(FLT_MIN, FLT_MIN, FLT_MIN);
+        for (const auto& v : vertices)
+        {
+            vMin._x = std::min(v.postion._x, vMin._x);
+            vMin._y = std::min(v.postion._y, vMin._y);
+            vMin._z = std::min(v.postion._z, vMin._z);
+
+            vMax._x = std::max(v.postion._x, vMax._x);
+            vMax._y = std::max(v.postion._y, vMax._y);
+            vMax._z = std::max(v.postion._z, vMax._z);
+        }
+        
+        _localBox.setExtents(vMin, vMax);
+
+        //Transform bounding box to world space.
+        _boundingBox = _localBox;
+        _boundingBox.transform(_absTrans);
+
+        for (const auto& child : _children)
+            _boundingBox.merge(child->getBoundingBox());
     }
 }

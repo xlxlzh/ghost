@@ -15,7 +15,7 @@ namespace ghost
         MeshNode(SceneManager* owner) : SceneNode(owner) { }
         ~MeshNode() { }
 
-        void setMesh(const MeshPtr& mesh) { _mesh = mesh; }
+        void setMesh(const MeshPtr& mesh);
         const MeshPtr& getMesh() const { return _mesh; }
 
         void prepareRendering(Camera* cam);
@@ -27,11 +27,16 @@ namespace ghost
         GET_SCENENODE_TYPE(MESH)
 
     protected:
+        virtual void onPostUpdate();
+
+    protected:
         MeshPtr _mesh = nullptr;
 
         MaterialPtr _material = nullptr;
 
         ConstBufferPtr _meshParams;
+
+        BoundingBox _localBox;
     };
 }
 
