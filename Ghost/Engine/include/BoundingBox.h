@@ -23,6 +23,11 @@ namespace ghost
 
         void setExtents(const Vector3f& minV, const Vector3f& maxV) { _min = minV; _max = maxV; }
 
+        void merge(const BoundingBox& rhs);
+        void transform(const Matrix4x4f& mat);
+
+        Vector3f getCorner(unsigned index) const;
+
     public:
         Vector3<float> _min;
         Vector3<float> _max;
