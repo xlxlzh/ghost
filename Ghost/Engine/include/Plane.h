@@ -12,27 +12,27 @@ namespace ghost
         Plane() = default;
         Plane(float a, float b, float c, float d)
         {
-            normal = Vector3f(a, b, c);
-            float invLen = 1.0f / normal.length();
-            normal *= invLen;
-            dist = d * invLen;
+            _normal = Vector3f(a, b, c);
+            float invLen = 1.0f / _normal.length();
+            _normal *= invLen;
+            _dist = d * invLen;
         }
         Plane(const Vector3f& v0, const Vector3f& v1, const Vector3f& v2)
         {
-            normal = v1 - v0;
-            normal = normal.crossProduct(v2 - v0);
-            normal.normalize();
-            dist = -normal.dotProduct(v0);
+            _normal = v1 - v0;
+            _normal = _normal.crossProduct(v2 - v0);
+            _normal.normalize();
+            _dist = -_normal.dotProduct(v0);
         }
 
         float distance(const Vector3f& v) const
         {
-            return normal.dotProduct(v) + dist;
+            return _normal.dotProduct(v) + _dist;
         }
 
     public:
-        Vector3f normal;
-        float dist;
+        Vector3f _normal;
+        float _dist;
     };
 }
 
