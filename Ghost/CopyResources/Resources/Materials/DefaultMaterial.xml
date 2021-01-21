@@ -10,7 +10,7 @@
         </Shader>
     </Pass>
 
-    <Pass name = "shaow">
+    <Pass name = "shadow">
         <Defines>
             <GHOST_USE_NORMAL value="1" />
             <GHOST_USE_TANGENT value="1" />
