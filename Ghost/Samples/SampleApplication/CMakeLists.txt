@@ -8,4 +8,6 @@ link_directories(../../../External/assimp/assimp/lib)
 
 add_executable(SampleApplication main.cpp SampleApplication.cpp SampleApplication.h)
 
+add_custom_command(TARGET SampleApplication POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GhostConfig.xml ${CMAKE_CURRENT_BINARY_DIR})
+
 target_link_libraries(SampleApplication GhostEngine)

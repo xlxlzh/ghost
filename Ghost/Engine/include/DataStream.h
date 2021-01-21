@@ -56,6 +56,8 @@ namespace ghost
 		unsigned _size;
 	};
 
+    DECLAR_SMART_POINTER(DataStream);
+
 	class GHOST_API MemoryDataStream : public DataStream
 	{
 	public:
@@ -86,6 +88,8 @@ namespace ghost
 		bool _freeOnClose;
 	};
 
+    DECLAR_SMART_POINTER(MemoryDataStream);
+
 	class GHOST_API FileStream : public DataStream
 	{
 	public:
@@ -110,6 +114,8 @@ namespace ghost
 	protected:
 		std::fstream* _fileStream;
 	};
+
+    DECLAR_SMART_POINTER(FileStream);
 }
 
 #endif

@@ -6,22 +6,16 @@
 #include "MessageHandler.h"
 #include "RenderWindow.h"
 #include "Timer.h"
+#include "GhostConfig.h"
 
 namespace ghost
 {
-    enum PlatformType
-    {
-        PLATFORM_WIN32,
-        PLATFORM_LINUX,
-        PLATFORM_NUM
-    };
-
 	class GHOST_API Application : public MessageHandler
 	{
 	public:
 		Application() = default;
 		
-		bool initialize(PlatformType appType, int w, int h, const std::string& wname, bool fullscreen = false);
+		bool initialize(const std::string& wname, const std::string& configFile);
 
         virtual PlatformType getPlatformType() const { return _platformType; }
 

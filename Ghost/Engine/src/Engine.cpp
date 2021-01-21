@@ -7,13 +7,12 @@
 #include "Material.h"
 #include "ShaderResource.h"
 #include "Mesh.h"
+#include "GhostConfig.h"
 
 namespace ghost
 {
     bool Engine::initEngine(void* window, RendersystemType type, MSAA msaa, unsigned w, unsigned h)
     {
-        LogManager::getInstance()->addLog("GhostDebug.txt");
-
         _window = window;
         _width = w;
         _height = h;
