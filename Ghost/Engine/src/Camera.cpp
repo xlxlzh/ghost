@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Engine.h"
 #include "ShaderConstBufferStruct.h"
+#include "MathUtilities.h"
 
 namespace ghost
 {
@@ -15,15 +16,28 @@ namespace ghost
 
         _matView = _absTrans.inverse();
 
-        _matProj = Matrix4x4f::perspectiveMatrix(_fov, _aspect, _nearPlane, _farPlane);
+        if (!_orthographic)
+            _matProj = Matrix4x4f::perspectiveMatrix(_fov, _aspect, _frustNear, _frustFar);
+        else
+            _matProj = Matrix4x4f::orthoMatrix(_frustRight - _frustLeft, _frustTop - _frustBottom, _frustNear, _frustFar);
     }
 
     void Camera::setProjectParams(float fov, float aspect, float n, float f)
     {
         _fov = fov;
         _aspect = aspect;
-        _nearPlane = n;
-        _farPlane = f;
+
+        float ymax = n * MathUtilities::tan(fov / 2.0f);
+        float xmax = ymax * aspect;
+
+        _frustNear = n;
+        _frustFar = f;
+        _frustLeft = -xmax;
+        _frustRight = xmax;
+        _frustTop = ymax;
+        _frustBottom = -ymax;
+
+        markDirty();
     }
 
     void Camera::prepareForRendering()

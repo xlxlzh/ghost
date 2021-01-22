@@ -4,6 +4,7 @@
 #include "SceneNode.h"
 #include "Viewport.h"
 #include "ConstBuffer.h"
+#include "Frustum.h"
 
 namespace ghost
 {
@@ -21,6 +22,8 @@ namespace ghost
         const Vector3f& getAbsPos() const { return _absPos; }
         const Matrix4x4f& getProjectMatrix() const { return _matProj; }
 
+        const Frustum& getFrustum() const { return _frustum; }
+
         void prepareForRendering();
 
         GET_SCENENODE_TYPE(CAMERA)
@@ -35,8 +38,15 @@ namespace ghost
         Matrix4x4f _matProj;
         Vector3f _absPos;
 
-        float _nearPlane, _farPlane;
+        Frustum _frustum;
+
+        float _frustNear, _frustFar;
+        float _frustLeft, _frustRight;
+        float _frustTop, _frustBottom;
         float _fov, _aspect;
+
+        //Perspective or orthographic
+        bool _orthographic{ false };
 
         ConstBufferPtr _cameraParams = nullptr;
     };
