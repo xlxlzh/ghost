@@ -12,6 +12,7 @@ namespace ghost
 {
     class GHOST_API SceneManager
     {
+        using RenderQueues = std::vector<SceneNode*>;
     public:
         SceneManager();
         SceneManager(const BoundingBox& box, int depth);
@@ -41,7 +42,7 @@ namespace ghost
 
         Light* _getMainLigt() const;
 
-        void _getRenderQueue(std::vector<SceneNode*>& nodes);
+        void _getRenderQueue(RenderQueues& nodes);
         void _renderShadowmap(Light* light);
         void _getShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
 
@@ -59,6 +60,8 @@ namespace ghost
         ConstBufferPtr _sceneGlobalBuffer;
 
         RenderTargetPtr _shadowMap;
+
+        RenderQueues _renderQueues;
     };
 }
 

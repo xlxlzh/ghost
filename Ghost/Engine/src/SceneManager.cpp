@@ -216,9 +216,23 @@ namespace ghost
 
         std::vector<SceneNode*> objects;
         _getShadowmapRenderObjects(light, objects);
+
+        BoundingBox box;
+        box.setExtents(Vector3f(FLT_MAX, FLT_MAX, FLT_MAX), Vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX));
+
+        // Calculate all bounding box contain all objects
+        for (const auto& obj : objects)
+            box.merge(obj->getBoundingBox());
+
+        //Prepare rt and flags
+        auto renderSystem = Engine::getInstance()->getRenderSystem();
+        renderSystem->setRenderPass(RENDER_PASS_SHADOW);
+        renderSystem->setRenderTarget(_shadowMap);
+
+
     }
 
-    void SceneManager::_getRenderQueue(std::vector<SceneNode *>& nodes)
+    void SceneManager::_getRenderQueue(RenderQueues& nodes)
     {
         for (unsigned i = 0; i < _sceneNodes.size(); ++i)
         {
@@ -238,12 +252,7 @@ namespace ghost
         _sceneGlobalBuffer->writeData(0, sizeof(SceneGlobalParams), &params, true);
 
         if (_shadowMap == nullptr)
-        {
-            //unsigned w = Engine::getInstance()->getWidth();
-            //unsigned h = Engine::getInstance()->getHeight();
-            //_shadowMap = Engine::getInstance()->getRenderDevice()->createSingleRenderTarget(w, h, GHOST_FORMAT_R8G8B8A8, false);
-            //Engine::getInstance()->getRenderSystem()->setRenderTarget(_shadowMap);
-        }
+            _shadowMap = Engine::getInstance()->getRenderDevice()->createSingleRenderTarget(1024, 1024, GHOST_FORMAT_FLOAT_32, false);
             
     }
 
@@ -271,7 +280,7 @@ namespace ghost
         }
 
         //Render Shadowmap
-        //_renderShadowmap(mainLight);
+        _renderShadowmap(mainLight);
 
         renderSystem->useDefaultRenderTarget();
         
