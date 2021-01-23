@@ -1,0 +1,42 @@
+#include "RenderCommon.h"
+
+namespace ghost
+{
+    unsigned GetMSAASampleCount(MSAA ms)
+    {
+        switch (ms)
+        {
+        case _1x:
+            return 1;
+        case _2x:
+            return 2;
+        case _4x:
+            return 4;
+        case _8x:
+            return 8;
+        case _16x:
+            return 16;
+        }
+
+        return 4;
+    }
+
+    MSAA GetMSAATypeBySampleCount(unsigned sampleCount)
+    {
+        switch (sampleCount)
+        {
+        case 1:
+            return _1x;
+        case 2:
+            return _2x;
+        case 4:
+            return _4x;
+        case 8:
+            return _8x;
+        case 16:
+            return _16x;
+        default:
+            return _4x;
+        }
+    }
+}
