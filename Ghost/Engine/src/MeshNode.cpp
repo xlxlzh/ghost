@@ -5,6 +5,11 @@
 
 namespace ghost
 {
+    MeshNode::MeshNode(SceneManager* owner) : SceneNode(owner)
+    {
+        _renderable = true;
+    }
+
     void MeshNode::setMesh(const MeshPtr& mesh)
     {
         _mesh = mesh;
@@ -55,7 +60,7 @@ namespace ghost
         const auto& vertices = _mesh->getVertices();
 
         Vector3f vMin(FLT_MAX, FLT_MAX, FLT_MAX);
-        Vector3f vMax(FLT_MIN, FLT_MIN, FLT_MIN);
+        Vector3f vMax(-FLT_MAX, -FLT_MAX, -FLT_MAX);
         for (const auto& v : vertices)
         {
             vMin._x = std::min(v.postion._x, vMin._x);

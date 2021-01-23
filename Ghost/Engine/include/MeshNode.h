@@ -12,7 +12,7 @@ namespace ghost
     class GHOST_API MeshNode : public SceneNode
     {
     public:
-        MeshNode(SceneManager* owner) : SceneNode(owner) { }
+        MeshNode(SceneManager* owner);
         ~MeshNode() { }
 
         void setMesh(const MeshPtr& mesh);

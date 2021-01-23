@@ -41,19 +41,19 @@ namespace ghost
 
     void BoundingBox::merge(const BoundingBox& rhs)
     {
-        std::min(_min._x, rhs._min._x);
-        std::min(_min._y, rhs._min._y);
-        std::min(_min._z, rhs._min._z);
+        _min._x = std::min(_min._x, rhs._min._x);
+        _min._y = std::min(_min._y, rhs._min._y);
+        _min._z = std::min(_min._z, rhs._min._z);
 
-        std::max(_max._x, rhs._max._x);
-        std::max(_max._y, rhs._max._y);
-        std::max(_max._z, rhs._max._z);
+        _max._x = std::max(_max._x, rhs._max._x);
+        _max._y = std::max(_max._y, rhs._max._y);
+        _max._z = std::max(_max._z, rhs._max._z);
     }
 
     void BoundingBox::transform(const Matrix4x4f& mat)
     {
         Vector3f vMin = Vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
-        Vector3f vMax = Vector3f(FLT_MIN, FLT_MIN, FLT_MIN);
+        Vector3f vMax = Vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
         for (unsigned i = 0; i < 8; ++i)
         {
             Vector3f v = getCorner(i) * mat;
