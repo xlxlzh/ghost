@@ -9,6 +9,9 @@
 
 namespace ghost
 {
+    using FrustumCorners = std::array<Vector3f, 8>;
+    using FrustumPlanes = std::array<Plane, 6>;
+
     class GHOST_API Frustum
     {
     public:
@@ -24,9 +27,11 @@ namespace ghost
         bool cullBox(BoundingBox& box) const;
         bool cullSphere(Vector3f pos, float rad) const;
 
+        const FrustumCorners& getFrustumCorners() const { return _corners; }
+
     private:
-        std::array<Plane, 6> _planes;
-        std::array<Vector3f, 8> _corners;
+        FrustumPlanes _planes;
+        FrustumCorners _corners;
 
         Vector3f _origin;
     };
