@@ -7,8 +7,8 @@
 
 namespace ghost
 {
-    D3D11RenderTarget::D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool msaa, bool depth) :
-        RenderTarget(w, h, numRTs, formats, msaa, depth)
+    D3D11RenderTarget::D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool srv, bool msaa, bool depth) :
+        RenderTarget(w, h, numRTs, formats, srv, msaa, depth)
     {
         _onCreateRenderTarget();
     }
@@ -30,7 +30,7 @@ namespace ghost
                 texDesc.ArraySize = 1;
                 texDesc.MipLevels = 1;
                 texDesc.CPUAccessFlags = 0;
-                texDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+                texDesc.BindFlags = _srv ? D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE : D3D11_BIND_RENDER_TARGET;
                 texDesc.Usage = D3D11_USAGE_DEFAULT;
                 
                 if (_msaa)
@@ -59,8 +59,22 @@ namespace ghost
                     &rtDecs, _renderTargets[i].ReleaseAndGetAddressOf());
                 if (FAILED(hr))
                 {
-                    DWORD errorID = GetLastError();
                     GHOST_LOG_FORMAT_ERROR_THROW("%s CreateRenderTargetView failed", __FUNCTION__);
+                }
+
+                if (_srv)
+                {
+                    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+                    srvDesc.Format = texDesc.Format;
+                    srvDesc.Texture2D.MipLevels = 0;
+                    srvDesc.ViewDimension = _msaa ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
+
+                    hr = d3d11Device->CreateShaderResourceView(_renderTextures[i].Get(),
+                        &srvDesc, _srvs[i].ReleaseAndGetAddressOf());
+                    if (FAILED(hr))
+                    {
+                        GHOST_LOG_FORMAT_ERROR_THROW("%s CreateShaderResourceView failed", __FUNCTION__);
+                    }
                 }
             }
 

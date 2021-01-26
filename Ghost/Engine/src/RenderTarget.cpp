@@ -3,8 +3,8 @@
 namespace ghost
 {
     RenderTarget::RenderTarget(unsigned w, unsigned h, unsigned numRTs, 
-        GhostColorFormat* formats, bool msaa, bool depth) :
-        _width(w), _height(h), _depthAttach(depth), _msaa(msaa)
+        GhostColorFormat* formats, bool srv, bool msaa, bool depth) :
+        _width(w), _height(h), _depthAttach(depth), _msaa(msaa), _srv(srv)
     {
         _numRTs = numRTs > GHOST_MAX_RENDERTARGETS ? GHOST_MAX_RENDERTARGETS: numRTs;
         for (unsigned i = 0; i < GHOST_MAX_RENDERTARGETS; ++i)

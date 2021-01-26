@@ -11,7 +11,7 @@ namespace ghost
     {
     public:
         D3D11RenderTarget() { }
-        D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool msaa, bool depth = true);
+        D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true);
         virtual ~D3D11RenderTarget() { }
 
         unsigned getNumOfViews() const;
@@ -25,6 +25,7 @@ namespace ghost
 
     protected:
         ID3D11RenderTargetViewPtr _renderTargets[GHOST_MAX_RENDERTARGETS] = {0};
+        ID3D11ShaderResourceViewPtr _srvs[GHOST_MAX_RENDERTARGETS]{ 0 };
         ID3D11Texture2DPtr _renderTextures[GHOST_MAX_RENDERTARGETS] = { 0 };
     };
 

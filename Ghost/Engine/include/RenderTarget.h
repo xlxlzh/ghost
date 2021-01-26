@@ -19,7 +19,7 @@ namespace ghost
     {
     public:
         RenderTarget() { }
-        RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool msaa, bool depth = true);
+        RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true);
         virtual ~RenderTarget();
 
         void setSize(unsigned w, unsigned h, unsigned d = 1);
@@ -36,6 +36,8 @@ namespace ghost
         const Viewport& getAttachViewport() const { return _viewport; }
         void attachViewport(const Viewport& vp) { _viewport = vp; }
 
+        bool isSRV() const { return _srv; }
+
     protected:
         unsigned _width;
         unsigned _height;
@@ -45,6 +47,7 @@ namespace ghost
 
         bool _msaa = false;
         bool _depthAttach = false;
+        bool _srv = false;
         GhostColorFormat _formats[GHOST_MAX_RENDERTARGETS];
         DepthStencilTargetPtr _depthBuffer = nullptr;
 

@@ -377,9 +377,9 @@ namespace ghost
         return std::make_shared<D3D11VertexDeclaration>(*this);
     }
 
-    RenderTargetPtr D3D11RenderDevice::createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool msaa, bool depth /* = true */)
+    RenderTargetPtr D3D11RenderDevice::createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv, bool msaa, bool depth /* = true */)
     {
-        return MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, msaa, depth);
+        return MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, srv, msaa, depth);
     }
 
     DepthStencilTargetPtr D3D11RenderDevice::createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth)
