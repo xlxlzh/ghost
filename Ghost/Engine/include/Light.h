@@ -38,6 +38,11 @@ namespace ghost
         void setLightShiness(float sh) { _shiness = sh; }
         float getLightShiness() const { return _shiness; }
 
+        // Can be used when type is directional or spot
+        Vector3f getLightDir() const;
+
+        const Matrix4x4f& getViewMatrix() const { return _viewMat; }
+
         void prepareForRendering();
 
         GET_SCENENODE_TYPE(LIGHT)
@@ -54,6 +59,8 @@ namespace ghost
 
         //Spot and point light use it
         Vector3f _position;
+
+        Matrix4x4f _viewMat;
 
         float _spotOuter;
         float _spotInner;

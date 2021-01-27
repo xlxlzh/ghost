@@ -11,6 +11,8 @@ namespace ghost
         _lightColor = Color();
         _lightDir = Vector3f(0.0f, 0.0f, 1.0f);
         _position = Vector3f(0.0f, 0.0f, 0.0f);
+
+        _viewMat.identify();
     }
 
     Light::~Light()
@@ -18,8 +20,18 @@ namespace ghost
 
     }
 
+    Vector3f Light::getLightDir() const
+    {
+        if (_lightType != LIGHT_POINT)
+            return _lightDir;
+        else
+            return _position;
+    }
+
     void Light::onPostUpdate()
     {
+        _viewMat = _absTrans.inverse();
+
         Matrix4x4f m = _absTrans;
         m._41 = 0.0f;
         m._42 = 0.0f;
