@@ -34,16 +34,16 @@ namespace ghost
         void setAmbientColor(const Color& cl) { _ambientColor = cl; }
         void prepareRendering();
 
+        Light* getMainLigt() const;
+
     private:
         void _initTree(const BoundingBox& box, int depth);
 
         void _addNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
         bool _deleteNodeFromTree(SceneNode* node);
 
-        Light* _getMainLigt() const;
-
         void _getRenderQueue(RenderQueues& nodes);
-        void _renderShadowmap(Light* light);
+        void _renderShadowmap(Camera* camera, Light* light);
         void _getShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
 
     private:

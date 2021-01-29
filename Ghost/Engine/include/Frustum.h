@@ -9,8 +9,11 @@
 
 namespace ghost
 {
-    using FrustumCorners = std::array<Vector3f, 8>;
-    using FrustumPlanes = std::array<Plane, 6>;
+    constexpr unsigned FRUSTUM_CORNER_NUM = 8;
+    constexpr unsigned FRUSTUM_PLANE_NUM = 6;
+
+    using FrustumCorners = std::array<Vector3f, FRUSTUM_CORNER_NUM>;
+    using FrustumPlanes = std::array<Plane, FRUSTUM_PLANE_NUM>;
 
     class GHOST_API Frustum
     {

@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Mesh.h"
 #include "ShaderConstBufferStruct.h"
+#include "Light.h"
+#include "SceneManager.h"
 
 namespace ghost
 {
@@ -21,10 +23,17 @@ namespace ghost
         if (_meshParams == nullptr)
             _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), BufferUsage::USAGE_DYNAMIC, "PerObject");
 
+        auto renderSystem = Engine::getInstance()->getRenderSystem();
+        Light* mainLight = _owner->getMainLigt();
+
         PerObject obj;
-        obj._matMVP = _absTrans * cam->getViewMatrix() * cam->getProjectMatrix();
         obj._matWorld = _absTrans;
         obj._matWorldInverseTranspose = _absTrans.inverse().transpose();
+
+        if (renderSystem->getRenderPass() == RenderPass::RENDER_PASS_SHADOW)
+            ;// obj._matMVP = _absTrans * mainLight->getViewMatrix() * mainLight->getProjectMatrix();
+        else
+            obj._matMVP = _absTrans * cam->getViewMatrix() * cam->getProjectMatrix();
 
         _meshParams->writeData(0, sizeof(PerObject), &obj, true);
     }
@@ -63,13 +72,13 @@ namespace ghost
         Vector3f vMax(-FLT_MAX, -FLT_MAX, -FLT_MAX);
         for (const auto& v : vertices)
         {
-            vMin._x = std::min(v.postion._x, vMin._x);
-            vMin._y = std::min(v.postion._y, vMin._y);
-            vMin._z = std::min(v.postion._z, vMin._z);
+            vMin._x = std::min(v._x, vMin._x);
+            vMin._y = std::min(v._y, vMin._y);
+            vMin._z = std::min(v._z, vMin._z);
 
-            vMax._x = std::max(v.postion._x, vMax._x);
-            vMax._y = std::max(v.postion._y, vMax._y);
-            vMax._z = std::max(v.postion._z, vMax._z);
+            vMax._x = std::max(v._x, vMax._x);
+            vMax._y = std::max(v._y, vMax._y);
+            vMax._z = std::max(v._z, vMax._z);
         }
         
         _localBox.setExtents(vMin, vMax);

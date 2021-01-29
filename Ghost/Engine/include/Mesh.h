@@ -14,6 +14,15 @@
 
 namespace ghost
 {
+    enum VertexMask : unsigned
+    {
+        VERTEX_NONE             = 0x0,
+        VERTEX_POSITION         = 0x1,
+        VERTEX_NORMAL           = 0x2,
+        VERTEX_TANGENT          = 0x4,
+        VERTEX_TEXCOORD         = 0x8,
+    };
+
     struct GHOST_API MeshVertex
     {
         Vector3f postion;
@@ -25,6 +34,7 @@ namespace ghost
     class GHOST_API Mesh : public Resource
     {
         friend class MeshNode;
+        friend class MeshLoadHelper;
     public:
         Mesh() : Mesh(RESOURCE_MESH, "", 0) { }
         Mesh(int type, const std::string& name, int flags);
@@ -33,12 +43,21 @@ namespace ghost
 
         static int getTypeStatic() { return RESOURCE_MESH; }
         
-        std::vector<MeshVertex>& getVertices() { return _vertices; }
+        std::vector<Vector3f>& getVertices() { return _positions; }
         std::vector<unsigned>& getIndices() { return _indices; }
 
+        static unsigned getVertexSizeByMask(unsigned mask);
+
     private:
-        std::vector<MeshVertex> _vertices;
+        std::vector<Vector3f> _positions;
+        std::vector<Vector3f> _normals;
+        std::vector<Vector3f> _tangents;
+        std::vector<Vector2f> _uv;
         std::vector<unsigned> _indices;
+
+        std::vector<char> _rawDatas;
+
+        unsigned _mask{ VERTEX_NONE };
 
         VertexBufferPtr _vertexBuffer;
         IndexBufferPtr _indexBuffer;

@@ -25,6 +25,13 @@ namespace ghost
         markDirty();
     }
 
+    void SceneNode::setPosition(const Vector3f& pos)
+    {
+        _relTrans.translate(pos._x, pos._y, pos._z);
+
+        markDirty();
+    }
+
     void SceneNode::getTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale)
     {
         //TODO

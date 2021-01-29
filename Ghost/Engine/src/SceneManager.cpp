@@ -184,7 +184,7 @@ namespace ghost
         }
     }
 
-    Light* SceneManager::_getMainLigt() const
+    Light* SceneManager::getMainLigt() const
     {
         if (_lights.empty())
             return nullptr;
@@ -209,7 +209,7 @@ namespace ghost
         }
     }
 
-    void SceneManager::_renderShadowmap(Light* light)
+    void SceneManager::_renderShadowmap(Camera* camera, Light* light)
     {
         if (!light)
             return;
@@ -217,19 +217,49 @@ namespace ghost
         std::vector<SceneNode*> objects;
         _getShadowmapRenderObjects(light, objects);
 
-        BoundingBox box;
-        box.setExtents(Vector3f(FLT_MAX, FLT_MAX, FLT_MAX), Vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX));
-
-        // Calculate all bounding box contain all objects
-        for (const auto& obj : objects)
-            box.merge(obj->getBoundingBox());
-
         //Prepare rt and flags
         auto renderSystem = Engine::getInstance()->getRenderSystem();
         renderSystem->setRenderPass(RENDER_PASS_SHADOW);
         renderSystem->setRenderTarget(_shadowMap);
 
+        //New implement
+        const FrustumCorners& cameraCorners = camera->getFrustum().getFrustumCorners();
+        Matrix4x4f lightView = light->getViewMatrix();
+        FrustumCorners frustumInLight;
 
+        for (unsigned i = 0; i < FRUSTUM_CORNER_NUM; ++i)
+            frustumInLight[i] = cameraCorners[i] * lightView;
+
+        //Calculate light frustum
+        Vector3f vMin = Vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
+        Vector3f vMax = Vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+        for (const auto& cor : frustumInLight)
+        {
+            vMin._x = std::min(vMin._x, cor._x);
+            vMin._y = std::min(vMin._y, cor._y);
+            vMin._z = std::min(vMin._z, cor._z);
+
+            vMax._x = std::max(vMax._x, cor._x);
+            vMax._y = std::max(vMax._y, cor._y);
+            vMax._z = std::max(vMax._z, cor._z);
+        }
+
+        //Transform to world
+        frustumInLight[0] = vMin;
+        frustumInLight[1] = Vector3f(vMin._x, vMax._y, vMin._z);
+        frustumInLight[2] = Vector3f(vMax._x, vMax._y, vMin._z);
+        frustumInLight[3] = Vector3f(vMax._x, vMin._y, vMin._z);
+        frustumInLight[4] = Vector3f(vMin._x, vMin._y, vMax._z);
+        frustumInLight[5] = Vector3f(vMin._x, vMax._y, vMax._z);
+        frustumInLight[6] = vMax;
+        frustumInLight[7] = Vector3f(vMax._x, vMin._y, vMax._z);
+
+        Vector3f lightPos = ((vMin + frustumInLight[2]) / 2.0f) * lightView.inverse();
+        Matrix4x4f lightViewMat = Matrix4x4f::viewMatrix(lightPos, light->getLightDir(), Vector3f(0.0, 1.0f, 0.0f));
+        Matrix4x4f lightOrthMat = Matrix4x4f::orthoMatrix(vMax._x - vMin._x, vMax._y - vMin._y, vMin._z, vMax._z);
+
+        for (const auto& obj : objects)
+            obj->render(camera);
     }
 
     void SceneManager::_getRenderQueue(RenderQueues& nodes)
@@ -272,7 +302,7 @@ namespace ghost
         camera->prepareForRendering();
         renderSystem->setConstBuffer(SHADER_PS, camera->_cameraParams);
 
-        Light* mainLight = _getMainLigt();
+        Light* mainLight = getMainLigt();
         if (mainLight)
         {
             mainLight->prepareForRendering();
@@ -280,7 +310,7 @@ namespace ghost
         }
 
         //Render Shadowmap
-        _renderShadowmap(mainLight);
+        //_renderShadowmap(camera ,mainLight);
 
         renderSystem->useDefaultRenderTarget();
         

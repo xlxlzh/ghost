@@ -56,7 +56,7 @@ namespace ghost
 
     void Frustum::buildViewFrustum(const Matrix4x4f& viewMat, const Matrix4x4f& projMat)
     {
-        //TODO
+        
     }
 
     void Frustum::buildBoxFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float front, float back)

@@ -38,50 +38,65 @@ namespace ghost
 
         void processMesh(aiMesh* mesh, const aiScene* scene)
         {
-            std::vector<MeshVertex>& vertices = _loader->getVertices();
-            std::vector<unsigned>& indices = _loader->getIndices();
+            bool hasNormal = mesh->HasNormals();
+            bool hasTangent = mesh->HasTangentsAndBitangents();
+            bool hasUv = mesh->mTextureCoords[0];
 
+            _loader->_mask = VERTEX_POSITION;
+            if (hasNormal)
+                _loader->_mask |= VERTEX_NORMAL;
+            if (hasUv)
+                _loader->_mask |= VERTEX_TEXCOORD;
+            if (hasTangent)
+                _loader->_mask |= VERTEX_TANGENT;
+
+            unsigned vSize = Mesh::getVertexSizeByMask(_loader->_mask);
+            _loader->_rawDatas.resize(vSize * mesh->mNumVertices);
+
+            unsigned offset = 0;
             for (int i = 0; i < mesh->mNumVertices; ++i)
             {
-                MeshVertex tmpVertex;
+                Vector3f tmpPos, tmpNormal;
+                Vector2f tmpUV;
 
                 aiVector3D pos = mesh->mVertices[i];
+                tmpPos._x = pos.x;
+                tmpPos._y = pos.y;
+                tmpPos._z = pos.z;
+                _loader->_positions.push_back(tmpPos);
+                memcpy(&_loader->_rawDatas[offset], &tmpPos, sizeof(Vector3f));
+                offset += sizeof(Vector3f);
 
-                if (mesh->HasNormals())
+                if (hasNormal)
                 {
                     aiVector3D normal = mesh->mNormals[i];
-                    tmpVertex.normal._x = normal.x;
-                    tmpVertex.normal._y = normal.y;
-                    tmpVertex.normal._z = normal.z;
+                    tmpNormal._x = normal.x;
+                    tmpNormal._y = normal.y;
+                    tmpNormal._z = normal.z;
+
+                    memcpy(&_loader->_rawDatas[offset], &tmpNormal, sizeof(Vector3f));
+                    offset += sizeof(Vector3f);
+
+                    _loader->_normals.push_back(tmpNormal);
                 }
-                else
+
+                if (hasUv)
                 {
-                    tmpVertex.normal = Vector3f(0.0, 1.0, 0.0);
+                    tmpUV._x = mesh->mTextureCoords[0][i].x;
+                    tmpUV._y = mesh->mTextureCoords[0][i].y;
+
+                    memcpy(&_loader->_rawDatas[offset], &tmpUV, sizeof(Vector2f));
+                    offset += sizeof(Vector2f);
+
+                    _loader->_uv.push_back(tmpUV);
                 }
-
-
-                tmpVertex.postion._x = pos.x;
-                tmpVertex.postion._y = pos.y;
-                tmpVertex.postion._z = pos.z;
-
-                if (mesh->mTextureCoords[0])
-                {
-                    tmpVertex.uv._x = mesh->mTextureCoords[0][i].x;
-                    tmpVertex.uv._y = mesh->mTextureCoords[0][i].y;
-                }
-                else
-                {
-                    tmpVertex.uv = Vector2f();
-                }
-
-                vertices.push_back(tmpVertex);
             }
 
             for (int i = 0; i < mesh->mNumFaces; i++)
             {
                 aiFace face = mesh->mFaces[i];
                 for (int j = 0; j < face.mNumIndices; ++j)
-                    indices.push_back(face.mIndices[j]);
+                    _loader->_indices.push_back(face.mIndices[j]);
             }
         }
 
@@ -122,6 +137,21 @@ namespace ghost
 
     }
 
+    unsigned Mesh::getVertexSizeByMask(unsigned mask)
+    {
+        unsigned vSize = 0;
+        if (mask & VERTEX_POSITION)
+            vSize += sizeof(Vector3f);
+        if (mask & VERTEX_NORMAL)
+            vSize += sizeof(Vector3f);
+        if (mask & VERTEX_TANGENT)
+            vSize += sizeof(Vector3f);
+        if (mask & VERTEX_TEXCOORD)
+            vSize += sizeof(Vector2f);
+
+        return vSize;
+    }
+
     bool Mesh::load(DataStream& dataStream)
     {
         MeshLoadHelper helper(this);
@@ -129,11 +159,14 @@ namespace ghost
         if (!helper.preocessLoad(dataStream))
             return false;
 
-        if (!_vertices.empty())
+        if (!_positions.empty())
         {
+            unsigned vSize = getVertexSizeByMask(_mask);
+
             _vertexBuffer = Engine::getInstance()->getRenderDevice()->createVertexBuffer(
-                sizeof(MeshVertex), _vertices.size(), BufferUsage::USAGE_DYNAMIC);
-            _vertexBuffer->writeData(0, sizeof(MeshVertex) * _vertices.size(), &_vertices[0], true);
+                vSize, _positions.size(), BufferUsage::USAGE_DYNAMIC);
+            
+            _vertexBuffer->writeData(0, vSize * _positions.size(), &_rawDatas[0], true);
 
             _bindings = std::make_shared<VertexBufferBinding>();
             _bindings->setBinding(0, _vertexBuffer);
@@ -145,11 +178,22 @@ namespace ghost
             _vertexDec = Engine::getInstance()->getRenderDevice()->createVertexDeclaration();
 
             unsigned offset = 0;
-            _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_POSITION);
-            offset += VertexElement::getTypeSize(VET_FLOAT_3);
-            _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_NORMAL);
-            offset += VertexElement::getTypeSize(VET_FLOAT_3);
-            _vertexDec->addElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
+            //if (_mask & VERTEX_POSITION)
+            {
+                _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_POSITION);
+                offset += VertexElement::getTypeSize(VET_FLOAT_3);
+            }
+            //if (_mask & VERTEX_NORMAL)
+            {
+                _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_NORMAL);
+                offset += VertexElement::getTypeSize(VET_FLOAT_3);
+            }
+            //if (_mask & VERTEX_TEXCOORD)
+            {
+                _vertexDec->addElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
+                offset += VertexElement::getTypeSize(VET_FLOAT_2);
+            }
+            
         }
 
         _objConstBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(Matrix4x4f), BufferUsage::USAGE_DYNAMIC, "PerObject");

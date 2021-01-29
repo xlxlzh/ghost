@@ -17,9 +17,15 @@ namespace ghost
         _matView = _absTrans.inverse();
 
         if (!_orthographic)
+        {
             _matProj = Matrix4x4f::perspectiveMatrix(_fov, _aspect, _frustNear, _frustFar);
+            _frustum.buildViewFrustum(_absTrans, _fov, _aspect, _frustNear, _frustFar);
+        }   
         else
+        {
             _matProj = Matrix4x4f::orthoMatrix(_frustRight - _frustLeft, _frustTop - _frustBottom, _frustNear, _frustFar);
+            //_frustum.buildBoxFrustum();
+        }
     }
 
     void Camera::setProjectParams(float fov, float aspect, float n, float f)
