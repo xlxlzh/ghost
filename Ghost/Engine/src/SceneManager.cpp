@@ -258,6 +258,7 @@ namespace ghost
         Matrix4x4f lightViewMat = Matrix4x4f::viewMatrix(lightPos, light->getLightDir(), Vector3f(0.0, 1.0f, 0.0f));
         Matrix4x4f lightOrthMat = Matrix4x4f::orthoMatrix(vMax._x - vMin._x, vMax._y - vMin._y, vMin._z, vMax._z);
 
+        //TODO How to apply const buffers for muti-pass
         for (const auto& obj : objects)
             obj->render(camera);
     }
