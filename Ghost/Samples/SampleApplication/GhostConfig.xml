@@ -7,7 +7,7 @@
         <Fullscreen value = "0" />
     </Global>
     <Render>
-        <MSAA value = "4x" />
+        <MSAA value = "8x" />
         <ShadowResolution value = "2048" />
     </Render>
 </GhostConfig>
