@@ -345,6 +345,11 @@ namespace ghost
         d3dDevice->_dxgiSwapchain->Present(0, 0);
     }
 
+    void D3D11RenderSystem::beginScene()
+    {
+
+    }
+
     void D3D11RenderSystem::setCullMode(CullMode cull)
     {
         _cullingMode = cull;

@@ -9,10 +9,17 @@
 #include "D3D11RenderTarget.h"
 #include "D3D11DepthStencilTarget.h"
 
+#include "imgui_impl_dx11.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
 
 namespace ghost
 {
+    D3D11RenderDevice::~D3D11RenderDevice()
+    {
+        ImGui_ImplDX11_Shutdown();
+    }
+
     bool D3D11RenderDevice::initDevice(bool fullscreen, unsigned msaaCount)
     {
         HRESULT hr = S_OK;
@@ -78,6 +85,8 @@ namespace ghost
 
         _width = Engine::getInstance()->getWidth();
         _height = Engine::getInstance()->getHeight();
+
+        ImGui_ImplDX11_Init(_device.Get(), _context.Get());
 
         return _initSwapchain();
     }

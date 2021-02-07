@@ -1,6 +1,7 @@
 #include "SampleApplication.h"
 #include "Engine.h"
 #include "MeshNode.h"
+#include "imgui.h"
 #include <windows.h>
 
 void SampleApplication::onInit()
@@ -79,6 +80,13 @@ void SampleApplication::onUpdate()
 {
     _scene->updateSceneGraph(_mainCamera);
     _scene->render(_mainCamera);
+
+    //if (ImGui::GetCurrentContext())
+    //{
+    //    ImGui::NewFrame();
+    //    ImGui::ShowDemoWindow();
+    //    ImGui::Render();
+    //}
 }
 
 void SampleApplication::_generateResourcesPath(const std::string& workdir)

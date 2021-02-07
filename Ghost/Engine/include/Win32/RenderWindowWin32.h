@@ -11,6 +11,7 @@ namespace ghost
 	{
 	public:
 		RenderWindowWin32(Application* app);
+        ~RenderWindowWin32();
 
 		virtual void* getWindowHandle() const override;
         virtual void setWindowTitle(const std::string& title) override;

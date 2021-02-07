@@ -1,4 +1,4 @@
-include_directories(../../Engine/include ../../Engine/include/Win32)
+include_directories(../../Engine/include ../../Engine/include/Win32 ../../Engine/GUI)
 
 if(WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")

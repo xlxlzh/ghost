@@ -31,6 +31,7 @@ namespace ghost
 
         virtual void useDefaultRenderTarget() override;
 
+        virtual void beginScene() override;
         virtual void endScene() override;
 
         virtual void setCullMode(CullMode cull) override;
