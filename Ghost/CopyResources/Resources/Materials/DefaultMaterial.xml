@@ -15,7 +15,7 @@
             <GHOST_USE_NORMAL value="1" />
             <GHOST_USE_TANGENT value="1" />
         </Defines>
-        <Shader source="Shaders/DefaultShader.hlsl">
+        <Shader source="Shaders/DefaultShadowPass.hlsl">
             <VS entry="vs_main" />
             <PS entry="ps_main" />
         </Shader>
