@@ -21,10 +21,8 @@ namespace ghost
 
 		virtual void onTick(float deltaTime) { }
         virtual void onInit() { }
-        virtual void onInitGUI() { }
         virtual void onExit() { }
         virtual void onUpdate() { }
-        virtual void onUpdateGUI() { }
 
 		void* getAttachWindow() { return _window->getWindowHandle(); }
         RenderWindow* getWindow() const { return _window; }

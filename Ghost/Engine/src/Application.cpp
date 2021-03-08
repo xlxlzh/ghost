@@ -50,7 +50,6 @@ namespace ghost
 			return;
 
         onInit();
-        onInitGUI();
 
         _applicationTimer->start();
         static float beginTime = _applicationTimer->getElapsedTimeMS();
@@ -58,7 +57,6 @@ namespace ghost
 		{
 			_messageLoop();
             onUpdate();
-            onUpdateGUI();
 
             float currentTime = _applicationTimer->getElapsedTimeMS();
             onTick(currentTime - beginTime);

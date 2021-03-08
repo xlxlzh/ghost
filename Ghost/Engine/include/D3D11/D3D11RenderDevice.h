@@ -10,9 +10,6 @@ namespace ghost
     {
         friend class D3D11RenderSystem;
     public:
-        D3D11RenderDevice() = default;
-        ~D3D11RenderDevice();
-
         virtual bool initDevice(bool fullscreen, unsigned msaaCount) override;
         virtual bool checkSampleCount(unsigned checkCount) override;
 

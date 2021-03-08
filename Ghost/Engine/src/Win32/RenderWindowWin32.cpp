@@ -1,11 +1,6 @@
 #include "RenderWindowWin32.h"
 #include "Application.h"
 
-// imgui
-#include "imgui_impl_win32.h"
-
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 namespace ghost
 {
 	static Application* application = nullptr;
@@ -14,12 +9,6 @@ namespace ghost
 	{
 		application = app;
 	}
-
-    RenderWindowWin32::~RenderWindowWin32()
-    {
-        ImGui_ImplWin32_Shutdown();
-        ImGui::DestroyContext();
-    }
 
 	void* RenderWindowWin32::getWindowHandle() const
 	{
@@ -67,22 +56,11 @@ namespace ghost
 			return false;
 		}
 
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-
-        ImGui_ImplWin32_Init(_windowHandle);
-        ImGui_ImplWin32_EnableDpiAwareness();
-
-        ImGui::StyleColorsDark();
-
 		return true;
 	}
 
 	LRESULT CALLBACK RenderWindowWin32::WndPro(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-
-        ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam);
-
 		switch (message)
 		{
 		case WM_KEYDOWN:
