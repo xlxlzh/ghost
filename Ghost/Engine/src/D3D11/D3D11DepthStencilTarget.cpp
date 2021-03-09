@@ -6,8 +6,8 @@
 
 namespace ghost
 {
-    D3D11DepthStencilTarget::D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth) :
-        DepthStencilTarget(w, h, msaa, floatDepth)
+    D3D11DepthStencilTarget::D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv) :
+        DepthStencilTarget(w, h, msaa, floatDepth, srv)
     {
         _onCreateDepthStencilTarget();
     }
@@ -43,6 +43,9 @@ namespace ghost
             texDesc.SampleDesc.Count = 1;
             texDesc.SampleDesc.Quality = 0;
         }
+
+        if (_srv)
+            texDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
 
         HRESULT hr = d3d11Device->CreateTexture2D(&texDesc, nullptr, _depthTexture.ReleaseAndGetAddressOf());
         if (FAILED(hr))

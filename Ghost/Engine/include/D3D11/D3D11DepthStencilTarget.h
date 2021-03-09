@@ -10,7 +10,7 @@ namespace ghost
     class GHOST_API D3D11DepthStencilTarget : public DepthStencilTarget
     {
     public:
-        D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth);
+        D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv);
         virtual ~D3D11DepthStencilTarget();
 
         ID3D11DepthStencilViewPtr getDepthView() const { return _depthView; }

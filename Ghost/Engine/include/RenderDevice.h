@@ -32,7 +32,7 @@ namespace ghost
 
         virtual RenderTargetPtr createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) = 0;
         virtual RenderTargetPtr createSingleRenderTarget(unsigned w, unsigned h, GhostColorFormat format, bool srv = false, bool msaa = false, bool depth = true);
-        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool srv, bool msaa, bool floatDepth) = 0;
+        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv) = 0;
 
         unsigned getMSAACount() const { return _sampleCount; }
         unsigned getMSAAQuality() const { return _sampleQulity; }
