@@ -6,6 +6,14 @@
 
 namespace ghost
 {
+    enum TextureUsage
+    {
+        TEX_USAGE_SHADERRESOURCE,
+        TEX_USAGE_RENDERTARGET,
+        TEX_USAGE_DEPTH,
+        TEX_USAGE_SHADOWMAP,
+    };
+
     class GHOST_API Texture2D : public Resource
     {
     public:
