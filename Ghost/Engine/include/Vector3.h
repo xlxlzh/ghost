@@ -1,6 +1,7 @@
 #ifndef _VECTOR3_H_
 #define _VECTOR3_H_
 
+#include <initializer_list>
 #include "MathUtilities.h"
 #include "Matrix4x4.h"
 
@@ -11,6 +12,23 @@ namespace ghost
 	{
 	public:
 		Vector3() = default;
+
+        Vector3(std::initializer_list<T> initList)
+        {
+            int index = 0;
+            for (auto it = initList.begin(); it != initList.end() && index < 3; ++it)
+            {
+                if (index == 0)
+                    _x = *it;
+                else if (index == 1)
+                    _y = *it;
+                else if (index == 2)
+                    _z = *it;
+
+                ++index;
+            }
+        }
+
 		Vector3(T x, T y, T z) : _x(x), _y(y), _z(z) { }
 		Vector3(T rhs) : _x(rhs), _y(rhs), _z(rhs) { }
 		Vector3(const T* arr) : _x(arr[0]), _y(arr[1]), _z(arr[2]) { }
