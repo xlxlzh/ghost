@@ -8,6 +8,10 @@
             <VS entry="vs_main" />
             <PS entry="ps_main" />
         </Shader>
+        <Textures>
+            <Abldo name="" />
+            <Noraml name="" />
+        </Textures>
     </Pass>
 
     <Pass name = "shadow">

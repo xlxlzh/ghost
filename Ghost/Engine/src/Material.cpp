@@ -55,6 +55,12 @@ namespace ghost
             return RENDER_PASS_FORWARD;
     }
 
+    constexpr static const char* TexturesNames[] =
+    {
+        "Abldo",
+        "Normal",
+    };
+
     bool Material::load(DataStream& dataStream)
     {
         int size = dataStream.getSize();

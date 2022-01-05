@@ -11,7 +11,7 @@ namespace ghost
     class GHOST_API MeshImporter
     {
     public:
-        virtual bool importMeshFrom(const std::string& meshName) = 0;
+        virtual bool importMeshFromFile(const std::string& meshName) = 0;
     };
 
     DECLAR_SMART_POINTER(MeshImporter)
@@ -27,11 +27,11 @@ namespace ghost
     public:
         bool importMeshFromFile(const std::string& meshName);
 
-        void registerMeshImporter(const std::string& ext, MeshImporter* importer);
+        void registerMeshImporter(const std::string& ext, MeshImporterFactory* importer);
         void unregisterMeshImporter(const std::string& ext);
 
     private:
-        std::unordered_map<std::string, MeshImporter*> _importers;
+        std::unordered_map<std::string, MeshImporterFactory*> _factories;
     };
 }
 
