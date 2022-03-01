@@ -9,9 +9,11 @@
             <PS entry="ps_main" />
         </Shader>
         <Textures>
-            <Abldo name="" />
-            <Noraml name="" />
+            <AbldoTexture name="" />
+            <NoramlTexture name="" />
         </Textures>
+        <Samplers>
+        </Samplers>
     </Pass>
 
     <Pass name = "shadow">
@@ -23,6 +25,8 @@
             <VS entry="vs_main" />
             <PS entry="ps_main" />
         </Shader>
+        <Samplers>
+        </Samplers>
     </Pass>
 
 </Material>

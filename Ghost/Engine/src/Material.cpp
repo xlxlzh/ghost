@@ -161,13 +161,19 @@ namespace ghost
                         {
                             ResourceManager::getInstance()->addResource(RESOURCE_TEXTURE2D, texturePath, 0);
                         }
+
+                        textureElement = textureElement->NextSiblingElement();
                     }
                 }
 
                 const tinyxml2::XMLElement* samplers = passElement->FirstChildElement("Samplers");
                 if (samplers)
                 {
-                    //TODO
+                    const tinyxml2::XMLElement* sampler = samplers->FirstChildElement();
+                    while (sampler)
+                    {
+                        //TODO
+                    }
                 }
             }
 
