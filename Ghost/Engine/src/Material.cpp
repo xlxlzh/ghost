@@ -152,7 +152,16 @@ namespace ghost
                 const tinyxml2::XMLElement* textures = passElement->FirstChildElement("Textures");
                 if (textures)
                 {
-
+                    const tinyxml2::XMLElement* textureElement = textures->FirstChildElement();
+                    while (textureElement)
+                    {
+                        const char* textureName = textureElement->Name();
+                        const char* texturePath = textureElement->Attribute("path");
+                        if (texturePath)
+                        {
+                            ResourceManager::getInstance()->addResource(RESOURCE_TEXTURE2D, texturePath, 0);
+                        }
+                    }
                 }
 
                 const tinyxml2::XMLElement* samplers = passElement->FirstChildElement("Samplers");
