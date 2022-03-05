@@ -29,7 +29,7 @@ namespace ghost
 
     protected:
         void _setData(const unsigned char* data);
-        void _createTextureInternal() { }
+        virtual void _createTextureInternal() { }
 
     protected:
         int _width;

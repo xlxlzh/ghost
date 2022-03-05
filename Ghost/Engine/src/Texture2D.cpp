@@ -24,6 +24,8 @@ namespace ghost
 
         SAFE_DELETE_ARRAY(buffer);
 
+        _createTextureInternal();
+
         return true;
     }
 

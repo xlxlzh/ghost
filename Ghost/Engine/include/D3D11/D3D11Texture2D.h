@@ -1,6 +1,7 @@
 #ifndef _D3D11_TEXTURE2D_H_
 #define _D3D11_TEXTURE2D_H_
 
+#include "Engine.h"
 #include "Texture2D.h"
 #include "D3D11ComPtr.h"
 
@@ -17,6 +18,9 @@ namespace ghost
         ID3D11ShaderResourceViewPtr getD3D11ShaderResourceView() const { return _shaderResourceView; }
         ID3D11DepthStencilViewPtr getD3D11DepthStencilView() const { return _depthStencilView; }
         ID3D11RenderTargetViewPtr getD3D11RenderTargetView() const { return _rendertargetView; }
+
+    protected:
+        virtual void _createTextureInternal() override;
 
     private:
         ID3D11Texture2DPtr _texture;
