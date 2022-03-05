@@ -20,6 +20,50 @@ namespace ghost
         GHOST_FORMAT_R32G32B32_FLOAT,
     };
 
+    class GHOST_API FormatUtilies
+    {
+    public:
+        static int getFormatSizeInByte(GhostColorFormat fmt)
+        {
+            switch (fmt)
+            {
+            case GHOST_FORMAT_A8R8G8B8:
+            case GHOST_FORMAT_R8G8B8A8:
+            case GHOST_FORMAT_D24S8:
+            case GHOST_FORMAT_FLOAT_32:
+                return 4;
+            case GHOST_FORMAT_FLOAT_16:
+                return 2;
+            case GHOST_FORMAT_R32G32B32A32_FLOAT:
+                return 16;
+            case GHOST_FORMAT_R32G32B32_FLOAT:
+                return 12;
+            }
+
+            return 0;
+        }
+
+        static int getFormatSizeInBits(GhostColorFormat fmt)
+        {
+            switch (fmt)
+            {
+            case GHOST_FORMAT_A8R8G8B8:
+            case GHOST_FORMAT_R8G8B8A8:
+            case GHOST_FORMAT_D24S8:
+            case GHOST_FORMAT_FLOAT_32:
+                return 32;
+            case GHOST_FORMAT_FLOAT_16:
+                return 16;
+            case GHOST_FORMAT_R32G32B32A32_FLOAT:
+                return 128;
+            case GHOST_FORMAT_R32G32B32_FLOAT:
+                return 96;
+            }
+
+            return 0;
+        }
+    };
+
     class GHOST_API Color
     {
     public:

@@ -6,20 +6,6 @@
 
 namespace ghost
 {
-//     Resource* D3D11TextureFactory::createResource(const std::string& name, int flags)
-//     {
-//         DataStream* dataStream = new FileStream(name);
-//         Resource* tex = new D3D11Texture2D();
-//         if (tex)
-//         {
-//             tex->load(*dataStream);
-//         }
-// 
-//         SAFE_DELETE(dataStream);
-// 
-//         return tex;
-//     }
-
     D3D11Texture2D::D3D11Texture2D()
     {
 
@@ -49,7 +35,7 @@ namespace ghost
 
         D3D11_SUBRESOURCE_DATA subData{ 0 };
         subData.pSysMem = _datas;
-        subData.SysMemPitch = _width; //need * format size
+        subData.SysMemPitch = _width * FormatUtilies::getFormatSizeInByte(_format);
 
         HRESULT hr = S_OK;
         hr = d3d11Device->CreateTexture2D(&texDesc, &subData, _texture.ReleaseAndGetAddressOf());
