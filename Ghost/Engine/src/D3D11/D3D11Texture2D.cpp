@@ -21,7 +21,6 @@ namespace ghost
         D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::getInstance()->getRenderDevice());
         ID3D11DevicePtr d3d11Device = device->getDevice();
 
-        HRESULT hr = S_OK;
         D3D11_TEXTURE2D_DESC texDesc{ 0 };
         texDesc.Width = _width;
         texDesc.Height = _height;
@@ -45,6 +44,16 @@ namespace ghost
             return;
         }
 
-
+        D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc{ };
+        viewDesc.Format = D3D11Mappings::getFormat(_format);
+        viewDesc.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
+        viewDesc.Texture2D.MipLevels = 0;
+        viewDesc.Texture2D.MostDetailedMip = 0;
+        hr = d3d11Device->CreateShaderResourceView(_texture.Get(), &viewDesc, _shaderResourceView.ReleaseAndGetAddressOf());
+        if (FAILED(hr))
+        {
+            GHOST_LOG_FORMAT_ERROR("D3D11Texture2D::_createTextureInternal failed, texture name[%s]", _name.c_str());
+            return;
+        }
     }
 }
