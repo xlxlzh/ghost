@@ -44,5 +44,7 @@ namespace ghost
             GHOST_LOG_FORMAT_ERROR("D3D11Texture2D::_createTextureInternal failed, texture name[%s]", _name.c_str());
             return;
         }
+
+
     }
 }
