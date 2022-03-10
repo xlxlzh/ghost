@@ -351,7 +351,19 @@ namespace ghost
                 }
                 else if (inputBindDesc.Type == D3D_SIT_TEXTURE)
                 {
-                    //TODO
+                    TextureVariableInfo texInfo;
+                    texInfo._bindPoint = inputBindDesc.BindPoint;
+                    texInfo._name = inputBindDesc.Name;
+
+                    params[i]._textures.push_back(texInfo);
+                }
+                else if (inputBindDesc.Type == D3D_SIT_SAMPLER)
+                {
+                    SamplerInfo samInfo;
+                    samInfo._bindPoint = inputBindDesc.BindPoint;
+                    samInfo._name = inputBindDesc.Name;
+
+                    params[i]._samplers.push_back(samInfo);
                 }
             }
         }

@@ -11,7 +11,7 @@
 
 namespace ghost
 {
-    enum ResourceTypes
+    enum ResourceTypes : int
     {
         RESOURCE_NONE,
         RESOURCE_TEXTURE2D,

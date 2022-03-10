@@ -49,11 +49,29 @@ namespace ghost
 
     using ConstBufferParamsList = std::vector<ConstBufferInfo>;
 
+    struct GHOST_API TextureVariableInfo
+    {
+        std::string _name;
+        unsigned _bindPoint;
+    };
+
+    using TextureVariableList = std::vector<TextureVariableInfo>;
+
+    struct GHOST_API SamplerInfo
+    {
+        std::string _name;
+        unsigned _bindPoint;
+    };
+
+    using SamplerList = std::vector<SamplerInfo>;
+
     class GHOST_API ShaderParams
     {
     public:
         InputSignatureList _sigDesc;
         ConstBufferParamsList _constBuffers;
+        TextureVariableList _textures;
+        SamplerList _samplers;
     };
 
     using ShaderParamsList = std::array<ShaderParams, (std::size_t)SHADER_NONE>;
@@ -82,7 +100,7 @@ namespace ghost
     protected:
         ShaderResourcePtr _linkedShader = nullptr;
         RenderPass _passType;
-
+         
         std::unordered_map<std::string, std::string> _defines{};
 
         Shader* _handwareShader{ nullptr };
