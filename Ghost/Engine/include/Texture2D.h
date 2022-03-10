@@ -42,6 +42,8 @@ namespace ghost
         GhostColorFormat _format = GHOST_FORMAT_UNKNOWN;
         unsigned char* _datas = nullptr;
         int _dataSize = 0;
+
+        BufferUsage _usage = USAGE_STATIC;
     };
 
     DECLAR_SMART_POINTER(Texture2D)

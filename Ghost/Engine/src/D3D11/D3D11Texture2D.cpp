@@ -27,7 +27,7 @@ namespace ghost
         texDesc.ArraySize = 1;
         texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
         texDesc.Format = D3D11Mappings::getFormat(_format);
-        texDesc.Usage = D3D11_USAGE_DEFAULT;
+        texDesc.Usage = D3D11Mappings::getUsage(_usage);
         texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ; //temp
         texDesc.SampleDesc.Count = 1;
         texDesc.SampleDesc.Quality = 0;
