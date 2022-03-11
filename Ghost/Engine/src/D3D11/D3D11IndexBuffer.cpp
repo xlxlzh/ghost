@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    D3D11IndexBuffer::D3D11IndexBuffer(IndexType iType, unsigned numIndex, BufferUsage usage, D3D11RenderDevice& device, bool useSystemMem) :
+    D3D11IndexBuffer::D3D11IndexBuffer(IndexType iType, unsigned numIndex, ResourceUsage usage, D3D11RenderDevice& device, bool useSystemMem) :
         IndexBuffer(iType, numIndex, usage, useSystemMem)
     {
         _buffer = new D3D11Buffer(D3D11Buffer::BUFFER_INDEX, _bufferSize, usage, useSystemMem, device);
@@ -18,7 +18,7 @@ namespace ghost
         return _buffer->isLocked();
     }
 
-    void* D3D11IndexBuffer::map(unsigned offset, unsigned length, BufferLockFlag flag)
+    void* D3D11IndexBuffer::map(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
         return _buffer->map(offset, length, flag);
     }

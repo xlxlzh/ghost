@@ -10,7 +10,7 @@ namespace ghost
     class GHOST_API ConstBuffer : public Buffer
     {
     public:
-        ConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name = "");
+        ConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name = "");
         ~ConstBuffer();
 
         const std::string& getName() const { return _bufferName; }

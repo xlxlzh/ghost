@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    D3D11VertexBuffer::D3D11VertexBuffer(unsigned vertexSize, unsigned numVertices, BufferUsage usage, D3D11RenderDevice& device, bool useSystemMem) :
+    D3D11VertexBuffer::D3D11VertexBuffer(unsigned vertexSize, unsigned numVertices, ResourceUsage usage, D3D11RenderDevice& device, bool useSystemMem) :
         VertexBuffer(vertexSize, numVertices, usage, useSystemMem)
     {
         _buffer = new D3D11Buffer(D3D11Buffer::BUFFER_VERTEX, _bufferSize, usage, useSystemMem, device);
@@ -18,7 +18,7 @@ namespace ghost
         return _buffer->isLocked();
     }
 
-    void* D3D11VertexBuffer::map(unsigned offset, unsigned length, BufferLockFlag flag)
+    void* D3D11VertexBuffer::map(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
         return _buffer->map(offset, length, flag);
     }

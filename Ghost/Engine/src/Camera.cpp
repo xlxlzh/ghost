@@ -49,7 +49,7 @@ namespace ghost
     void Camera::prepareForRendering()
     {
         if (_cameraParams == nullptr)
-            _cameraParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerFrame), BufferUsage::USAGE_DYNAMIC, "PerFrame");
+            _cameraParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerFrame), ResourceUsage::USAGE_DYNAMIC, "PerFrame");
 
         PerFrame frame;
         frame._cameraPos = Vector4f(_absPos._x, _absPos._y, _absPos._z, 1.0f);

@@ -21,7 +21,7 @@ namespace ghost
     void MeshNode::prepareRendering(Camera* cam)
     {
         if (_meshParams == nullptr)
-            _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), BufferUsage::USAGE_DYNAMIC, "PerObject");
+            _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), ResourceUsage::USAGE_DYNAMIC, "PerObject");
 
         auto renderSystem = Engine::getInstance()->getRenderSystem();
         Light* mainLight = _owner->getMainLigt();

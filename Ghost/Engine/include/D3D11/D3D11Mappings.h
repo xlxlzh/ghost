@@ -12,9 +12,9 @@ namespace ghost
     class GHOST_API D3D11Mappings
     {
     public:
-        static D3D11_USAGE getUsage(BufferUsage usage);
-        static UINT getAccessFlags(BufferUsage usage);
-        static bool isDynamic(BufferUsage usage);
+        static D3D11_USAGE getUsage(ResourceUsage usage);
+        static UINT getAccessFlags(ResourceUsage usage);
+        static bool isDynamic(ResourceUsage usage);
 
         static DXGI_FORMAT getFormat(IndexBuffer::IndexType type);
         static DXGI_FORMAT getFormat(VertexElementType vElemType);

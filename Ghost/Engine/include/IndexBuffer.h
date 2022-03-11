@@ -15,7 +15,7 @@ namespace ghost
             INDEX_32BIT
         };
 
-        IndexBuffer(IndexType type, unsigned numIndex, BufferUsage usage, bool systemMemory);
+        IndexBuffer(IndexType type, unsigned numIndex, ResourceUsage usage, bool systemMemory);
         ~IndexBuffer();
 
         IndexType getIndexType() const { return _type; }

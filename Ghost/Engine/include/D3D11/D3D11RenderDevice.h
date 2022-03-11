@@ -17,9 +17,9 @@ namespace ghost
         virtual Shader* createShader(const ShaderResourcePtr& shadersRes) override;
         virtual void reflectShader(const ShaderResourcePtr& shadersRes, ShaderParamsList& params) override;
 
-        virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage) override;
-        virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage) override;
-        virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name) override;
+        virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) override;
+        virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) override;
+        virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) override;
         virtual VertexDeclarationPtr createVertexDeclaration() override;
 
         virtual RenderTargetPtr createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) override;

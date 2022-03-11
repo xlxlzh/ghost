@@ -9,13 +9,13 @@ namespace ghost
     class GHOST_API D3D11IndexBuffer : public IndexBuffer
     {
     public:
-        D3D11IndexBuffer(IndexType iType, unsigned numIndex, BufferUsage usage, D3D11RenderDevice& device, bool useSystemMem);
+        D3D11IndexBuffer(IndexType iType, unsigned numIndex, ResourceUsage usage, D3D11RenderDevice& device, bool useSystemMem);
         ~D3D11IndexBuffer();
 
         virtual void readData(unsigned offset, unsigned length, void* dest) override;
         virtual void writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false) override;
 
-        virtual void* map(unsigned offset, unsigned length, BufferLockFlag flag) override;
+        virtual void* map(unsigned offset, unsigned length, ResourceLockFlag flag) override;
         virtual void unmap() override;
 
         bool isLocked() const;
@@ -24,7 +24,7 @@ namespace ghost
 
     protected:
         //Not use two interface, use it at impl.
-        virtual void* _mapImpl(unsigned offset, unsigned length, BufferLockFlag flag) override { return nullptr; }
+        virtual void* _mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) override { return nullptr; }
         virtual void _unmapImpl() override { }
 
     private:

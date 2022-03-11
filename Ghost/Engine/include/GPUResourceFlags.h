@@ -1,0 +1,32 @@
+#ifndef _GPU_RESOURCE_FLAGS_H_
+#define _GPU_RESOURCE_FLAGS_H_
+
+namespace ghost
+{
+    enum ResourceLockFlag
+    {
+        LOCK_NORMAL,
+        LOCK_DISCARD,
+
+        LOCK_READ_ONLY,
+
+        LOCK_WRITE_ONLY,
+        LOCK_NO_OVERWRITE
+    };
+
+    enum ResourceUsage
+    {
+        USAGE_STATIC = 1,
+        USAGE_DYNAMIC = 2,
+        USAGE_WRITE_ONLY = 4,
+        USAGE_DISCARDABLE = 8,
+
+        USAGE_STATIC_WRITE_ONLY = USAGE_STATIC | USAGE_WRITE_ONLY,
+
+        USAGE_DYNAMIC_WRITE_ONLY = USAGE_DYNAMIC | USAGE_WRITE_ONLY,
+
+        USAGE_DYNAMIC_WRITE_ONLY_DISCARDABLE = USAGE_DYNAMIC_WRITE_ONLY | USAGE_DISCARDABLE,
+    };
+}
+
+#endif

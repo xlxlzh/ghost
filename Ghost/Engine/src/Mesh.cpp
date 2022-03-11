@@ -164,7 +164,7 @@ namespace ghost
             unsigned vSize = getVertexSizeByMask(_mask);
 
             _vertexBuffer = Engine::getInstance()->getRenderDevice()->createVertexBuffer(
-                vSize, _positions.size(), BufferUsage::USAGE_DYNAMIC);
+                vSize, _positions.size(), ResourceUsage::USAGE_DYNAMIC);
             
             _vertexBuffer->writeData(0, vSize * _positions.size(), &_rawDatas[0], true);
 
@@ -172,7 +172,7 @@ namespace ghost
             _bindings->setBinding(0, _vertexBuffer);
 
             _indexBuffer = Engine::getInstance()->getRenderDevice()->createIndexBuffer(
-            IndexBuffer::INDEX_32BIT, _indices.size(), BufferUsage::USAGE_DYNAMIC);
+            IndexBuffer::INDEX_32BIT, _indices.size(), ResourceUsage::USAGE_DYNAMIC);
             _indexBuffer->writeData(0, sizeof(unsigned int) * _indices.size(), &_indices[0], true);
 
             _vertexDec = Engine::getInstance()->getRenderDevice()->createVertexDeclaration();
@@ -196,7 +196,7 @@ namespace ghost
             
         }
 
-        _objConstBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(Matrix4x4f), BufferUsage::USAGE_DYNAMIC, "PerObject");
+        _objConstBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(Matrix4x4f), ResourceUsage::USAGE_DYNAMIC, "PerObject");
 
         return true;
     }

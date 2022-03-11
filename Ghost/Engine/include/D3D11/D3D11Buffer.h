@@ -19,7 +19,7 @@ namespace ghost
         };
 
     public:
-        D3D11Buffer(BufferType buffType, unsigned bufferSize, BufferUsage usage, bool systemMemory, D3D11RenderDevice& device);
+        D3D11Buffer(BufferType buffType, unsigned bufferSize, ResourceUsage usage, bool systemMemory, D3D11RenderDevice& device);
         ~D3D11Buffer() { }
 
         ID3D11Buffer* getD3DBuffer() { return _buffer.Get(); }
@@ -28,7 +28,7 @@ namespace ghost
         virtual void writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false);
 
     protected:
-        virtual void* _mapImpl(unsigned offset, unsigned length, BufferLockFlag flag) override;
+        virtual void* _mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) override;
         virtual void _unmapImpl() override;
 
     protected:

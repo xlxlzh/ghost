@@ -9,7 +9,7 @@ namespace ghost
     class GHOST_API VertexBuffer : public Buffer
     {
     public:
-        VertexBuffer(unsigned vertexSize, unsigned numVertices, BufferUsage usage, bool systemMemory);
+        VertexBuffer(unsigned vertexSize, unsigned numVertices, ResourceUsage usage, bool systemMemory);
         ~VertexBuffer();
 
         unsigned getVertexSize() const { return _vertexSize; }

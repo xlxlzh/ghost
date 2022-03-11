@@ -7,7 +7,7 @@
 
 namespace ghost
 {
-    D3D11Buffer::D3D11Buffer(BufferType buffType, unsigned bufferSize, BufferUsage usage, bool systemMemory, D3D11RenderDevice& device) :
+    D3D11Buffer::D3D11Buffer(BufferType buffType, unsigned bufferSize, ResourceUsage usage, bool systemMemory, D3D11RenderDevice& device) :
         Buffer(usage, systemMemory),
         _device(device),
         _bufferType(buffType)
@@ -40,7 +40,7 @@ namespace ghost
         }
     }
 
-    void* D3D11Buffer::_mapImpl(unsigned offset, unsigned length, BufferLockFlag flag)
+    void* D3D11Buffer::_mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
         void* pRet = nullptr;
         if (length > _bufferSize)
@@ -56,7 +56,7 @@ namespace ghost
         }
 
         if (_useSystemMemory ||
-            (_usage & BufferUsage::USAGE_DYNAMIC && (flag == BufferLockFlag::LOCK_DISCARD || flag == BufferLockFlag::LOCK_NO_OVERWRITE)))
+            (_usage & ResourceUsage::USAGE_DYNAMIC && (flag == ResourceLockFlag::LOCK_DISCARD || flag == ResourceLockFlag::LOCK_NO_OVERWRITE)))
         {
             D3D11_MAP mapType;
             switch (flag)
@@ -106,14 +106,14 @@ namespace ghost
 
     void D3D11Buffer::writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer /* = false */)
     {
-        void* pData = map(offset, length, discardBuffer ? BufferLockFlag::LOCK_DISCARD : BufferLockFlag::LOCK_NORMAL);
+        void* pData = map(offset, length, discardBuffer ? ResourceLockFlag::LOCK_DISCARD : ResourceLockFlag::LOCK_NORMAL);
         memcpy(pData, src, length);
         unmap();
     }
 
     void D3D11Buffer::readData(unsigned offset, unsigned length, void* dest)
     {
-        void* pData = map(offset, length, BufferLockFlag::LOCK_READ_ONLY);
+        void* pData = map(offset, length, ResourceLockFlag::LOCK_READ_ONLY);
         memcpy(dest, pData, length);
         unmap();
     }

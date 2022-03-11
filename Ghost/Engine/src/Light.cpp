@@ -47,7 +47,7 @@ namespace ghost
     {
         if (_lightBuffer == nullptr) 
         {
-            _lightBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(MainLight), BufferUsage::USAGE_DYNAMIC, "MainLight");
+            _lightBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(MainLight), ResourceUsage::USAGE_DYNAMIC, "MainLight");
         }
 
         MainLight params;

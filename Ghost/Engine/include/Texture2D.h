@@ -3,6 +3,7 @@
 
 #include "Resource.h"
 #include "Color.h"
+#include "GPUResourceFlags.h"
 
 namespace ghost
 {
@@ -43,7 +44,7 @@ namespace ghost
         unsigned char* _datas = nullptr;
         int _dataSize = 0;
 
-        BufferUsage _usage = USAGE_STATIC;
+        ResourceUsage _usage = USAGE_STATIC;
     };
 
     DECLAR_SMART_POINTER(Texture2D)

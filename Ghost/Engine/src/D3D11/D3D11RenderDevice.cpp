@@ -369,17 +369,17 @@ namespace ghost
         }
     }
 
-    ConstBufferPtr D3D11RenderDevice::createConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name)
+    ConstBufferPtr D3D11RenderDevice::createConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name)
     {
         return std::make_shared<D3D11ConstBuffer>(bufferSize, usage, *this, name);
     }
 
-    IndexBufferPtr D3D11RenderDevice::createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, BufferUsage usage)
+    IndexBufferPtr D3D11RenderDevice::createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage)
     {
         return std::make_shared<D3D11IndexBuffer>(iType, numIndexes, usage, *this, false);
     }
 
-    VertexBufferPtr D3D11RenderDevice::createVertexBuffer(unsigned VertexSize, unsigned numVertices, BufferUsage usage)
+    VertexBufferPtr D3D11RenderDevice::createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage)
     {
         return std::make_shared<D3D11VertexBuffer>(VertexSize, numVertices, usage, *this, false);
     }

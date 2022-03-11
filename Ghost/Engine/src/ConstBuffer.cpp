@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    ConstBuffer::ConstBuffer(unsigned bufferSize, BufferUsage usage, const std::string& name /* = "" */) :
+    ConstBuffer::ConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name /* = "" */) :
         Buffer(usage, false), _bufferName(name)
     {
         _bufferSize = bufferSize;

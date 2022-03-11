@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    IndexBuffer::IndexBuffer(IndexType type, unsigned numIndex, BufferUsage usage, bool systemMemory) :
+    IndexBuffer::IndexBuffer(IndexType type, unsigned numIndex, ResourceUsage usage, bool systemMemory) :
         Buffer(usage, systemMemory),
         _type(type), _numIndices(numIndex)
     {

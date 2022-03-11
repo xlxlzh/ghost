@@ -276,7 +276,7 @@ namespace ghost
     void SceneManager::prepareRendering()
     {
         if (_sceneGlobalBuffer == nullptr)
-            _sceneGlobalBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(SceneGlobalParams), BufferUsage::USAGE_DYNAMIC, "SceneGlobalParams");
+            _sceneGlobalBuffer = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(SceneGlobalParams), ResourceUsage::USAGE_DYNAMIC, "SceneGlobalParams");
 
         SceneGlobalParams params;
         params._ambientColor = Vector4f(_ambientColor._r, _ambientColor._g, _ambientColor._b, 1.0);

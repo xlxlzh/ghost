@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    D3D11ConstBuffer::D3D11ConstBuffer(unsigned bufferSize, BufferUsage usage, D3D11RenderDevice& device, const std::string& name /* = "" */) :
+    D3D11ConstBuffer::D3D11ConstBuffer(unsigned bufferSize, ResourceUsage usage, D3D11RenderDevice& device, const std::string& name /* = "" */) :
         ConstBuffer(bufferSize ,usage, name),
         _buffer(nullptr)
     {
@@ -14,7 +14,7 @@ namespace ghost
         SAFE_DELETE(_buffer);
     }
 
-    void* D3D11ConstBuffer::map(unsigned offset, unsigned length, BufferLockFlag flag)
+    void* D3D11ConstBuffer::map(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
         return _buffer->map(offset, length, flag);
     }

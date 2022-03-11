@@ -3,14 +3,14 @@
 
 namespace ghost
 {
-    Buffer::Buffer(BufferUsage usage, bool systemMemory) : _usage(usage),
+    Buffer::Buffer(ResourceUsage usage, bool systemMemory) : _usage(usage),
         _useSystemMemory(systemMemory), _bufferSize(0),
         _isLocked(false), _lockSize(0), _lockStart(0)
     {
 
     }
 
-    void* Buffer::map(unsigned offset, unsigned length, BufferLockFlag flag)
+    void* Buffer::map(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
         assert(!isLocked());
 
