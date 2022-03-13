@@ -9,10 +9,13 @@
             <PS entry="ps_main" />
         </Shader>
         <Textures>
-            <AbldoTexture name="" />
-            <NoramlTexture name="" />
+            <texAlbedo path="" />
+            <texNormal path="" />
         </Textures>
         <Samplers>
+            <diffuseSampler>
+                <Filter value="FILTER_MIN_MAG_MIP_LINEAR"/>
+            </diffuseSampler>
         </Samplers>
     </Pass>
 
