@@ -24,6 +24,8 @@ cbuffer SceneGlobalParams
 Texture2D texAlbedo;
 Texture2D texNormal;
 
+SamplerState diffuseSampler;
+
 struct vs_input
 {
     float3 position : POSITION0;
@@ -34,6 +36,7 @@ struct vs_input
 struct ps_input
 {
     float4 position : SV_POSITION;
+    float2 uv : TEXCOORD0;
     float3 wpos : POSITION;
     float3 wnormal : NORMAL;
 };
@@ -44,6 +47,7 @@ ps_input vs_main(vs_input input)
     pInput.position = mul(float4(input.position, 1.0), matWorldViewProj);
     pInput.wnormal = mul(input.normal ,(float3x3)matWorldInverseTranspose);
     pInput.wpos = mul(float4(input.position, 1.0), matWorld).xyz;
+    pInput.uv = input.uv;
     return pInput;
 }
 
@@ -60,6 +64,8 @@ float4 ps_main(ps_input pInput) : SV_TARGET
 
     float specular = pow(ndh, lightColor.w);
 
-    float3 color = ndl * lightColor.xyz + specular * ndl * lightColor.xyz + ambientColor.rgb;
+    float3 diffuse = texAlbedo.Sample(diffuseSampler, pInput.uv).xyz;
+
+    float3 color = (diffuse + specular ) * ndl * lightColor.xyz + ambientColor.rgb;
     return float4(color, 1.0);
 }
