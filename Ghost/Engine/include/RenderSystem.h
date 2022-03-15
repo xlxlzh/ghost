@@ -11,6 +11,7 @@
 #include "Material.h"
 #include "VertexBufferBinding.h"
 #include "RenderCommon.h"
+#include "RenderOperation.h"
 
 namespace ghost
 {
@@ -29,7 +30,7 @@ namespace ghost
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) = 0;
 
         virtual void setVertexBuffer(VertexBufferPtr vBuffer) = 0;
-        virtual void setVertexBufferBinding(VertexBufferBinding* binding) = 0;
+        virtual void setVertexBufferBinding(VertexBufferBindingPtr binding) = 0;
         virtual void setIndexBuffer(IndexBufferPtr iBuffer) = 0;
         virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) = 0;
         virtual void setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) = 0;
@@ -61,6 +62,8 @@ namespace ghost
         }
 
         virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) = 0;
+
+        virtual void render(const RenderOperation& op) = 0;
 
         //Test interface
         virtual void useDefaultRenderTarget() { }

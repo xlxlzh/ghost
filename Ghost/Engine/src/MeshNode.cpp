@@ -41,9 +41,6 @@ namespace ghost
     void MeshNode::render(Camera* cam)
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
-        renderSystem->setVertexBufferBinding(_mesh->_bindings.get());
-        renderSystem->setIndexBuffer(_mesh->_indexBuffer);
-        renderSystem->setPrimitiveType(PRIMITIVE_TRIANGLELIST);
 
         if (_material)
         {
@@ -53,8 +50,17 @@ namespace ghost
         prepareRendering(cam);
         renderSystem->setConstBuffer(SHADER_VS, _meshParams);
 
-        renderSystem->setVertexDeclaration(_mesh->_vertexDec);
-        renderSystem->drawPrimitiveIndexed(_mesh->_indexBuffer->getNumIndices(), 0, 0);
+        RenderOperation op;
+        getRenderOperation(op);
+        renderSystem->render(op);
+    }
+
+    void MeshNode::getRenderOperation(RenderOperation& op)
+    {
+        op._indexBuffer = _mesh->_indexBuffer;
+        op._vertexBinding = _mesh->_bindings;
+        op._primitiveType = PRIMITIVE_TRIANGLELIST;
+        op._vertexDecl = _mesh->_vertexDec;
     }
 
     void MeshNode::onPostUpdate()

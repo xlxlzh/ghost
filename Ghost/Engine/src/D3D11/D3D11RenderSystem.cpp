@@ -175,7 +175,7 @@ namespace ghost
         devicePtr->_context->IASetVertexBuffers(0, 0, buffers, strides, &offset);
     }
 
-    void D3D11RenderSystem::setVertexBufferBinding(VertexBufferBinding* binding)
+    void D3D11RenderSystem::setVertexBufferBinding(VertexBufferBindingPtr binding)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
@@ -516,5 +516,26 @@ namespace ghost
 
             devicePtr->_context->OMSetBlendState(_blendState.Get(), 0, 0xffffffff);
         }
+    }
+
+    void D3D11RenderSystem::render(const RenderOperation& op)
+    {
+        _updateRenderStateBeforeRendering();
+
+        setVertexBufferBinding(op._vertexBinding);
+        setVertexDeclaration(op._vertexDecl);
+        setPrimitiveType(op._primitiveType);
+
+        if (op._useIndex)
+        {
+            setIndexBuffer(op._indexBuffer);
+            drawPrimitiveIndexed(op._indexBuffer->getNumIndices(), 0, 0);
+        }
+        else
+        {
+            //TODO
+        }
+        
+
     }
 }

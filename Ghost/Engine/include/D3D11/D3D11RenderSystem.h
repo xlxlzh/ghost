@@ -21,7 +21,7 @@ namespace ghost
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
         virtual void setVertexBuffer(VertexBufferPtr vBuffer) override;
-        virtual void setVertexBufferBinding(VertexBufferBinding* binding) override;
+        virtual void setVertexBufferBinding(VertexBufferBindingPtr binding) override;
         virtual void setIndexBuffer(IndexBufferPtr iBuffer) override;
         virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) override;
         virtual void setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) override;
@@ -47,6 +47,8 @@ namespace ghost
         virtual void setSamplerState() override;
 
         virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) override;
+
+        virtual void render(const RenderOperation& op) override;
 
     protected:
         void _clearRenderTarget(Color cl);

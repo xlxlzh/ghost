@@ -16,7 +16,7 @@ namespace ghost
     };
 
     class GHOST_API Texture2D : public Resource
-    {
+     {
     public:
         Texture2D();
         Texture2D(const std::string& name, int flag);

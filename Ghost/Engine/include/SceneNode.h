@@ -5,6 +5,7 @@
 #include "BoundingBox.h"
 #include <vector>
 #include "Matrix4x4.h"
+#include "RenderOperation.h"
 
 namespace ghost
 {
@@ -50,6 +51,8 @@ namespace ghost
         bool isIn(const BoundingBox& inBox) const { return true; }
 
         virtual void render(Camera* cam) { }
+
+        virtual void getRenderOperation(RenderOperation& op) { }
 
         GET_SCENENODE_TYPE(UNDEFINED)
 

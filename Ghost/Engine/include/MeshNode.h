@@ -24,6 +24,8 @@ namespace ghost
 
         virtual void render(Camera* cam);
 
+        virtual void getRenderOperation(RenderOperation& op) override;
+
         GET_SCENENODE_TYPE(MESH)
 
     protected:
