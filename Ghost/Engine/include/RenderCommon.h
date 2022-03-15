@@ -83,6 +83,17 @@ namespace ghost
         FILTER_MIN_MAG_MIP_LINEAR,
         FILTER_ANISOTROPIC
     };
+
+    enum TextureAddressingMode
+    {
+        ADDRESSING_WRAP,
+        ADDRESSING_MIRROR,
+        ADDRESSING_CLAMP,
+        ADDRESSING_BORDER,
+        ADDRESSING_UNKNOWN = 99
+    };
+
+    const static unsigned GHOST_MAX_TEXTURE_UNITS = 16;
 }
 
 #endif

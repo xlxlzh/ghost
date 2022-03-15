@@ -73,13 +73,23 @@ namespace ghost
         D3D11_SAMPLER_DESC _samplerDesc;
         ID3D11SamplerStatePtr _samplerState = nullptr;
 
-        D3D11Texture2DPtr _textures2DUnits[8];
+        D3D11Texture2DPtr _textures2DUnits[GHOST_MAX_TEXTURE_UNITS];
 
         using SetSRVFunction = std::function<void(unsigned, ID3D11ShaderResourceView *const *)>;
         SetSRVFunction _srvFunctionTable[SHADER_TYPE_NUM];
 
         using SetSamplerFunction = std::function<void(unsigned, ID3D11SamplerState *const *)>;
         SetSamplerFunction _samplerFunctionTable[SHADER_TYPE_NUM];
+
+        struct D3DTextureStageDesc
+        {
+            ID3D11ShaderResourceView*  _tex;
+            D3D11_SAMPLER_DESC  _samplerDesc;
+            bool _used;
+        } _texStageDesc[GHOST_MAX_TEXTURE_UNITS];
+
+        unsigned   _lastTextureUnitState;
+        bool       _samplerStatesChanged;
     };
 }
 

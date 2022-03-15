@@ -1,4 +1,5 @@
 #include <functional>
+#include <algorithm>
 #include "D3D11RenderSystem.h"
 #include "Engine.h"
 #include "D3D11Mappings.h"
@@ -392,19 +393,24 @@ namespace ghost
 
     void D3D11RenderSystem::setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D)
     {
-        if (slot >= 8 || type >= SHADER_TYPE_NUM)
+        if (slot >= GHOST_MAX_TEXTURE_UNITS || type >= SHADER_TYPE_NUM)
             return;
 
-        _textures2DUnits[slot] = GHOST_SMARTPOINTER_CAST(D3D11Texture2D, tex2D);
-        if (tex2D != nullptr)
+        D3D11Texture2DPtr D3D11Tex = GHOST_SMARTPOINTER_CAST(D3D11Texture2D, tex2D);
+        if (D3D11Tex && tex2D->getWidth() > 0 && tex2D->getHeight() > 0)
         {
-            _srvFunctionTable[type](slot, _textures2DUnits[slot]->getD3D11ShaderResourceView().GetAddressOf());
+            _texStageDesc[slot]._tex = D3D11Tex->getD3D11ShaderResourceView().Get();
+            _texStageDesc[slot]._used = true;
+
+            _lastTextureUnitState = slot + 1;
         }
         else
         {
-            ID3D11ShaderResourceView* views[]{ nullptr };
-            _srvFunctionTable[type](slot, views);
+            _texStageDesc[slot]._used = false;
+            _lastTextureUnitState = std::min<unsigned>(_lastTextureUnitState, slot);
         }
+
+        _samplerStateChanged = true;
     }
 
     void D3D11RenderSystem::setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
@@ -515,6 +521,12 @@ namespace ghost
             }
 
             devicePtr->_context->OMSetBlendState(_blendState.Get(), 0, 0xffffffff);
+        }
+
+        if (_samplerStateChanged)
+        {
+            _samplerStateChanged = false;
+            //TODO
         }
     }
 
