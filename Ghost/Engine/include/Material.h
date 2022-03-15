@@ -3,6 +3,8 @@
 
 #include "Resource.h"
 #include "Shader.h"
+#include "Texture2D.h"
+#include "RenderCommon.h"
 
 #include <unordered_map>
 #include <array>
@@ -53,6 +55,7 @@ namespace ghost
     {
         std::string _name;
         unsigned _bindPoint;
+        Texture2DPtr _texture;
     };
 
     using TextureVariableList = std::vector<TextureVariableInfo>;
@@ -61,20 +64,20 @@ namespace ghost
     {
         std::string _name;
         unsigned _bindPoint;
+        SamplerFilter _filter;
     };
 
     using SamplerList = std::vector<SamplerInfo>;
 
-    class GHOST_API ShaderParams
+    struct GHOST_API ShaderParams
     {
-    public:
         InputSignatureList _sigDesc;
         ConstBufferParamsList _constBuffers;
         TextureVariableList _textures;
         SamplerList _samplers;
     };
 
-    using ShaderParamsList = std::array<ShaderParams, (std::size_t)SHADER_NONE>;
+    using ShaderParamsList = std::array<ShaderParams, (std::size_t)SHADER_TYPE_NUM>;
 
     enum RenderPass
     {
@@ -96,6 +99,9 @@ namespace ghost
         ShaderResourcePtr getLinkedShader() { return _linkedShader; }
         InputSignatureList* getShaderInputSignature() { return &_params[SHADER_VS]._sigDesc; }
         unsigned getConstBufferSlot(ShaderType type, const std::string& name);
+
+        void applyTextureToSlot(const std::string& name, Texture2DPtr ptr);
+        void applySamplerToSlot(const std::string& name, SamplerFilter filter);
 
     protected:
         ShaderResourcePtr _linkedShader = nullptr;

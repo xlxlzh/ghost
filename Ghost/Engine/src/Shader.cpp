@@ -4,13 +4,13 @@ namespace ghost
 {
     void* Shader::getRawShaderPointer(ShaderType type) const
     {
-        assert(type < SHADER_NONE);
+        assert(type < SHADER_TYPE_NUM);
         return _shaders[type];
     }
 
     void Shader::updateRawShaderPointer(ShaderType type, void* shader)
     {
-        assert(type < SHADER_NONE);
+        assert(type < SHADER_TYPE_NUM);
         _shaders[type] = shader;
     }
 
@@ -27,7 +27,7 @@ namespace ghost
 
     bool Shader::isShaderTypeValid(ShaderType type) const
     {
-        assert(type <= SHADER_NONE);
+        assert(type <= SHADER_TYPE_NUM);
 
         return _shaders[type] != nullptr;
     }

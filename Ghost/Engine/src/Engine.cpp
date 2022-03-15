@@ -22,7 +22,7 @@ namespace ghost
         {
         case ghost::RENDER_D3D11:
             _renderDevice = std::make_shared<D3D11RenderDevice>();
-            _renderSystem = std::make_shared<D3D11RenderSystem>();
+            _renderSystem = std::make_shared<D3D11RenderSystem>(_renderDevice);
 
             resMan->registerResourceFactory(new ResourceFactoryIml<D3D11Texture2D>());
 
@@ -30,7 +30,7 @@ namespace ghost
             break;
         default:
             _renderDevice = std::make_shared<D3D11RenderDevice>();
-            _renderSystem = std::make_shared<D3D11RenderSystem>();
+            _renderSystem = std::make_shared<D3D11RenderSystem>(_renderDevice);
             _fileSystem = std::make_shared<FileSystemWin32>();
             break;
         }
@@ -40,7 +40,7 @@ namespace ghost
         resMan->registerResourceFactory(new ResourceFactoryIml<Mesh>());
 
         _renderDevice->initDevice(false, GetMSAASampleCount(msaa));
-        _renderSystem->attachRenderDevice(_renderDevice);
+        _renderSystem->initRenderSystem();
         return true;
     }
 }

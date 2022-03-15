@@ -1,18 +1,22 @@
 #ifndef _D3D11_RENDERSYSTEM_H_
 #define _D3D11_RENDERSYSTEM_H_
 
+#include <functional>
 #include <d3d11.h>
 #include "RenderSystem.h"
 #include "D3D11RenderDevice.h"
+#include "D3D11Texture2D.h"
 
 namespace ghost
 {
     class D3D11RenderSystem : public RenderSystem
     {
     public:
-        D3D11RenderSystem();
+        D3D11RenderSystem(RenderDevicePtr device);
         ~D3D11RenderSystem();
         
+        virtual bool initRenderSystem() override;
+
         virtual void setRenderTarget(RenderTargetPtr rt) override;
         virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
@@ -40,6 +44,9 @@ namespace ghost
         virtual void setDepthWriteEnable(bool enable) override;
         virtual void setDepthFunction(CompareFunction fun) override;
         virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) override;
+        virtual void setSamplerState() override;
+
+        virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) override;
 
     protected:
         void _clearRenderTarget(Color cl);
@@ -59,6 +66,18 @@ namespace ghost
         bool _blendDescChanged = false;
         D3D11_BLEND_DESC _blendDesc;
         ID3D11BlendStatePtr _blendState = nullptr;
+
+        bool _samplerStateChanged = false;
+        D3D11_SAMPLER_DESC _samplerDesc;
+        ID3D11SamplerStatePtr _samplerState = nullptr;
+
+        D3D11Texture2DPtr _textures2DUnits[8];
+
+        using SetSRVFunction = std::function<void(unsigned, ID3D11ShaderResourceView *const *)>;
+        SetSRVFunction _srvFunctionTable[SHADER_TYPE_NUM];
+
+        using SetSamplerFunction = std::function<void(unsigned, ID3D11SamplerState *const *)>;
+        SetSamplerFunction _samplerFunctionTable[SHADER_TYPE_NUM];
     };
 }
 

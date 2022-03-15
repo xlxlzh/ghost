@@ -8,20 +8,20 @@ namespace ghost
     enum ShaderType
     {
         SHADER_VS,
-        SHADER_PS,
         SHADER_GS,
         SHADER_HS,
         SHADER_DS,
-        SHADER_NONE
+        SHADER_PS,
+        SHADER_TYPE_NUM
     };
 
     static const char* ShaderTypeName[] =
     {
         "VS",
-        "PS",
         "GS",
         "HS",
         "DS",
+        "PS",
         "None"
     };
 

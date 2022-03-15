@@ -4,13 +4,13 @@ namespace ghost
 {
     ShaderType GetShaderTypeByName(const char* typeName)
     {
-        for (int i = 0; i < SHADER_NONE; ++i)
+        for (int i = 0; i < SHADER_TYPE_NUM; ++i)
         {
             if (strcmp(typeName, ShaderTypeName[i]) == 0)
                 return (ShaderType)i;
         }
 
-        return SHADER_NONE;
+        return SHADER_TYPE_NUM;
     }
 
     ShaderResource::ShaderResource(int type, const std::string& name, int flag) :
@@ -41,7 +41,7 @@ namespace ghost
 
     void ShaderResource::updateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize)
     {
-        if (!byteCodes || codeSize < 0 || type == SHADER_NONE)
+        if (!byteCodes || codeSize < 0 || type == SHADER_TYPE_NUM)
             return;
 
         auto currentByteCode = _byteCodes.find(type);

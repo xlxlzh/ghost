@@ -1,3 +1,4 @@
+#include <functional>
 #include "D3D11RenderSystem.h"
 #include "Engine.h"
 #include "D3D11Mappings.h"
@@ -12,7 +13,7 @@
 
 namespace ghost
 {
-    D3D11RenderSystem::D3D11RenderSystem()
+    D3D11RenderSystem::D3D11RenderSystem(RenderDevicePtr device) : RenderSystem(device)
     {
         ZeroMemory(&_depthStencilDesc, sizeof(_depthStencilDesc));
         ZeroMemory(&_rasterizer, sizeof(_rasterizer));
@@ -24,6 +25,28 @@ namespace ghost
         _rasterizer.CullMode = D3D11Mappings::getCullMode(_cullingMode);
         _rasterizer.DepthClipEnable = true;
         _rasterizer.MultisampleEnable = true;
+
+        for (unsigned i = 0; i < 8; ++i)
+            _textures2DUnits[i] = nullptr;
+    }
+
+    bool D3D11RenderSystem::initRenderSystem()
+    {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+
+        _srvFunctionTable[SHADER_VS] = std::bind(&ID3D11DeviceContext::VSSetShaderResources, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _srvFunctionTable[SHADER_GS] = std::bind(&ID3D11DeviceContext::GSSetShaderResources, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _srvFunctionTable[SHADER_HS] = std::bind(&ID3D11DeviceContext::HSSetShaderResources, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _srvFunctionTable[SHADER_DS] = std::bind(&ID3D11DeviceContext::DSSetShaderResources, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _srvFunctionTable[SHADER_PS] = std::bind(&ID3D11DeviceContext::PSSetShaderResources, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+
+        _samplerFunctionTable[SHADER_VS] = std::bind(&ID3D11DeviceContext::VSSetSamplers, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _samplerFunctionTable[SHADER_GS] = std::bind(&ID3D11DeviceContext::GSSetSamplers, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _samplerFunctionTable[SHADER_HS] = std::bind(&ID3D11DeviceContext::HSSetSamplers, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _samplerFunctionTable[SHADER_DS] = std::bind(&ID3D11DeviceContext::DSSetSamplers, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+        _samplerFunctionTable[SHADER_PS] = std::bind(&ID3D11DeviceContext::PSSetSamplers, devicePtr->_context.Get(), std::placeholders::_1, 1, std::placeholders::_2);
+
+        return true;
     }
 
     D3D11RenderSystem::~D3D11RenderSystem()
@@ -359,6 +382,29 @@ namespace ghost
 
         _rasterizerDescChagned = true;
         _rasterizer.FillMode = D3D11Mappings::getFillMode(fillMode);
+    }
+
+    void D3D11RenderSystem::setSamplerState()
+    {
+        _samplerStateChanged = true;
+
+    }
+
+    void D3D11RenderSystem::setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D)
+    {
+        if (slot >= 8 || type >= SHADER_TYPE_NUM)
+            return;
+
+        _textures2DUnits[slot] = GHOST_SMARTPOINTER_CAST(D3D11Texture2D, tex2D);
+        if (tex2D != nullptr)
+        {
+            _srvFunctionTable[type](slot, _textures2DUnits[slot]->getD3D11ShaderResourceView().GetAddressOf());
+        }
+        else
+        {
+            ID3D11ShaderResourceView* views[]{ nullptr };
+            _srvFunctionTable[type](slot, views);
+        }
     }
 
     void D3D11RenderSystem::setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)

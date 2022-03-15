@@ -17,10 +17,10 @@ namespace ghost
     class RenderSystem
     {
     public:
-        RenderSystem();
+        RenderSystem(RenderDevicePtr device);
         virtual ~RenderSystem();
 
-        void attachRenderDevice(RenderDevicePtr device) { _renderDevice = device; }
+        virtual bool initRenderSystem() = 0;
 
         virtual void setClearColor(Color cl = Color::Black);
         Color getClearColor() const { return _clearColor; }
@@ -52,6 +52,15 @@ namespace ghost
         virtual void setDepthWriteEnable(bool enable) = 0;
         virtual void setDepthFunction(CompareFunction fun) = 0;
         virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) = 0;
+        virtual void setSamplerState() = 0;
+
+        template<ShaderType type>
+        void setTexture(unsigned slot, Texture2DPtr tex2D)
+        {
+            setTexture(type, slot, tex2D);
+        }
+
+        virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) = 0;
 
         //Test interface
         virtual void useDefaultRenderTarget() { }

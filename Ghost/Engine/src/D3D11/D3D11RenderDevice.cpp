@@ -178,15 +178,15 @@ namespace ghost
     static const char* ShaderProfile[] =
     {
         "vs_4_0",
-        "ps_4_0",
         "gs_4_0",
         "hs_4_0",
         "ds_4_0",
+        "ps_4_0"
     };
 
     bool D3D11RenderDevice::compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader)
     {
-        if (type == SHADER_NONE || !entry)
+        if (type == SHADER_TYPE_NUM || !entry)
             return false;
 
         unsigned char* rowdata = shader.getRawdata();
@@ -238,7 +238,7 @@ namespace ghost
             return nullptr;
 
         Shader* hardwareShader = new D3D11HarderwareShader();
-        for (int i = 0; i < (int)SHADER_NONE; ++i)
+        for (int i = 0; i < (int)SHADER_TYPE_NUM; ++i)
         {
             const ShaderByteCode* byteCode = shadersRes->getByteCodeByType((ShaderType)i);
             if (byteCode && byteCode->ByteCode && byteCode->ByteCodeSize > 0)
@@ -277,7 +277,7 @@ namespace ghost
         if (!shadersRes)
             return;
 
-        for (unsigned i = 0; i < ShaderType::SHADER_NONE; ++i)
+        for (unsigned i = 0; i < ShaderType::SHADER_TYPE_NUM; ++i)
         {
             const ShaderByteCode* byteCode = shadersRes->getByteCodeByType((ShaderType)i);
             if (!byteCode)

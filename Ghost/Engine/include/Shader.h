@@ -21,7 +21,7 @@ namespace ghost
         bool isValid() const;
 
     protected:
-        std::array<void*, (std::size_t)SHADER_NONE > _shaders;
+        std::array<void*, (std::size_t)SHADER_TYPE_NUM > _shaders;
     };
 }
 
