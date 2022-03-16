@@ -6,17 +6,18 @@
 
 namespace ghost
 {
-    const static std::map<std::string, SamplerFilter> FilterMappings =
+    const static std::map<std::string, FilterOptions> FilterOptionMappings =
     {
-        {"FILTER_MIN_MAG_MIP_POINT", FILTER_MIN_MAG_MIP_POINT},
-        {"FILTER_MIN_MAG_POINT_MIP_LINEAR", FILTER_MIN_MAG_POINT_MIP_LINEAR},
-        {"FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT", FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT},
-        {"FILTER_MIN_POINT_MAG_MIP_LINEAR", FILTER_MIN_POINT_MAG_MIP_LINEAR},
-        {"FILTER_MIN_LINEAR_MAG_MIP_POINT", FILTER_MIN_LINEAR_MAG_MIP_POINT},
-        {"FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR", FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR},
-        {"FILTER_MIN_MAG_LINEAR_MIP_POINT", FILTER_MIN_MAG_LINEAR_MIP_POINT},
-        {"FILTER_MIN_MAG_MIP_LINEAR", FILTER_MIN_MAG_MIP_LINEAR},
-        {"FILTER_ANISOTROPIC", FILTER_ANISOTROPIC}
+        {"FILTER_POINT", FO_POINT},
+        {"FILTER_LINEAR", FO_LINEAR},
+        {"FILTER_ANISOTROPIC", FO_ANISOTROPIC},
+    };
+
+    const static std::map<std::string, FilterType> FilterTypeMappings =
+    {
+        {"MIN", FT_MIN},
+        {"MAG", FT_MAG},
+        {"MIP", FT_MIP},
     };
 
 
@@ -66,7 +67,7 @@ namespace ghost
         }
     }
 
-    void ShaderPass::applySamplerToSlot(const std::string& name, SamplerFilter filter)
+    /*void ShaderPass::applySamplerToSlot(const std::string& name, SamplerFilter filter)
     {
         for (ShaderParams& param : _params)
         {
@@ -82,7 +83,7 @@ namespace ghost
             if (it != param._samplers.end())
                 it->_filter = filter;
         }
-    }
+    }*/
 
 
     Material::Material(int type, const std::string& name, int flag) :
@@ -224,17 +225,11 @@ namespace ghost
                     const tinyxml2::XMLElement* sampler = samplers->FirstChildElement();
                     while (sampler)
                     {
-                        const tinyxml2::XMLElement* filter = sampler->FirstChildElement("Filter");
-                        if (filter)
+                        const tinyxml2::XMLElement* filter = sampler->FirstChildElement();
+                        while (filter)
                         {
-                            const auto filterValue = filter->FindAttribute("value");
-                            const char* filterName = filterValue->Value();
-
-                            auto it = FilterMappings.find(filterName);
-                            if (it != FilterMappings.end())
-                            {
-                                currentPass.applySamplerToSlot(sampler->Name(), it->second);
-                            }
+                            const char* elementName = filter->Name();
+                            //TODO
                         }
 
                         sampler = samplers->NextSiblingElement();

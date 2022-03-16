@@ -12,6 +12,7 @@
 #include "VertexBufferBinding.h"
 #include "RenderCommon.h"
 #include "RenderOperation.h"
+#include "TextureUnitState.h"
 
 namespace ghost
 {
@@ -53,7 +54,9 @@ namespace ghost
         virtual void setDepthWriteEnable(bool enable) = 0;
         virtual void setDepthFunction(CompareFunction fun) = 0;
         virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) = 0;
-        virtual void setSamplerState() = 0;
+
+        virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) = 0;
+        virtual void setSamplerState(unsigned slot, const Sampler& sampler) = 0;
 
         template<ShaderType type>
         void setTexture(unsigned slot, Texture2DPtr tex2D)

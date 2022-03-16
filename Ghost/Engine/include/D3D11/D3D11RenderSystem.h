@@ -44,8 +44,9 @@ namespace ghost
         virtual void setDepthWriteEnable(bool enable) override;
         virtual void setDepthFunction(CompareFunction fun) override;
         virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) override;
-        virtual void setSamplerState() override;
 
+        virtual void setSamplerState(unsigned slot, const Sampler& sampler) override;
+        virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) override;
         virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) override;
 
         virtual void render(const RenderOperation& op) override;
@@ -69,7 +70,6 @@ namespace ghost
         D3D11_BLEND_DESC _blendDesc;
         ID3D11BlendStatePtr _blendState = nullptr;
 
-        bool _samplerStateChanged = false;
         D3D11_SAMPLER_DESC _samplerDesc;
         ID3D11SamplerStatePtr _samplerState = nullptr;
 
@@ -80,6 +80,10 @@ namespace ghost
 
         using SetSamplerFunction = std::function<void(unsigned, ID3D11SamplerState *const *)>;
         SetSamplerFunction _samplerFunctionTable[SHADER_TYPE_NUM];
+
+        FilterOptions _minFilters[GHOST_MAX_TEXTURE_UNITS];
+        FilterOptions _magFilters[GHOST_MAX_TEXTURE_UNITS];
+        FilterOptions _mipFilters[GHOST_MAX_TEXTURE_UNITS];
 
         struct D3DTextureStageDesc
         {

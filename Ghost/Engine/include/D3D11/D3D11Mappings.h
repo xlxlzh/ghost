@@ -6,6 +6,7 @@
 #include "Buffer.h"
 #include "IndexBuffer.h"
 #include "RenderSystem.h"
+#include "RenderCommon.h"
 
 namespace ghost
 {
@@ -27,6 +28,9 @@ namespace ghost
         static D3D11_CULL_MODE getCullMode(CullMode cull);
         static D3D11_FILL_MODE getFillMode(FillMode fill);
         static D3D11_COMPARISON_FUNC getComparison(CompareFunction func);
+
+        static D3D11_TEXTURE_ADDRESS_MODE getAddressMode(TextureAddressingMode mode);
+        static D3D11_FILTER getFilter(const FilterOptions min, const FilterOptions mag, const FilterOptions mip);
     };
 }
 

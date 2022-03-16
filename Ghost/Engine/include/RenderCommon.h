@@ -71,17 +71,27 @@ namespace ghost
         COMPARISON_GREATER
     };
 
-    enum SamplerFilter
+    enum TextureFilterOptions
     {
-        FILTER_MIN_MAG_MIP_POINT,
-        FILTER_MIN_MAG_POINT_MIP_LINEAR,
-        FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT,
-        FILTER_MIN_POINT_MAG_MIP_LINEAR,
-        FILTER_MIN_LINEAR_MAG_MIP_POINT,
-        FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR,
-        FILTER_MIN_MAG_LINEAR_MIP_POINT,
-        FILTER_MIN_MAG_MIP_LINEAR,
+        FILTER_NONE,
+        FILTER_BILINEAR,
+        FILTER_TRILINEAR,
         FILTER_ANISOTROPIC
+    };
+
+    enum FilterType
+    {
+        FT_MIN,
+        FT_MAG,
+        FT_MIP
+    };
+
+    enum FilterOptions
+    {
+        FO_NONE,
+        FO_POINT,
+        FO_LINEAR,
+        FO_ANISOTROPIC
     };
 
     enum TextureAddressingMode

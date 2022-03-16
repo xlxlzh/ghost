@@ -385,10 +385,34 @@ namespace ghost
         _rasterizer.FillMode = D3D11Mappings::getFillMode(fillMode);
     }
 
-    void D3D11RenderSystem::setSamplerState()
+    void D3D11RenderSystem::setSamplerState(unsigned slot, const Sampler& samler)
     {
-        _samplerStateChanged = true;
+        _samplerStatesChanged = true;
 
+        const Sampler::UVWAddressingMode uvwMode = samler.getAddressingMode();
+        _texStageDesc[slot]._samplerDesc.AddressU = D3D11Mappings::getAddressMode(uvwMode.u);
+        _texStageDesc[slot]._samplerDesc.AddressV = D3D11Mappings::getAddressMode(uvwMode.v);
+        _texStageDesc[slot]._samplerDesc.AddressW = D3D11Mappings::getAddressMode(uvwMode.w);
+
+        if (uvwMode.u == ADDRESSING_BORDER || uvwMode.v == ADDRESSING_BORDER || uvwMode.w == ADDRESSING_BORDER)
+        {
+            
+        }
+
+        _minFilters[slot] = samler.getFilter(FT_MIN);
+        _magFilters[slot] = samler.getFilter(FT_MAG);
+        _mipFilters[slot] = samler.getFilter(FT_MIP);
+
+        _texStageDesc[slot]._samplerDesc.Filter = D3D11Mappings::getFilter(_minFilters[slot], _magFilters[slot], _mipFilters[slot]);
+    }
+
+    void D3D11RenderSystem::setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode)
+    {
+        _texStageDesc[slot]._samplerDesc.AddressU = D3D11Mappings::getAddressMode(uvwMode.u);
+        _texStageDesc[slot]._samplerDesc.AddressV = D3D11Mappings::getAddressMode(uvwMode.v);
+        _texStageDesc[slot]._samplerDesc.AddressW = D3D11Mappings::getAddressMode(uvwMode.w);
+
+        _samplerStatesChanged = true;
     }
 
     void D3D11RenderSystem::setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D)
@@ -410,7 +434,7 @@ namespace ghost
             _lastTextureUnitState = std::min<unsigned>(_lastTextureUnitState, slot);
         }
 
-        _samplerStateChanged = true;
+        _samplerStatesChanged = true;
     }
 
     void D3D11RenderSystem::setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
@@ -523,9 +547,9 @@ namespace ghost
             devicePtr->_context->OMSetBlendState(_blendState.Get(), 0, 0xffffffff);
         }
 
-        if (_samplerStateChanged)
+        if (_samplerStatesChanged)
         {
-            _samplerStateChanged = false;
+            _samplerStatesChanged = false;
             //TODO
         }
     }

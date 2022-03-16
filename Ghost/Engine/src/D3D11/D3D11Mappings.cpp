@@ -157,4 +157,48 @@ namespace ghost
 
         return D3D11_COMPARISON_ALWAYS;
     }
+
+    D3D11_TEXTURE_ADDRESS_MODE D3D11Mappings::getAddressMode(TextureAddressingMode mode)
+    {
+        switch (mode)
+        {
+        case TextureAddressingMode::ADDRESSING_WRAP:
+            return D3D11_TEXTURE_ADDRESS_WRAP;
+        case TextureAddressingMode::ADDRESSING_MIRROR:
+            return D3D11_TEXTURE_ADDRESS_MIRROR;
+        case TextureAddressingMode::ADDRESSING_CLAMP:
+            return D3D11_TEXTURE_ADDRESS_CLAMP;
+        case TextureAddressingMode::ADDRESSING_BORDER:
+            return D3D11_TEXTURE_ADDRESS_BORDER;
+        }
+
+        return D3D11_TEXTURE_ADDRESS_WRAP;
+    }
+
+    D3D11_FILTER D3D11Mappings::getFilter(const FilterOptions min, const FilterOptions mag, const FilterOptions mip)
+    {
+        if (min == FO_LINEAR && mag == FO_LINEAR && mip == FO_LINEAR)
+            return D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+        if (min == FO_LINEAR && mag == FO_LINEAR && mip == FO_POINT)
+            return D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+        if (min == FO_LINEAR && mag == FO_POINT && mip == FO_POINT)
+            return D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
+        if (min == FO_LINEAR && mag == FO_POINT && mip == FO_LINEAR)
+            return D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR;
+
+        if (min == FO_POINT && mag == FO_LINEAR && mip == FO_LINEAR)
+            return D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+        if (min == FO_POINT && mag == FO_LINEAR && mip == FO_POINT)
+            return D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT;
+        if (min == FO_POINT && mag == FO_POINT && mip == FO_POINT)
+            return D3D11_FILTER_MIN_MAG_MIP_POINT;
+        if (min == FO_POINT && mag == FO_POINT && mip == FO_LINEAR)
+            return D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+
+        if (min == FO_ANISOTROPIC || mag == FO_ANISOTROPIC || mip == FO_ANISOTROPIC)
+            return D3D11_FILTER_ANISOTROPIC;
+
+        return D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+
+    }
 }

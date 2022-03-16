@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 #include "RenderCommon.h"
+#include "TextureUnitState.h"
 
 #include <unordered_map>
 #include <array>
@@ -64,7 +65,7 @@ namespace ghost
     {
         std::string _name;
         unsigned _bindPoint;
-        SamplerFilter _filter;
+        Sampler _sampler;
     };
 
     using SamplerList = std::vector<SamplerInfo>;
@@ -101,7 +102,7 @@ namespace ghost
         unsigned getConstBufferSlot(ShaderType type, const std::string& name);
 
         void applyTextureToSlot(const std::string& name, Texture2DPtr ptr);
-        void applySamplerToSlot(const std::string& name, SamplerFilter filter);
+        //void applySamplerToSlot(const std::string& name, SamplerFilter filter);
 
     protected:
         ShaderResourcePtr _linkedShader = nullptr;

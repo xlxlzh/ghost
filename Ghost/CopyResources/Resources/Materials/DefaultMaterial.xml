@@ -14,7 +14,9 @@
         </Textures>
         <Samplers>
             <diffuseSampler>
-                <Filter value="FILTER_MIN_MAG_MIP_LINEAR"/>
+                <MIN value="FILTER_LINEAR"/>
+                <MAG value="FILTER_LINEAR"/>
+                <MIP value="FILTER_LINEAR"/>
             </diffuseSampler>
         </Samplers>
     </Pass>
