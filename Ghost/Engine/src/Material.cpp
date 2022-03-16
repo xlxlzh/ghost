@@ -230,6 +230,8 @@ namespace ghost
                         {
                             const char* elementName = filter->Name();
                             //TODO
+
+                            filter = filter->NextSiblingElement();
                         }
 
                         sampler = samplers->NextSiblingElement();
