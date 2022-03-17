@@ -47,7 +47,7 @@ namespace ghost
 
         virtual void setSamplerState(unsigned slot, const Sampler& sampler) override;
         virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) override;
-        virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) override;
+        virtual void setTexture(unsigned slot, Texture2DPtr tex2D) override;
 
         virtual void render(const RenderOperation& op) override;
 

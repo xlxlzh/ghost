@@ -23,7 +23,7 @@ namespace ghost
         
         virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
         virtual Shader* createShader(const ShaderResourcePtr& shadersRes) = 0;
-        virtual void reflectShader(const ShaderResourcePtr& shadersRes, ShaderParamsList& params) = 0;
+        virtual void reflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params) = 0;
 
         virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) = 0;
         virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) = 0;

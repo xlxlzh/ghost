@@ -38,8 +38,7 @@ namespace ghost
 
     unsigned ShaderPass::getConstBufferSlot(ShaderType type, const std::string& name)
     {
-        ShaderParams param = _params[type];
-        auto& buffers = param._constBuffers;
+        auto& buffers = _params._constBuffers[type];
         for (auto& cb : buffers)
         {
             if (cb._name == name)
@@ -51,28 +50,8 @@ namespace ghost
 
     void ShaderPass::applyTextureToSlot(const std::string& name, Texture2DPtr ptr)
     {
-        for (ShaderParams& param : _params)
-        {
-            auto it = std::find_if(param._textures.begin(), param._textures.end(), 
-                [&name](const TextureVariableInfo& info)->bool 
-                {
-                    if (info._name == name)
-                        return true;
-
-                    return false;
-                });
-
-            if (it != param._textures.end())
-                it->_texture = ptr;
-        }
-    }
-
-    /*void ShaderPass::applySamplerToSlot(const std::string& name, SamplerFilter filter)
-    {
-        for (ShaderParams& param : _params)
-        {
-            auto it = std::find_if(param._samplers.begin(), param._samplers.end(),
-                [&name](const SamplerInfo& info)->bool
+        auto it = std::find_if(_params._textures.begin(), _params._textures.end(), 
+            [&name](const TextureVariableInfo& info)->bool 
             {
                 if (info._name == name)
                     return true;
@@ -80,10 +59,24 @@ namespace ghost
                 return false;
             });
 
-            if (it != param._samplers.end())
-                it->_filter = filter;
-        }
-    }*/
+        if (it != _params._textures.end())
+            it->_texture = ptr;
+    }
+
+    void ShaderPass::applySamplerToSlot(const std::string& name, const Sampler& sampler)
+    {
+        auto it = std::find_if(_params._samplers.begin(), _params._samplers.end(),
+            [&name](const SamplerInfo& info)->bool
+        {
+            if (info._name == name)
+                return true;
+
+            return false;
+        });
+
+        if (it != _params._samplers.end())
+            it->_sampler = sampler;
+    }
 
 
     Material::Material(int type, const std::string& name, int flag) :
@@ -225,16 +218,25 @@ namespace ghost
                     const tinyxml2::XMLElement* sampler = samplers->FirstChildElement();
                     while (sampler)
                     {
-                        const tinyxml2::XMLElement* filter = sampler->FirstChildElement();
-                        while (filter)
-                        {
-                            const char* elementName = filter->Name();
-                            //TODO
+                        const char* samplerName = sampler->Name();
 
-                            filter = filter->NextSiblingElement();
-                        }
+                        Sampler currentSampler;
 
-                        sampler = samplers->NextSiblingElement();
+                        FilterOptions min = FO_LINEAR, mag = FO_LINEAR, mip = FO_LINEAR;
+                        const tinyxml2::XMLElement* samplerElement = sampler->FirstChildElement("MIN");
+                        if (samplerElement)
+                            min = FilterOptionMappings.find(samplerElement->Attribute("value"))->second;
+                        samplerElement = sampler->FirstChildElement("MAG");
+                        if (samplerElement)
+                            mag = FilterOptionMappings.find(samplerElement->Attribute("value"))->second;
+                        samplerElement = sampler->FirstChildElement("MIP");
+                        if (samplerElement)
+                            mip = FilterOptionMappings.find(samplerElement->Attribute("value"))->second;
+                        currentSampler.setFilter(min, mag, mip);
+
+                        currentPass.applySamplerToSlot(samplerName, currentSampler);
+
+                        sampler = sampler->NextSiblingElement();
                     }
                 }
             }
@@ -265,14 +267,16 @@ namespace ghost
         {
             rendersystem->setShader(hardwareShader);
 
-            const ShaderParamsList& params = currentPass->_params;
-            for (unsigned i = 0; i < SHADER_TYPE_NUM; ++i)
+            const ShaderParams& params = currentPass->_params;
+
+            for (const TextureVariableInfo& texInfo : params._textures)
             {
-                const auto& param = params[i];
-                for (const TextureVariableInfo& texInfo : param._textures)
-                {
-                    rendersystem->setTexture((ShaderType)i, texInfo._bindPoint, texInfo._texture);
-                }
+                rendersystem->setTexture(texInfo._bindPoint, texInfo._texture);
+            }
+
+            for (const SamplerInfo& sampler : params._samplers)
+            {
+                rendersystem->setSamplerState(sampler._bindPoint, sampler._sampler);
             }
         }
     }

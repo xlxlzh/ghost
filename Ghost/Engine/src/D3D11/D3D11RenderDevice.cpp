@@ -272,7 +272,7 @@ namespace ghost
         return hardwareShader;
     }
 
-    void D3D11RenderDevice::reflectShader(const ShaderResourcePtr& shadersRes, ShaderParamsList& params)
+    void D3D11RenderDevice::reflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params)
     {
         if (!shadersRes)
             return;
@@ -311,12 +311,12 @@ namespace ghost
                     sig._index = curParam.SemanticIndex;
                     sig._semantic = curParam.SemanticName;
                     sig._slot = curParam.Stream;
-                    params[SHADER_VS]._sigDesc.push_back(InputSignature(sig));
+                    params._sigDesc.push_back(InputSignature(sig));
                 }
             }
 
             //Reflect const buffers.
-            ConstBufferParamsList& constBufferLists = params[i]._constBuffers;
+            ConstBufferParamsList& constBufferLists = params._constBuffers[i];
             for (unsigned i = 0; i < shaderDesc.BoundResources; ++i)
             {
                 D3D11_SHADER_INPUT_BIND_DESC inputBindDesc;
@@ -355,7 +355,7 @@ namespace ghost
                     texInfo._bindPoint = inputBindDesc.BindPoint;
                     texInfo._name = inputBindDesc.Name;
 
-                    params[i]._textures.push_back(texInfo);
+                    params._textures.push_back(texInfo);
                 }
                 else if (inputBindDesc.Type == D3D_SIT_SAMPLER)
                 {
@@ -363,7 +363,7 @@ namespace ghost
                     samInfo._bindPoint = inputBindDesc.BindPoint;
                     samInfo._name = inputBindDesc.Name;
 
-                    params[i]._samplers.push_back(samInfo);
+                    params._samplers.push_back(samInfo);
                 }
             }
         }

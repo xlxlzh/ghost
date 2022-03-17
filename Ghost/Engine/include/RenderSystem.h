@@ -57,14 +57,7 @@ namespace ghost
 
         virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) = 0;
         virtual void setSamplerState(unsigned slot, const Sampler& sampler) = 0;
-
-        template<ShaderType type>
-        void setTexture(unsigned slot, Texture2DPtr tex2D)
-        {
-            setTexture(type, slot, tex2D);
-        }
-
-        virtual void setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D) = 0;
+        virtual void setTexture(unsigned slot, Texture2DPtr tex2D) = 0;
 
         virtual void render(const RenderOperation& op) = 0;
 

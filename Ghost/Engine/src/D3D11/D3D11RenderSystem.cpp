@@ -415,9 +415,9 @@ namespace ghost
         _samplerStatesChanged = true;
     }
 
-    void D3D11RenderSystem::setTexture(ShaderType type, unsigned slot, Texture2DPtr tex2D)
+    void D3D11RenderSystem::setTexture(unsigned slot, Texture2DPtr tex2D)
     {
-        if (slot >= GHOST_MAX_TEXTURE_UNITS || type >= SHADER_TYPE_NUM)
+        if (slot >= GHOST_MAX_TEXTURE_UNITS)
             return;
 
         D3D11Texture2DPtr D3D11Tex = GHOST_SMARTPOINTER_CAST(D3D11Texture2D, tex2D);

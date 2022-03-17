@@ -73,12 +73,12 @@ namespace ghost
     struct GHOST_API ShaderParams
     {
         InputSignatureList _sigDesc;
-        ConstBufferParamsList _constBuffers;
         TextureVariableList _textures;
         SamplerList _samplers;
+
+        std::array<ConstBufferParamsList, (std::size_t)SHADER_TYPE_NUM> _constBuffers;
     };
 
-    using ShaderParamsList = std::array<ShaderParams, (std::size_t)SHADER_TYPE_NUM>;
 
     enum RenderPass
     {
@@ -98,11 +98,11 @@ namespace ghost
 
         RenderPass getRenderPass() const { return _passType; }
         ShaderResourcePtr getLinkedShader() { return _linkedShader; }
-        InputSignatureList* getShaderInputSignature() { return &_params[SHADER_VS]._sigDesc; }
+        InputSignatureList* getShaderInputSignature() { return &_params._sigDesc; }
         unsigned getConstBufferSlot(ShaderType type, const std::string& name);
 
         void applyTextureToSlot(const std::string& name, Texture2DPtr ptr);
-        //void applySamplerToSlot(const std::string& name, SamplerFilter filter);
+        void applySamplerToSlot(const std::string& name, const Sampler& sampler);
 
     protected:
         ShaderResourcePtr _linkedShader = nullptr;
@@ -112,7 +112,9 @@ namespace ghost
 
         Shader* _handwareShader{ nullptr };
 
-        ShaderParamsList _params;
+        ShaderParams _params;
+
+
     };
 
     class GHOST_API Material : public Resource
