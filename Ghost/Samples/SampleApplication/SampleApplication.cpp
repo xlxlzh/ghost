@@ -13,11 +13,14 @@ void SampleApplication::onInit()
 
     ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
     MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
+    MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
+    MaterialPtr lizardMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/LizardMaterial.xml", 0));
 
     MeshPtr dragonMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/dragon.obj", 0));
     MeshPtr bunnyMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/bunny.obj", 0));
-    MeshPtr buddhaMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/Buddha.obj", 0));
+    MeshPtr lizardMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/LizardMage_Lowpoly.obj", 0));
     MeshPtr cubeMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/cube.obj", 0));
+    MeshPtr headMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/head.obj", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
@@ -33,14 +36,20 @@ void SampleApplication::onInit()
     MeshNode* bunny = new MeshNode(_scene);
     bunny->setMesh(bunnyMesh);
     bunny->setMaterial(matPtr);
-    bunny->setTransform(Vector3f(2,40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
+    bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
     _scene->addNodeToRoot(bunny);
 
-    MeshNode* buddha = new MeshNode(_scene);
-    buddha->setMesh(buddhaMesh);
-    buddha->setMaterial(matPtr);
-    buddha->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(5, 5, 5));
-    _scene->addNodeToRoot(buddha);
+    MeshNode* lizard = new MeshNode(_scene);
+    lizard->setMesh(lizardMesh);
+    lizard->setMaterial(lizardMatPtr);
+    lizard->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(2, 2, 2));
+    _scene->addNodeToRoot(lizard);
+
+    MeshNode* head = new MeshNode(_scene);
+    head->setMesh(headMesh);
+    head->setMaterial(headMatPtr);
+    head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(0.5, 0.5, 0.5));
+    _scene->addNodeToRoot(head);
 
     MeshNode* cube = new MeshNode(_scene);
     cube->setMesh(cubeMesh);

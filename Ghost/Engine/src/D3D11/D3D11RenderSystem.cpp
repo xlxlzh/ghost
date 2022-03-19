@@ -431,6 +431,7 @@ namespace ghost
         else
         {
             _texStageDesc[slot]._used = false;
+            //_texStageDesc[slot]._tex = nullptr;
             _lastTextureUnitState = std::min<unsigned>(_lastTextureUnitState, slot);
         }
 
@@ -503,27 +504,49 @@ namespace ghost
         devicePtr->_context->OMSetRenderTargets(1, devicePtr->_defaultRenderView.GetAddressOf(), devicePtr->_defaultDepthView.Get());
     }
 
+    class D3D11RenderOperationState
+    {
+    public:
+        ComPtr<ID3D11BlendState> _blendState;
+        ComPtr<ID3D11RasterizerState> _rasterizer;
+        ComPtr<ID3D11DepthStencilState> _depthStencilState;
+
+        ComPtr<ID3D11SamplerState> _samplerStates[GHOST_MAX_TEXTURE_UNITS];
+        unsigned _samplerStatesCount;
+
+        ID3D11ShaderResourceView * _textures[GHOST_MAX_TEXTURE_UNITS];
+        unsigned _texturesCount;
+
+        D3D11RenderOperationState() : _samplerStatesCount(0), _texturesCount(0) {}
+        ~D3D11RenderOperationState() {}
+    };
+
     void D3D11RenderSystem::_updateRenderStateBeforeRendering()
     {
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+
+        D3D11RenderOperationState stackOpState;
+        D3D11RenderOperationState* opState = &stackOpState;
+
         if (_rasterizerDescChagned)
         {
             _rasterizerDescChagned = false;
 
-            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
             HRESULT hr = devicePtr->_device->CreateRasterizerState(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
             if (FAILED(hr))
             {
                 GHOST_LOG_FORMAT_ERROR("Failed to create rasterizer state.");
             }
-
-            devicePtr->_context->RSSetState(_rasterizerState.Get());
+        }
+        else
+        {
+            opState->_rasterizer = _rasterizerState;
         }
 
         if (_depthStencilDescChanged)
         {
             _depthStencilDescChanged = false;
 
-            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
             HRESULT hr = devicePtr->_device->CreateDepthStencilState(&_depthStencilDesc, _depthStencilState.ReleaseAndGetAddressOf());
             if (FAILED(hr))
             {
@@ -532,25 +555,100 @@ namespace ghost
 
             devicePtr->_context->OMSetDepthStencilState(_depthStencilState.Get(), 0);
         }
+        else
+        {
+            opState->_depthStencilState = _depthStencilState;
+        }
 
         if (_blendDescChanged)
         {
             _blendDescChanged = false;
 
-            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
             HRESULT hr = devicePtr->_device->CreateBlendState(&_blendDesc, _blendState.ReleaseAndGetAddressOf());
             if (FAILED(hr))
             {
                 GHOST_LOG_FORMAT_ERROR("Failed to create blend state.");
             }
+        }
+        else
+        {
+            opState->_blendState = _blendState;
+        }
+
+        if (_samplerStatesChanged)
+        { 
+            unsigned numberOfSamplers = std::min<unsigned>(_lastTextureUnitState, GHOST_MAX_TEXTURE_UNITS + 1);
+
+            opState->_samplerStatesCount = numberOfSamplers;
+            opState->_texturesCount = numberOfSamplers;
+
+            for (unsigned i = 0; i < numberOfSamplers; ++i)
+            {
+                ID3D11SamplerStatePtr sampler;
+                ID3D11ShaderResourceView* texture = nullptr;
+
+                D3DTextureStageDesc& texStage = _texStageDesc[i];
+                if (texStage._used)
+                {
+                    texture = texStage._tex;
+
+                    texStage._samplerDesc.Filter = D3D11Mappings::getFilter(_minFilters[i], _magFilters[i], _mipFilters[i]);
+                    texStage._samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+                    texStage._samplerDesc.MipLODBias = 0;
+                    texStage._samplerDesc.MinLOD = -D3D11_FLOAT32_MAX;
+                    texStage._samplerDesc.MaxLOD = -D3D11_FLOAT32_MAX;
+                    texStage._samplerDesc.MaxAnisotropy = 0;
+
+                    HRESULT hr = devicePtr->_device->CreateSamplerState(&texStage._samplerDesc, sampler.ReleaseAndGetAddressOf());
+                    if (FAILED(hr))
+                    {
+                        GHOST_LOG_FORMAT_ERROR("Failed to create sampler state.");
+                    }
+
+                    opState->_samplerStates[i].Swap(sampler);
+                    opState->_textures[i] = texture;
+                }
+            }
+
+            for (unsigned i = opState->_texturesCount; i < GHOST_MAX_TEXTURE_UNITS; ++i)
+            {
+                opState->_textures[i] = nullptr;
+            }
+        }
+
+
+        if (opState->_rasterizer != _rasterizerState)
+        {
+            _rasterizerState = opState->_rasterizer;
+
+            devicePtr->_context->RSSetState(_rasterizerState.Get());
+        }
+
+        if (opState->_depthStencilState != _depthStencilState)
+        {
+            _depthStencilState = opState->_depthStencilState;
+
+            devicePtr->_context->OMSetDepthStencilState(_depthStencilState.Get(), 0);
+        }
+
+        if (opState->_blendState != _blendState)
+        {
+            _blendState = opState->_blendState;
 
             devicePtr->_context->OMSetBlendState(_blendState.Get(), 0, 0xffffffff);
         }
 
-        if (_samplerStatesChanged)
+        if (_samplerStatesChanged && opState->_samplerStatesCount > 0)
         {
             _samplerStatesChanged = false;
-            //TODO
+
+            devicePtr->_context->PSSetSamplers(0, opState->_samplerStatesCount, opState->_samplerStates[0].GetAddressOf());
+            devicePtr->_context->PSSetShaderResources(0, opState->_texturesCount, &opState->_textures[0]);
+
+            if (devicePtr->_featureLevel >= D3D_FEATURE_LEVEL_10_0)
+            {
+                //todo
+            }
         }
     }
 

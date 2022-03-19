@@ -19,7 +19,7 @@ namespace ghost
         unsigned char* buffer = new unsigned char[dataSize];
         dataStream.read(buffer, dataSize);
 
-        const unsigned char* pixelData = stbi_load_from_memory(buffer, dataSize, &_width, &_height, &_components, 0);
+        const unsigned char* pixelData = stbi_load_from_memory(buffer, dataSize, &_width, &_height, &_components, 4);
         _setData(pixelData);
 
         SAFE_DELETE_ARRAY(buffer);
@@ -31,7 +31,7 @@ namespace ghost
 
     void Texture2D::_setData(const unsigned char* data)
     {
-        _dataSize = _width * _height * _components;
+        _dataSize = _width * _height * 4;
 
         _datas = new unsigned char[_dataSize];
         memcpy(_datas, data, _dataSize);

@@ -28,6 +28,8 @@ namespace ghost
         ID3D11ShaderResourceViewPtr _shaderResourceView;
         ID3D11RenderTargetViewPtr _rendertargetView;
         ID3D11DepthStencilViewPtr _depthStencilView;
+
+        static ID3D11Texture2DPtr _whilteTexture;
     };
 
     DECLAR_SMART_POINTER(D3D11Texture2D)
