@@ -42,7 +42,7 @@ void SampleApplication::onInit()
     MeshNode* lizard = new MeshNode(_scene);
     lizard->setMesh(lizardMesh);
     lizard->setMaterial(lizardMatPtr);
-    lizard->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(2, 2, 2));
+    lizard->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(2, 2, 2));
     _scene->addNodeToRoot(lizard);
 
     MeshNode* head = new MeshNode(_scene);

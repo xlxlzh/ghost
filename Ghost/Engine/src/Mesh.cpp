@@ -109,7 +109,7 @@ namespace ghost
             if (meshSize)
             {
                 Assimp::Importer importer;
-                const aiScene* scene = importer.ReadFileFromMemory(_buff, meshSize, aiProcess_Triangulate | aiProcess_GenNormals);
+                const aiScene* scene = importer.ReadFileFromMemory(_buff, meshSize, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FlipUVs);
                 if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
                 {
                     SAFE_DELETE_ARRAY(_buff);
