@@ -19,6 +19,7 @@ namespace ghost
         RESOURCE_SHADER,
         RESOURCE_SCENE,
         RESOURCE_MESH,
+        RESOURCE_MODEL,
     };
 
     class Resource;
@@ -53,6 +54,8 @@ namespace ghost
         bool                 _loaded = false;
         int                  _flags = 0;
     };
+
+    #define DECLAR_RESOURCE_TYPE(type) static int getTypeStatic() { return RESOURCE_##type; }
 
     class GHOST_API ResourceFactory
     {
