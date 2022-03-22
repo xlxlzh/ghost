@@ -3,6 +3,9 @@
 #include "Engine.h"
 #include "ShaderConstBufferStruct.h"
 
+//Test IMGUI
+#include "imgui.h"
+
 namespace ghost
 {
     SceneManager::SceneManager()
@@ -318,6 +321,8 @@ namespace ghost
         renderSystem->setRenderPass(RENDER_PASS_FORWARD);
         renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
 
+        renderSystem->beginScene();
+
         //Now, we don't cull scene, just render all the objects. I will do other works later.
         for (auto& sc : _sceneNodes)
         {
@@ -325,6 +330,16 @@ namespace ghost
         }
 
         //TODO Post processing
+
+        //Test IMGUI
+        if (ImGui::GetCurrentContext())
+        {
+            ImGui::NewFrame();
+
+            ImGui::ShowDemoWindow();
+
+            ImGui::Render();
+        }
 
         renderSystem->endScene();
     }

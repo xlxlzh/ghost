@@ -9,6 +9,9 @@
 #include "D3D11RenderTarget.h"
 #include "D3D11DepthStencilTarget.h"
 
+//IMGUI
+#include "imgui_impl_dx11.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
 
 namespace ghost
@@ -78,6 +81,9 @@ namespace ghost
 
         _width = Engine::getInstance()->getWidth();
         _height = Engine::getInstance()->getHeight();
+
+        //IMGUI
+        ImGui_ImplDX11_Init(_device.Get(), _context.Get());
 
         return _initSwapchain();
     }

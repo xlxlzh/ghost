@@ -45,6 +45,7 @@ namespace ghost
         virtual void drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) = 0;
         virtual void drawPrimitiveInstance() = 0;
 
+        virtual void beginScene() = 0;
         virtual void endScene() = 0;
 
         virtual void setCullMode(CullMode cull) = 0;

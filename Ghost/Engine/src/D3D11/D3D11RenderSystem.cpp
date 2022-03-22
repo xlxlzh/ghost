@@ -12,6 +12,10 @@
 #include "D3D11ConstBuffer.h"
 #include "LogManager.h"
 
+//IMGUI
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+
 namespace ghost
 {
     D3D11RenderSystem::D3D11RenderSystem(RenderDevicePtr device) : RenderSystem(device)
@@ -363,8 +367,18 @@ namespace ghost
         }
     }
 
+    void D3D11RenderSystem::beginScene()
+    {
+        //IMGUI
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+    }
+
     void D3D11RenderSystem::endScene()
     {
+        //IMGUI
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
         D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(Engine::getInstance()->getRenderDevice());
         d3dDevice->_dxgiSwapchain->Present(0, 0);
     }
