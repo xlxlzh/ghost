@@ -3,8 +3,7 @@
 #include "Engine.h"
 #include "ShaderConstBufferStruct.h"
 
-//Test IMGUI
-#include "imgui.h"
+#include "GUIManager.h"
 
 namespace ghost
 {
@@ -332,14 +331,7 @@ namespace ghost
         //TODO Post processing
 
         //Test IMGUI
-        if (ImGui::GetCurrentContext())
-        {
-            ImGui::NewFrame();
-
-            ImGui::ShowDemoWindow();
-
-            ImGui::Render();
-        }
+        GuiManager::getInstance()->renderAllPages();
 
         renderSystem->endScene();
     }
