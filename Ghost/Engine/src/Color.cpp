@@ -40,7 +40,7 @@ namespace ghost
         return _color[i];
     }
 
-    const float* Color::getColorPtr() const
+    float* Color::getColorPtr()
     {
         return &_color[0];
     }

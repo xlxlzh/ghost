@@ -14,7 +14,7 @@ void SampleApplication::onInit()
     ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
     MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
     MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
-    MaterialPtr lizardMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/LizardMaterial.xml", 0));
+    //MaterialPtr lizardMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/LizardMaterial.xml", 0));
 
     MeshPtr dragonMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/dragon.obj", 0));
     MeshPtr bunnyMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/bunny.obj", 0));
@@ -39,11 +39,11 @@ void SampleApplication::onInit()
     bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
     _scene->addNodeToRoot(bunny);
 
-    MeshNode* lizard = new MeshNode(_scene);
-    lizard->setMesh(lizardMesh);
-    lizard->setMaterial(lizardMatPtr);
-    lizard->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(2, 2, 2));
-    _scene->addNodeToRoot(lizard);
+    //MeshNode* lizard = new MeshNode(_scene);
+    //lizard->setMesh(lizardMesh);
+    //lizard->setMaterial(lizardMatPtr);
+    //lizard->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(2, 2, 2));
+    //_scene->addNodeToRoot(lizard);
 
     MeshNode* head = new MeshNode(_scene);
     head->setMesh(headMesh);
@@ -57,12 +57,12 @@ void SampleApplication::onInit()
     cube->setTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
     _scene->addNodeToRoot(cube);
 
-    Light* mainLight = new Light(_scene);
-    mainLight->setLightType(LIGHT_DIRECTIONAL);
-    mainLight->setLightColor(Color(1.0, 1.0, 1.0));
-    mainLight->setTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
-    mainLight->setLightShiness(100);
-    _scene->addNodeToRoot(mainLight);
+    _mainLight = new Light(_scene);
+    _mainLight->setLightType(LIGHT_DIRECTIONAL);
+    _mainLight->setLightColor(Color(1.0, 1.0, 1.0));
+    _mainLight->setTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
+    _mainLight->setLightShiness(100);
+    _scene->addNodeToRoot(_mainLight);
 
     _scene->addNodeToRoot(_mainCamera);
 
@@ -90,6 +90,7 @@ void SampleApplication::onKeydown()
 
 void SampleApplication::onUpdate()
 {
+    _mainLight->setLightColor(_settingPage->getLightColor());
     _scene->updateSceneGraph(_mainCamera);
     _scene->render(_mainCamera);
 }

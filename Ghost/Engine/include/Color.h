@@ -76,7 +76,7 @@ namespace ghost
         float operator[] (const size_t i) const;
         float& operator[] (const size_t i);
 
-        const float* getColorPtr() const;
+        float* getColorPtr();
 
         Color operator+ (const Color& rhs) const;
         Color operator- (const Color& rhs) const;

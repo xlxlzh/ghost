@@ -27,4 +27,6 @@ private:
     Camera* _mainCamera;
 
     SettingPagePtr _settingPage;
+
+    Light* _mainLight;
 };
