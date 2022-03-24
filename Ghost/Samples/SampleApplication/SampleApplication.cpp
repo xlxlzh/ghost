@@ -65,6 +65,10 @@ void SampleApplication::onInit()
     _scene->addNodeToRoot(mainLight);
 
     _scene->addNodeToRoot(_mainCamera);
+
+    _settingPage = MAKE_SMART_POINTER(SettingPage);
+
+    ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
 }
 
 void SampleApplication::onExit()

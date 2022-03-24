@@ -3,6 +3,8 @@
 #include "SceneManager.h"
 #include "Camera.h"
 
+#include "SettingPage.h"
+
 using namespace ghost;
 
 class SampleApplication : public Application
@@ -23,4 +25,6 @@ private:
 
     SceneManager* _scene;
     Camera* _mainCamera;
+
+    SettingPagePtr _settingPage;
 };
