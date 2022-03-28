@@ -69,5 +69,7 @@ namespace ghost
         case ghost::FT_MIP:
             return _mipFilter;
         }
+
+        return _minFilter;
     }
 }
