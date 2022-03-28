@@ -1,6 +1,6 @@
 #include "SampleApplication.h"
 #include "Engine.h"
-#include "MeshNode.h"
+#include "ModelNode.h"
 #include <windows.h>
 
 void SampleApplication::onInit()
@@ -16,43 +16,43 @@ void SampleApplication::onInit()
     MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
     //MaterialPtr lizardMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/LizardMaterial.xml", 0));
 
-    MeshPtr dragonMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/dragon.obj", 0));
-    MeshPtr bunnyMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/bunny.obj", 0));
-    MeshPtr lizardMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/LizardMage_Lowpoly.obj", 0));
-    MeshPtr cubeMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/cube.obj", 0));
-    MeshPtr headMesh = GHOST_SMARTPOINTER_CAST(Mesh, ResourceManager::getInstance()->addResource(RESOURCE_MESH, "Meshes/head.obj", 0));
+    ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/dragon.obj", 0));
+    ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));
+    ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.obj", 0));
+    ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/cube.obj", 0));
+    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/head.obj", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
     _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 100.0f);
     _mainCamera->setTransform(Vector3f(0.0, 40.0, 0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
-    MeshNode* dragonNode = new MeshNode(_scene);
-    dragonNode->setMesh(dragonMesh);
+    ModelNode* dragonNode = new ModelNode(_scene);
+    dragonNode->setModel(dragonModel);
     dragonNode->setMaterial(matPtr);
     dragonNode->setTransform(Vector3f(-8.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
     _scene->addNodeToRoot(dragonNode);
 
-    MeshNode* bunny = new MeshNode(_scene);
-    bunny->setMesh(bunnyMesh);
+    ModelNode* bunny = new ModelNode(_scene);
+    bunny->setModel(bunnyModel);
     bunny->setMaterial(matPtr);
     bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
     _scene->addNodeToRoot(bunny);
 
-    //MeshNode* lizard = new MeshNode(_scene);
-    //lizard->setMesh(lizardMesh);
+    //ModelNode* lizard = new ModelNode(_scene);
+    //lizard->setModel(lizardModel);
     //lizard->setMaterial(lizardMatPtr);
     //lizard->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(2, 2, 2));
     //_scene->addNodeToRoot(lizard);
 
-    MeshNode* head = new MeshNode(_scene);
-    head->setMesh(headMesh);
+    ModelNode* head = new ModelNode(_scene);
+    head->setModel(headModel);
     head->setMaterial(headMatPtr);
     head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(0.5, 0.5, 0.5));
     _scene->addNodeToRoot(head);
 
-    MeshNode* cube = new MeshNode(_scene);
-    cube->setMesh(cubeMesh);
+    ModelNode* cube = new ModelNode(_scene);
+    cube->setModel(cubeModel);
     cube->setMaterial(matPtr);
     cube->setTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
     _scene->addNodeToRoot(cube);

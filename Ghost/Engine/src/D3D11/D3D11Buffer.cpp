@@ -3,7 +3,6 @@
 #include "D3D11RenderDevice.h"
 
 #include "LogManager.h"
-#include "Mesh.h"
 
 namespace ghost
 {

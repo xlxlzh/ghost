@@ -6,7 +6,7 @@
 #include "FileSystemWin32.h"
 #include "Material.h"
 #include "ShaderResource.h"
-#include "Mesh.h"
+#include "Model.h"
 #include "GhostConfig.h"
 
 namespace ghost
@@ -37,7 +37,7 @@ namespace ghost
 
         resMan->registerResourceFactory(new ResourceFactoryIml<Material>());
         resMan->registerResourceFactory(new ResourceFactoryIml<ShaderResource>());
-        resMan->registerResourceFactory(new ResourceFactoryIml<Mesh>());
+        resMan->registerResourceFactory(new ResourceFactoryIml<Model>());
 
         _renderDevice->initDevice(false, GetMSAASampleCount(msaa));
         _renderSystem->initRenderSystem();

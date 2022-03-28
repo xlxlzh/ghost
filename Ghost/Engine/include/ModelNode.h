@@ -1,22 +1,22 @@
-#ifndef _MESHNODE_H_
-#define _MESHNODE_H_
+#ifndef _MODELNODE_H_
+#define _MODELNODE_H_
 
 #include "SceneNode.h"
 #include "Camera.h"
 #include "Material.h"
 #include "ConstBuffer.h"
-#include "Mesh.h"
+#include "Model.h"
 
 namespace ghost
 {
-    class GHOST_API MeshNode : public SceneNode
+    class GHOST_API ModelNode : public SceneNode
     {
     public:
-        MeshNode(SceneManager* owner);
-        ~MeshNode() { }
+        ModelNode(SceneManager* owner);
+        ~ModelNode() { }
 
-        void setMesh(const MeshPtr& mesh);
-        const MeshPtr& getMesh() const { return _mesh; }
+        void setModel(const ModelPtr& model);
+        const ModelPtr& getMesh() const { return _mesh; }
 
         void prepareRendering(Camera* cam);
 
@@ -24,15 +24,15 @@ namespace ghost
 
         virtual void render(Camera* cam);
 
-        virtual void getRenderOperation(RenderOperation& op) override;
+        void getRenderOperation(unsigned index, RenderOperation& op);
 
-        GET_SCENENODE_TYPE(MESH)
+        GET_SCENENODE_TYPE(MODEL)
 
     protected:
         virtual void onPostUpdate();
 
     protected:
-        MeshPtr _mesh = nullptr;
+        ModelPtr _mesh = nullptr;
 
         MaterialPtr _material = nullptr;
 

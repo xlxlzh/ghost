@@ -14,7 +14,8 @@ namespace ghost
         SCENENODE_UNDEFINED,
         SCENENODE_CAMERA,
         SCENENODE_LIGHT,
-        SCENENODE_MESH
+        SCENENODE_MESH,
+        SCENENODE_MODEL
     };
 
     #define GET_SCENENODE_TYPE(NodeType) virtual SceneNodeType getType() const { return SCENENODE_##NodeType; }
@@ -52,7 +53,7 @@ namespace ghost
 
         virtual void render(Camera* cam) { }
 
-        virtual void getRenderOperation(RenderOperation& op) { }
+        //virtual void getRenderOperation(RenderOperation& op) { }
 
         GET_SCENENODE_TYPE(UNDEFINED)
 

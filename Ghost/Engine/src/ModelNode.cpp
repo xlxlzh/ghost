@@ -1,24 +1,24 @@
-#include "MeshNode.h"
+#include "ModelNode.h"
 #include "Engine.h"
-#include "Mesh.h"
+#include "Model.h"
 #include "ShaderConstBufferStruct.h"
 #include "Light.h"
 #include "SceneManager.h"
 
 namespace ghost
 {
-    MeshNode::MeshNode(SceneManager* owner) : SceneNode(owner)
+    ModelNode::ModelNode(SceneManager* owner) : SceneNode(owner)
     {
         _renderable = true;
     }
 
-    void MeshNode::setMesh(const MeshPtr& mesh)
+    void ModelNode::setModel(const ModelPtr& mesh)
     {
         _mesh = mesh;
         _dirty = true;
     }
 
-    void MeshNode::prepareRendering(Camera* cam)
+    void ModelNode::prepareRendering(Camera* cam)
     {
         if (_meshParams == nullptr)
             _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), ResourceUsage::USAGE_DYNAMIC, "PerObject");
@@ -38,7 +38,7 @@ namespace ghost
         _meshParams->writeData(0, sizeof(PerObject), &obj, true);
     }
 
-    void MeshNode::render(Camera* cam)
+    void ModelNode::render(Camera* cam)
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
 
@@ -50,20 +50,23 @@ namespace ghost
         prepareRendering(cam);
         renderSystem->setConstBuffer(SHADER_VS, _meshParams);
 
-        RenderOperation op;
-        getRenderOperation(op);
-        renderSystem->render(op);
+        for (unsigned i = 0; i < _mesh->_meshes.size(); ++i)
+        {
+            RenderOperation op;
+            getRenderOperation(i, op);
+            renderSystem->render(op);
+        }
     }
 
-    void MeshNode::getRenderOperation(RenderOperation& op)
+    void ModelNode::getRenderOperation(unsigned index, RenderOperation& op)
     {
-        op._indexBuffer = _mesh->_indexBuffer;
-        op._vertexBinding = _mesh->_bindings;
+        op._indexBuffer = _mesh->_meshes[index]._indexBuffer;
+        op._vertexBinding = _mesh->_meshes[index]._bindings;
         op._primitiveType = PRIMITIVE_TRIANGLELIST;
         op._vertexDecl = _mesh->_vertexDec;
     }
 
-    void MeshNode::onPostUpdate()
+    void ModelNode::onPostUpdate()
     {
         //Reset bounding box
         _localBox = BoundingBox();
@@ -72,7 +75,7 @@ namespace ghost
             return;
 
         //Calculate new bounding box.
-        const auto& vertices = _mesh->getVertices();
+        /*const auto& vertices = _mesh->getVertices();
 
         Vector3f vMin(FLT_MAX, FLT_MAX, FLT_MAX);
         Vector3f vMax(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -86,7 +89,7 @@ namespace ghost
             vMax._y = std::max(v._y, vMax._y);
             vMax._z = std::max(v._z, vMax._z);
         }
-        
+
         _localBox.setExtents(vMin, vMax);
 
         //Transform bounding box to world space.
@@ -94,6 +97,6 @@ namespace ghost
         _boundingBox.transform(_absTrans);
 
         for (const auto& child : _children)
-            _boundingBox.merge(child->getBoundingBox());
+            _boundingBox.merge(child->getBoundingBox());*/
     }
 }
