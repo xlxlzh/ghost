@@ -1,1 +1,2 @@
 add_subdirectory(SampleApplication)
+add_subdirectory(NormalMap)

@@ -42,8 +42,8 @@ namespace ghost
 	protected:
 		RenderWindow* _window;
 
-		bool _exit;
-		bool _initialize;
+        bool _exit{ false };
+        bool _initialize{ false };
         PlatformType _platformType;
 
         TimerPtr _applicationTimer;
