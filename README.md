@@ -7,6 +7,8 @@ The project is a small graphics engine for learning. So most of frameworks will 
 - PBR
 - Shadow
 - PostProcessing
+- Particle System
+- Multipe render path(DR, TBDR, FORWARD+)
 - GI
 - SceneManager
 - Material system
