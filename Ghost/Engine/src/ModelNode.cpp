@@ -18,22 +18,24 @@ namespace ghost
         _dirty = true;
     }
 
-    void ModelNode::prepareRendering(Camera* cam)
+    void ModelNode::prepareRendering(Camera* cam, unsigned index)
     {
         if (_meshParams == nullptr)
             _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), ResourceUsage::USAGE_DYNAMIC, "PerObject");
 
         auto renderSystem = Engine::getInstance()->getRenderSystem();
-        Light* mainLight = _owner->getMainLigt();
+        //Light* mainLight = _owner->getMainLigt();
+
+        Matrix4x4f worldMat = _mesh->_meshes[index]._localMatrix * _absTrans;
 
         PerObject obj;
-        obj._matWorld = _absTrans;
-        obj._matWorldInverseTranspose = _absTrans.inverse().transpose();
+        obj._matWorld = worldMat;
+        obj._matWorldInverseTranspose = worldMat.inverse().transpose();
 
         if (renderSystem->getRenderPass() == RenderPass::RENDER_PASS_SHADOW)
             ;// obj._matMVP = _absTrans * mainLight->getViewMatrix() * mainLight->getProjectMatrix();
         else
-            obj._matMVP = _absTrans * cam->getViewMatrix() * cam->getProjectMatrix();
+            obj._matMVP = worldMat * cam->getViewMatrix() * cam->getProjectMatrix();
 
         _meshParams->writeData(0, sizeof(PerObject), &obj, true);
     }
@@ -47,11 +49,11 @@ namespace ghost
             renderSystem->setMaterial(_material);
         }
 
-        prepareRendering(cam);
-        renderSystem->setConstBuffer(SHADER_VS, _meshParams);
-
         for (unsigned i = 0; i < _mesh->_meshes.size(); ++i)
         {
+            prepareRendering(cam, i);
+            renderSystem->setConstBuffer(SHADER_VS, _meshParams);
+
             RenderOperation op;
             getRenderOperation(i, op);
             renderSystem->render(op);

@@ -3,7 +3,7 @@
         <Platform value = "WIN32" />
         <LogFile value = "GhostLogFile.txt" />
         <RenderType value = "D3D11" />
-        <Resolution width = "960" height = "540" />
+        <Resolution width = "1280" height = "960" />
         <Fullscreen value = "0" />
     </Global>
     <Render>

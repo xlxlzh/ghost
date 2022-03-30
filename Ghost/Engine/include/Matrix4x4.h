@@ -1,5 +1,5 @@
-#ifndef _mRIX4X4_H_
-#define _mRIX4X4_H_
+#ifndef _MRIX4X4_H_
+#define _MRIX4X4_H_
 
 #include "Quaternion.h"
 

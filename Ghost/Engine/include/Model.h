@@ -8,6 +8,7 @@
 #include "VertexDeclaration.h"
 #include "ConstBuffer.h"
 #include "IndexBuffer.h"
+#include "Matrix4x4.h"
 
 namespace ghost
 {
@@ -39,6 +40,8 @@ namespace ghost
         IndexBufferPtr _indexBuffer;
 
         VertexBufferBindingPtr _bindings;
+
+        Matrix4x4f _localMatrix;
     };
 
     class GHOST_API Model : public Resource

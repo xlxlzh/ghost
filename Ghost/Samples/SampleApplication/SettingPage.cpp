@@ -16,5 +16,6 @@ void SettingPage::show()
     ImGui::ColorEdit4("Light Color", _lightColor.getColorPtr());
 
     ImGui::InputFloat3("Light Direction", _lightDirection);
+
     ImGui::End();
 }

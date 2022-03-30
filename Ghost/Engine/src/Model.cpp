@@ -20,21 +20,33 @@ namespace ghost
             _loader = nullptr;
         }
 
-        void processNode(aiNode* node, const aiScene* scene)
+        void processNode(aiNode* node, const aiScene* scene, Matrix4x4f globalMatrix)
         {
+            if (node->mParent == nullptr)
+            {
+                globalMatrix = node->mTransformation[0];
+                //globalMatrix.transpose();
+            }
+            else
+            {
+                Matrix4x4f localMat = node->mTransformation[0];
+                //localMat.transpose();
+                globalMatrix = globalMatrix * localMat;
+            }
+
             for (unsigned i = 0; i < node->mNumMeshes; ++i)
             {
                 aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-                processMesh(mesh, scene);
+                processMesh(mesh, scene, globalMatrix);
             }
 
             for (unsigned i = 0; i < node->mNumChildren; ++i)
             {
-                processNode(node->mChildren[i], scene);
+                processNode(node->mChildren[i], scene, globalMatrix);
             }
         }
 
-        void processMesh(aiMesh* mesh, const aiScene* scene)
+        void processMesh(aiMesh* mesh, const aiScene* scene, const Matrix4x4f& localMatrix)
         {
             bool hasNormal = mesh->HasNormals();
             bool hasTangent = mesh->HasTangentsAndBitangents();
@@ -49,6 +61,7 @@ namespace ghost
                 _loader->_mask |= VERTEX_TANGENT;
 
             SubMesh subMesh;
+            subMesh._localMatrix = localMatrix;
             unsigned eleSize = Model::getVertexSizeByMask(_loader->_mask) / sizeof(float);
             subMesh._vertexDatas.resize(eleSize * mesh->mNumVertices);
 
@@ -103,7 +116,7 @@ namespace ghost
                     return false;
                 }
 
-                processNode(scene->mRootNode, scene);
+                processNode(scene->mRootNode, scene, Matrix4x4f());
             }
 
             return true;
@@ -155,6 +168,8 @@ namespace ghost
         }
 
         createVertexDecl();
+
+        return true;
     }
 
     void Model::createVertexDecl()

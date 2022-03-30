@@ -18,7 +18,7 @@ namespace ghost
         void setModel(const ModelPtr& model);
         const ModelPtr& getMesh() const { return _mesh; }
 
-        void prepareRendering(Camera* cam);
+        void prepareRendering(Camera* cam, unsigned index);
 
         void setMaterial(const MaterialPtr& mat) { _material = mat; }
 
