@@ -1,4 +1,4 @@
-# ghost
+# GHOST
 The project is a small graphics engine for learning. So most of frameworks will be implemented as simple as posible, maybe i will reconfigure the code when most features have been finished.
 
 ## Features
