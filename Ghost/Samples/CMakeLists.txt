@@ -1,2 +1,3 @@
 add_subdirectory(SampleApplication)
 add_subdirectory(NormalMap)
+add_subdirectory(PBRLighting)
