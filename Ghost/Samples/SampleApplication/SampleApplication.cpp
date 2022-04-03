@@ -44,7 +44,7 @@ void SampleApplication::onInit()
     ModelNode* house = new ModelNode(_scene);
     house->setModel(houseModel);
     house->setMaterial(matPtr);
-    house->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(90.0, 0.0, 0.0), Vector3f(0.01, 0.01, 0.01));
+    house->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(-180.0, 0.0, 0.0), Vector3f(0.01, 0.01, 0.01));
     _scene->addNodeToRoot(house);
 
     ModelNode* head = new ModelNode(_scene);
@@ -57,7 +57,7 @@ void SampleApplication::onInit()
     cube->setModel(cubeModel);
     cube->setMaterial(matPtr);
     cube->setTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
-    _scene->addNodeToRoot(cube);
+    //_scene->addNodeToRoot(cube);
 
     _mainLight = new Light(_scene);
     _mainLight->setLightType(LIGHT_DIRECTIONAL);
