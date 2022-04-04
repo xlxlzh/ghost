@@ -191,22 +191,35 @@ namespace ghost
             return &_m[0];
         }
         
-		Matrix4x4<T> transpose() const
+		Matrix4x4<T> getTransposed() const
 		{
 			Matrix4x4<T> m(*this);
 
 			for (int y = 0; y < 4; ++y)
 			{
-				for (int x = 0; x < 4; ++x)
+				for (int x = y + 1; x < 4; ++x)
 				{
-					T tmp = m._m[y * 4 + x];
-					m._m[y * 4 + x] = m._m[x * 4 + y];
-					m._m[x * 4 + y] = tmp;
+					T tmp = m._mm[x][y];
+                    m._mm[x][y] = m._mm[y][x];
+					m._mm[y][x] = tmp;
 				}
 			}
 
 			return m;
 		}
+
+        void transpose()
+        {
+            for (int y = 0; y < 4; ++y)
+            {
+                for (int x = y + 1; x < 4; ++x)
+                {
+                    T tmp = _mm[x][y];
+                    _mm[x][y] = _mm[y][x];
+                    _mm[y][x] = tmp;
+                }
+            }
+        }
 
 		Matrix4x4<T> inverse() const
 		{
@@ -419,6 +432,7 @@ namespace ghost
 			};
 
 			T _m[16];
+            T _mm[4][4];
 		};
 	};
 
