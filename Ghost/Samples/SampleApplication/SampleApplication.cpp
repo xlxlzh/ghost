@@ -14,15 +14,12 @@ void SampleApplication::onInit()
     ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
     MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
     MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
-    //MaterialPtr lizardMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/LizardMaterial.xml", 0));
 
     ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/dragon.obj", 0));
     ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));
     ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.obj", 0));
     ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/cube.obj", 0));
     ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/head.obj", 0));
-
-    ModelPtr houseModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/miniHouse_FBX.FBX", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
@@ -33,31 +30,25 @@ void SampleApplication::onInit()
     dragonNode->setModel(dragonModel);
     dragonNode->setMaterial(matPtr);
     dragonNode->setTransform(Vector3f(-8.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
-    //_scene->addNodeToRoot(dragonNode);
+    _scene->addNodeToRoot(dragonNode);
 
     ModelNode* bunny = new ModelNode(_scene);
     bunny->setModel(bunnyModel);
     bunny->setMaterial(matPtr);
     bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
-    //_scene->addNodeToRoot(bunny);
-
-    ModelNode* house = new ModelNode(_scene);
-    house->setModel(houseModel);
-    house->setMaterial(matPtr);
-    house->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 0.0, 0.0), Vector3f(0.01, 0.01, 0.01));
-    _scene->addNodeToRoot(house);
+    _scene->addNodeToRoot(bunny);
 
     ModelNode* head = new ModelNode(_scene);
     head->setModel(headModel);
     head->setMaterial(headMatPtr);
     head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(0.5, 0.5, 0.5));
-    //_scene->addNodeToRoot(head);
+    _scene->addNodeToRoot(head);
 
     ModelNode* cube = new ModelNode(_scene);
     cube->setModel(cubeModel);
     cube->setMaterial(matPtr);
     cube->setTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
-    //_scene->addNodeToRoot(cube);
+    _scene->addNodeToRoot(cube);
 
     _mainLight = new Light(_scene);
     _mainLight->setLightType(LIGHT_DIRECTIONAL);
