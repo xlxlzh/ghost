@@ -1,0 +1,13 @@
+<GhostConfig>
+    <Global>
+        <Platform value = "WIN32" />
+        <LogFile value = "GhostLogFile.txt" />
+        <RenderType value = "D3D11" />
+        <Resolution width = "960" height = "540" />
+        <Fullscreen value = "0" />
+    </Global>
+    <Render>
+        <MSAA value = "8x" />
+        <ShadowResolution value = "2048" />
+    </Render>
+</GhostConfig>
