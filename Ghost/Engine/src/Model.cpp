@@ -25,12 +25,12 @@ namespace ghost
             if (node->mParent == nullptr)
             {
                 globalMatrix = node->mTransformation[0];
-                //globalMatrix.transpose();
+                globalMatrix.transpose();
             }
             else
             {
                 Matrix4x4f localMat = node->mTransformation[0];
-                //localMat.transpose();
+                localMat.transpose();
                 globalMatrix = globalMatrix * localMat;
             }
 

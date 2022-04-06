@@ -30,7 +30,7 @@ namespace ghost
 
         PerObject obj;
         obj._matWorld = worldMat;
-        obj._matWorldInverseTranspose = worldMat.inverse().transpose();
+        obj._matWorldInverseTranspose = worldMat.inverse().getTransposed();
 
         if (renderSystem->getRenderPass() == RenderPass::RENDER_PASS_SHADOW)
             ;// obj._matMVP = _absTrans * mainLight->getViewMatrix() * mainLight->getProjectMatrix();

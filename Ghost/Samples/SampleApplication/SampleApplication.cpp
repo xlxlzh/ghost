@@ -44,7 +44,7 @@ void SampleApplication::onInit()
     ModelNode* house = new ModelNode(_scene);
     house->setModel(houseModel);
     house->setMaterial(matPtr);
-    house->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(-180.0, 0.0, 0.0), Vector3f(0.01, 0.01, 0.01));
+    house->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 0.0, 0.0), Vector3f(0.01, 0.01, 0.01));
     _scene->addNodeToRoot(house);
 
     ModelNode* head = new ModelNode(_scene);
