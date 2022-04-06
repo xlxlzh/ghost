@@ -6,7 +6,7 @@ endif(WIN32)
 
 link_directories(../../../External/assimp/assimp/lib)
 
-add_executable(Textures main.cpp TexturesApplication.cpp TexturesApplication.h)
+add_executable(Textures main.cpp TexturesApplication.cpp TexturesApplication.h SettingPage.h SettingPage.cpp)
 
 add_custom_command(TARGET Textures POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GhostConfig.xml ${CMAKE_CURRENT_BINARY_DIR})
 
