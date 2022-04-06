@@ -31,7 +31,7 @@ namespace ghost
             {
                 Matrix4x4f localMat = node->mTransformation[0];
                 localMat.transpose();
-                globalMatrix = globalMatrix * localMat;
+                globalMatrix = localMat * globalMatrix;
             }
 
             for (unsigned i = 0; i < node->mNumMeshes; ++i)
