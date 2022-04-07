@@ -50,17 +50,17 @@ namespace ghost
             float wx = q._w * x2, wy = q._w * y2, wz = q._w * z2;
 
             _11 = 1 - (yy + zz);
-            _12 = xy - wz;
-            _13 = xz + wy;
+            _12 = xy + wz;
+            _13 = xz - wy;
             _14 = 0;
 
-            _21 = xy + wz;
+            _21 = xy - wz;
             _22 = 1 - (xx + zz);
-            _23 = yz - wx;
+            _23 = yz + wx;
             _24 = 0;
 
-            _31 = xz - wy;
-            _32 = yz + wx;
+            _31 = xz + wy;
+            _32 = yz - wx;
             _33 = 1 - (xx + yy);
             _34 = 0;
 

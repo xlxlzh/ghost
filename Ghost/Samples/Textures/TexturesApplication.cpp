@@ -22,7 +22,7 @@ void TexturesApplication::onInit()
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
     _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 100.0f);
-    _mainCamera->setTransform(Vector3f(0.0, 40.0, -5.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
+    _mainCamera->setTransform(Vector3f(0.0, 37.0, -5.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
     ModelNode* house = new ModelNode(_scene);
     house->setModel(houseModel);
@@ -32,8 +32,8 @@ void TexturesApplication::onInit()
     houseModel->setMaterial(3, matPart1);
     houseModel->setMaterial(4, matPart1);
     houseModel->setMaterial(5, matPart3);
-    houseModel->setMaterial(6, matPart1);
-    house->setTransform(Vector3f(-2.0, 35.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(0.015, 0.015, 0.015));
+    houseModel->setMaterial(6, matPart1); 
+    house->setTransform(Vector3f(0.0, 35.0, 10.0), Vector3f(0.0, 180, 0.0), Vector3f(0.015, 0.015, 0.015));
     _scene->addNodeToRoot(house);
 
     _mainLight = new Light(_scene);
