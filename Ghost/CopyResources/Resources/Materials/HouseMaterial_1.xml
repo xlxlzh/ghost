@@ -9,7 +9,7 @@
             <PS entry="ps_main" />
         </Shader>
         <Textures>
-            <texAlbedo path="Textures/default.jpg" />
+            <texAlbedo path="Textures/miniHouse_Part1.jpg" />
             <texNormal path="" />
         </Textures>
         <Samplers>

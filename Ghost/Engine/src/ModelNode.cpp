@@ -18,6 +18,11 @@ namespace ghost
         _dirty = true;
     }
 
+    void ModelNode::setInstanceMaterial(unsigned subindex, const MaterialPtr& mat)
+    {
+
+    }
+
     void ModelNode::prepareRendering(Camera* cam, unsigned index)
     {
         if (_meshParams == nullptr)
@@ -25,6 +30,9 @@ namespace ghost
 
         auto renderSystem = Engine::getInstance()->getRenderSystem();
         //Light* mainLight = _owner->getMainLigt();
+
+        const MaterialPtr& mat = _mesh->getMaterial(index);
+        renderSystem->setMaterial(mat);
 
         Matrix4x4f worldMat = _mesh->_meshes[index]._localMatrix * _absTrans;
 
@@ -43,11 +51,6 @@ namespace ghost
     void ModelNode::render(Camera* cam)
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
-
-        if (_material)
-        {
-            renderSystem->setMaterial(_material);
-        }
 
         for (unsigned i = 0; i < _mesh->_meshes.size(); ++i)
         {

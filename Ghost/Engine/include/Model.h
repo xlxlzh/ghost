@@ -25,13 +25,14 @@ namespace ghost
     {
         friend class ModelNode;
         friend class ModelLoadHelper;
+        friend class Model;
     public:
         SubMesh() { }
 
         void createVertexBinding(unsigned mask);
 
     private:
-        unsigned _MaterialIndex;
+        int _MaterialIndex{ GHOST_INVALID_INDEX };
 
         std::vector<float> _vertexDatas;
         std::vector<unsigned> _indices;
@@ -55,6 +56,9 @@ namespace ghost
         virtual bool load(DataStream& dataStream) override;
 
         void createVertexDecl();
+        void setMaterial(unsigned subIndex, const MaterialPtr& material);
+        const MaterialPtr& getMaterial(unsigned subIndex) const;
+
         static unsigned getVertexSizeByMask(unsigned mask);
 
         DECLAR_RESOURCE_TYPE(MODEL);

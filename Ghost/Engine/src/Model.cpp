@@ -167,6 +167,8 @@ namespace ghost
             subMesh.createVertexBinding(_mask);
         }
 
+        _materials.resize(_meshes.size());
+
         createVertexDecl();
 
         return true;
@@ -192,6 +194,21 @@ namespace ghost
             _vertexDec->addElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
             offset += VertexElement::getTypeSize(VET_FLOAT_2);
         }
+    }
+
+    void Model::setMaterial(unsigned subIndex, const MaterialPtr& material)
+    {
+        assert(subIndex >= 0 && subIndex < _meshes.size());
+
+        _materials[subIndex] = material;
+        _meshes[subIndex]._MaterialIndex = subIndex;
+    }
+
+    const MaterialPtr& Model::getMaterial(unsigned subIndex) const 
+    {
+        assert(subIndex >= 0 && subIndex < _meshes.size());
+
+        return _materials[subIndex];
     }
 
     unsigned Model::getVertexSizeByMask(unsigned mask)

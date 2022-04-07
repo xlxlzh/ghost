@@ -20,7 +20,7 @@ namespace ghost
 
         void prepareRendering(Camera* cam, unsigned index);
 
-        void setMaterial(const MaterialPtr& mat) { _material = mat; }
+        void setInstanceMaterial(unsigned subindex, const MaterialPtr& mat);
 
         virtual void render(Camera* cam);
 
@@ -34,7 +34,7 @@ namespace ghost
     protected:
         ModelPtr _mesh = nullptr;
 
-        MaterialPtr _material = nullptr;
+        std::vector<MaterialPtr> _instanceMaterial;
 
         ConstBufferPtr _meshParams;
 

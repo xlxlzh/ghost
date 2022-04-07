@@ -12,19 +12,28 @@ void TexturesApplication::onInit()
     _generateResourcesPath(fileSystem->getCurrentDir());
 
     ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
-    MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
+    MaterialPtr matPart1 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_1.xml", 0));
+    MaterialPtr matPart2 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_2.xml", 0));
+    MaterialPtr matPart3 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_3.xml", 0));
+    MaterialPtr matPart4 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_4.xml", 0));
 
     ModelPtr houseModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/miniHouse_FBX.FBX", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
     _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 100.0f);
-    _mainCamera->setTransform(Vector3f(0.0, 40.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
+    _mainCamera->setTransform(Vector3f(0.0, 40.0, -5.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
     ModelNode* house = new ModelNode(_scene);
     house->setModel(houseModel);
-    house->setMaterial(matPtr);
-    house->setTransform(Vector3f(-2.0, 40.0, 10.0), Vector3f(0.0, 0.0, 0.0), Vector3f(0.01, 0.01, 0.01));
+    houseModel->setMaterial(0, matPart4);
+    houseModel->setMaterial(1, matPart3);
+    houseModel->setMaterial(2, matPart2);
+    houseModel->setMaterial(3, matPart1);
+    houseModel->setMaterial(4, matPart1);
+    houseModel->setMaterial(5, matPart3);
+    houseModel->setMaterial(6, matPart1);
+    house->setTransform(Vector3f(-2.0, 35.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(0.015, 0.015, 0.015));
     _scene->addNodeToRoot(house);
 
     _mainLight = new Light(_scene);

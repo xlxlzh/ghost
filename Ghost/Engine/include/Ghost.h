@@ -51,5 +51,7 @@ using obj##UniquePtr = std::unique_ptr<obj>;
     }\
 }
 
+#define GHOST_INVALID_INDEX -1
+
 
 #endif // !_GHOST_H_
