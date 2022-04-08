@@ -315,8 +315,8 @@ namespace ghost
 		{
 			Matrix4x4<T> m;
             m._22 = MathUtilities::cos<T>(angle);
-            m._23 = -MathUtilities::sin<T>(angle);
-            m._32 = MathUtilities::sin<T>(angle);
+            m._23 = MathUtilities::sin<T>(angle);
+            m._32 = -MathUtilities::sin<T>(angle);
             m._33 = MathUtilities::cos<T>(angle);
 			return m;
 		}
@@ -326,8 +326,8 @@ namespace ghost
             Matrix4x4<T> m;
 
             m._11 = MathUtilities::cos<T>(angle);
-            m._13 = MathUtilities::sin<T>(angle);
-            m._31 = -MathUtilities::sin<T>(angle);
+            m._13 = -MathUtilities::sin<T>(angle);
+            m._31 = MathUtilities::sin<T>(angle);
             m._33 = MathUtilities::cos<T>(angle);
 
             return m;
@@ -338,8 +338,8 @@ namespace ghost
             Matrix4x4<T> m;
 
             m._11 = MathUtilities::cos<T>(angle);
-            m._12 = -MathUtilities::sin<T>(angle);
-            m._21 = MathUtilities::sin<T>(angle);
+            m._12 = MathUtilities::sin<T>(angle);
+            m._21 = -MathUtilities::sin<T>(angle);
             m._22 = MathUtilities::cos<T>(angle);
 
             return m;
