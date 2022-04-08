@@ -2,10 +2,11 @@
 #define _MATH_UTILITIES_H_
 
 #include <cmath>
+#include "Ghost.h"
 
 namespace ghost
 {
-	class MathUtilities
+	class GHOST_API MathUtilities
 	{
 	public:
 		template<typename T>
