@@ -222,7 +222,7 @@ namespace ghost
         //Prepare rt and flags
         auto renderSystem = Engine::getInstance()->getRenderSystem();
         renderSystem->setRenderPass(RENDER_PASS_SHADOW);
-        renderSystem->setRenderTarget(_shadowMap);
+        //renderSystem->setRenderTarget(_shadowMap);
 
         //New implement
         const FrustumCorners& cameraCorners = camera->getFrustum().getFrustumCorners();
@@ -285,7 +285,7 @@ namespace ghost
         _sceneGlobalBuffer->writeData(0, sizeof(SceneGlobalParams), &params, true);
 
         if (_shadowMap == nullptr)
-            _shadowMap = Engine::getInstance()->getRenderDevice()->createSingleRenderTarget(1024, 1024, GHOST_FORMAT_FLOAT_32, false);
+            _shadowMap = Engine::getInstance()->getRenderDevice()->createDepthStencilTarget(1024, 1024, false, true);
             
     }
 

@@ -80,7 +80,7 @@ namespace ghost
 
             if (_depthAttach)
             {
-                _depthBuffer = Engine::getInstance()->getRenderDevice()->createDepthStencilTarget(_width, _height, false, _msaa, false);
+                _depthBuffer = Engine::getInstance()->getRenderDevice()->createDepthStencilTarget(_width, _height, false, _msaa);
             }
         }
     }

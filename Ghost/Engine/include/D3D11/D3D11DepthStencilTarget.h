@@ -10,11 +10,12 @@ namespace ghost
     class GHOST_API D3D11DepthStencilTarget : public DepthStencilTarget
     {
     public:
-        D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv);
+        D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv);
         virtual ~D3D11DepthStencilTarget();
 
         ID3D11DepthStencilViewPtr getDepthView() const { return _depthView; }
         ID3D11Texture2DPtr getDepthTexture() const { return _depthTexture; }
+        ID3D11ShaderResourceViewPtr getShaderResourceView() const { return _srvView; }
 
     protected:
         void _onCreateDepthStencilTarget();
@@ -23,6 +24,7 @@ namespace ghost
     private:
         ID3D11DepthStencilViewPtr _depthView = nullptr;
         ID3D11Texture2DPtr _depthTexture = nullptr;
+        ID3D11ShaderResourceViewPtr _srvView = nullptr;
     };
 
     DECLAR_SMART_POINTER(D3D11DepthStencilTarget);

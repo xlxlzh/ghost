@@ -9,7 +9,7 @@ namespace ghost
     class GHOST_API DepthStencilTarget
     {
     public:
-        DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv);
+        DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv);
         virtual ~DepthStencilTarget();
 
         unsigned getWidth() const { return _width; }
@@ -23,7 +23,6 @@ namespace ghost
 
         bool _msaa;
         bool _srv;
-        GhostColorFormat _format;
     };
 
     DECLAR_SMART_POINTER(DepthStencilTarget)

@@ -33,7 +33,7 @@ void TexturesApplication::onInit()
     houseModel->setMaterial(4, matPart1);
     houseModel->setMaterial(5, matPart3);
     houseModel->setMaterial(6, matPart1); 
-    house->setTransform(Vector3f(0.0, 35.0, 10.0), Vector3f(0.0, 180, 0.0), Vector3f(0.015, 0.015, 0.015));
+    house->setTransform(Vector3f(0.0, 35.0, 10.0), Vector3f(0.0, 90, 0.0), Vector3f(0.015, 0.015, 0.015));
     _scene->addNodeToRoot(house);
 
     _mainLight = new Light(_scene);

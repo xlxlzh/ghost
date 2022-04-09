@@ -23,10 +23,12 @@ namespace ghost
         virtual VertexDeclarationPtr createVertexDeclaration() override;
 
         virtual RenderTargetPtr createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) override;
-        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv) override;
+        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) override;
 
         ID3D11DevicePtr getDevice() const { return _device; }
         ID3D11DeviceContextPtr getContext() const { return _context; }
+
+        D3D_FEATURE_LEVEL getFeatureLevel() const { return _featureLevel; }
 
     private:
         bool _initSwapchain();

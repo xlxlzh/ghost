@@ -400,8 +400,8 @@ namespace ghost
         return MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, srv, msaa, depth);
     }
 
-    DepthStencilTargetPtr D3D11RenderDevice::createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool floatDepth, bool srv)
+    DepthStencilTargetPtr D3D11RenderDevice::createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv)
     {
-        return MAKE_SMART_POINTER(D3D11DepthStencilTarget, w, h, msaa, floatDepth, srv);
+        return MAKE_SMART_POINTER(D3D11DepthStencilTarget, w, h, msaa, srv);
     }
 }
