@@ -59,7 +59,7 @@ namespace ghost
 
         ConstBufferPtr _sceneGlobalBuffer;
 
-        DepthStencilTargetPtr _shadowMap;
+        RenderTargetPtr _shadowMap;
 
         RenderQueues _renderQueues;
     };

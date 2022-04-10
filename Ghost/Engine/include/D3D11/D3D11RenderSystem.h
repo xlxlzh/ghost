@@ -93,8 +93,8 @@ namespace ghost
             bool _used;
         } _texStageDesc[GHOST_MAX_TEXTURE_UNITS];
 
-        unsigned   _lastTextureUnitState;
-        bool       _samplerStatesChanged;
+        unsigned   _lastTextureUnitState{0};
+        bool       _samplerStatesChanged{false};
     };
 }
 

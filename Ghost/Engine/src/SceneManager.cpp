@@ -206,7 +206,7 @@ namespace ghost
         for (unsigned i = 0; i < _sceneNodes.size(); ++i)
         {
             SceneNode* node = _sceneNodes[i];
-            if (node && node->getType() == SCENENODE_MESH)
+            if (node && node->getType() == SCENENODE_MODEL)
                 nodes.push_back(node);
         }
     }
@@ -222,7 +222,7 @@ namespace ghost
         //Prepare rt and flags
         auto renderSystem = Engine::getInstance()->getRenderSystem();
         renderSystem->setRenderPass(RENDER_PASS_SHADOW);
-        //renderSystem->setRenderTarget(_shadowMap);
+        renderSystem->setRenderTarget(_shadowMap);
 
         //New implement
         const FrustumCorners& cameraCorners = camera->getFrustum().getFrustumCorners();
@@ -270,7 +270,7 @@ namespace ghost
         for (unsigned i = 0; i < _sceneNodes.size(); ++i)
         {
             SceneNode* node = _sceneNodes[i];
-            if (node && node->getType() == SCENENODE_MESH)
+            if (node && node->getType() == SCENENODE_MODEL)
                 nodes.push_back(node);
         }
     }
@@ -285,7 +285,7 @@ namespace ghost
         _sceneGlobalBuffer->writeData(0, sizeof(SceneGlobalParams), &params, true);
 
         if (_shadowMap == nullptr)
-            _shadowMap = Engine::getInstance()->getRenderDevice()->createDepthStencilTarget(1024, 1024, false, true);
+            _shadowMap = Engine::getInstance()->getRenderDevice()->createSingleRenderTarget(1024, 1024, GHOST_FORMAT_R8G8B8A8);
             
     }
 
@@ -312,15 +312,16 @@ namespace ghost
             renderSystem->setConstBuffer(SHADER_PS, mainLight->_lightBuffer);
         }
 
+
+        renderSystem->beginScene();
+
         //Render Shadowmap
-        //_renderShadowmap(camera ,mainLight);
+        _renderShadowmap(camera ,mainLight);
 
         renderSystem->useDefaultRenderTarget();
         
         renderSystem->setRenderPass(RENDER_PASS_FORWARD);
         renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
-
-        renderSystem->beginScene();
 
         //Now, we don't cull scene, just render all the objects. I will do other works later.
         for (auto& sc : _sceneNodes)

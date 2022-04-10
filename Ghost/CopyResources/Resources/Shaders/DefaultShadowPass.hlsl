@@ -32,8 +32,6 @@ struct vs_input
 struct ps_input
 {
     float4 position : SV_POSITION;
-    float3 wpos : POSITION;
-    float3 wnormal : NORMAL;
 };
 
 ps_input vs_main(vs_input input)

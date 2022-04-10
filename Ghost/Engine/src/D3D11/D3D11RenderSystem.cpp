@@ -503,6 +503,9 @@ namespace ghost
 
     void D3D11RenderSystem::useDefaultRenderTarget()
     {
+        if (_activeRenerTarget)
+            _activeRenerTarget = nullptr;
+
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
         D3D11_VIEWPORT vp;

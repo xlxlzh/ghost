@@ -14,7 +14,6 @@ namespace ghost
         SCENENODE_UNDEFINED,
         SCENENODE_CAMERA,
         SCENENODE_LIGHT,
-        SCENENODE_MESH,
         SCENENODE_MODEL
     };
 

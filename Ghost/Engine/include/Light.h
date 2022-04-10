@@ -38,6 +38,9 @@ namespace ghost
         void setLightShiness(float sh) { _shiness = sh; }
         float getLightShiness() const { return _shiness; }
 
+        bool getLightProjectShadow() const { return _projectShadow; }
+        void setLightProjectShadow(bool shadow) { _projectShadow = shadow; }
+
         // Can be used when type is directional or spot
         Vector3f getLightDir() const;
 
@@ -67,6 +70,8 @@ namespace ghost
         float _falloff;
         float _radius;
         float _shiness;
+
+        bool _projectShadow{ true };
 
         //Rendering
         ConstBufferPtr _lightBuffer = nullptr;
