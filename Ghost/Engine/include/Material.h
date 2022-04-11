@@ -86,6 +86,7 @@ namespace ghost
         RENDER_PASS_SHADOW,
         RENDER_PASS_DEPTH,
         RENDER_PASS_DEFERRED,
+        RENDER_PASS_NUM
     };
 
     class GHOST_API ShaderPass
