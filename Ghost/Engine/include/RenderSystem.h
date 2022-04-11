@@ -65,7 +65,7 @@ namespace ghost
         //Test interface
         virtual void useDefaultRenderTarget() { }
 
-        void setRenderPass(RenderPass pass) { _currentRenderPass = pass; }
+        void setRenderPass(RenderPass pass);
         RenderPass getRenderPass() const { return _currentRenderPass; }
 
     protected:
@@ -80,6 +80,7 @@ namespace ghost
         FillMode _fillMode;
 
         RenderPass _currentRenderPass;
+        bool _renderpassChanged{ true };
     };
 
     DECLAR_SMART_POINTER(RenderSystem)

@@ -21,11 +21,18 @@ namespace ghost
 
     void RenderSystem::setMaterial(const MaterialPtr& mat)
     {
-        if (_currentMaterial != mat)
+        if (_currentMaterial != mat || _renderpassChanged)
         {
+            _renderpassChanged = false;
             _currentMaterial = mat;
 
             _currentMaterial->applyToRenderPass(_currentRenderPass);
         }
+    }
+
+    void RenderSystem::setRenderPass(RenderPass pass)
+    {
+        _currentRenderPass = pass;
+        _renderpassChanged = true;
     }
 }
