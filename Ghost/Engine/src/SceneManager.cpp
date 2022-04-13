@@ -316,6 +316,7 @@ namespace ghost
         renderSystem->beginScene();
 
         //Render Shadowmap
+        renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
         _renderShadowmap(camera ,mainLight);
 
         renderSystem->useDefaultRenderTarget();

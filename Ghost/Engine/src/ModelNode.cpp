@@ -41,7 +41,7 @@ namespace ghost
         obj._matWorldInverseTranspose = worldMat.inverse().getTransposed();
 
         if (renderSystem->getRenderPass() == RenderPass::RENDER_PASS_SHADOW)
-            ;// obj._matMVP = _absTrans * mainLight->getViewMatrix() * mainLight->getProjectMatrix();
+            obj._matMVP = worldMat * cam->getViewMatrix() * cam->getProjectMatrix();
         else
             obj._matMVP = worldMat * cam->getViewMatrix() * cam->getProjectMatrix();
 
