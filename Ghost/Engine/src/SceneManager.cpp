@@ -257,8 +257,8 @@ namespace ghost
         frustumInLight[7] = Vector3f(vMax._x, vMin._y, vMax._z);
 
         Vector3f lightPos = ((vMin + frustumInLight[2]) / 2.0f) * lightView.inverse();
-        Matrix4x4f lightViewMat = Matrix4x4f::viewMatrix(lightPos, light->getLightDir(), Vector3f(0.0, 1.0f, 0.0f));
-        Matrix4x4f lightOrthMat = Matrix4x4f::orthoMatrix(vMax._x - vMin._x, vMax._y - vMin._y, vMin._z, vMax._z);
+        _lightViewMat = Matrix4x4f::viewMatrix(lightPos, light->getLightDir(), Vector3f(0.0, 1.0f, 0.0f));
+        _lightProjMat = Matrix4x4f::orthoMatrix(vMax._x - vMin._x, vMax._y - vMin._y, vMin._z, vMax._z);
 
         //TODO How to apply const buffers for muti-pass
         for (const auto& obj : objects)

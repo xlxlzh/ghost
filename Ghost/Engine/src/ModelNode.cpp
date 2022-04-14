@@ -29,7 +29,7 @@ namespace ghost
             _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), ResourceUsage::USAGE_DYNAMIC, "PerObject");
 
         auto renderSystem = Engine::getInstance()->getRenderSystem();
-        //Light* mainLight = _owner->getMainLigt();
+        Light* mainLight = _owner->getMainLigt();
 
         const MaterialPtr& mat = _mesh->getMaterial(index);
         renderSystem->setMaterial(mat);
@@ -41,7 +41,7 @@ namespace ghost
         obj._matWorldInverseTranspose = worldMat.inverse().getTransposed();
 
         if (renderSystem->getRenderPass() == RenderPass::RENDER_PASS_SHADOW)
-            obj._matMVP = worldMat * cam->getViewMatrix() * cam->getProjectMatrix();
+            obj._matMVP = worldMat * _owner->getShadowViewMat() * _owner->getShadowProjMat();
         else
             obj._matMVP = worldMat * cam->getViewMatrix() * cam->getProjectMatrix();
 

@@ -36,6 +36,9 @@ namespace ghost
 
         Light* getMainLigt() const;
 
+        const Matrix4x4f& getShadowViewMat() const { return _lightViewMat; }
+        const Matrix4x4f& getShadowProjMat() const { return _lightProjMat; }
+
     private:
         void _initTree(const BoundingBox& box, int depth);
 
@@ -62,6 +65,10 @@ namespace ghost
         RenderTargetPtr _shadowMap;
 
         RenderQueues _renderQueues;
+
+        //Temp code
+        Matrix4x4f _lightViewMat;
+        Matrix4x4f _lightProjMat;
     };
 }
 

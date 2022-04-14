@@ -23,7 +23,7 @@ void SampleApplication::onInit()
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
-    _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 100.0f);
+    _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 15.0f);
     _mainCamera->setTransform(Vector3f(0.0, 40.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
     ModelNode* dragonNode = new ModelNode(_scene);
