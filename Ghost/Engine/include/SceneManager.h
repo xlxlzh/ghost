@@ -7,12 +7,12 @@
 #include "Light.h"
 
 #include "RenderTarget.h"
+#include "Renderer.h"
 
 namespace ghost
 {
     class GHOST_API SceneManager
     {
-        using RenderQueues = std::vector<SceneNode*>;
     public:
         SceneManager();
         SceneManager(const BoundingBox& box, int depth);
@@ -45,7 +45,7 @@ namespace ghost
         void _addNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
         bool _deleteNodeFromTree(SceneNode* node);
 
-        void _getRenderQueue(RenderQueues& nodes);
+        void _updateRenderQueue();
         void _renderShadowmap(Camera* camera, Light* light);
         void _getShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
 
@@ -64,7 +64,7 @@ namespace ghost
 
         RenderTargetPtr _shadowMap;
 
-        RenderQueues _renderQueues;
+        RenderQueue _renderQueues;
 
         //Temp code
         Matrix4x4f _lightViewMat;
