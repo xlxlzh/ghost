@@ -265,13 +265,18 @@ namespace ghost
             obj->render(camera);
     }
 
-    void SceneManager::_getRenderQueue(RenderQueues& nodes)
+    void SceneManager::_updateRenderQueue()
     {
+        _renderQueues.resetRenderQueue();
         for (unsigned i = 0; i < _sceneNodes.size(); ++i)
         {
             SceneNode* node = _sceneNodes[i];
             if (node && node->getType() == SCENENODE_MODEL)
-                nodes.push_back(node);
+            {
+                _renderQueues._opaueQueue.push_back(node);
+                _renderQueues._shadowQueue.push_back(node);
+            }
+                
         }
     }
 
