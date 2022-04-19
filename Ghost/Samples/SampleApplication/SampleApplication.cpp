@@ -72,7 +72,7 @@ void SampleApplication::onExit()
 void SampleApplication::onTick(float deltaTime)
 {
     char fpsTitle[128] = { 0 };
-    sprintf(fpsTitle, "SampleApplication--%0.2f", 1000.0 / deltaTime);
+    sprintf(fpsTitle, "SampleApplication FPS:%0.2f", 1000.0 / deltaTime);
     getWindow()->setWindowTitle(fpsTitle);
 }
 
