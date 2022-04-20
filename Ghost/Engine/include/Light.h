@@ -14,7 +14,7 @@ namespace ghost
         LIGHT_SPOT
     };
 
-    class GHOST_API Light : public SceneNode
+    class GHOST_API Light final : public SceneNode
     {
         friend class SceneManager;
     public:

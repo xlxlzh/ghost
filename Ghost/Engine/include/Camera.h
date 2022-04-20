@@ -8,7 +8,7 @@
 
 namespace ghost
 {
-    class GHOST_API Camera : public SceneNode
+    class GHOST_API Camera final : public SceneNode
     {
         friend class SceneManager;
     public:

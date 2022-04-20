@@ -45,7 +45,7 @@ namespace ghost
         Matrix4x4f _localMatrix;
     };
 
-    class GHOST_API Model : public Resource
+    class GHOST_API Model final : public Resource
     {
         friend class ModelNode;
         friend class ModelLoadHelper;
