@@ -74,8 +74,6 @@ namespace ghost
         Matrix4x4f _absTrans;
 
         bool _dirty;
-        bool _renderable{ false };
-
         SceneManager* _owner;
     };
 

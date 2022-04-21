@@ -7,9 +7,9 @@
 
 namespace ghost
 {
-    ModelNode::ModelNode(SceneManager* owner) : SceneNode(owner)
+    ModelNode::ModelNode(SceneManager* owner) : Renderable(owner)
     {
-        _renderable = true;
+
     }
 
     void ModelNode::setModel(const ModelPtr& mesh)
