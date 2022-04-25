@@ -322,6 +322,7 @@ namespace ghost
             renderSystem->setConstBuffer(SHADER_PS, mainLight->_lightBuffer);
         }
 
+        _updateRenderQueue();
 
         renderSystem->beginScene();
 
