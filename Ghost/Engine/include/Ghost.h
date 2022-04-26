@@ -20,9 +20,13 @@ using obj##Ptr = std::shared_ptr<obj>;  \
 using obj##WeakPtr = std::weak_ptr<obj>; \
 using obj##UniquePtr = std::unique_ptr<obj>;
 
-#define MAKE_SMART_POINTER(type, ...) std::make_shared<type>(__VA_ARGS__);
+#define GHOST_MAKE_SMART_POINTER(type, ...) std::make_shared<type>(__VA_ARGS__);
 
 #define GHOST_SMARTPOINTER_CAST(castType, p) std::dynamic_pointer_cast<castType>(p);
+
+#define GHOST_MOVE(arg) std::move(arg)
+
+#define GHOST_FORWARD(func, ...) std::forward<func>(__VA_ARGS__)
 
 #define SAFE_RELEASE(p) \
 {\

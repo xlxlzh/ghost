@@ -59,7 +59,7 @@ void SampleApplication::onInit()
 
     _scene->addNodeToRoot(_mainCamera);
 
-    _settingPage = MAKE_SMART_POINTER(SettingPage);
+    _settingPage = GHOST_MAKE_SMART_POINTER(SettingPage);
 
     ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
 }
