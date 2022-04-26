@@ -323,6 +323,8 @@ namespace ghost
         }
 
         _updateRenderQueue();
+        _renderQueues._mainCamera = camera;
+        _renderQueues._directionLight = mainLight;
 
         renderSystem->beginScene();
 
