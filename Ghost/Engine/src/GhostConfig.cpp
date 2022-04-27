@@ -64,7 +64,7 @@ namespace ghost
     {
         _initDefault();
 
-        DataStreamPtr data = MAKE_SMART_POINTER(FileStream, configFile);
+        DataStreamPtr data = GHOST_MAKE_SMART_POINTER(FileStream, configFile);
         if (!data || !data->isOpened())
             return false;
 

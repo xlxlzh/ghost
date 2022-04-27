@@ -13,6 +13,15 @@ namespace ghost
     using ShadowMapQueue = std::vector<SceneNode*>;
     using OpaueQueue = std::vector<SceneNode*>;
 
+    enum class RenderPath : unsigned
+    {
+        RENDER_PATH_FORWARD,
+        RENDER_PATH_DEFFERED,
+        RENDER_PATH_TBDR,
+        RENDER_PATH_CTBDR,
+        RENDER_PATH_FORWARD_PLUS
+    };
+
     struct GHOST_API RenderQueue
     {
         RenderQueue() = default;

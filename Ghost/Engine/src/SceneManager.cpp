@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Octree.h"
 #include "Engine.h"
+#include "Renderable.h"
 #include "ShaderConstBufferStruct.h"
 
 #include "GUIManager.h"
@@ -273,8 +274,12 @@ namespace ghost
             SceneNode* node = _sceneNodes[i];
             if (node && node->getType() == SCENENODE_MODEL)
             {
+                Renderable* r = (Renderable*)node;
+
                 _renderQueues._opaueQueue.push_back(node);
-                _renderQueues._shadowQueue.push_back(node);
+
+                if (r->getProjectShadow())
+                    _renderQueues._shadowQueue.push_back(node);
             }
                 
         }
@@ -317,6 +322,9 @@ namespace ghost
             renderSystem->setConstBuffer(SHADER_PS, mainLight->_lightBuffer);
         }
 
+        _updateRenderQueue();
+        _renderQueues._mainCamera = camera;
+        _renderQueues._directionLight = mainLight;
 
         renderSystem->beginScene();
 

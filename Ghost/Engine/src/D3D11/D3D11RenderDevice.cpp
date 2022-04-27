@@ -377,31 +377,31 @@ namespace ghost
 
     ConstBufferPtr D3D11RenderDevice::createConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name)
     {
-        return std::make_shared<D3D11ConstBuffer>(bufferSize, usage, *this, name);
+        return GHOST_MAKE_SMART_POINTER(D3D11ConstBuffer, bufferSize, usage, *this, name);
     }
 
     IndexBufferPtr D3D11RenderDevice::createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage)
     {
-        return std::make_shared<D3D11IndexBuffer>(iType, numIndexes, usage, *this, false);
+        return GHOST_MAKE_SMART_POINTER(D3D11IndexBuffer, iType, numIndexes, usage, *this, false);
     }
 
     VertexBufferPtr D3D11RenderDevice::createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage)
     {
-        return std::make_shared<D3D11VertexBuffer>(VertexSize, numVertices, usage, *this, false);
+        return GHOST_MAKE_SMART_POINTER(D3D11VertexBuffer, VertexSize, numVertices, usage, *this, false);
     }
 
     VertexDeclarationPtr D3D11RenderDevice::createVertexDeclaration()
     {
-        return std::make_shared<D3D11VertexDeclaration>(*this);
+        return GHOST_MAKE_SMART_POINTER(D3D11VertexDeclaration, *this);
     }
 
     RenderTargetPtr D3D11RenderDevice::createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv, bool msaa, bool depth /* = true */)
     {
-        return MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, srv, msaa, depth);
+        return GHOST_MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, srv, msaa, depth);
     }
 
     DepthStencilTargetPtr D3D11RenderDevice::createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv)
     {
-        return MAKE_SMART_POINTER(D3D11DepthStencilTarget, w, h, msaa, srv);
+        return GHOST_MAKE_SMART_POINTER(D3D11DepthStencilTarget, w, h, msaa, srv);
     }
 }

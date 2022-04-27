@@ -1,7 +1,7 @@
 #ifndef _MODELNODE_H_
 #define _MODELNODE_H_
 
-#include "SceneNode.h"
+#include "Renderable.h"
 #include "Camera.h"
 #include "Material.h"
 #include "ConstBuffer.h"
@@ -9,7 +9,7 @@
 
 namespace ghost
 {
-    class GHOST_API ModelNode : public SceneNode
+    class GHOST_API ModelNode : public Renderable
     {
     public:
         ModelNode(SceneManager* owner);

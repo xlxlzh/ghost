@@ -71,7 +71,7 @@ namespace ghost
     public:
         virtual ResourcePtr createResource(const std::string& name, int flags) override
         {
-            ResourcePtr res = MAKE_SMART_POINTER(T);
+            ResourcePtr res = GHOST_MAKE_SMART_POINTER(T);
             res->setName(name);
             return res;
         }
