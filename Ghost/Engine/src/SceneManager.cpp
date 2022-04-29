@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Renderable.h"
 #include "ShaderConstBufferStruct.h"
+#include "ForwardRenderer.h"
 
 #include "GUIManager.h"
 
@@ -325,6 +326,9 @@ namespace ghost
         _updateRenderQueue();
         _renderQueues._mainCamera = camera;
         _renderQueues._directionLight = mainLight;
+
+        ForwardRenderer render{};
+        render.render(_renderQueues);
 
         renderSystem->beginScene();
 
