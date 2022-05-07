@@ -25,6 +25,8 @@ source_group("include\\D3D12" FILES ${D3D12_HEADERS})
 file(GLOB GUI_CODES "${CMAKE_CURRENT_SOURCE_DIR}/GUI/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/GUI/*.cpp")
 source_group("GUI" FILES ${GUI_CODES})
 
+file(GLOB SDL2_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/../../External/SDL2/include/*.h")
+
 file(GLOB GUI_CODES_WIN32 "${CMAKE_CURRENT_SOURCE_DIR}/GUI/Win32/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/GUI/Win32/*.cpp")
 source_group("GUI\\Win32" FILES ${GUI_CODES_WIN32})
 
@@ -53,6 +55,7 @@ include_directories(../../External/assimp/Compiler)
 
 include_directories(../../External/imgui)
 include_directories(../../External/imgui/backends)
+include_directories(../../External/SDL2/include)
 
 link_directories(../../External/assimp/assimp/lib)
 
