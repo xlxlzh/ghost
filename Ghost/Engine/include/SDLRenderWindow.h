@@ -21,7 +21,7 @@ namespace ghost
         virtual void _messageLoop() override;
 
     protected:
-
+        SDL_Window* _window;
     };
 }
 
