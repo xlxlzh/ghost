@@ -1,0 +1,3 @@
+add_custom_target(SDL2 ALL)
+
+add_custom_command(TARGET SDL2 POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/lib/ ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

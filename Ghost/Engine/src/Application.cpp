@@ -3,6 +3,7 @@
 #include "TimerWin32.h"
 #include "Engine.h"
 #include "LogManager.h"
+#include "SDLRenderWindow.h"
 
 namespace ghost
 {
@@ -17,7 +18,7 @@ namespace ghost
         switch (_platformType)
         {
         case ghost::PLATFORM_WIN32:
-            _window = new RenderWindowWin32(this);
+            _window = new SDLRenderWindow(this);
             _applicationTimer = std::make_shared<TimerWin32>();
             break;
         default:

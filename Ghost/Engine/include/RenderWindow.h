@@ -14,6 +14,7 @@ namespace ghost
 
 	public:
 		RenderWindow(Application* app) : _app(app) { }
+        virtual ~RenderWindow(){ }
 
 		bool initialize(int width, int height, const std::string windowName, bool fullscreen);
 
