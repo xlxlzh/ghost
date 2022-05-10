@@ -5,13 +5,18 @@
 
 namespace ghost
 {
+    enum class Key
+    {
+
+    };
+
 	class GHOST_API MessageHandler
 	{
 	public:
 		virtual void onMouseRightClick() { }
 		virtual void onMouseLeftClick() { }
-		virtual void onKeydown() { }
-		virtual void onKeyup() { }
+		virtual void onKeydown(Key key) { }
+		virtual void onKeyup(Key key) { }
 	};
 }
 
