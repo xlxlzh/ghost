@@ -59,6 +59,7 @@ namespace ghost
 
         _window = SDL_CreateWindow(_windowTitle.c_str(), 0, 0, _width, _height, 0);
         
+        return true;
     }
 
     void SDLRenderWindow::_destroySDL()
@@ -80,7 +81,14 @@ namespace ghost
     {
         if (SDL_PollEvent(&_event))
         {
-            _app->onKeydown();
+            if (_event.type == SDL_KEYDOWN)
+            {
+                _app->onKeydown(Key::KEY_NONE);
+            }
+            else if (_event.type == SDL_KEYUP)
+            {
+                _app->onKeyup((Key::KEY_NONE));
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ namespace ghost
 		switch (message)
 		{
 		case WM_KEYDOWN:
-			application->onKeydown();
+			application->onKeydown(Key::KEY_NONE);
 			switch (wParam)
 			{
 			case VK_ESCAPE:

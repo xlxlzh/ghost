@@ -7,7 +7,7 @@ namespace ghost
 {
     enum class Key
     {
-
+        KEY_NONE,
     };
 
 	class GHOST_API MessageHandler
