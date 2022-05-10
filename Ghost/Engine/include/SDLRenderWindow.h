@@ -4,6 +4,7 @@
 #include "Ghost.h"
 #include "RenderWindow.h"
 #include "SDL.h"
+#include "Application.h"
 
 namespace ghost
 {
@@ -11,7 +12,10 @@ namespace ghost
     {
     public:
         SDLRenderWindow(Application* app) : RenderWindow(app) { }
-        ~SDLRenderWindow() { }
+        ~SDLRenderWindow();
+
+        virtual void* getWindowHandle() const override;
+        virtual void setWindowTitle(const std::string& title) override;
 
     protected:
         virtual bool _createWindow() override;
@@ -20,8 +24,12 @@ namespace ghost
 
         virtual void _messageLoop() override;
 
+        bool _initSDL();
+        void _destroySDL();
+
     protected:
         SDL_Window* _window;
+        SDL_Event _event;
     };
 }
 

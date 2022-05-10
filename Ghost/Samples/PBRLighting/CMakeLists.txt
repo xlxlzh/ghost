@@ -5,6 +5,7 @@ if(WIN32)
 endif(WIN32)
 
 link_directories(../../../External/assimp/assimp/lib)
+link_directories(../../../External/SDL2/lib)
 
 add_executable(PBRLighting main.cpp PBRLighting.cpp PBRLighting.h)
 
