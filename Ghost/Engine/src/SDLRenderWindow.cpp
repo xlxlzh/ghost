@@ -2,6 +2,7 @@
 #include "SDL_syswm.h"
 #include "imgui.h"
 #include "imgui_impl_win32.h"
+#include "imgui_impl_sdl.h"
 
 namespace ghost
 {
@@ -58,6 +59,12 @@ namespace ghost
             return false;
 
         _window = SDL_CreateWindow(_windowTitle.c_str(), 0, 0, _width, _height, 0);
+
+        //Now just support D3D
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+        ImGui_ImplSDL2_InitForD3D(_window);
         
         return true;
     }
@@ -65,6 +72,7 @@ namespace ghost
     void SDLRenderWindow::_destroySDL()
     {
         SDL_DestroyWindow(_window);
+        SDL_Quit();
     }
 
     void SDLRenderWindow::_showWindow() const
@@ -81,6 +89,7 @@ namespace ghost
     {
         if (SDL_PollEvent(&_event))
         {
+            ImGui_ImplSDL2_ProcessEvent(&_event);
             if (_event.type == SDL_KEYDOWN)
             {
                 _app->onKeydown(Key::KEY_NONE);
