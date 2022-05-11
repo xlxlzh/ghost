@@ -26,14 +26,11 @@ namespace ghost
         if (!_initSDL())
             return false;
 
-        //IMGUI
+        //Now just support D3D
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-
-        ImGui_ImplWin32_Init(GetWindowHwnd(_window));
-        ImGui_ImplWin32_EnableDpiAwareness();
-
         ImGui::StyleColorsDark();
+        ImGui_ImplSDL2_InitForD3D(_window);
 
         return true;
     }
@@ -58,13 +55,7 @@ namespace ghost
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
             return false;
 
-        _window = SDL_CreateWindow(_windowTitle.c_str(), 0, 0, _width, _height, 0);
-
-        //Now just support D3D
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGui::StyleColorsDark();
-        ImGui_ImplSDL2_InitForD3D(_window);
+        _window = SDL_CreateWindow(_windowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _width, _height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
         
         return true;
     }

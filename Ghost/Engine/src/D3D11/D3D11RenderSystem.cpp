@@ -15,6 +15,7 @@
 //IMGUI
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
+#include "imgui_impl_sdl.h"
 
 namespace ghost
 {
@@ -371,7 +372,11 @@ namespace ghost
     {
         //IMGUI
         ImGui_ImplDX11_NewFrame();
+#if (GHOST_WIN_SDL)
         ImGui_ImplWin32_NewFrame();
+#else
+        ImGui_ImplSDL2_NewFrame();
+#endif
     }
 
     void D3D11RenderSystem::endScene()
