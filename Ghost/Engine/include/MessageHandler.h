@@ -66,6 +66,9 @@ namespace ghost
 	public:
 		virtual void onMouseRightClick() { }
 		virtual void onMouseLeftClick() { }
+        virtual void onMouseRightRelease() { }
+        virtual void onMouseLeftRelease() { }
+        virtual void onMouseMove() { }
 		virtual void onKeydown(GhostKey key) { }
 		virtual void onKeyup(GhostKey key) { }
 	};

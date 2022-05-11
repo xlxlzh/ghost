@@ -221,6 +221,30 @@ namespace ghost
                     break;
                 }
 
+                case SDL_MOUSEMOTION:
+                {
+                    _app->onMouseMove();
+                    break;
+                }
+
+                case SDL_MOUSEBUTTONDOWN:
+                {
+                    if (_event.button.button == SDL_BUTTON_LEFT)
+                        _app->onMouseLeftClick();
+                    else if (_event.button.button == SDL_BUTTON_RIGHT)
+                        _app->onMouseRightClick();
+                    break;
+                }
+
+                case SDL_MOUSEBUTTONUP:
+                {
+                    if (_event.button.button == SDL_BUTTON_LEFT)
+                        _app->onMouseLeftRelease();
+                    else if (_event.button.button == SDL_BUTTON_RIGHT)
+                        _app->onMouseRightRelease();
+                    break;
+                }
+
                 default:
                 {
                     if (_event.type == SDL_QUIT
