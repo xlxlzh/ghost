@@ -35,6 +35,16 @@ namespace ghost
         ::SetWindowText(_windowHandle, _windowTitle.c_str());
     }
 
+    void RenderWindowWin32::setWindowPos(int posx, int posy)
+    {
+        //TODO
+    }
+
+    void RenderWindowWin32::setWindowIcon()
+    {
+        //TODO
+    }
+
 	bool RenderWindowWin32::_createWindow()
 	{
 		HINSTANCE hIn = ::GetModuleHandle(nullptr);
@@ -89,7 +99,7 @@ namespace ghost
 		switch (message)
 		{
 		case WM_KEYDOWN:
-			application->onKeydown(Key::KEY_NONE);
+			application->onKeydown(GhostKey::GHOST_KEY_NONE);
 			switch (wParam)
 			{
 			case VK_ESCAPE:

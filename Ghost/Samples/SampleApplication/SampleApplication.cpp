@@ -76,7 +76,7 @@ void SampleApplication::onTick(float deltaTime)
     getWindow()->setWindowTitle(fpsTitle);
 }
 
-void SampleApplication::onKeydown(Key key)
+void SampleApplication::onKeydown(GhostKey key)
 {
     Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
 }

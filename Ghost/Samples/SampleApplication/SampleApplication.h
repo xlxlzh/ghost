@@ -15,7 +15,7 @@ public:
     virtual void onUpdate() override;
     virtual void onTick(float deltaTime) override;
 
-    virtual void onKeydown(Key key) override;
+    virtual void onKeydown(GhostKey key) override;
 
 private:
     void _generateResourcesPath(const std::string& workdir);

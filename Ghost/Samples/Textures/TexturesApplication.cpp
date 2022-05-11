@@ -62,7 +62,7 @@ void TexturesApplication::onTick(float deltaTime)
     getWindow()->setWindowTitle(fpsTitle);
 }
 
-void TexturesApplication::onKeydown(Key key)
+void TexturesApplication::onKeydown(GhostKey key)
 {
     Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
 }

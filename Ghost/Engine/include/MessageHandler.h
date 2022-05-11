@@ -5,9 +5,60 @@
 
 namespace ghost
 {
-    enum class Key
+    enum class GhostKey
     {
-        KEY_NONE,
+        // Keyboard
+        GHOST_KEY_NONE = 0,
+        GHOST_KEY_TAB = 512,             // == GHOST_KEY_NAMEDKEY_BEGIN
+        GHOST_KEY_LEFTARROW,
+        GHOST_KEY_RIGHTARROW,
+        GHOST_KEY_UPARROW,
+        GHOST_KEY_DOWNARROW,
+        GHOST_KEY_PAGEUP,
+        GHOST_KEY_PAGEDOWN,
+        GHOST_KEY_HOME,
+        GHOST_KEY_END,
+        GHOST_KEY_INSERT,
+        GHOST_KEY_DELETE,
+        GHOST_KEY_BACKSPACE,
+        GHOST_KEY_SPACE,
+        GHOST_KEY_ENTER,
+        GHOST_KEY_ESCAPE,
+        GHOST_KEY_LEFTCTRL, GHOST_KEY_LEFTSHIFT, GHOST_KEY_LEFTALT, GHOST_KEY_LEFTSUPER,
+        GHOST_KEY_RIGHTCTRL, GHOST_KEY_RIGHTSHIFT, GHOST_KEY_RIGHTALT, GHOST_KEY_RIGHTSUPER,
+        GHOST_KEY_MENU,
+        GHOST_KEY_0, GHOST_KEY_1, GHOST_KEY_2, GHOST_KEY_3, GHOST_KEY_4, GHOST_KEY_5, GHOST_KEY_6, GHOST_KEY_7, GHOST_KEY_8, GHOST_KEY_9,
+        GHOST_KEY_A, GHOST_KEY_B, GHOST_KEY_C, GHOST_KEY_D, GHOST_KEY_E, GHOST_KEY_F, GHOST_KEY_G, GHOST_KEY_H, GHOST_KEY_I, GHOST_KEY_J,
+        GHOST_KEY_K, GHOST_KEY_L, GHOST_KEY_M, GHOST_KEY_N, GHOST_KEY_O, GHOST_KEY_P, GHOST_KEY_Q, GHOST_KEY_R, GHOST_KEY_S, GHOST_KEY_T,
+        GHOST_KEY_U, GHOST_KEY_V, GHOST_KEY_W, GHOST_KEY_X, GHOST_KEY_Y, GHOST_KEY_Z,
+        GHOST_KEY_F1, GHOST_KEY_F2, GHOST_KEY_F3, GHOST_KEY_F4, GHOST_KEY_F5, GHOST_KEY_F6,
+        GHOST_KEY_F7, GHOST_KEY_F8, GHOST_KEY_F9, GHOST_KEY_F10, GHOST_KEY_F11, GHOST_KEY_F12,
+        GHOST_KEY_APOSTROPHE,        // '
+        GHOST_KEY_COMMA,             // ,
+        GHOST_KEY_MINUS,             // -
+        GHOST_KEY_PERIOD,            // .
+        GHOST_KEY_SLASH,             // /
+        GHOST_KEY_SEMICOLON,         // ;
+        GHOST_KEY_EQUAL,             // =
+        GHOST_KEY_LEFTBRACKET,       // [
+        GHOST_KEY_BACKSLASH,         // \ 
+        GHOST_KEY_RIGHTBRACKET,      // ]
+        GHOST_KEY_GRAVEACCENT,       // `
+        GHOST_KEY_CAPSLOCK,
+        GHOST_KEY_SCROLLLOCK,
+        GHOST_KEY_NUMLOCK,
+        GHOST_KEY_PRINTSCREEN,
+        GHOST_KEY_PAUSE,
+        GHOST_KEY_KEYPAD0, GHOST_KEY_KEYPAD1, GHOST_KEY_KEYPAD2, GHOST_KEY_KEYPAD3, GHOST_KEY_KEYPAD4,
+        GHOST_KEY_KEYPAD5, GHOST_KEY_KEYPAD6, GHOST_KEY_KEYPAD7, GHOST_KEY_KEYPAD8, GHOST_KEY_KEYPAD9,
+        GHOST_KEY_KEYPADDECIMAL,
+        GHOST_KEY_KEYPADDIVIDE,
+        GHOST_KEY_KEYPADMULTIPLY,
+        GHOST_KEY_KEYPADSUBTRACT,
+        GHOST_KEY_KEYPADADD,
+        GHOST_KEY_KEYPADENTER,
+        GHOST_KEY_KEYPADEQUAL
+
     };
 
 	class GHOST_API MessageHandler
@@ -15,8 +66,8 @@ namespace ghost
 	public:
 		virtual void onMouseRightClick() { }
 		virtual void onMouseLeftClick() { }
-		virtual void onKeydown(Key key) { }
-		virtual void onKeyup(Key key) { }
+		virtual void onKeydown(GhostKey key) { }
+		virtual void onKeyup(GhostKey key) { }
 	};
 }
 
