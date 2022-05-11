@@ -61,7 +61,7 @@ void SampleApplication::onInit()
 
     _settingPage = GHOST_MAKE_SMART_POINTER(SettingPage);
 
-    getWindow()->setWindowIcon("Textures/head_diffuse.jpg");
+    getWindow()->setWindowIcon("Textures/miniHouse_Part1.jpg");
 
     ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
 }
