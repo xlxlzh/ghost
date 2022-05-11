@@ -4,6 +4,8 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_sdl.h"
 #include "MessageHandler.h"
+#include "Resource.h"
+#include "Texture2D.h"
 
 namespace ghost
 {
@@ -170,9 +172,12 @@ namespace ghost
         SDL_SetWindowPosition(_window, posx, posy);
     }
 
-    void SDLRenderWindow::setWindowIcon()
+    void SDLRenderWindow::setWindowIcon(const std::string& iconName)
     {
+        auto iconTex = GHOST_SMARTPOINTER_CAST(Texture2D, ResourceManager::getInstance()->addResource(RESOURCE_TEXTURE2D, iconName, 0));
 
+        _icon = SDL_CreateRGBSurfaceFrom(iconTex->getRawImageData(), iconTex->getWidth(), iconTex->getHeight(), 1, iconTex->getWidth() * 4, 1, 1, 1, 1);
+        SDL_SetWindowIcon(_window, _icon);
     }
 
     bool SDLRenderWindow::_initSDL()
@@ -193,7 +198,7 @@ namespace ghost
 
     void SDLRenderWindow::_showWindow() const
     {
-
+        
     }
 
     void SDLRenderWindow::_updateWindow() const

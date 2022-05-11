@@ -29,7 +29,7 @@ namespace ghost
 		virtual void* getWindowHandle() const = 0;
         virtual void setWindowTitle(const std::string& title) = 0;
         virtual void setWindowPos(int posx, int posy) = 0;
-        virtual void setWindowIcon() = 0;
+        virtual void setWindowIcon(const std::string& iconName) = 0;
 
 	protected:
 		virtual bool _createWindow() = 0;

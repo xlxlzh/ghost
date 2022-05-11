@@ -24,6 +24,8 @@ namespace ghost
         int getWidth() const { return _width; }
         int getHeight() const { return _height; }
 
+        unsigned char* getRawImageData() const { return _datas; }
+
         virtual bool load(DataStream& dataStream) override;
 
         static int getTypeStatic() { return RESOURCE_TEXTURE2D; }

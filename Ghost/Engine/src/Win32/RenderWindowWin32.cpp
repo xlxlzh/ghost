@@ -40,7 +40,7 @@ namespace ghost
         //TODO
     }
 
-    void RenderWindowWin32::setWindowIcon()
+    void RenderWindowWin32::setWindowIcon(const std::string& iconName)
     {
         //TODO
     }

@@ -16,8 +16,8 @@ namespace ghost
 
         virtual void* getWindowHandle() const override;
         virtual void setWindowTitle(const std::string& title) override;
-        virtual void setWindowPos(int posx, int posy);
-        virtual void setWindowIcon();
+        virtual void setWindowPos(int posx, int posy) override;
+        virtual void setWindowIcon(const std::string& iconName) override;
 
     protected:
         virtual bool _createWindow() override;
@@ -30,7 +30,8 @@ namespace ghost
         void _destroySDL();
 
     protected:
-        SDL_Window* _window;
+        SDL_Window* _window{ nullptr };
+        SDL_Surface* _icon{ nullptr };
         SDL_Event _event;
     };
 }

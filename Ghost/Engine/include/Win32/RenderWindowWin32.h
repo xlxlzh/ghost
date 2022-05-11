@@ -16,7 +16,7 @@ namespace ghost
 		virtual void* getWindowHandle() const override;
         virtual void setWindowTitle(const std::string& title) override;
         virtual void setWindowPos(int posx, int posy) override;
-        virtual void setWindowIcon() override;
+        virtual void setWindowIcon(const std::string& iconName) override;
 
 	protected:
 		virtual void _showWindow() const override;
