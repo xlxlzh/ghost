@@ -54,6 +54,7 @@ namespace ghost
         Model(int type, const std::string& name, int flag);
 
         virtual bool load(DataStream& dataStream) override;
+        virtual void save(DataStream& dataStream) override;
 
         void createVertexDecl();
         void setMaterial(unsigned subIndex, const MaterialPtr& material);

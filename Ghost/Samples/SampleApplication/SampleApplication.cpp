@@ -30,18 +30,18 @@ void SampleApplication::onInit()
     dragonNode->setModel(dragonModel);
     dragonModel->setMaterial(0, matPtr);
     dragonNode->setTransform(Vector3f(-8.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
-    _scene->addNodeToRoot(dragonNode);
+    //_scene->addNodeToRoot(dragonNode);
 
     ModelNode* bunny = new ModelNode(_scene);
     bunny->setModel(bunnyModel);
     bunnyModel->setMaterial(0, matPtr);
     bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
-    _scene->addNodeToRoot(bunny);
+    //_scene->addNodeToRoot(bunny);
 
     ModelNode* head = new ModelNode(_scene);
     head->setModel(headModel);
     headModel->setMaterial(0, headMatPtr);
-    head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 180.0, 0.0), Vector3f(0.5, 0.5, 0.5));
+    head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(0.5, 0.5, 0.5));
     _scene->addNodeToRoot(head);
 
     ModelNode* cube = new ModelNode(_scene);
