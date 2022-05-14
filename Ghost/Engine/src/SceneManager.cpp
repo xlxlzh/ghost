@@ -19,7 +19,7 @@ namespace ghost
         _octree = nullptr;
         _initTree(box, 8);
 
-        _ambientColor = Color(0.2, 0.2, 0.2);
+        _ambientColor = Color(0.2f, 0.2f, 0.2f);
     }
 
     SceneManager::SceneManager(const BoundingBox& box, int depth)

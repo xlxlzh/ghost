@@ -17,6 +17,7 @@
 
 #ifdef WIN32
 #pragma warning(disable:4251)
+#define CRT_SECURE_NO_WARNINGS
 #endif
 
 #define DECLAR_SMART_POINTER(obj)  \

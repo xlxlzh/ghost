@@ -80,7 +80,7 @@ namespace ghost
         {
             float radian = static_cast<float>(angle * PI / 180.0f);
             float ret =  ::tanf(static_cast<float>(radian));
-            return 1.0 / ret;
+            return 1.0f / ret;
         }
 
         template<>
@@ -88,7 +88,7 @@ namespace ghost
         {
             double radian = static_cast<double>(angle * PI / 180.0f);
             double ret = ::tan(radian);
-            return 1.0 / ret;
+            return 1.0f / ret;
         }
 
 	public:

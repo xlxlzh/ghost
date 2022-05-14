@@ -39,10 +39,10 @@ namespace ghost
     {
         if (_msPerFrame != 0.0)
         {
-            return 1000.0 / _msPerFrame;
+            return 1000.0f / _msPerFrame;
         }
 
-        return 0.0;
+        return 0.0f;
     }
 
 	void Application::run()

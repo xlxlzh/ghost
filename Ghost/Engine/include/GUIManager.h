@@ -19,7 +19,7 @@ namespace ghost
 
     DECLAR_SMART_POINTER(GuiPage);
 
-    using GuiHandle = int;
+    using GuiHandle = std::size_t;
     static const int GUI_NO_HANDLE = -1;
 
     class GHOST_API GuiManager : public SingleTon<GuiManager>

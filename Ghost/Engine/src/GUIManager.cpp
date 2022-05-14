@@ -19,7 +19,7 @@ namespace ghost
         if (page == nullptr)
             return GUI_NO_HANDLE;
 
-        for (int i = 0; i < _pages.size(); ++i)
+        for (std::size_t i = 0; i < _pages.size(); ++i)
         {
             auto& pageInfo = _pages[i];
             if (pageInfo.pagePtr == page)
@@ -30,7 +30,7 @@ namespace ghost
                 
         }
 
-        for (int i = 0; i < _pages.size(); ++i)
+        for (std::size_t i = 0; i < _pages.size(); ++i)
         {
             auto& pageInfo = _pages[i];
             if (pageInfo.handle == GUI_NO_HANDLE)

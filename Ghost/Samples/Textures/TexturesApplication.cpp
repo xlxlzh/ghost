@@ -58,7 +58,7 @@ void TexturesApplication::onExit()
 void TexturesApplication::onTick(float deltaTime)
 {
     char fpsTitle[128] = { 0 };
-    sprintf(fpsTitle, "TexturesApplication--%0.2f", 1000.0 / deltaTime);
+    sprintf (fpsTitle, "TexturesApplication--%0.2f", 1000.0 / deltaTime);
     getWindow()->setWindowTitle(fpsTitle);
 }
 
