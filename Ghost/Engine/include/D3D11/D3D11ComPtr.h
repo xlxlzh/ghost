@@ -15,8 +15,8 @@ using ID3D11DevicePtr               = ComPtr<ID3D11Device1>;
 using ID3D11DeviceContextPtr        = ComPtr<ID3D11DeviceContext1>;
 using ID3D11RasterizerStatePtr      = ComPtr<ID3D11RasterizerState1>;
 using IDXGIAdapterPtr               = ComPtr<IDXGIAdapter1>;
-using IDXGIDevicePtr                = ComPtr<IDXGIDevice1>;
-using IDXGIFactoryPtr               = ComPtr<IDXGIFactory1>;
+using IDXGIDevicePtr                = ComPtr<IDXGIDevice2>;
+using IDXGIFactoryPtr               = ComPtr<IDXGIFactory2>;
 using IDXGISwapChainPtr             = ComPtr<IDXGISwapChain1>;
 
 #else
@@ -24,9 +24,9 @@ using IDXGISwapChainPtr             = ComPtr<IDXGISwapChain1>;
 using ID3D11DevicePtr               = ComPtr<ID3D11Device>;
 using ID3D11DeviceContextPtr        = ComPtr<ID3D11DeviceContext>;
 using ID3D11RasterizerStatePtr      = ComPtr<ID3D11RasterizerState>;
-using IDXGIAdapterPtr               = ComPtr<IDXGIAdapter>;
-using IDXGIDevicePtr                = ComPtr<IDXGIDevice>;
-using IDXGIFactoryPtr               = ComPtr<IDXGIFactory>;
+using IDXGIAdapterPtr               = ComPtr<IDXGIAdapter1>;
+using IDXGIDevicePtr                = ComPtr<IDXGIDevice1>;
+using IDXGIFactoryPtr               = ComPtr<IDXGIFactory1>;
 using IDXGISwapChainPtr             = ComPtr<IDXGISwapChain>;
 
 #endif

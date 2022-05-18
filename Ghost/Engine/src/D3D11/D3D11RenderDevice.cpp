@@ -93,8 +93,8 @@ namespace ghost
         HRESULT hr = S_OK;
 
         _device.As(&_dxgiDevice);
-
-        _dxgiDevice->GetAdapter(_dxgiAdapter.GetAddressOf());
+        
+        _dxgiDevice->GetParent(__uuidof(IDXGIAdapter1), reinterpret_cast<void**>(_dxgiAdapter.GetAddressOf()));
 
         _dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(_dxgiFactory.GetAddressOf()));
 
