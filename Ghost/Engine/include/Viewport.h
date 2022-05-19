@@ -9,21 +9,21 @@ namespace ghost
     {
     public:
         Viewport();
-        Viewport(int x, int y, int w, int h);
+        Viewport(float x, float y, float w, float h);
         ~Viewport() { }
 
-        int getViewportX() const { return _viewportX; }
-        int getViewportY() const { return _viewportY; }
+        float getViewportX() const { return _viewportX; }
+        float getViewportY() const { return _viewportY; }
 
-        int getViewportWidth() const { return _viewportWidth; }
-        int getViewportHeight() const { return _viewportHeight; }
+        float getViewportWidth() const { return _viewportWidth; }
+        float getViewportHeight() const { return _viewportHeight; }
 
         float getMinZ() const { return _minZ; }
         float getMaxZ() const { return _maxZ; }
 
     private:
-        int _viewportX, _viewportY;
-        int _viewportWidth, _viewportHeight;
+        float _viewportX, _viewportY;
+        float _viewportWidth, _viewportHeight;
 
         float _minZ, _maxZ;
     };

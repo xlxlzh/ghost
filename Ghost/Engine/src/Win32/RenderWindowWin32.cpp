@@ -69,7 +69,7 @@ namespace ghost
 			return false;
 		}
 
-        RECT rect = { 0.0, 0.0, _width, _height};
+        RECT rect = { 0, 0, _width, _height};
         ::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 
 		_windowHandle = ::CreateWindowEx(0, "RenderWindowWin32", _windowTitle.c_str(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,

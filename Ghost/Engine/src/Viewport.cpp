@@ -11,7 +11,7 @@ namespace ghost
         _maxZ = 1.0f;
     }
 
-    Viewport::Viewport(int x, int y, int w, int h) :
+    Viewport::Viewport(float x, float y, float w, float h) :
         _viewportX(x), _viewportY(y), _viewportWidth(w), _viewportHeight(h),
         _minZ(0.0f), _maxZ(1.0f)
     {
