@@ -27,9 +27,17 @@ namespace ghost
         friend class ModelLoadHelper;
         friend class Model;
     public:
-        SubMesh() { }
+        SubMesh()
+        {
+            _vertexDatas.clear();
+            _indices.clear();
+        }
 
         void createVertexBinding(unsigned mask);
+        const std::vector<float>& getVertexDatas() const { return _vertexDatas; }
+        const std::vector<unsigned>& getIndices() const { return _indices; }
+        void setVertexDatas(const std::vector<float>& datas) { _vertexDatas = datas; }
+        void setIndices(const std::vector<unsigned>& indices) { _indices = indices; }
 
     private:
         int _MaterialIndex{ GHOST_INVALID_INDEX };
@@ -58,6 +66,7 @@ namespace ghost
         void createVertexDecl();
         void setMaterial(unsigned subIndex, const MaterialPtr& material);
         const MaterialPtr& getMaterial(unsigned subIndex) const;
+        void addSubmesh(const SubMesh& mesh);
 
         static unsigned getVertexSizeByMask(unsigned mask);
 
