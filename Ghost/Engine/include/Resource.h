@@ -38,6 +38,7 @@ namespace ghost
         virtual void initDefault();
         virtual void release();
         virtual bool load(DataStream& dataStream) = 0;
+        virtual void save(DataStream& dataStream) = 0;
         virtual void unload();
 
         int getType() const { return _type; }

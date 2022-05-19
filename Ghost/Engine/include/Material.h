@@ -125,6 +125,7 @@ namespace ghost
         Material(int type, const std::string& name, int flag);
 
         virtual bool load(DataStream& dataStream) override;
+        virtual void save(DataStream& dataStream) override;
 
         void applyToRenderPass(RenderPass pass);
 

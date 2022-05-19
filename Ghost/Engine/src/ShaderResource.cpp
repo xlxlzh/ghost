@@ -32,6 +32,11 @@ namespace ghost
         return true;
     }
 
+    void ShaderResource::save(DataStream& dataStream)
+    {
+        //TODO
+    }
+
     const ShaderByteCode* ShaderResource::getByteCodeByType(ShaderType type) const
     {
         //The code maybe cause memory crash, will be fix later.

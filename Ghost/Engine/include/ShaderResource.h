@@ -40,6 +40,7 @@ namespace ghost
         ShaderResource(int type, const std::string& name, int flag);
 
         virtual bool load(DataStream& dataStream) override;
+        virtual void save(DataStream& dataStream) override;
 
         static int getTypeStatic() { return RESOURCE_SHADER; }
 

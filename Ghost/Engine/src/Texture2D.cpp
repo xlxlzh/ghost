@@ -29,6 +29,11 @@ namespace ghost
         return true;
     }
 
+    void Texture2D::save(DataStream& dataStream)
+    {
+        //TODO
+    }
+
     void Texture2D::_setData(const unsigned char* data)
     {
         _dataSize = _width * _height * 4;

@@ -11,6 +11,10 @@ namespace ghost
 
     void SceneNode::setTransform(const Vector3f& pos, const Vector3f& rotation, const Vector3f& scale)
     {
+        _pos = pos;
+        _rotation = rotation;
+        _scale = scale;
+
         _relTrans = Matrix4x4f::scaleMatrix(scale._x, scale._y, scale._z);
         _relTrans.rotate(rotation._x, rotation._y, rotation._z);
         _relTrans.translate(pos._x, pos._y, pos._z);
@@ -27,14 +31,31 @@ namespace ghost
 
     void SceneNode::setPosition(const Vector3f& pos)
     {
+        _pos = pos;
         _relTrans.translate(pos._x, pos._y, pos._z);
 
         markDirty();
     }
 
+    void SceneNode::setScale(const Vector3f& scale)
+    {
+        _scale = scale;
+
+        setTransform(_pos, _rotation, _scale);
+    }
+
+    void SceneNode::setRotation(const Vector3f& rotation)
+    {
+        _rotation = rotation;
+
+        setTransform(_pos, _rotation, _scale);
+    }
+
     void SceneNode::getTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale)
     {
-        //TODO
+        pos = _pos;
+        rotation = _rotation;
+        scale = _scale;
     }
 
     void SceneNode::update()

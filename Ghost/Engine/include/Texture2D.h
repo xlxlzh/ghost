@@ -27,6 +27,7 @@ namespace ghost
         unsigned char* getRawImageData() const { return _datas; }
 
         virtual bool load(DataStream& dataStream) override;
+        virtual void save(DataStream& dataStream) override;
 
         static int getTypeStatic() { return RESOURCE_TEXTURE2D; }
 

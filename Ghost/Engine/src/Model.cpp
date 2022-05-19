@@ -174,6 +174,11 @@ namespace ghost
         return true;
     }
 
+    void Model::save(DataStream& dataStream)
+    {
+        //TODO
+    }
+
     void Model::createVertexDecl()
     {
         _vertexDec = Engine::getInstance()->getRenderDevice()->createVertexDeclaration();

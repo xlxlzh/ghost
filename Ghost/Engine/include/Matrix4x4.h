@@ -360,14 +360,14 @@ namespace ghost
         {
             Matrix4x4<T> m;
 
-            float yScale = MathUtilities::cot(fov / 2.0);
+            float yScale = MathUtilities::cot(fov / 2.0f);
             float xScale = yScale / aspect;
 
             m._11 = xScale;
             m._22 = yScale;
             m._33 = f / (f - n);
             m._43 = -n * f / (f - n);
-            m._34 = 1.0;
+            m._34 = 1.0f;
 
             return m;
         }
@@ -376,11 +376,11 @@ namespace ghost
         {
             Matrix4x4<T> m;
 
-            m._11 = 2.0 / w;
-            m._22 = 2.0 / h;
-            m._33 = 1.0 / (f - n);
+            m._11 = 2.0f / w;
+            m._22 = 2.0f / h;
+            m._33 = 1.0f / (f - n);
             m._43 = -n / (f - n);
-            m._44 = 1.0;
+            m._44 = 1.0f;
 
             return m;
         }

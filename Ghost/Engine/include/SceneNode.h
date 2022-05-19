@@ -42,6 +42,8 @@ namespace ghost
         void setTransform(const Matrix4x4f& mat);
         void setPosition(const Vector3f& pos);
         void getTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale);
+        void setScale(const Vector3f& scale);
+        void setRotation(const Vector3f&rotation);
 
         void update();
 
@@ -69,6 +71,7 @@ namespace ghost
 
         //Transform in the world
         Matrix4x4f _relTrans;
+        Vector3f _pos, _scale, _rotation;
 
         //Transform by parent
         Matrix4x4f _absTrans;

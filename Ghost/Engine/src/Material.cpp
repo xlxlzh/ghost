@@ -247,6 +247,11 @@ namespace ghost
         return true;
     }
 
+    void Material::save(DataStream& dataStream)
+    {
+        //TODO
+    }
+
     void Material::applyToRenderPass(RenderPass pass)
     {
         ShaderPass* currentPass = getShaderPass(pass);

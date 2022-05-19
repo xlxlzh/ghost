@@ -15,6 +15,11 @@
 #endif
 #endif
 
+#ifdef WIN32
+#pragma warning(disable:4251)
+#define CRT_SECURE_NO_WARNINGS
+#endif
+
 #define DECLAR_SMART_POINTER(obj)  \
 using obj##Ptr = std::shared_ptr<obj>;  \
 using obj##WeakPtr = std::weak_ptr<obj>; \
