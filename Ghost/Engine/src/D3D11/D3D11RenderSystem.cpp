@@ -694,4 +694,18 @@ namespace ghost
         
 
     }
+
+    void D3D11RenderSystem::pushGPUEvent(const std::string& name)
+    {
+#ifdef GHOST_USE_D3D_11_1
+        //TODO
+#endif // GHOST_USE_D3D_11_1
+    }
+
+    void D3D11RenderSystem::popGPUEvent()
+    {
+#ifdef GHOST_USE_D3D_11_1
+        //TODO
+#endif // GHOST_USE_D3D_11_1
+    }
 }

@@ -50,6 +50,9 @@ namespace ghost
         virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) override;
         virtual void setTexture(unsigned slot, Texture2DPtr tex2D) override;
 
+        virtual void pushGPUEvent(const std::string& name) override;
+        virtual void popGPUEvent() override;
+
         virtual void render(const RenderOperation& op) override;
 
     protected:
