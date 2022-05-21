@@ -87,6 +87,9 @@ namespace ghost
     };
 
     DECLAR_SMART_POINTER(RenderSystem)
+
+    #define GHOST_BEGIN_GPU_EVENT(eventName) Engine::getInstance()->getRenderSystem()->pushGPUEvent(eventName)
+    #define GHOST_END_GPU_EVENT(eventName) Engine::getInstance()->getRenderSystem()->popGPUEvent(eventName)
 }
 
 #endif

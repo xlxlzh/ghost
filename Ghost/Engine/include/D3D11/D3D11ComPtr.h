@@ -18,6 +18,7 @@ using IDXGIAdapterPtr               = ComPtr<IDXGIAdapter1>;
 using IDXGIDevicePtr                = ComPtr<IDXGIDevice2>;
 using IDXGIFactoryPtr               = ComPtr<IDXGIFactory2>;
 using IDXGISwapChainPtr             = ComPtr<IDXGISwapChain1>;
+using ID3DUserDefinedAnnotationPtr  = ComPtr<ID3DUserDefinedAnnotation>;
 
 #else
 

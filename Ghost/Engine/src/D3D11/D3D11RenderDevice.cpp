@@ -64,6 +64,14 @@ namespace ghost
             return false;
         }
 
+#ifdef GHOST_USE_D3D_11_1
+        hr = _device->QueryInterface(__uuidof(ID3DUserDefinedAnnotation), _annotaion.ReleaseAndGetAddressOf());
+        if (FAILED(hr))
+        {
+            GHOST_LOG_FORMAT_ERROR("Query ID3DUserDefinedAnnotation failed.");
+        }
+#endif // GHOST_USE_D3D_11_1
+
         _featureLevel = featureLevel;
         _driverType = driverType;
 

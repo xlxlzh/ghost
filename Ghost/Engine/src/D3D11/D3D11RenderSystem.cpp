@@ -698,14 +698,16 @@ namespace ghost
     void D3D11RenderSystem::pushGPUEvent(const std::string& name)
     {
 #ifdef GHOST_USE_D3D_11_1
-        //TODO
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_annotaion->BeginEvent(name.c_str());
 #endif // GHOST_USE_D3D_11_1
     }
 
     void D3D11RenderSystem::popGPUEvent()
     {
 #ifdef GHOST_USE_D3D_11_1
-        //TODO
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_annotaion->EndEvent();
 #endif // GHOST_USE_D3D_11_1
     }
 }

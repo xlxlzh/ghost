@@ -50,6 +50,11 @@ namespace ghost
         IDXGIDevicePtr _dxgiDevice;
         IDXGIFactoryPtr _dxgiFactory;
         IDXGIAdapterPtr _dxgiAdapter;
+
+#ifdef GHOST_USE_D3D_11_1
+        ID3DUserDefinedAnnotationPtr _annotaion;
+#endif // GHOST_USE_D3D_11_1
+
     };
 
     DECLAR_SMART_POINTER(D3D11RenderDevice)
