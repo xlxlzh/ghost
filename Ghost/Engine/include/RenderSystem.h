@@ -60,6 +60,9 @@ namespace ghost
         virtual void setSamplerState(unsigned slot, const Sampler& sampler) = 0;
         virtual void setTexture(unsigned slot, Texture2DPtr tex2D) = 0;
 
+        virtual void pushGPUEvent(const std::wstring& name) = 0;
+        virtual void popGPUEvent() = 0;
+
         virtual void render(const RenderOperation& op) = 0;
 
         //Test interface
@@ -84,6 +87,9 @@ namespace ghost
     };
 
     DECLAR_SMART_POINTER(RenderSystem)
+
+    #define GHOST_BEGIN_GPU_EVENT(eventName) Engine::getInstance()->getRenderSystem()->pushGPUEvent(eventName)
+    #define GHOST_END_GPU_EVENT(eventName) Engine::getInstance()->getRenderSystem()->popGPUEvent(eventName)
 }
 
 #endif

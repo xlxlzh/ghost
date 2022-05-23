@@ -16,6 +16,43 @@
 
 namespace ghost
 {
+    HRESULT WINAPI D3D11CreateDeviceN(
+        _In_opt_ IDXGIAdapter* pAdapter,
+        D3D_DRIVER_TYPE DriverType,
+        HMODULE Software,
+        UINT Flags,
+        const D3D_FEATURE_LEVEL* pFeatureLevels,
+        UINT FeatureLevels,
+        UINT SDKVersion,
+        _Out_ ID3D11DevicePtr& ppDevice,
+        _Out_ D3D_FEATURE_LEVEL* pFeatureLevel,
+        _Out_ ID3D11DeviceContextPtr& ppImmediateContext)
+    {
+#ifdef GHOST_USE_D3D_11_1
+        ComPtr<ID3D11Device> device;
+        ComPtr<ID3D11DeviceContext> context;
+        D3D_FEATURE_LEVEL featureLevel;
+
+        HRESULT hr = D3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion,
+            (ppDevice ? device.GetAddressOf() : NULL), &featureLevel, (ppImmediateContext ? context.GetAddressOf() : NULL));
+        if (FAILED(hr)) return hr;
+
+        hr = device ? device.As(&ppDevice) : S_OK;
+        if (FAILED(hr)) return hr;
+
+        hr = context ? context.As(&ppImmediateContext) : S_OK;
+        if (FAILED(hr)) return hr;
+
+        if (pFeatureLevel)       
+            *pFeatureLevel = featureLevel;
+
+        return hr;
+#else
+        return D3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, ppDevice.ReleaseAndGetAddressOf(), pFeatureLevel, ppImmediateContext.ReleaseAndGetAddressOf());
+#endif
+    }
+
+
     bool D3D11RenderDevice::initDevice(bool fullscreen, unsigned msaaCount)
     {
         HRESULT hr = S_OK;
@@ -50,8 +87,8 @@ namespace ghost
         for (unsigned i = 0; i < numDriverTypes; ++i)
         {
             driverType = driverTypes[i];
-            hr = D3D11CreateDevice(nullptr, driverType, nullptr, createFlag, featureLevels, featureNums,
-                D3D11_SDK_VERSION, _device.GetAddressOf(), &featureLevel, _context.GetAddressOf());
+            hr = D3D11CreateDeviceN(nullptr, driverType, nullptr, createFlag, featureLevels, featureNums,
+                D3D11_SDK_VERSION, _device, &featureLevel, _context);
 
             if (SUCCEEDED(hr))
             {
@@ -63,6 +100,14 @@ namespace ghost
         {
             return false;
         }
+
+#ifdef GHOST_USE_D3D_11_1
+        hr = _device->QueryInterface(__uuidof(ID3DUserDefinedAnnotation), reinterpret_cast<void**>(_annotaion.ReleaseAndGetAddressOf()));
+        if (FAILED(hr))
+        {
+            GHOST_LOG_FORMAT_ERROR("Query ID3DUserDefinedAnnotation failed.");
+        }
+#endif // GHOST_USE_D3D_11_1
 
         _featureLevel = featureLevel;
         _driverType = driverType;
@@ -100,6 +145,32 @@ namespace ghost
 
         HWND window = (HWND)Engine::getInstance()->getWindow();
 
+#ifdef GHOST_USE_D3D_11_1
+        //DXGI_SWAP_CHAIN_DESC1 swapchainDesc;
+        //memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC1));
+        //swapchainDesc.BufferCount = 1;
+        //swapchainDesc.Width = Engine::getInstance()->getWidth();
+        //swapchainDesc.Height = Engine::getInstance()->getHeight();
+        //swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        //swapchainDesc.BufferDesc.RefreshRate.Numerator = 60;
+        //swapchainDesc.BufferDesc.RefreshRate.Denominator = 1;
+        //swapchainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+        //swapchainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+        //swapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        //swapchainDesc.Flags = 0;
+        //swapchainDesc.OutputWindow = window;
+        //swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        //swapchainDesc.Windowed = !_fullscreen;
+        //swapchainDesc.SampleDesc.Count = _sampleCount;
+        //swapchainDesc.SampleDesc.Quality = _sampleQulity - 1;
+        //
+        //hr = _dxgiFactory->CreateSwapChain(_device.Get(), &swapchainDesc, _dxgiSwapchain.GetAddressOf());
+        //if (FAILED(hr))
+        //{
+        //    LogManager::getInstance()->logDebug("CreateSwapChain failed.");
+        //    return false;
+        //}
+#else
         DXGI_SWAP_CHAIN_DESC swapchainDesc;
         memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC));
         swapchainDesc.BufferCount = 1;
@@ -124,6 +195,9 @@ namespace ghost
             LogManager::getInstance()->logDebug("CreateSwapChain failed.");
             return false;
         }
+#endif // GHOST_USE_D3D_11_1
+
+        
 
         hr = _dxgiSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(_defaultRenderTexture.GetAddressOf()));
         if (FAILED(hr))

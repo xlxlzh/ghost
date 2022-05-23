@@ -529,11 +529,11 @@ namespace ghost
     class D3D11RenderOperationState
     {
     public:
-        ComPtr<ID3D11BlendState> _blendState;
-        ComPtr<ID3D11RasterizerState> _rasterizer;
-        ComPtr<ID3D11DepthStencilState> _depthStencilState;
+        ID3D11BlendStatePtr _blendState;
+        ID3D11RasterizerStatePtr _rasterizer;
+        ID3D11DepthStencilStatePtr _depthStencilState;
 
-        ComPtr<ID3D11SamplerState> _samplerStates[GHOST_MAX_TEXTURE_UNITS];
+        ID3D11SamplerStatePtr _samplerStates[GHOST_MAX_TEXTURE_UNITS];
         unsigned _samplerStatesCount;
 
         ID3D11ShaderResourceView * _textures[GHOST_MAX_TEXTURE_UNITS];
@@ -553,8 +553,13 @@ namespace ghost
         if (_rasterizerDescChagned)
         {
             _rasterizerDescChagned = false;
-
+#ifdef GHOST_USE_D3D_11_1
+            HRESULT hr = devicePtr->_device->CreateRasterizerState1(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
+#else
             HRESULT hr = devicePtr->_device->CreateRasterizerState(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
+#endif // GHOST_USE_D3D_11_1
+
+            
             if (FAILED(hr))
             {
                 GHOST_LOG_FORMAT_ERROR("Failed to create rasterizer state.");
@@ -693,5 +698,21 @@ namespace ghost
         }
         
 
+    }
+
+    void D3D11RenderSystem::pushGPUEvent(const std::wstring& name)
+    {
+#ifdef GHOST_USE_D3D_11_1
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_annotaion->BeginEvent(name.c_str());
+#endif // GHOST_USE_D3D_11_1
+    }
+
+    void D3D11RenderSystem::popGPUEvent()
+    {
+#ifdef GHOST_USE_D3D_11_1
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        devicePtr->_annotaion->EndEvent();
+#endif // GHOST_USE_D3D_11_1
     }
 }

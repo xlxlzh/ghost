@@ -50,6 +50,9 @@ namespace ghost
         virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) override;
         virtual void setTexture(unsigned slot, Texture2DPtr tex2D) override;
 
+        virtual void pushGPUEvent(const std::wstring& name) override;
+        virtual void popGPUEvent() override;
+
         virtual void render(const RenderOperation& op) override;
 
     protected:
@@ -60,8 +63,12 @@ namespace ghost
         std::map<InputSignatureList*, ID3D11InputLayoutPtr> _inputlayouts;
 
         bool _rasterizerDescChagned = true;
-        D3D11_RASTERIZER_DESC _rasterizer;
         ID3D11RasterizerStatePtr _rasterizerState = nullptr;
+#ifdef GHOST_USE_D3D_11_1
+        D3D11_RASTERIZER_DESC1 _rasterizer;
+#else
+        D3D11_RASTERIZER_DESC _rasterizer;
+#endif // GHOST_USE_D3D_11_1
 
         bool _depthStencilDescChanged = true;
         D3D11_DEPTH_STENCIL_DESC _depthStencilDesc;
