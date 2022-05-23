@@ -34,7 +34,7 @@ namespace ghost
         D3D_FEATURE_LEVEL featureLevel;
 
         HRESULT hr = D3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion,
-            (ppDevice ? device.GetAddressOf() : NULL), &featureLevel, (ppImmediateContext ? context.GetAddressOf() : NULL));
+            device.ReleaseAndGetAddressOf(), &featureLevel, context.ReleaseAndGetAddressOf());
         if (FAILED(hr)) return hr;
 
         hr = device ? device.As(&ppDevice) : S_OK;
@@ -73,7 +73,7 @@ namespace ghost
 
         D3D_FEATURE_LEVEL featureLevels[] =
         {
-            //D3D_FEATURE_LEVEL_11_1,
+            D3D_FEATURE_LEVEL_11_1,
             D3D_FEATURE_LEVEL_11_0,
             D3D_FEATURE_LEVEL_10_1,
             D3D_FEATURE_LEVEL_10_0,
@@ -146,30 +146,29 @@ namespace ghost
         HWND window = (HWND)Engine::getInstance()->getWindow();
 
 #ifdef GHOST_USE_D3D_11_1
-        //DXGI_SWAP_CHAIN_DESC1 swapchainDesc;
-        //memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC1));
-        //swapchainDesc.BufferCount = 1;
-        //swapchainDesc.Width = Engine::getInstance()->getWidth();
-        //swapchainDesc.Height = Engine::getInstance()->getHeight();
-        //swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        //swapchainDesc.BufferDesc.RefreshRate.Numerator = 60;
-        //swapchainDesc.BufferDesc.RefreshRate.Denominator = 1;
-        //swapchainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-        //swapchainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-        //swapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        //swapchainDesc.Flags = 0;
-        //swapchainDesc.OutputWindow = window;
-        //swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-        //swapchainDesc.Windowed = !_fullscreen;
-        //swapchainDesc.SampleDesc.Count = _sampleCount;
-        //swapchainDesc.SampleDesc.Quality = _sampleQulity - 1;
-        //
-        //hr = _dxgiFactory->CreateSwapChain(_device.Get(), &swapchainDesc, _dxgiSwapchain.GetAddressOf());
-        //if (FAILED(hr))
-        //{
-        //    LogManager::getInstance()->logDebug("CreateSwapChain failed.");
-        //    return false;
-        //}
+        DXGI_SWAP_CHAIN_DESC1 swapchainDesc;
+        memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC1));
+        swapchainDesc.BufferCount = 1;
+        swapchainDesc.Width = Engine::getInstance()->getWidth();
+        swapchainDesc.Height = Engine::getInstance()->getHeight();
+        swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        swapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        swapchainDesc.Flags = 0;
+        swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        swapchainDesc.Scaling = DXGI_SCALING_STRETCH;
+        swapchainDesc.SampleDesc.Count = _sampleCount;
+        swapchainDesc.SampleDesc.Quality = _sampleQulity - 1;
+
+        DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullDesc;
+        memset(&fullDesc, 0, sizeof(DXGI_SWAP_CHAIN_FULLSCREEN_DESC));
+        fullDesc.Windowed = !_fullscreen;
+        
+        hr = _dxgiFactory->CreateSwapChainForHwnd(_device.Get(), window, &swapchainDesc, &fullDesc, nullptr, _dxgiSwapchain.ReleaseAndGetAddressOf());
+        if (FAILED(hr))
+        {
+            LogManager::getInstance()->logDebug("CreateSwapChain failed.");
+            return false;
+        }
 #else
         DXGI_SWAP_CHAIN_DESC swapchainDesc;
         memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC));
