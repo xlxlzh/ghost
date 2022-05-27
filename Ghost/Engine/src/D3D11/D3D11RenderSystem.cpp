@@ -704,7 +704,8 @@ namespace ghost
     {
 #ifdef GHOST_USE_D3D_11_1
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
-        devicePtr->_annotaion->BeginEvent(name.c_str());
+        if (devicePtr->_annotaion)
+            devicePtr->_annotaion->BeginEvent(name.c_str());
 #endif // GHOST_USE_D3D_11_1
     }
 
@@ -712,7 +713,8 @@ namespace ghost
     {
 #ifdef GHOST_USE_D3D_11_1
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
-        devicePtr->_annotaion->EndEvent();
+        if (devicePtr->_annotaion)
+            devicePtr->_annotaion->EndEvent();
 #endif // GHOST_USE_D3D_11_1
     }
 }
