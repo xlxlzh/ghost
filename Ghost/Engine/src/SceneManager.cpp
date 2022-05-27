@@ -310,6 +310,8 @@ namespace ghost
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
 
+        GHOST_GPU_EVENT(renderSystem, BeginRender);
+
         prepareRendering();
         renderSystem->setConstBuffer(SHADER_PS, _sceneGlobalBuffer);
 
