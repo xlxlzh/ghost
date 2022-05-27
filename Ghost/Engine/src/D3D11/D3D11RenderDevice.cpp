@@ -102,7 +102,7 @@ namespace ghost
         }
 
 #ifdef GHOST_USE_D3D_11_1
-        hr = _device->QueryInterface(__uuidof(ID3DUserDefinedAnnotation), reinterpret_cast<void**>(_annotaion.ReleaseAndGetAddressOf()));
+        hr = _context->QueryInterface(__uuidof(ID3DUserDefinedAnnotation), reinterpret_cast<void**>(_annotaion.ReleaseAndGetAddressOf()));
         if (FAILED(hr))
         {
             GHOST_LOG_FORMAT_ERROR("Query ID3DUserDefinedAnnotation failed.");

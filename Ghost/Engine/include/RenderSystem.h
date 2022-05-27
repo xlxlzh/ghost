@@ -16,7 +16,7 @@
 
 namespace ghost
 {
-    class RenderSystem
+    class GHOST_API RenderSystem
     {
     public:
         RenderSystem(RenderDevicePtr device);
