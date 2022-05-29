@@ -105,7 +105,9 @@ namespace ghost
         const RenderSystemPtr _rs;
     };
 
-    #define GHOST_GPU_EVENT(rs, eventName) GPUEventScope GPU_EVENT_##eventName(rs, L#eventName);
+    #define GHOST_GPU_EVENT_SCOPE(rs, eventName) GPUEventScope GPU_EVENT_##eventName(rs, L#eventName);
+    #define GHOST_GPU_EVENT_BEGIN(rs, eventName) rs->pushGPUEvent(L#eventName);
+    #define GHOST_GPU_EVENT_END(rs) rs->popGPUEvent();
 }
 
 #endif

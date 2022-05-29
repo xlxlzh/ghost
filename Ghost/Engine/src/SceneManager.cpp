@@ -310,7 +310,7 @@ namespace ghost
     {
         auto renderSystem = Engine::getInstance()->getRenderSystem();
 
-        GHOST_GPU_EVENT(renderSystem, BeginRender);
+        GHOST_GPU_EVENT_SCOPE(renderSystem, RenderScene);
 
         prepareRendering();
         renderSystem->setConstBuffer(SHADER_PS, _sceneGlobalBuffer);
@@ -329,17 +329,21 @@ namespace ghost
         _renderQueues._mainCamera = camera;
         _renderQueues._directionLight = mainLight;
 
+        
         ForwardRenderer render{};
         render.render(_renderQueues);
 
         renderSystem->beginScene();
 
+        GHOST_GPU_EVENT_BEGIN(renderSystem, RenderShadowmap);
         //Render Shadowmap
         renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
         _renderShadowmap(camera ,mainLight);
+        GHOST_GPU_EVENT_END(renderSystem);
 
         renderSystem->useDefaultRenderTarget();
         
+        GHOST_GPU_EVENT_BEGIN(renderSystem, RenderOpaue);
         renderSystem->setRenderPass(RENDER_PASS_FORWARD);
         renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
 
@@ -349,10 +353,14 @@ namespace ghost
             sc->render(camera);
         }
 
+        GHOST_GPU_EVENT_END(renderSystem);
+
         //TODO Post processing
 
+        GHOST_GPU_EVENT_BEGIN(renderSystem, RenderImgui);
         //Test IMGUI
         GuiManager::getInstance()->renderAllPages();
+        GHOST_GPU_EVENT_END(renderSystem);
 
         renderSystem->endScene();
     }
