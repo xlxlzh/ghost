@@ -355,7 +355,9 @@ namespace ghost
 
         GHOST_GPU_EVENT_END(renderSystem);
 
+        GHOST_GPU_EVENT_BEGIN(renderSystem, PostProcessing);
         //TODO Post processing
+        GHOST_GPU_EVENT_END(renderSystem);
 
         GHOST_GPU_EVENT_BEGIN(renderSystem, RenderImgui);
         //Test IMGUI
