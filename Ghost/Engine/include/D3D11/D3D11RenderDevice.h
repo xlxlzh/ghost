@@ -6,7 +6,7 @@
 
 namespace ghost
 {
-    class GHOST_API D3D11RenderDevice : public RenderDevice
+    class GHOST_API D3D11RenderDevice final : public RenderDevice
     {
         friend class D3D11RenderSystem;
     public:

@@ -9,7 +9,7 @@
 
 namespace ghost
 {
-    class D3D11RenderSystem : public RenderSystem
+    class GHOST_API D3D11RenderSystem final : public RenderSystem
     {
     public:
         D3D11RenderSystem(RenderDevicePtr device);
