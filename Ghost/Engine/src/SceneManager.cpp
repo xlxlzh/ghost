@@ -353,8 +353,8 @@ namespace ghost
             sc->render(camera);
         }
 
-        GHOST_GPU_EVENT_BEGIN(renderSystem, RenderTrancy);
-
+        GHOST_GPU_EVENT_BEGIN(renderSystem, RenderTranslucency);
+        //TODO RenderTranslucency
         GHOST_GPU_EVENT_END(renderSystem);
 
         GHOST_GPU_EVENT_BEGIN(renderSystem, PostProcessing);
