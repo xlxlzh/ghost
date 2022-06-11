@@ -514,8 +514,8 @@ namespace ghost
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
         D3D11_VIEWPORT vp;
-        vp.Width = devicePtr->_width;
-        vp.Height = devicePtr->_height;
+        vp.Width = static_cast<FLOAT> (devicePtr->_width);
+        vp.Height = static_cast<FLOAT> (devicePtr->_height);
         vp.TopLeftX = 0.0;
         vp.TopLeftY = 0.0;
         vp.MinDepth = 0.0;
