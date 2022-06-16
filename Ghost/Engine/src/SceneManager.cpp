@@ -335,6 +335,10 @@ namespace ghost
 
         renderSystem->beginScene();
 
+        GHOST_GPU_EVENT_BEGIN(renderSystem, RenderZPrepass);
+        //TODO Z-Prepass
+        GHOST_GPU_EVENT_END(renderSystem);
+
         GHOST_GPU_EVENT_BEGIN(renderSystem, RenderShadowmap);
         //Render Shadowmap
         renderSystem->clearRenderTarget(CLEAR_ALL, renderSystem->getClearColor());
