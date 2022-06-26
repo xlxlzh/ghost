@@ -2,6 +2,7 @@
 #define _POSTPROCESSING_MANAGER_H_
 
 #include "Ghost.h"
+#include "SingleTon.h"
 
 namespace ghost
 {
@@ -14,12 +15,16 @@ namespace ghost
 
     class GHOST_API Postprocessing
     {
-
+        
     };
 
-    class GHOST_API PostprocessingManager
+    class GHOST_API PostprocessingManager : public SingleTon<PostprocessingManager>
     {
+    public:
+        bool isEffectEnable(PostprocessingType effect) const;
 
+    private:
+        unsigned _postprocessingFlag;
     };
 }
 
