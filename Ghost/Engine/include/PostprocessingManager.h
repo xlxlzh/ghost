@@ -12,6 +12,11 @@ namespace ghost
         POSTPROCESSING_TONEMAPPING      = 0x00000002,
     };
 
+    class GHOST_API Postprocessing
+    {
+
+    };
+
     class GHOST_API PostprocessingManager
     {
 
