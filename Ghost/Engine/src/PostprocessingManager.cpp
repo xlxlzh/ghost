@@ -7,4 +7,9 @@ namespace ghost
         unsigned flag = static_cast<unsigned>(effect);
         return _postprocessingFlag & flag;
     }
+
+    void PostprocessingManager::renderAlleffects()
+    {
+
+    }
 }

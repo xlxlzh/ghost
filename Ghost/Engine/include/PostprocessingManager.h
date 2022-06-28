@@ -15,13 +15,16 @@ namespace ghost
 
     class GHOST_API Postprocessing
     {
-        
+    public:
+        virtual void render() = 0;
     };
 
     class GHOST_API PostprocessingManager : public SingleTon<PostprocessingManager>
     {
     public:
         bool isEffectEnable(PostprocessingType effect) const;
+
+        void renderAlleffects();
 
     private:
         unsigned _postprocessingFlag;
