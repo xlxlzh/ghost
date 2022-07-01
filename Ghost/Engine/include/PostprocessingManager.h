@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 #include "SingleTon.h"
+#include <unordered_map>
 
 namespace ghost
 {
@@ -19,15 +20,23 @@ namespace ghost
         virtual void render() = 0;
     };
 
+    DECLAR_SMART_POINTER(Postprocessing);
+
     class GHOST_API PostprocessingManager : public SingleTon<PostprocessingManager>
     {
     public:
+        PostprocessingManager();
+
+        void initDefaultEffects();
         bool isEffectEnable(PostprocessingType effect) const;
+        void enableEffect(PostprocessingType effect);
 
         void renderAlleffects();
 
     private:
         unsigned _postprocessingFlag;
+
+        std::unordered_map<unsigned, PostprocessingPtr> _effects;
     };
 }
 
