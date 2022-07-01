@@ -4,6 +4,7 @@
 #include "Renderable.h"
 #include "ShaderConstBufferStruct.h"
 #include "ForwardRenderer.h"
+#include "PostprocessingManager.h"
 
 #include "GUIManager.h"
 
@@ -362,7 +363,7 @@ namespace ghost
         GHOST_GPU_EVENT_END(renderSystem);
 
         GHOST_GPU_EVENT_BEGIN(renderSystem, PostProcessing);
-        //TODO Post processing
+        PostprocessingManager::getInstance()->renderAlleffects();
         GHOST_GPU_EVENT_END(renderSystem);
 
         GHOST_GPU_EVENT_BEGIN(renderSystem, RenderImgui);
