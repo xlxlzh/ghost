@@ -25,6 +25,9 @@ namespace ghost
 
     void PostprocessingManager::renderAlleffects()
     {
-
+        for (const auto& effect : _effects)
+        {
+            effect.second->render();
+        }
     }
 }
