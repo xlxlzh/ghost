@@ -579,8 +579,6 @@ namespace ghost
             {
                 GHOST_LOG_FORMAT_ERROR("Failed to create depthstencil state.");
             }
-
-            devicePtr->_context->OMSetDepthStencilState(_depthStencilState.Get(), 0);
         }
         else
         {
