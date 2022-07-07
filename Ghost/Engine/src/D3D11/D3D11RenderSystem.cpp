@@ -553,8 +553,9 @@ namespace ghost
         if (_rasterizerDescChagned)
         {
             _rasterizerDescChagned = false;
+            _rasterizerState = nullptr;
 #ifdef GHOST_USE_D3D_11_1
-            HRESULT hr = devicePtr->_device->CreateRasterizerState1(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
+            HRESULT hr = devicePtr->_device->CreateRasterizerState1(&_rasterizer, opState->_rasterizer.ReleaseAndGetAddressOf());
 #else
             HRESULT hr = devicePtr->_device->CreateRasterizerState(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
 #endif // GHOST_USE_D3D_11_1
@@ -573,8 +574,9 @@ namespace ghost
         if (_depthStencilDescChanged)
         {
             _depthStencilDescChanged = false;
+            _depthStencilState = nullptr;
 
-            HRESULT hr = devicePtr->_device->CreateDepthStencilState(&_depthStencilDesc, _depthStencilState.ReleaseAndGetAddressOf());
+            HRESULT hr = devicePtr->_device->CreateDepthStencilState(&_depthStencilDesc, opState->_depthStencilState.ReleaseAndGetAddressOf());
             if (FAILED(hr))
             {
                 GHOST_LOG_FORMAT_ERROR("Failed to create depthstencil state.");
@@ -588,8 +590,9 @@ namespace ghost
         if (_blendDescChanged)
         {
             _blendDescChanged = false;
+            _blendState = nullptr;
 
-            HRESULT hr = devicePtr->_device->CreateBlendState(&_blendDesc, _blendState.ReleaseAndGetAddressOf());
+            HRESULT hr = devicePtr->_device->CreateBlendState(&_blendDesc, opState->_blendState.ReleaseAndGetAddressOf());
             if (FAILED(hr))
             {
                 GHOST_LOG_FORMAT_ERROR("Failed to create blend state.");
