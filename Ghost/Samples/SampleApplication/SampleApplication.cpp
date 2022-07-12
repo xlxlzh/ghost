@@ -80,7 +80,10 @@ void SampleApplication::onTick(float deltaTime)
 
 void SampleApplication::onKeydown(GhostKey key)
 {
-    Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
+    if (key == GhostKey::GHOST_KEY_1)
+        Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
+    if (key == GhostKey::GHOST_KEY_2)
+        Engine::getInstance()->getRenderSystem()->setDepthTestEnable(false);
 }
 
 void SampleApplication::onUpdate()
