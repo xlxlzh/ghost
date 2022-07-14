@@ -10,10 +10,7 @@ class SampleBase : public Application
 public:
     virtual void onInit() override;
     virtual void onExit() override;
-    virtual void onUpdate() override;
     virtual void onTick(float deltaTime) override;
-
-    virtual void onKeydown(GhostKey key) override;
 
     virtual void initSample(){ }
 
@@ -22,9 +19,4 @@ private:
 
 private:
     std::string _resourcesPath{};
-
-    SceneManager* _scene;
-    Camera* _mainCamera;
-
-    Light* _mainLight;
 };

@@ -3,15 +3,8 @@
 #include "ModelNode.h"
 #include <windows.h>
 
-void TexturesApplication::onInit()
+void TexturesApplication::initSample()
 {
-    auto ri = Engine::getInstance()->getRenderSystem();
-    ri->setClearColor(Color::Gray);
-
-    auto fileSystem = Engine::getInstance()->getFileSystem();
-    _generateResourcesPath(fileSystem->getCurrentDir());
-
-    ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
     MaterialPtr matPart1 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_1.xml", 0));
     MaterialPtr matPart2 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_2.xml", 0));
     MaterialPtr matPart3 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_3.xml", 0));
@@ -50,18 +43,6 @@ void TexturesApplication::onInit()
     ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
 }
 
-void TexturesApplication::onExit()
-{
-
-}
-
-void TexturesApplication::onTick(float deltaTime)
-{
-    char fpsTitle[128] = { 0 };
-    sprintf (fpsTitle, "TexturesApplication--%0.2f", 1000.0 / deltaTime);
-    getWindow()->setWindowTitle(fpsTitle);
-}
-
 void TexturesApplication::onKeydown(GhostKey key)
 {
     Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
@@ -72,11 +53,4 @@ void TexturesApplication::onUpdate()
     _mainLight->setLightColor(_settingPage->getLightColor());
     _scene->updateSceneGraph(_mainCamera);
     _scene->render(_mainCamera);
-}
-
-void TexturesApplication::_generateResourcesPath(const std::string& workdir)
-{
-    _resourcesPath.clear();
-    _resourcesPath = AddTrailingSlash(workdir);
-    _resourcesPath = _resourcesPath + "../../../Resources/";
 }

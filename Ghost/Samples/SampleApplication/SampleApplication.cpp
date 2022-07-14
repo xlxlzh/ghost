@@ -3,15 +3,8 @@
 #include "ModelNode.h"
 #include <windows.h>
 
-void SampleApplication::onInit()
+void SampleApplication::initSample()
 {
-    auto ri = Engine::getInstance()->getRenderSystem();
-    ri->setClearColor(Color::Gray);
-
-    auto fileSystem = Engine::getInstance()->getFileSystem();
-    _generateResourcesPath(fileSystem->getCurrentDir());
-
-    ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
     MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
     MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
 
@@ -66,18 +59,6 @@ void SampleApplication::onInit()
     ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
 }
 
-void SampleApplication::onExit()
-{
-
-}
-
-void SampleApplication::onTick(float deltaTime)
-{
-    char fpsTitle[128] = { 0 };
-    sprintf(fpsTitle, "SampleApplication FPS:%0.2f", 1000.0 / deltaTime);
-    getWindow()->setWindowTitle(fpsTitle);
-}
-
 void SampleApplication::onKeydown(GhostKey key)
 {
     if (key == GhostKey::GHOST_KEY_1)
@@ -91,11 +72,4 @@ void SampleApplication::onUpdate()
     _mainLight->setLightColor(_settingPage->getLightColor());
     _scene->updateSceneGraph(_mainCamera);
     _scene->render(_mainCamera);
-}
-
-void SampleApplication::_generateResourcesPath(const std::string& workdir)
-{
-    _resourcesPath.clear();
-    _resourcesPath = AddTrailingSlash(workdir);
-    _resourcesPath = _resourcesPath + "../../../Resources/";
 }

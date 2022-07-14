@@ -1,4 +1,5 @@
-include_directories(../../Engine/include ../../Engine/include/Win32 ../../Engine/GUI)
+file(GLOB SAMPLE_BASE "../SampleBase/*")
+include_directories(../../Engine/include ../../Engine/include/Win32 ../../Engine/GUI ../SampleBase/)
 
 if(WIN32)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
@@ -7,7 +8,7 @@ endif(WIN32)
 link_directories(../../../External/assimp/assimp/lib)
 link_directories(../../../External/SDL2/lib)
 
-add_executable(Textures main.cpp TexturesApplication.cpp TexturesApplication.h SettingPage.h SettingPage.cpp)
+add_executable(Textures main.cpp TexturesApplication.cpp TexturesApplication.h SettingPage.h SettingPage.cpp ${SAMPLE_BASE})
 
 add_custom_command(TARGET Textures POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GhostConfig.xml ${CMAKE_CURRENT_BINARY_DIR})
 
