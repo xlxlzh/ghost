@@ -15,6 +15,8 @@ public:
 
     virtual void onKeydown(GhostKey key) override;
 
+    virtual void initSample(){ }
+
 private:
     void _generateResourcesPath(const std::string& workdir);
 

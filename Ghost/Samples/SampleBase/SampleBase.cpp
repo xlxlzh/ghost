@@ -2,5 +2,13 @@
 
 namespace ghost
 {
+    void SampleBase::onInit()
+    {
+        initSample();
+    }
 
+    void SampleBase::onExit()
+    {
+
+    }
 }
