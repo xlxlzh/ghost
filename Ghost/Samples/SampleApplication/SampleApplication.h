@@ -23,4 +23,7 @@ private:
     SettingPagePtr _settingPage;
 
     Light* _mainLight;
+
+    bool _enableZTest{ true };
+    bool _wireFrame{ false };
 };

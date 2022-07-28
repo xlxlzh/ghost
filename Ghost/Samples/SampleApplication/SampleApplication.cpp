@@ -62,9 +62,17 @@ void SampleApplication::initSample()
 void SampleApplication::onKeydown(GhostKey key)
 {
     if (key == GhostKey::GHOST_KEY_1)
-        Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
+    {
+        _wireFrame = !_wireFrame;
+        Engine::getInstance()->getRenderSystem()->setFillMode(_wireFrame ? FillMode::FILL_WIREFRAME : FillMode::FILL_SOLID);
+    }
+        
     if (key == GhostKey::GHOST_KEY_2)
-        Engine::getInstance()->getRenderSystem()->setDepthTestEnable(false);
+    {
+        _enableZTest = !_enableZTest;
+        Engine::getInstance()->getRenderSystem()->setDepthTestEnable(_enableZTest);
+    }
+       
 }
 
 void SampleApplication::onUpdate()
