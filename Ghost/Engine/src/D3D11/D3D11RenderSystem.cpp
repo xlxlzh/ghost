@@ -557,7 +557,7 @@ namespace ghost
 #ifdef GHOST_USE_D3D_11_1
             HRESULT hr = devicePtr->_device->CreateRasterizerState1(&_rasterizer, opState->_rasterizer.ReleaseAndGetAddressOf());
 #else
-            HRESULT hr = devicePtr->_device->CreateRasterizerState(&_rasterizer, _rasterizerState.ReleaseAndGetAddressOf());
+            HRESULT hr = devicePtr->_device->CreateRasterizerState(&_rasterizer, opState->_rasterizer.ReleaseAndGetAddressOf());
 #endif // GHOST_USE_D3D_11_1
 
             
