@@ -72,6 +72,12 @@ void SampleApplication::onKeydown(GhostKey key)
         _enableZTest = !_enableZTest;
         Engine::getInstance()->getRenderSystem()->setDepthTestEnable(_enableZTest);
     }
+
+    if (key == GhostKey::GHOST_KEY_3)
+    {
+        _lessgreate = !_lessgreate;
+        Engine::getInstance()->getRenderSystem()->setDepthFunction(_lessgreate ? CompareFunction::COMPARISON_LESS_EQUAL : CompareFunction::COMPARISON_GREATER_EQUAL);
+    }
        
 }
 

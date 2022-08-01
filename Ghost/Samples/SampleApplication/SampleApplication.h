@@ -26,4 +26,5 @@ private:
 
     bool _enableZTest{ true };
     bool _wireFrame{ false };
+    bool _lessgreate{ true };
 };
