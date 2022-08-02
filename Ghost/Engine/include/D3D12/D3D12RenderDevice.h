@@ -17,13 +17,7 @@ namespace ghost
         bool _initSwapchain();
 
     private:
-        ID3D11DevicePtr _device;
-        ID3D11DeviceContextPtr _context;
 
-        ID3D11Texture2DPtr _defaultRenderTexture;
-        ID3D11Texture2DPtr _defaultDepthTexture;
-        ID3D11RenderTargetViewPtr _defaultRenderView;
-        ID3D11DepthStencilViewPtr _defaultDepthView;
 
         D3D_FEATURE_LEVEL _featureLevel;
         D3D_DRIVER_TYPE _driverType;

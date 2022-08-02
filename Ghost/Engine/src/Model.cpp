@@ -184,17 +184,17 @@ namespace ghost
         _vertexDec = Engine::getInstance()->getRenderDevice()->createVertexDeclaration();
 
         unsigned offset = 0;
-        if (_mask & VERTEX_POSITION)
+        //if (_mask & VERTEX_POSITION)
         {
             _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_POSITION);
             offset += VertexElement::getTypeSize(VET_FLOAT_3);
         }
-        if (_mask & VERTEX_NORMAL)
+        //if (_mask & VERTEX_NORMAL)
         {
             _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_NORMAL);
             offset += VertexElement::getTypeSize(VET_FLOAT_3);
         }
-        if (_mask & VERTEX_TEXCOORD)
+        //if (_mask & VERTEX_TEXCOORD)
         {
             _vertexDec->addElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
             offset += VertexElement::getTypeSize(VET_FLOAT_2);
