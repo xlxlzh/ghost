@@ -4,6 +4,10 @@
 #include <cstdio>
 #include <cstdarg>
 
+#ifdef GHOST_PLATFROM_WIN32
+#include <windows.h>
+#endif
+
 namespace ghost
 {
     Log::Log(std::string name, LogLevel level /* = LOG_DEBUG */, bool timestamp /* = true */) : _logName(name), _level(level), _enableTimeStamp(timestamp)
@@ -36,6 +40,10 @@ namespace ghost
 
         _stream << LogMessageLevelStr[level] << ' ' << message << std::endl;
         _stream.flush();
+
+#ifdef GHOST_PLATFROM_WIN32
+        OutputDebugStringA(message.c_str());
+#endif
     }
 
 

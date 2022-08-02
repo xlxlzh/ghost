@@ -15,6 +15,8 @@ namespace ghost
         const auto& renderConfig = GhostConfig::getInstance()->getRenderConfig();
         _platformType = globalConfig._platform;
 
+        LogManager::getInstance()->addLog(globalConfig._logFile);
+
         switch (_platformType)
         {
         case ghost::PLATFORM_WIN32:
@@ -30,7 +32,6 @@ namespace ghost
 
         //Initialize engine
         Engine::getInstance()->initEngine(_window->getWindowHandle(), globalConfig._renderType, renderConfig._msaa, globalConfig._width, globalConfig._height);
-        LogManager::getInstance()->addLog(globalConfig._logFile);
 
         return _initialize;
     }
