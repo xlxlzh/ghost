@@ -12,10 +12,8 @@ void SampleApplication::initSample()
     ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));
     ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.obj", 0));
     ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/cube.obj", 0));
-    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/head.obj", 0));
+    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/soccerball.obj", 0));
 
-    _scene = new SceneManager();
-    _mainCamera = new Camera(_scene);
     _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 15.0f);
     _mainCamera->setTransform(Vector3f(0.0, 40.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
@@ -61,6 +59,8 @@ void SampleApplication::initSample()
 
 void SampleApplication::onKeydown(GhostKey key)
 {
+    SampleBase::onKeydown(key);
+
     if (key == GhostKey::GHOST_KEY_1)
     {
         _wireFrame = !_wireFrame;

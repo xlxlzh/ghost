@@ -12,11 +12,16 @@ public:
     virtual void onExit() override;
     virtual void onTick(float deltaTime) override;
 
+    virtual void onKeydown(GhostKey key) override;
+
     virtual void initSample(){ }
 
-private:
+protected:
     void _generateResourcesPath(const std::string& workdir);
 
-private:
+protected:
     std::string _resourcesPath{};
+
+    SceneManager* _scene;
+    Camera* _mainCamera;
 };

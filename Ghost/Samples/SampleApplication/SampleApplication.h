@@ -17,9 +17,6 @@ public:
     virtual void onKeydown(GhostKey key) override;
 
 private:
-    SceneManager* _scene;
-    Camera* _mainCamera;
-
     SettingPagePtr _settingPage;
 
     Light* _mainLight;

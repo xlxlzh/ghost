@@ -12,7 +12,12 @@ namespace ghost
 
     void Camera::onPostUpdate()
     {
-        _absPos = Vector3f(_absTrans._41, _absTrans._42, _absTrans._43);
+        _absPos = _pos;
+        _absTrans._41 = _absPos._x;
+        _absTrans._42 = _absPos._y;
+        _absTrans._43 = _absPos._z;
+
+        //_absPos = Vector3f(_absTrans._41, _absTrans._42, _absTrans._43);
 
         _matView = _absTrans.inverse();
 
