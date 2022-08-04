@@ -32,7 +32,7 @@ void SampleApplication::initSample()
     ModelNode* head = new ModelNode(_scene);
     head->setModel(headModel);
     headModel->setMaterial(0, headMatPtr);
-    head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(0.5, 0.5, 0.5));
+    head->setTransform(Vector3f(0, 40.0, 5.0), Vector3f(0.0, 0, 0.0), Vector3f(1, 1, 1));
     _scene->addNodeToRoot(head);
 
     ModelNode* cube = new ModelNode(_scene);

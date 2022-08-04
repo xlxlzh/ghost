@@ -6,6 +6,7 @@
 #include "MessageHandler.h"
 #include "Resource.h"
 #include "Texture2D.h"
+#include "LogManager.h"
 
 namespace ghost
 {
@@ -212,6 +213,7 @@ namespace ghost
         {
             ImGui_ImplSDL2_ProcessEvent(&_event);
             
+            GHOST_LOG_FORMAT_INFO("Current SDL Event[%d]\n", _event.type);
             switch (_event.type)
             {
                 case SDL_KEYDOWN:
@@ -247,6 +249,11 @@ namespace ghost
                         _app->onMouseLeftRelease();
                     else if (_event.button.button == SDL_BUTTON_RIGHT)
                         _app->onMouseRightRelease();
+                    break;
+                }
+
+                case SDL_TEXTEDITING:
+                {
                     break;
                 }
 
