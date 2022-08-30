@@ -2,7 +2,7 @@
 #define _D3D12_RENDERDEVICE_H_
 
 #include "RenderDevice.h"
-#include "D3D11ComPtr.h"
+#include "D3D12ComPtr.h"
 
 namespace ghost
 {
@@ -17,22 +17,7 @@ namespace ghost
         bool _initSwapchain();
 
     private:
-        ID3D11DevicePtr _device;
-        ID3D11DeviceContextPtr _context;
-
-        ID3D11Texture2DPtr _defaultRenderTexture;
-        ID3D11Texture2DPtr _defaultDepthTexture;
-        ID3D11RenderTargetViewPtr _defaultRenderView;
-        ID3D11DepthStencilViewPtr _defaultDepthView;
-
-        D3D_FEATURE_LEVEL _featureLevel;
-        D3D_DRIVER_TYPE _driverType;
-
-        //dxgi
-        IDXGISwapChainPtr _dxgiSwapchain;
-        IDXGIDevicePtr _dxgiDevice;
-        IDXGIFactoryPtr _dxgiFactory;
-        IDXGIAdapterPtr _dxgiAdapter;
+        ID3D12DevicePtr _device;
     };
 
     DECLAR_SMART_POINTER(D3D12RenderDevice)
