@@ -18,6 +18,10 @@ namespace ghost
 
     private:
         ID3D12DevicePtr _device;
+
+        ID3D12CommandQueuePtr        _commandQueue;
+        ID3D12GraphicsCommandListPtr _graphicsCommandList;
+        ID3D12CommandAllocatorPtr    _commandAllocator;
     };
 
     DECLAR_SMART_POINTER(D3D12RenderDevice)
