@@ -22,6 +22,13 @@ namespace ghost
         ID3D12CommandQueuePtr        _commandQueue;
         ID3D12GraphicsCommandListPtr _graphicsCommandList;
         ID3D12CommandAllocatorPtr    _commandAllocator;
+
+        ID3D12FencePtr               _fence;
+        unsigned long long           _currentFence{ 0 };
+
+        unsigned                     _rtvDescriptorSize{ 0 };
+        unsigned                     _dsvDescriptorSize{ 0 };
+        unsigned                     _cbvAndsrvDescriptorSize{ 0 };
     };
 
     DECLAR_SMART_POINTER(D3D12RenderDevice)
