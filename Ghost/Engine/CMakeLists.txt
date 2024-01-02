@@ -61,12 +61,10 @@ include_directories(../../External/imgui)
 include_directories(../../External/imgui/backends)
 include_directories(../../External/SDL2/include)
 
-link_directories(../../External/assimp/assimp/lib)
 link_directories(../../External/SDL2/lib)
 
-set(GHOST_ASSIMP "assimp-vc141-mt")
 set(GHOST_SDL2 "SDL2" "SDL2main")
 
 add_library(GhostEngine SHARED ${GUI_CODES} ${GUI_CODES_SDL2} ${GUI_CODES_WIN32} ${GUI_CODES_D3D11} ${ENGINE_CODE} ${ENGINE_HEADERS} ${WIN32_CODE} ${WIN32_HEADERS} ${D3D11_HEADERS} ${D3D11_CODE} ${D3D12_HEADERS} ${D3D12_CODE})
 
-target_link_libraries(GhostEngine ${DirectX11_LIBRARY} TinyXML2 ${GHOST_ASSIMP} ${GHOST_SDL2})
+target_link_libraries(GhostEngine assimp SDL2 SDL2main ${DirectX11_LIBRARY} TinyXML2 ${GHOST_SDL2})

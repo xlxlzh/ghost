@@ -4,6 +4,7 @@
 #include "Ghost.h"
 #include "BoundingBox.h"
 #include <vector>
+#include <string>
 #include "Matrix4x4.h"
 #include "RenderOperation.h"
 
