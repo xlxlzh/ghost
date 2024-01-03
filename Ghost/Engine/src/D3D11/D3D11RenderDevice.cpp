@@ -58,7 +58,7 @@ namespace ghost
         HRESULT hr = S_OK;
 
         unsigned createFlag = 0;
-#if defined(DEBUG) || defined(_DEBUG)
+#if (defined(DEBUG) || defined(_DEBUG)) && _WIN32_WINNT <_WIN32_WINNT_WIN10
         createFlag |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
