@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6BF0C07D-9D76-33A7-86FA-3101289576C1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>NormalMap</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\Github\ghost\Build\Bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NormalMap.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NormalMap</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\Github\ghost\Build\Bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NormalMap.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NormalMap</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\Github\ghost\Build\Bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">NormalMap.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">NormalMap</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\Github\ghost\Build\Bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">NormalMap.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">NormalMap</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-debug\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;GHOST_PLATFROM_WIN32;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;GHOST_PLATFROM_WIN32;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-debug\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-debug\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy C:/Projects/Github/ghost/Ghost/Samples/NormalMap/GhostConfig.xml C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\..\..\Lib\Debug\GhostEngine.lib;..\..\..\Lib\Debug\assimp-vc143-mtd.lib;..\..\..\Lib\Debug\zlibstaticd.lib;..\..\..\Lib\Debug\SDL2d.lib;..\..\..\Lib\Debug\SDL2maind.lib;shell32.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\..\Lib\Debug\TinyXML2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib/$(Configuration);C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/Debug/NormalMap.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/NormalMap.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-release\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-release\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-release\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy C:/Projects/Github/ghost/Ghost/Samples/NormalMap/GhostConfig.xml C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\..\..\Lib\Release\GhostEngine.lib;..\..\..\Lib\Release\assimp-vc143-mt.lib;..\..\..\Lib\Release\zlibstatic.lib;..\..\..\Lib\Release\SDL2.lib;..\..\..\Lib\Release\SDL2main.lib;shell32.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\..\Lib\Release\TinyXML2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib/$(Configuration);C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/Release/NormalMap.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/NormalMap.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-minsizerel\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-minsizerel\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-minsizerel\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy C:/Projects/Github/ghost/Ghost/Samples/NormalMap/GhostConfig.xml C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\..\..\Lib\MinSizeRel\GhostEngine.lib;..\..\..\Lib\MinSizeRel\assimp-vc143-mt.lib;..\..\..\Lib\MinSizeRel\zlibstatic.lib;..\..\..\Lib\MinSizeRel\SDL2.lib;..\..\..\Lib\MinSizeRel\SDL2main.lib;shell32.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\..\Lib\MinSizeRel\TinyXML2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib/$(Configuration);C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/MinSizeRel/NormalMap.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/MinSizeRel/NormalMap.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-relwithdebinfo\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-relwithdebinfo\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Samples\NormalMap\..\..\Engine\GUI;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-relwithdebinfo\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy C:/Projects/Github/ghost/Ghost/Samples/NormalMap/GhostConfig.xml C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\..\..\Lib\RelWithDebInfo\GhostEngine.lib;..\..\..\Lib\RelWithDebInfo\assimp-vc143-mt.lib;..\..\..\Lib\RelWithDebInfo\zlibstatic.lib;..\..\..\Lib\RelWithDebInfo\SDL2.lib;..\..\..\Lib\RelWithDebInfo\SDL2main.lib;shell32.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\..\Lib\RelWithDebInfo\TinyXML2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/assimp/assimp/lib/$(Configuration);C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Samples/NormalMap/../../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/RelWithDebInfo/NormalMap.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/RelWithDebInfo/NormalMap.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Projects\Github\ghost\Ghost\Samples\NormalMap\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Samples/NormalMap/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\Github\ghost\Build\Ghost\Samples\NormalMap\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Samples/NormalMap/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\Github\ghost\Build\Ghost\Samples\NormalMap\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Samples/NormalMap/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\Github\ghost\Build\Ghost\Samples\NormalMap\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Samples/NormalMap/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Samples/NormalMap/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\Github\ghost\Build\Ghost\Samples\NormalMap\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Samples\NormalMap\main.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Samples\NormalMap\NormalMap.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Samples\NormalMap\NormalMap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\ZERO_CHECK.vcxproj">
+      <Project>{025A1330-DA31-312B-BBB7-3B0CB474647D}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\Ghost\Engine\GhostEngine.vcxproj">
+      <Project>{A4E11AD8-5D99-3223-BB51-8DBE526B50CD}</Project>
+      <Name>GhostEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\SDL2\SDL2.vcxproj">
+      <Project>{1B6F725D-EC4F-3789-BAF6-CC1D197D0FD4}</Project>
+      <Name>SDL2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\SDL2\SDL2main.vcxproj">
+      <Project>{E7ECB0AD-5407-36AA-A85A-1B4133BCEEA2}</Project>
+      <Name>SDL2main</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\tinyxml2\TinyXML2.vcxproj">
+      <Project>{37A8972C-2829-3B46-A02F-ECDFABA3B84E}</Project>
+      <Name>TinyXML2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\assimp\code\assimp.vcxproj">
+      <Project>{20001C4E-F6BE-31E2-B8E5-39F1A687937F}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\assimp\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{A80ED5D5-E811-37D0-9A8E-B66DBE6E668D}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

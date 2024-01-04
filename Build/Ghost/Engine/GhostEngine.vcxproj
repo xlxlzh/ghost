@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A4E11AD8-5D99-3223-BB51-8DBE526B50CD}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>GhostEngine</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\Github\ghost\Build\Bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GhostEngine.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GhostEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\Github\ghost\Build\Bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GhostEngine.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GhostEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\Github\ghost\Build\Bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">GhostEngine.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">GhostEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\Github\ghost\Build\Bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">GhostEngine.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">GhostEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-debug\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR="Debug";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR=\"Debug\";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-debug\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-debug\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Lib\Debug\assimp-vc143-mtd.lib;..\..\Lib\Debug\SDL2maind.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\Lib\Debug\TinyXML2.lib;..\..\Lib\Debug\SDL2d.lib;..\..\Lib\Debug\SDL2maind.lib;..\..\Lib\Debug\zlibstaticd.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/Debug/GhostEngine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/GhostEngine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-release\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR="Release";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR=\"Release\";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-release\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-release\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Lib\Release\assimp-vc143-mt.lib;..\..\Lib\Release\SDL2main.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\Lib\Release\TinyXML2.lib;..\..\Lib\Release\SDL2.lib;..\..\Lib\Release\SDL2main.lib;..\..\Lib\Release\zlibstatic.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/Release/GhostEngine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/GhostEngine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-minsizerel\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR="MinSizeRel";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR=\"MinSizeRel\";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-minsizerel\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-minsizerel\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Lib\MinSizeRel\assimp-vc143-mt.lib;..\..\Lib\MinSizeRel\SDL2main.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\Lib\MinSizeRel\TinyXML2.lib;..\..\Lib\MinSizeRel\SDL2.lib;..\..\Lib\MinSizeRel\SDL2main.lib;..\..\Lib\MinSizeRel\zlibstatic.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/MinSizeRel/GhostEngine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/MinSizeRel/GhostEngine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-relwithdebinfo\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR="RelWithDebInfo";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;GHOST_PLATFROM_WIN32;GHOST_EXPORT;CMAKE_INTDIR=\"RelWithDebInfo\";GhostEngine_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-relwithdebinfo\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Projects\Github\ghost\Ghost\Engine\include;C:\Projects\Github\ghost\Ghost\Engine\include\Win32;C:\Projects\Github\ghost\Ghost\Engine\include\D3D11;C:\Projects\Github\ghost\Ghost\Engine\include\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11;C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D12;C:\Projects\Github\ghost\Ghost\Engine\GUI;C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32;C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\stb;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\assimp\Compiler;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\imgui\backends;C:\Projects\Github\ghost\Ghost\Engine\..\..\External\SDL2\include;C:\Projects\Github\ghost\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\assimp\code\..\include;C:\Projects\Github\ghost\Build\External\SDL2\include;C:\Projects\Github\ghost\Build\External\SDL2\include\SDL2;C:\Projects\Github\ghost\Build\External\SDL2\include-config-relwithdebinfo\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Lib\RelWithDebInfo\assimp-vc143-mt.lib;..\..\Lib\RelWithDebInfo\SDL2main.lib;d3d11.lib;dxgi.lib;dxguid.lib;..\..\Lib\RelWithDebInfo\TinyXML2.lib;..\..\Lib\RelWithDebInfo\SDL2.lib;..\..\Lib\RelWithDebInfo\SDL2main.lib;..\..\Lib\RelWithDebInfo\zlibstatic.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib;C:/Projects/Github/ghost/Ghost/Engine/../../External/SDL2/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Projects/Github/ghost/Build/Lib/RelWithDebInfo/GhostEngine.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Projects/Github/ghost/Build/Bin/RelWithDebInfo/GhostEngine.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Projects\Github\ghost\Ghost\Engine\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Engine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Engine/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\Github\ghost\Ghost\Modules\FindDirectX11.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Projects\Github\ghost\Build\Ghost\Engine\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Engine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Engine/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\Github\ghost\Ghost\Modules\FindDirectX11.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Projects\Github\ghost\Build\Ghost\Engine\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Engine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Engine/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\Github\ghost\Ghost\Modules\FindDirectX11.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Projects\Github\ghost\Build\Ghost\Engine\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Projects/Github/ghost/Ghost/Engine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/Github/ghost -BC:/Projects/Github/ghost/Build --check-stamp-file C:/Projects/Github/ghost/Build/Ghost/Engine/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\Github\ghost\Ghost\Modules\FindDirectX11.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Projects\Github\ghost\Build\Ghost\Engine\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imconfig.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui_demo.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui_draw.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui_internal.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui_tables.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imgui_widgets.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imstb_rectpack.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imstb_textedit.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\imstb_truetype.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2\imgui_impl_sdl.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2\imgui_impl_sdl.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2\imgui_impl_sdlrenderer.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\SDL2\imgui_impl_sdlrenderer.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32\imgui_impl_win32.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\Win32\imgui_impl_win32.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11\imgui_impl_dx11.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\GUI\D3D11\imgui_impl_dx11.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Application.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\BoundingBox.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Buffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Camera.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Color.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\ConstBuffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\DataStream.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\DepthStencilTarget.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Engine.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\FileSystem.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\ForwardRenderer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Frustum.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\GUIManager.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\GhostConfig.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\IndexBuffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Light.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\LogManager.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Material.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\MathUtilities.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\MeshImporter.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Model.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\ModelNode.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Octree.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Platform.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\PostprocessingManager.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\RenderCommon.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\RenderDevice.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\RenderSystem.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\RenderTarget.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\RenderWindow.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Renderable.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Renderer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Resource.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\SDLRenderWindow.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\SceneManager.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\SceneNode.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Shader.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\ShaderResource.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Texture2D.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\TextureUnitState.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\UtilityGenerator.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\VertexBuffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\VertexBufferBinding.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\VertexDeclaration.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Viewport.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Application.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\BoundingBox.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Buffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Camera.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Color.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Common.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\ConstBuffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\DataStream.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\DepthStencilTarget.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Engine.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\FileSystem.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\ForwardRenderer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Frustum.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\GPUResourceFlags.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\GUIManager.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Ghost.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\GhostConfig.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\IndexBuffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Light.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\LogManager.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Material.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\MathUtilities.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Matrix4x4.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\MeshImporter.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\MessageHandler.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Model.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\ModelNode.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Octree.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Plane.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Platform.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\PostprocessingManager.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Quaternion.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderCommon.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderConfig.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderDevice.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderOperation.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderSystem.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderTarget.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\RenderWindow.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Renderable.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Renderer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Resource.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\SDLRenderWindow.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\STBWrapper.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\SceneManager.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\SceneNode.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Shader.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\ShaderConstBufferStruct.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\ShaderResource.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\SingleTon.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Texture2D.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\TextureUnitState.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Timer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\UtilityGenerator.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Vector2.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Vector3.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Vector4.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\VertexBuffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\VertexBufferBinding.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\VertexDeclaration.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Viewport.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Win32\FileSystemWin32.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Win32\RenderWindowWin32.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\Win32\TimerWin32.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Win32\FileSystemWin32.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Win32\RenderWindowWin32.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\Win32\TimerWin32.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11Buffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11ComPtr.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11ConstBuffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11DepthStencilTarget.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11HardwareShader.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11IndexBuffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11Mappings.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11RenderDevice.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11RenderSystem.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11RenderTarget.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11Texture2D.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11VertexBuffer.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D11\D3D11VertexDeclaration.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11Buffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11ConstBuffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11DepthStencilTarget.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11HardwareShader.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11IndexBuffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11Mappings.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11RenderDevice.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11RenderSystem.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11RenderTarget.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11Texture2D.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11VertexBuffer.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D11\D3D11VertexDeclaration.cpp" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D12\D3D12ComPtr.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D12\D3D12RenderDevice.h" />
+    <ClInclude Include="C:\Projects\Github\ghost\Ghost\Engine\include\D3D12\D3D12RenderSystem.h" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D12\D3D12RenderDevice.cpp" />
+    <ClCompile Include="C:\Projects\Github\ghost\Ghost\Engine\src\D3D12\D3D12RenderSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\ZERO_CHECK.vcxproj">
+      <Project>{025A1330-DA31-312B-BBB7-3B0CB474647D}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\SDL2\SDL2.vcxproj">
+      <Project>{1B6F725D-EC4F-3789-BAF6-CC1D197D0FD4}</Project>
+      <Name>SDL2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\SDL2\SDL2main.vcxproj">
+      <Project>{E7ECB0AD-5407-36AA-A85A-1B4133BCEEA2}</Project>
+      <Name>SDL2main</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\tinyxml2\TinyXML2.vcxproj">
+      <Project>{37A8972C-2829-3B46-A02F-ECDFABA3B84E}</Project>
+      <Name>TinyXML2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\assimp\code\assimp.vcxproj">
+      <Project>{20001C4E-F6BE-31E2-B8E5-39F1A687937F}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Projects\Github\ghost\Build\External\assimp\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{A80ED5D5-E811-37D0-9A8E-B66DBE6E668D}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
