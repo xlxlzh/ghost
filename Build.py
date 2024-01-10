@@ -114,6 +114,10 @@ def __main():
         cmakeCommand = CMakeCommand()
         cmakeCommand.AddCommandArg(f"-S {args.sourcePath} -B {args.buildFilePath}")
 
+        if not os.path.exists(args.buildFilePath):
+            os.makedirs(args.buildFilePath)
+            print(f"Build file path {os.path.abspath(args.buildFilePath)} don't exist, create a folder for build files.")
+
         if args.sample == "off":
             cmakeCommand.AddCommandArg("-DGHOST_BUILD_SAMPLES=OFF")
         else:
