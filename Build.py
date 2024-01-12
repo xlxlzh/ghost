@@ -3,6 +3,10 @@ import argparse
 import os
 import platform
 
+class BuildInfo:
+    def __init__(self) -> None:
+        self._hostPlatform = "win"
+
 class CompilerInfo:
     def __init__(self) -> None:
         self._compilerName = ""
