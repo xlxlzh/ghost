@@ -16,22 +16,12 @@ The project is a small graphics engine for learning. So most of frameworks will 
 - Cross paltform
 
 ## How to build
-You need to have a C++ compiler and [CMake 3.14+](http://www.cmake.org/) installed. We require the `C++14`, so you should have a C++ compiler that support `C++14` or later.
+You can use the script **Build.py** to generate the project files and build the project. In order to run the script, you need to instanll some tools.
+|Tools|Version|Platform|
+|:-----:|:------:|:-----:|
+|CMake|3.14 and later|All|
+|Visual Studio|2019 and later|Windows|
+|Python|3.10 and later|All|
+|TODO|TODO|TODO|
 
-
-
-### Build samples
-
-In order to build the samples you need using `GHOST_BUILD_EXAMPLES` flag with CMake.
-
-
-     cmake -DGHOST_BUILD_EXAMPLES=ON ..
-
-
-### Build Editor
-In order to build the samples you need using `GHOST_BUILD_EDITOR` flag with CMake.
-
-
-     cmake -DGHOST_BUILD_EDITOR=ON ..
-
-**I have not begin to implement a editor, it's a placeholder.**
+You can directly use the **Build.py**, and you can also run the batch command files on Windows platform.
