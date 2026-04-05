@@ -35,7 +35,7 @@ namespace ghost
         {
             return Vector4<T>(_x * rhs._11 + _y * rhs._21 + _z * rhs._31 + _w * rhs._41,
                 _x * rhs._12 + _y * rhs._22 + _z * rhs._32 + _w * rhs._42,
-                _x * rhs._13 + _y * rhs._23 + _z * rhs._33 + _w * rhs._43
+                _x * rhs._13 + _y * rhs._23 + _z * rhs._33 + _w * rhs._43,
                 _x * rhs._14 + _y * rhs._24 + _z * rhs._34 + _w * rhs._44);
         }
 
