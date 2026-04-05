@@ -25,9 +25,9 @@ namespace ghost
 		bool operator!= (const Vector4<T>& rhs) const { return !this->equal(rhs); }
 
 		Vector4<T> operator* (const T& rhs) const { return Vector4<T>(rhs * _x, rhs * _y, rhs * _z, rhs * _w); }
-		Vector4<T>& operator*= (const T& rhs) { _x *= rhs; _y *= rhs; _z *= rhs; _w *= rhs; *this; }
-		Vector4<T> operator/ (const T& rhs) const { return Vector4<T>(_x / rhs, _y / rhs, _z / rhs, _w /= rhs); }
-		Vector4<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; _z /= rhs; _w /= rhs return *this; }
+		Vector4<T>& operator*= (const T& rhs) { _x *= rhs; _y *= rhs; _z *= rhs; _w *= rhs; return *this; }
+		Vector4<T> operator/ (const T& rhs) const { return Vector4<T>(_x / rhs, _y / rhs, _z / rhs, _w / rhs); }
+		Vector4<T>& operator/= (const T& rhs) { _x /= rhs; _y /= rhs; _z /= rhs; _w /= rhs; return *this; }
 
 		Vector4<T> operator- () const { return Vector4<T>(-_x, -_y, -_z, -_w); }
 

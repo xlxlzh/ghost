@@ -46,7 +46,7 @@ namespace ghost
 
 		T dotProduct(const Vector2<T>& rhs) const { return _x * rhs._x + _y * rhs._y; }
 
-		T length() const { return sqrt(_x * rhs._x + _y * rhs._y); }
+		T length() const { return sqrt(_x * _x + _y * _y); }
 
 		bool equal(const Vector2<T>& rhs) const
 		{

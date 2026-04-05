@@ -7,7 +7,7 @@ namespace ghost
     class Quaternion
     {
     public:
-        Quaternion() : _x(0.0f), _y(0.0f), _z(0.0f), _w(0.0f) { }
+        Quaternion() : _x(0.0f), _y(0.0f), _z(0.0f), _w(1.0f) { }
         Quaternion(T x, T y, T z, T w) : _x(x), _y(y), _z(z), _w(w) { }
 
         Quaternion(const T eulerX, const T eulerY, const T eulerZ)
