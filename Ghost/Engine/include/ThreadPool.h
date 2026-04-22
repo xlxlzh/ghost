@@ -1,3 +1,6 @@
+#ifndef _THREADPOOL_H_
+#define _THREADPOOL_H_
+
 #include <future>
 #include <mutex>
 #include <thread>
@@ -55,3 +58,5 @@ namespace ghost
         std::queue<std::function<void()>> _tasks;
     };
 }
+
+#endif
