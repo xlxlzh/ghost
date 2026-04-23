@@ -12,14 +12,14 @@ namespace ghost
         Viewport(float x, float y, float w, float h);
         ~Viewport() { }
 
-        float getViewportX() const { return _viewportX; }
-        float getViewportY() const { return _viewportY; }
+        float GetViewportX() const { return _viewportX; }
+        float GetViewportY() const { return _viewportY; }
 
-        float getViewportWidth() const { return _viewportWidth; }
-        float getViewportHeight() const { return _viewportHeight; }
+        float GetViewportWidth() const { return _viewportWidth; }
+        float GetViewportHeight() const { return _viewportHeight; }
 
-        float getMinZ() const { return _minZ; }
-        float getMaxZ() const { return _maxZ; }
+        float GetMinZ() const { return _minZ; }
+        float GetMaxZ() const { return _maxZ; }
 
     private:
         float _viewportX, _viewportY;

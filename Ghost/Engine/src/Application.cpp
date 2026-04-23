@@ -7,15 +7,15 @@
 
 namespace ghost
 {
-    bool Application::initialize(const std::string& wname, const std::string& configFile)
+    bool Application::Initialize(const std::string& wname, const std::string& configFile)
     {
-        GhostConfig::getInstance()->loadConfig(configFile);
+        GhostConfig::GetInstance()->LoadConfig(configFile);
 
-        const auto& globalConfig = GhostConfig::getInstance()->getGlobalConfig();
-        const auto& renderConfig = GhostConfig::getInstance()->getRenderConfig();
+        const auto& globalConfig = GhostConfig::GetInstance()->GetGlobalConfig();
+        const auto& renderConfig = GhostConfig::GetInstance()->GetRenderConfig();
         _platformType = globalConfig._platform;
 
-        LogManager::getInstance()->addLog(globalConfig._logFile);
+        LogManager::GetInstance()->AddLog(globalConfig._logFile);
 
         switch (_platformType)
         {
@@ -28,15 +28,15 @@ namespace ghost
             break;
         }
 
-        _initialize = _window->initialize(globalConfig._width, globalConfig._height, wname, globalConfig._fullscreen);
+        _initialize = _window->Initialize(globalConfig._width, globalConfig._height, wname, globalConfig._fullscreen);
 
         //Initialize engine
-        Engine::getInstance()->initEngine(_window->getWindowHandle(), globalConfig._renderType, renderConfig._msaa, globalConfig._width, globalConfig._height);
+        Engine::GetInstance()->InitEngine(_window->GetWindowHandle(), globalConfig._renderType, renderConfig._msaa, globalConfig._width, globalConfig._height);
 
         return _initialize;
     }
 
-    float Application::getFPS() const
+    float Application::GetFPS() const
     {
         if (_msPerFrame != 0.0)
         {
@@ -46,35 +46,35 @@ namespace ghost
         return 0.0f;
     }
 
-	void Application::run()
+	void Application::Run()
 	{
 		if (!_initialize)
 			return;
 
-        onInit();
+        OnInit();
 
-        _applicationTimer->start();
-        static float beginTime = _applicationTimer->getElapsedTimeMS();
+        _applicationTimer->Start();
+        static float beginTime = _applicationTimer->GetElapsedTimeMS();
 		while (!_exit)
 		{
-			_messageLoop();
-            onUpdate();
+			InternalMessageLoop();
+            OnUpdate();
 
-            float currentTime = _applicationTimer->getElapsedTimeMS();
-            onTick(currentTime - beginTime);
-            _updateFrameTime(currentTime - beginTime);
+            float currentTime = _applicationTimer->GetElapsedTimeMS();
+            OnTick(currentTime - beginTime);
+            UpdateFrameTime(currentTime - beginTime);
             beginTime = currentTime;
 		}
 
-        onExit();
+        OnExit();
 	}
 
-	void Application::show()
+	void Application::Show()
 	{
 		if (_window)
 		{
-			_window->updateWindow();
-			_window->showWindow();
+			_window->UpdateWindow();
+			_window->ShowWindow();
 		}
 	}
 }

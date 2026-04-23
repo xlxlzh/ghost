@@ -3,29 +3,29 @@
 #include "Engine.h"
 #include "GUIManager.h"
 
-void EditorApplication::onInit()
+void EditorApplication::OnInit()
 {
-    auto ri = ghost::Engine::getInstance()->getRenderSystem();
-    ri->setClearColor(ghost::Color::Gray);
+    auto ri = ghost::Engine::GetInstance()->GetRenderSystem();
+    ri->SetClearColor(ghost::Color::Gray);
     
     _contentBrowserPage = GHOST_MAKE_SMART_POINTER(ContentBrowserPage);
-    ghost::GuiManager::getInstance()->registerGuiPage(_contentBrowserPage);
+    ghost::GuiManager::GetInstance()->RegisterGuiPage(_contentBrowserPage);
 }
 
-void EditorApplication::onExit()
+void EditorApplication::OnExit()
 {
     
 }
 
-void EditorApplication::onUpdate()
+void EditorApplication::OnUpdate()
 {
-    const auto& renderSystem = ghost::Engine::getInstance()->getRenderSystem();
-    renderSystem->beginScene();
-    ghost::GuiManager::getInstance()->renderAllPages();
-    renderSystem->endScene();
+    const auto& renderSystem = ghost::Engine::GetInstance()->GetRenderSystem();
+    renderSystem->BeginScene();
+    ghost::GuiManager::GetInstance()->RenderAllPages();
+    renderSystem->EndScene();
 }
 
-void EditorApplication::onTick(float deltaTime)
+void EditorApplication::OnTick(float deltaTime)
 {
 
 }

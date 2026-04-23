@@ -12,58 +12,58 @@ namespace ghost
 
     }
 
-    void ModelNode::setModel(const ModelPtr& mesh)
+    void ModelNode::SetModel(const ModelPtr& mesh)
     {
         _mesh = mesh;
         _dirty = true;
     }
 
-    void ModelNode::setInstanceMaterial(unsigned subindex, const MaterialPtr& mat)
+    void ModelNode::SetInstanceMaterial(unsigned subindex, const MaterialPtr& mat)
     {
 
     }
 
-    void ModelNode::prepareRendering(Camera* cam, unsigned index)
+    void ModelNode::PrepareRendering(Camera* cam, unsigned index)
     {
         if (_meshParams == nullptr)
-            _meshParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerObject), ResourceUsage::USAGE_DYNAMIC, "PerObject");
+            _meshParams = Engine::GetInstance()->GetRenderDevice()->CreateConstBuffer(sizeof(PerObject), ResourceUsage::USAGE_DYNAMIC, "PerObject");
 
-        auto renderSystem = Engine::getInstance()->getRenderSystem();
-        Light* mainLight = _owner->getMainLigt();
+        auto renderSystem = Engine::GetInstance()->GetRenderSystem();
+        Light* mainLight = _owner->GetMainLigt();
 
-        const MaterialPtr& mat = _mesh->getMaterial(index);
-        renderSystem->setMaterial(mat);
+        const MaterialPtr& mat = _mesh->GetMaterial(index);
+        renderSystem->SetMaterial(mat);
 
         Matrix4x4f worldMat = _mesh->_meshes[index]._localMatrix * _absTrans;
 
         PerObject obj;
         obj._matWorld = worldMat;
-        obj._matWorldInverseTranspose = worldMat.inverse().getTransposed();
+        obj._matWorldInverseTranspose = worldMat.Inverse().GetTransposed();
 
-        if (renderSystem->getRenderPass() == RenderPass::RENDER_PASS_SHADOW)
-            obj._matMVP = worldMat * _owner->getShadowViewMat() * _owner->getShadowProjMat();
+        if (renderSystem->GetRenderPass() == RenderPass::RENDER_PASS_SHADOW)
+            obj._matMVP = worldMat * _owner->GetShadowViewMat() * _owner->GetShadowProjMat();
         else
-            obj._matMVP = worldMat * cam->getViewMatrix() * cam->getProjectMatrix();
+            obj._matMVP = worldMat * cam->GetViewMatrix() * cam->GetProjectMatrix();
 
-        _meshParams->writeData(0, sizeof(PerObject), &obj, true);
+        _meshParams->WriteData(0, sizeof(PerObject), &obj, true);
     }
 
-    void ModelNode::render(Camera* cam)
+    void ModelNode::Render(Camera* cam)
     {
-        auto renderSystem = Engine::getInstance()->getRenderSystem();
+        auto renderSystem = Engine::GetInstance()->GetRenderSystem();
 
         for (unsigned i = 0; i < _mesh->_meshes.size(); ++i)
         {
-            prepareRendering(cam, i);
-            renderSystem->setConstBuffer(SHADER_VS, _meshParams);
+            PrepareRendering(cam, i);
+            renderSystem->SetConstBuffer(SHADER_VS, _meshParams);
 
             RenderOperation op;
-            getRenderOperation(i, op);
-            renderSystem->render(op);
+            GetRenderOperation(i, op);
+            renderSystem->Render(op);
         }
     }
 
-    void ModelNode::getRenderOperation(unsigned index, RenderOperation& op)
+    void ModelNode::GetRenderOperation(unsigned index, RenderOperation& op)
     {
         op._indexBuffer = _mesh->_meshes[index]._indexBuffer;
         op._vertexBinding = _mesh->_meshes[index]._bindings;
@@ -71,7 +71,7 @@ namespace ghost
         op._vertexDecl = _mesh->_vertexDec;
     }
 
-    void ModelNode::onPostUpdate()
+    void ModelNode::OnPostUpdate()
     {
         //Reset bounding box
         _localBox = BoundingBox();

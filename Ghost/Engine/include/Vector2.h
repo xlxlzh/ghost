@@ -19,12 +19,12 @@ namespace ghost
 
 		bool operator== (const Vector2<T>& rhs) const
 		{
-			return this->equal(rhs);
+			return this->Equal(rhs);
 		}
 
 		bool operator!= (const Vector2<T>& rhs) const
 		{
-			return !this->equal(rhs);
+			return !this->Equal(rhs);
 		}
 
 		Vector2<T> operator+ (const Vector2<T>& rhs) const { return Vector2<T>(_x + rhs._x, _y + rhs._y); }
@@ -44,16 +44,16 @@ namespace ghost
 
 		Vector2<T> operator- () const { return Vector2<T>(-_x, -_y); }
 
-		T dotProduct(const Vector2<T>& rhs) const { return _x * rhs._x + _y * rhs._y; }
+		T DotProduct(const Vector2<T>& rhs) const { return _x * rhs._x + _y * rhs._y; }
 
-		T length() const { return sqrt(_x * _x + _y * _y); }
+		T Length() const { return Sqrt(_x * _x + _y * _y); }
 
-		bool equal(const Vector2<T>& rhs) const
+		bool Equal(const Vector2<T>& rhs) const
 		{
-			return MathUtilities::equal(_x, rhs._x) && MathUtilities::equal(_y, rhs._y);
+			return MathUtilities::Equal(_x, rhs._x) && MathUtilities::Equal(_y, rhs._y);
 		}
 
-		void normalize()
+		void Normalize()
 		{
 			T vecLength = length();
 			assert(vecLength > 0.0f);

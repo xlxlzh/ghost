@@ -27,7 +27,7 @@ namespace ghost
         RenderQueue() = default;
         ~RenderQueue() = default;
 
-        void resetRenderQueue();
+        void ResetRenderQueue();
         
         ShadowMapQueue _shadowQueue;
         OpaueQueue _opaueQueue;
@@ -41,9 +41,9 @@ namespace ghost
     public:
         Renderer() = default;
 
-        virtual void renderShadowMap() = 0;
-        virtual void renderOpaueObjects() = 0;
-        virtual void render(const RenderQueue& renderQueue) = 0;
+        virtual void RenderShadowMap() = 0;
+        virtual void RenderOpaueObjects() = 0;
+        virtual void Render(const RenderQueue& renderQueue) = 0;
     };
 }
 

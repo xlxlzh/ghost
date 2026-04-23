@@ -8,9 +8,9 @@ namespace ghost
     class GHOST_API ForwardRenderer final : public Renderer
     {
     public:
-        virtual void renderOpaueObjects() override;
-        virtual void renderShadowMap() override;
-        virtual void render(const RenderQueue& renderQueue) override;
+        virtual void RenderOpaueObjects() override;
+        virtual void RenderShadowMap() override;
+        virtual void Render(const RenderQueue& renderQueue) override;
     };
 }
 

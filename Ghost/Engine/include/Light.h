@@ -21,37 +21,37 @@ namespace ghost
         Light(SceneManager* owner);
         ~Light();
 
-        LightType getLightType() const { return _lightType; }
-        void setLightType(LightType lightType) { _lightType = lightType; }
+        LightType GetLightType() const { return _lightType; }
+        void SetLightType(LightType lightType) { _lightType = lightType; }
 
-        void setSpotOuter(float outer) { _spotOuter = outer; }
-        float getSpotOuter() const { return _spotOuter; }
-        void setSpotInner(float inner) { _spotInner = inner; }
-        float getSpotInner() const { return _spotInner; }
+        void SetSpotOuter(float outer) { _spotOuter = outer; }
+        float GetSpotOuter() const { return _spotOuter; }
+        void SetSpotInner(float inner) { _spotInner = inner; }
+        float GetSpotInner() const { return _spotInner; }
 
-        Color getLightColor() const { return _lightColor; }
-        void setLightColor(const Color& cl) { _lightColor = cl; }
+        Color GetLightColor() const { return _lightColor; }
+        void SetLightColor(const Color& cl) { _lightColor = cl; }
 
-        void setRadius(float radius) { _radius = radius; }
-        float getRadius() const { return _radius; }
+        void SetRadius(float radius) { _radius = radius; }
+        float GetRadius() const { return _radius; }
 
-        void setLightShiness(float sh) { _shiness = sh; }
-        float getLightShiness() const { return _shiness; }
+        void SetLightShiness(float sh) { _shiness = sh; }
+        float GetLightShiness() const { return _shiness; }
 
-        bool getLightProjectShadow() const { return _projectShadow; }
-        void setLightProjectShadow(bool shadow) { _projectShadow = shadow; }
+        bool GetLightProjectShadow() const { return _projectShadow; }
+        void SetLightProjectShadow(bool shadow) { _projectShadow = shadow; }
 
         // Can be used when type is directional or spot
-        Vector3f getLightDir() const;
+        Vector3f GetLightDir() const;
 
-        const Matrix4x4f& getViewMatrix() const { return _viewMat; }
+        const Matrix4x4f& GetViewMatrix() const { return _viewMat; }
 
-        void prepareForRendering();
+        void PrepareForRendering();
 
         GET_SCENENODE_TYPE(LIGHT)
 
     protected:
-        virtual void onPostUpdate() override;
+        virtual void OnPostUpdate() override;
 
     private:
         LightType _lightType;

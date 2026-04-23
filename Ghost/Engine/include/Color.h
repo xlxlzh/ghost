@@ -23,7 +23,7 @@ namespace ghost
     class GHOST_API FormatUtilies
     {
     public:
-        static int getFormatSizeInByte(GhostColorFormat fmt)
+        static int GetFormatSizeInByte(GhostColorFormat fmt)
         {
             switch (fmt)
             {
@@ -43,7 +43,7 @@ namespace ghost
             return 0;
         }
 
-        static int getFormatSizeInBits(GhostColorFormat fmt)
+        static int GetFormatSizeInBits(GhostColorFormat fmt)
         {
             switch (fmt)
             {
@@ -76,7 +76,7 @@ namespace ghost
         float operator[] (const size_t i) const;
         float& operator[] (const size_t i);
 
-        float* getColorPtr();
+        float* GetColorPtr();
 
         Color operator+ (const Color& rhs) const;
         Color operator- (const Color& rhs) const;

@@ -17,25 +17,25 @@ namespace ghost
 
     }
 
-    ResourcePtr Resource::clone()
+    ResourcePtr Resource::Clone()
     {
         return nullptr;
     }
 
-    void Resource::initDefault()
+    void Resource::InitDefault()
     {
 
     }
 
-    void Resource::release()
+    void Resource::Release()
     {
 
     }
 
-    void Resource::unload()
+    void Resource::Unload()
     {
-        release();
-        initDefault();
+        Release();
+        InitDefault();
         _loaded = false;
     }
 
@@ -43,20 +43,20 @@ namespace ghost
     /*
     @Brief: ResourceManager
     */
-    void ResourceManager::registerResourceFactory(int type, ResourceFactory* factory)
+    void ResourceManager::RegisterResourceFactory(int type, ResourceFactory* factory)
     {
         _resourceFactories[type] = factory;
     }
 
-    void ResourceManager::registerResourceFactory(ResourceFactory* factory)
+    void ResourceManager::RegisterResourceFactory(ResourceFactory* factory)
     {
         if (factory == nullptr)
             return;
 
-        _resourceFactories[factory->getType()] = factory;
+        _resourceFactories[factory->GetType()] = factory;
     }
 
-    ResourcePtr ResourceManager::addResource(int type, const std::string &name, int flags)
+    ResourcePtr ResourceManager::AddResource(int type, const std::string &name, int flags)
     {
         if (name == "")
             return 0;
@@ -77,33 +77,33 @@ namespace ghost
         if (factory == _resourceFactories.end())
             return 0;
 
-        newRes = factory->second->createResource(name, flags);
+        newRes = factory->second->CreateResource(name, flags);
 
         if (newRes == nullptr)
             return 0;
 
         std::string realPath = _resourcesPath + name;
         DataStream* dataStream = new FileStream(realPath);
-        if (dataStream && !dataStream->isOpened())
+        if (dataStream && !dataStream->IsOpened())
         {
-            dataStream->close();
+            dataStream->Close();
             SAFE_DELETE(dataStream);
-            factory->second->destoryResource(newRes);
+            factory->second->DestoryResource(newRes);
             return 0;
         }
 
-        if (!newRes->load(*dataStream))
+        if (!newRes->Load(*dataStream))
         {
-            dataStream->close();
+            dataStream->Close();
             SAFE_DELETE(dataStream);
-            factory->second->destoryResource(newRes);
+            factory->second->DestoryResource(newRes);
             return 0;
         }
 
-        return addResource(newRes);
+        return AddResource(newRes);
     }
 
-    ResourcePtr ResourceManager::addResource(ResourcePtr& resource)
+    ResourcePtr ResourceManager::AddResource(ResourcePtr& resource)
     {
         for (unsigned i = 0; i < _resources.size(); ++i)
         {
@@ -118,12 +118,12 @@ namespace ghost
         return resource;
     }
 
-    int ResourceManager::removeResource(Resource &resource)
+    int ResourceManager::RemoveResource(Resource &resource)
     {
         return 0;
     }
 
-    ResourcePtr ResourceManager::findResource(int type, const std::string& name) const
+    ResourcePtr ResourceManager::FindResource(int type, const std::string& name) const
     {
         for (auto res : _resources)
         {
@@ -136,20 +136,20 @@ namespace ghost
         return nullptr;
     }
 
-    void ResourceManager::clear()
+    void ResourceManager::Clear()
     {
         for (unsigned i = 0; i < _resources.size(); ++i)
         {
             if (_resources[i])
             {
-                _resources[i]->release();
+                _resources[i]->Release();
                 _resources[i].reset();
                 _resources[i] = nullptr;
             }
         }
     }
 
-    ResourcePtr ResourceManager::cloneResource(Resource& sourceResource, const std::string& name)
+    ResourcePtr ResourceManager::CloneResource(Resource& sourceResource, const std::string& name)
     {
         if (name != "")
         {
@@ -162,12 +162,12 @@ namespace ghost
             }
         }
 
-        ResourcePtr newResource = sourceResource.clone();
+        ResourcePtr newResource = sourceResource.Clone();
         if (newResource == nullptr)
             return 0;
 
         newResource->_name = name != "" ? name : "tmpResource";
-        addResource(newResource);
+        AddResource(newResource);
 
         if (name == "")
         {

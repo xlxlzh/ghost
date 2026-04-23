@@ -18,36 +18,36 @@ namespace ghost
         SceneManager(const BoundingBox& box, int depth);
         ~SceneManager();
 
-        void addNodeToRoot(SceneNode* node);
-        void addNode(SceneNode* node, SceneNode* parent);
+        void AddNodeToRoot(SceneNode* node);
+        void AddNode(SceneNode* node, SceneNode* parent);
 
-        void updateSceneGraph(Camera* camera);
+        void UpdateSceneGraph(Camera* camera);
 
-        void render(Camera* camera);
+        void Render(Camera* camera);
 
-        SceneNode* getRootNode() const { return _sceneNodes[0]; }
+        SceneNode* GetRootNode() const { return _sceneNodes[0]; }
 
-        BoundingBox& getBoundingBox() { return _boundingBox; }
+        BoundingBox& GetBoundingBox() { return _boundingBox; }
 
-        void updateNode(SceneNode* node);
+        void UpdateNode(SceneNode* node);
 
-        void setAmbientColor(const Color& cl) { _ambientColor = cl; }
-        void prepareRendering();
+        void SetAmbientColor(const Color& cl) { _ambientColor = cl; }
+        void PrepareRendering();
 
-        Light* getMainLigt() const;
+        Light* GetMainLigt() const;
 
-        const Matrix4x4f& getShadowViewMat() const { return _lightViewMat; }
-        const Matrix4x4f& getShadowProjMat() const { return _lightProjMat; }
+        const Matrix4x4f& GetShadowViewMat() const { return _lightViewMat; }
+        const Matrix4x4f& GetShadowProjMat() const { return _lightProjMat; }
 
     private:
-        void _initTree(const BoundingBox& box, int depth);
+        void InitTree(const BoundingBox& box, int depth);
 
-        void _addNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
-        bool _deleteNodeFromTree(SceneNode* node);
+        void AddNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
+        bool DeleteNodeFromTree(SceneNode* node);
 
-        void _updateRenderQueue();
-        void _renderShadowmap(Camera* camera, Light* light);
-        void _getShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
+        void UpdateRenderQueue();
+        void RenderShadowmap(Camera* camera, Light* light);
+        void GetShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
 
     private:
         Octree* _octree{ nullptr };

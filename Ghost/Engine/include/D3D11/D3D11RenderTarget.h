@@ -14,14 +14,14 @@ namespace ghost
         D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true);
         virtual ~D3D11RenderTarget() { }
 
-        unsigned getNumOfViews() const;
-        ID3D11RenderTargetViewPtr getRenderTargetViewByIndex(unsigned index = 0);
-        ID3D11Texture2DPtr getSurface(unsigned index = 0);
+        unsigned GetNumOfViews() const;
+        ID3D11RenderTargetViewPtr GetRenderTargetViewByIndex(unsigned index = 0);
+        ID3D11Texture2DPtr GetSurface(unsigned index = 0);
 
     protected:
-        void _onCreateRenderTarget();
-        void _onDestoryRenderTarget();
-        void _onUpdateRenderTarget();
+        void OnCreateRenderTarget();
+        void OnDestoryRenderTarget();
+        void OnUpdateRenderTarget();
 
     protected:
         ID3D11RenderTargetViewPtr _renderTargets[GHOST_MAX_RENDERTARGETS] = {0};

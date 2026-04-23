@@ -11,10 +11,10 @@ using namespace ghost;
 class SampleApplication : public SampleBase
 {
 public:
-    virtual void initSample() override;
-    virtual void onUpdate() override;
+    virtual void InitSample() override;
+    virtual void OnUpdate() override;
 
-    virtual void onKeydown(GhostKey key) override;
+    virtual void OnKeydown(GhostKey key) override;
 
 private:
     SceneManager* _scene;

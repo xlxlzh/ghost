@@ -24,28 +24,28 @@ namespace ghost
         ImGui::DestroyContext();
     }
 
-	void* RenderWindowWin32::getWindowHandle() const
+	void* RenderWindowWin32::GetWindowHandle() const
 	{
 		return static_cast<void*>(_windowHandle);
 	}
 
-    void RenderWindowWin32::setWindowTitle(const std::string& title)
+    void RenderWindowWin32::SetWindowTitle(const std::string& title)
     {
         _windowTitle = title;
         ::SetWindowText(_windowHandle, _windowTitle.c_str());
     }
 
-    void RenderWindowWin32::setWindowPos(int posx, int posy)
+    void RenderWindowWin32::SetWindowPos(int posx, int posy)
     {
         //TODO
     }
 
-    void RenderWindowWin32::setWindowIcon(const std::string& iconName)
+    void RenderWindowWin32::SetWindowIcon(const std::string& iconName)
     {
         //TODO
     }
 
-	bool RenderWindowWin32::_createWindow()
+	bool RenderWindowWin32::InternalCreateWindow()
 	{
 		HINSTANCE hIn = ::GetModuleHandle(nullptr);
 
@@ -99,11 +99,11 @@ namespace ghost
 		switch (message)
 		{
 		case WM_KEYDOWN:
-			application->onKeydown(GhostKey::GHOST_KEY_NONE);
+			application->OnKeydown(GhostKey::GHOST_KEY_NONE);
 			switch (wParam)
 			{
 			case VK_ESCAPE:
-				application->exitApplication();
+				application->ExitApplication();
 				break;
 			}
 			break;
@@ -112,8 +112,8 @@ namespace ghost
 			break;
 
 		case WM_DESTROY:
-			application->exitApplication();
-			::DestroyWindow((HWND)application->getAttachWindow());
+			application->ExitApplication();
+			::DestroyWindow((HWND)application->GetAttachWindow());
 			break;
 
         default:
@@ -124,7 +124,7 @@ namespace ghost
         return hr;
 	}
 
-	void RenderWindowWin32::_showWindow() const
+	void RenderWindowWin32::InternalShowWindow() const
 	{
 		if (_windowHandle)
 		{
@@ -132,7 +132,7 @@ namespace ghost
 		}
 	}
 
-	void RenderWindowWin32::_updateWindow() const
+	void RenderWindowWin32::InternalUpdateWindow() const
 	{
 		if (_windowHandle)
 		{
@@ -140,7 +140,7 @@ namespace ghost
 		}
 	}
 
-	void RenderWindowWin32::_messageLoop()
+	void RenderWindowWin32::InternalMessageLoop()
 	{
 		MSG msg;
 		memset(&msg, 0, sizeof(msg));

@@ -2,23 +2,23 @@
 
 namespace ghost
 {
-	bool RenderWindow::initialize(int width, int height, const std::string windowTitle, bool fullscreen)
+	bool RenderWindow::Initialize(int width, int height, const std::string windowTitle, bool fullscreen)
 	{
 		_width = width;
 		_height = height;
 		_windowTitle = windowTitle;
 		_fullscreen = fullscreen;
 
-		return _createWindow();
+		return InternalCreateWindow();
 	}
 
-	void RenderWindow::showWindow() const
+	void RenderWindow::ShowWindow() const
 	{
-		_showWindow();
+		InternalShowWindow();
 	}
 
-	void RenderWindow::updateWindow() const
+	void RenderWindow::UpdateWindow() const
 	{
-		_updateWindow();
+		InternalUpdateWindow();
 	}
 }

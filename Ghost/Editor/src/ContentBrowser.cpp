@@ -5,7 +5,7 @@ ContentBrowserPage::ContentBrowserPage()
 {
 }
 
-void ContentBrowserPage::show()
+void ContentBrowserPage::Show()
 {
     ImGui::Begin("ContentBrowser.Pages");
     

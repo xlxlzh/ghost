@@ -12,15 +12,15 @@ namespace ghost
 
     }
 
-    void Frustum::buildViewFrustum(const Matrix4x4f& mat, float fov, float aspect, float nearPlane, float farPlane)
+    void Frustum::BuildViewFrustum(const Matrix4x4f& mat, float fov, float aspect, float nearPlane, float farPlane)
     {
-        float ymax = nearPlane * MathUtilities::tan(fov / 2.0f);
+        float ymax = nearPlane * MathUtilities::Tan(fov / 2.0f);
         float xmax = ymax * aspect;
 
-        buildViewFrustum(mat, -xmax, xmax, -ymax, ymax, nearPlane, farPlane);
+        BuildViewFrustum(mat, -xmax, xmax, -ymax, ymax, nearPlane, farPlane);
     }
 
-    void Frustum::buildViewFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float nearPlane, float farPlane)
+    void Frustum::BuildViewFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float nearPlane, float farPlane)
     {
         float ratio = farPlane / nearPlane;
         float leftFar = left * ratio;
@@ -54,12 +54,12 @@ namespace ghost
         _planes[5] = Plane(_corners[5], _corners[4], _corners[7]); //Far plane
     }
 
-    void Frustum::buildViewFrustum(const Matrix4x4f& viewMat, const Matrix4x4f& projMat)
+    void Frustum::BuildViewFrustum(const Matrix4x4f& viewMat, const Matrix4x4f& projMat)
     {
         
     }
 
-    void Frustum::buildBoxFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float front, float back)
+    void Frustum::BuildBoxFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float front, float back)
     {
         //Front plane points
         _corners[0] = Vector3f(left, bottom, front);
@@ -86,18 +86,18 @@ namespace ghost
         _planes[5] = Plane(_corners[5], _corners[4], _corners[7]); //Far plane
     }
 
-    bool Frustum::cullSphere(Vector3f pos, float rad) const
+    bool Frustum::CullSphere(Vector3f pos, float rad) const
     {
         for (const auto& pl : _planes)
         {
-            if (pl.distance(pos) > rad)
+            if (pl.Distance(pos) > rad)
                 return true;
         }
 
         return false;
     }
 
-    bool Frustum::cullBox(BoundingBox& box) const 
+    bool Frustum::CullBox(BoundingBox& box) const 
     {
         for (const auto& pl : _planes)
         {
@@ -111,7 +111,7 @@ namespace ghost
             if (n._z <= 0)
                 positive._z = box._max._z;
 
-            if (pl.distance(positive) > 0)
+            if (pl.Distance(positive) > 0)
                 return true;
         }
 

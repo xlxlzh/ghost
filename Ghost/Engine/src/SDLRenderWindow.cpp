@@ -135,12 +135,12 @@ namespace ghost
 
     SDLRenderWindow::~SDLRenderWindow()
     {
-        _destroySDL();
+        DestroySDL();
     }
 
-    bool SDLRenderWindow::_createWindow()
+    bool SDLRenderWindow::InternalCreateWindow()
     {
-        if (!_initSDL())
+        if (!InitSDL())
             return false;
 
         //Now just support D3D
@@ -152,7 +152,7 @@ namespace ghost
         return true;
     }
 
-    void* SDLRenderWindow::getWindowHandle() const
+    void* SDLRenderWindow::GetWindowHandle() const
     {
         SDL_SysWMinfo sysInfo;
         
@@ -162,25 +162,25 @@ namespace ghost
         return sysInfo.info.win.window;
     }
     
-    void SDLRenderWindow::setWindowTitle(const std::string& title)
+    void SDLRenderWindow::SetWindowTitle(const std::string& title)
     {
         SDL_SetWindowTitle(_window, title.c_str());
     }
 
-    void SDLRenderWindow::setWindowPos(int posx, int posy)
+    void SDLRenderWindow::SetWindowPos(int posx, int posy)
     {
         SDL_SetWindowPosition(_window, posx, posy);
     }
 
-    void SDLRenderWindow::setWindowIcon(const std::string& iconName)
+    void SDLRenderWindow::SetWindowIcon(const std::string& iconName)
     {
-        auto iconTex = GHOST_SMARTPOINTER_CAST(Texture2D, ResourceManager::getInstance()->addResource(RESOURCE_TEXTURE2D, iconName, 0));
+        auto iconTex = GHOST_SMARTPOINTER_CAST(Texture2D, ResourceManager::GetInstance()->AddResource(RESOURCE_TEXTURE2D, iconName, 0));
 
-        _icon = SDL_CreateRGBSurfaceFrom(iconTex->getRawImageData(), iconTex->getWidth(), iconTex->getHeight(), 8 * 4, iconTex->getWidth() * 4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+        _icon = SDL_CreateRGBSurfaceFrom(iconTex->GetRawImageData(), iconTex->GetWidth(), iconTex->GetHeight(), 8 * 4, iconTex->GetWidth() * 4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
         SDL_SetWindowIcon(_window, _icon);
     }
 
-    bool SDLRenderWindow::_initSDL()
+    bool SDLRenderWindow::InitSDL()
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
             return false;
@@ -190,23 +190,23 @@ namespace ghost
         return true;
     }
 
-    void SDLRenderWindow::_destroySDL()
+    void SDLRenderWindow::DestroySDL()
     {
         SDL_DestroyWindow(_window);
         SDL_Quit();
     }
 
-    void SDLRenderWindow::_showWindow() const
+    void SDLRenderWindow::InternalShowWindow()const
     {
         
     }
 
-    void SDLRenderWindow::_updateWindow() const
+    void SDLRenderWindow::InternalUpdateWindow() const
     {
 
     }
 
-    void SDLRenderWindow::_messageLoop()
+    void SDLRenderWindow::InternalMessageLoop()
     {
         if (SDL_PollEvent(&_event))
         {
@@ -216,37 +216,37 @@ namespace ghost
             {
                 case SDL_KEYDOWN:
                 {
-                    _app->onKeydown(SDL2_KeycodeToGhostKey(_event.key.keysym.sym));
+                    _app->OnKeydown(SDL2_KeycodeToGhostKey(_event.key.keysym.sym));
                     break;
                 }
 
                 case SDL_KEYUP:
                 {
-                    _app->onKeyup(SDL2_KeycodeToGhostKey(_event.key.keysym.sym));
+                    _app->OnKeyup(SDL2_KeycodeToGhostKey(_event.key.keysym.sym));
                     break;
                 }
 
                 case SDL_MOUSEMOTION:
                 {
-                    _app->onMouseMove();
+                    _app->OnMouseMove();
                     break;
                 }
 
                 case SDL_MOUSEBUTTONDOWN:
                 {
                     if (_event.button.button == SDL_BUTTON_LEFT)
-                        _app->onMouseLeftClick();
+                        _app->OnMouseLeftClick();
                     else if (_event.button.button == SDL_BUTTON_RIGHT)
-                        _app->onMouseRightClick();
+                        _app->OnMouseRightClick();
                     break;
                 }
 
                 case SDL_MOUSEBUTTONUP:
                 {
                     if (_event.button.button == SDL_BUTTON_LEFT)
-                        _app->onMouseLeftRelease();
+                        _app->OnMouseLeftRelease();
                     else if (_event.button.button == SDL_BUTTON_RIGHT)
-                        _app->onMouseRightRelease();
+                        _app->OnMouseRightRelease();
                     break;
                 }
 
@@ -255,7 +255,7 @@ namespace ghost
                     if (_event.type == SDL_QUIT
                         || (_event.type == SDL_WINDOWEVENT && _event.window.event == SDL_WINDOWEVENT_CLOSE))
                     {
-                        _app->exitApplication();
+                        _app->ExitApplication();
                     }
 
                     break;

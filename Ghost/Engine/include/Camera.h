@@ -15,21 +15,21 @@ namespace ghost
         Camera(SceneManager* owner) : SceneNode(owner) { }
         virtual ~Camera() { }
 
-        void setProjectParams(float fov, float aspect, float n, float f);
-        void setViewport(const ViewportPtr& vPtr);
+        void SetProjectParams(float fov, float aspect, float n, float f);
+        void SetViewport(const ViewportPtr& vPtr);
         
-        const Matrix4x4f& getViewMatrix() const { return _matView; }
-        const Vector3f& getAbsPos() const { return _absPos; }
-        const Matrix4x4f& getProjectMatrix() const { return _matProj; }
+        const Matrix4x4f& GetViewMatrix() const { return _matView; }
+        const Vector3f& GetAbsPos() const { return _absPos; }
+        const Matrix4x4f& GetProjectMatrix() const { return _matProj; }
 
-        const Frustum& getFrustum() const { return _frustum; }
+        const Frustum& GetFrustum() const { return _frustum; }
 
-        void prepareForRendering();
+        void PrepareForRendering();
 
         GET_SCENENODE_TYPE(CAMERA)
 
     protected:
-        virtual void onPostUpdate() override;
+        virtual void OnPostUpdate() override;
 
     private:
         ViewportPtr _viewport;

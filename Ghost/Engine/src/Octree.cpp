@@ -35,50 +35,50 @@ namespace ghost
         _numNodes = 0;
     }
 
-    void Octree::addNode(SceneNode* node)
+    void Octree::AddNode(SceneNode* node)
     {
         _nodes.push_back(node);
-        node->setTree(this);
+        node->SetTree(this);
 
-        _increaseNumNodes();
+        IncreaseNumNodes();
     }
 
-    void Octree::removeNode(SceneNode* node)
+    void Octree::RemoveNode(SceneNode* node)
     {
         _nodes.erase(std::find(_nodes.begin(), _nodes.end(), node));
-        node->setTree(nullptr);
+        node->SetTree(nullptr);
 
-        _decreaseNumNodes();
+        DecreaseNumNodes();
     }
 
-    void Octree::_increaseNumNodes()
+    void Octree::IncreaseNumNodes()
     {
         ++_numNodes;
 
         if (_parent != nullptr)
-            _parent->_increaseNumNodes();
+            _parent->IncreaseNumNodes();
     }
 
-    void Octree::_decreaseNumNodes()
+    void Octree::DecreaseNumNodes()
     {
         --_numNodes;
 
         if (_parent != nullptr)
-            _parent->_increaseNumNodes();
+            _parent->DecreaseNumNodes();
     }
 
-    bool Octree::isTwiceSize(const BoundingBox& box) const
+    bool Octree::IsTwiceSize(const BoundingBox& box) const
     {
-        Vector3f halfSize = _boundingBox.getHalfSize();
-        Vector3f boxSize = box.getSize();
+        Vector3f halfSize = _boundingBox.GetHalfSize();
+        Vector3f boxSize = box.GetSize();
 
         return (boxSize._x <= halfSize._x) && (boxSize._y <= halfSize._y) && (boxSize._z <= halfSize._z);
     }
 
-    void Octree::_getChildIndexes(const BoundingBox& box, int& x, int& y, int& z) const
+    void Octree::GetChildIndexes(const BoundingBox& box, int& x, int& y, int& z) const
     {
-        Vector3f treeCenter = _boundingBox.getCenter();
-        Vector3f boxCenter = box.getCenter();
+        Vector3f treeCenter = _boundingBox.GetCenter();
+        Vector3f boxCenter = box.GetCenter();
 
         if (boxCenter._x > treeCenter._x)
             x = 1;

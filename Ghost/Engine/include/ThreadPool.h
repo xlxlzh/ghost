@@ -31,7 +31,7 @@ namespace ghost
             
             std::future<returnType> task = packedTask->get_future();
             {
-                std::lock_guard<std::mutex> lock(_mutex);
+                std::lock_guard<std::mutex> Lock(_mutex);
                 
                 if (!_running)
                 {

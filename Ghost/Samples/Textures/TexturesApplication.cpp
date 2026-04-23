@@ -3,54 +3,54 @@
 #include "ModelNode.h"
 #include <windows.h>
 
-void TexturesApplication::initSample()
+void TexturesApplication::InitSample()
 {
-    MaterialPtr matPart1 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_1.xml", 0));
-    MaterialPtr matPart2 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_2.xml", 0));
-    MaterialPtr matPart3 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_3.xml", 0));
-    MaterialPtr matPart4 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_4.xml", 0));
+    MaterialPtr matPart1 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_1.xml", 0));
+    MaterialPtr matPart2 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_2.xml", 0));
+    MaterialPtr matPart3 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_3.xml", 0));
+    MaterialPtr matPart4 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_4.xml", 0));
 
-    ModelPtr houseModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/miniHouse_FBX.FBX", 0));
+    ModelPtr houseModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/miniHouse_FBX.FBX", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
-    _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 100.0f);
-    _mainCamera->setTransform(Vector3f(0.0, 37.0, -5.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
+    _mainCamera->SetProjectParams(90, _window->GetWidth() / (float)_window->GetHeight(), 1.0f, 100.0f);
+    _mainCamera->SetTransform(Vector3f(0.0, 37.0, -5.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
     ModelNode* house = new ModelNode(_scene);
-    house->setModel(houseModel);
-    houseModel->setMaterial(0, matPart4);
-    houseModel->setMaterial(1, matPart3);
-    houseModel->setMaterial(2, matPart2);
-    houseModel->setMaterial(3, matPart1);
-    houseModel->setMaterial(4, matPart1);
-    houseModel->setMaterial(5, matPart3);
-    houseModel->setMaterial(6, matPart1); 
-    house->setTransform(Vector3f(0.0, 35.0, 10.0), Vector3f(0.0, 90, 0.0), Vector3f(0.015, 0.015, 0.015));
-    _scene->addNodeToRoot(house);
+    house->SetModel(houseModel);
+    houseModel->SetMaterial(0, matPart4);
+    houseModel->SetMaterial(1, matPart3);
+    houseModel->SetMaterial(2, matPart2);
+    houseModel->SetMaterial(3, matPart1);
+    houseModel->SetMaterial(4, matPart1);
+    houseModel->SetMaterial(5, matPart3);
+    houseModel->SetMaterial(6, matPart1); 
+    house->SetTransform(Vector3f(0.0, 35.0, 10.0), Vector3f(0.0, 90, 0.0), Vector3f(0.015, 0.015, 0.015));
+    _scene->AddNodeToRoot(house);
 
     _mainLight = new Light(_scene);
-    _mainLight->setLightType(LIGHT_DIRECTIONAL);
-    _mainLight->setLightColor(Color(1.0, 1.0, 1.0));
-    _mainLight->setTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
-    _mainLight->setLightShiness(100);
-    _scene->addNodeToRoot(_mainLight);
+    _mainLight->SetLightType(LIGHT_DIRECTIONAL);
+    _mainLight->SetLightColor(Color(1.0, 1.0, 1.0));
+    _mainLight->SetTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
+    _mainLight->SetLightShiness(100);
+    _scene->AddNodeToRoot(_mainLight);
 
-    _scene->addNodeToRoot(_mainCamera);
+    _scene->AddNodeToRoot(_mainCamera);
 
     _settingPage = GHOST_MAKE_SMART_POINTER(SettingPage);
 
-    ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
+    ghost::GuiManager::GetInstance()->RegisterGuiPage(_settingPage);
 }
 
-void TexturesApplication::onKeydown(GhostKey key)
+void TexturesApplication::OnKeydown(GhostKey key)
 {
-    Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
+    Engine::GetInstance()->GetRenderSystem()->SetFillMode(FillMode::FILL_WIREFRAME);
 }
 
-void TexturesApplication::onUpdate()
+void TexturesApplication::OnUpdate()
 {
-    _mainLight->setLightColor(_settingPage->getLightColor());
-    _scene->updateSceneGraph(_mainCamera);
-    _scene->render(_mainCamera);
+    _mainLight->SetLightColor(_settingPage->GetLightColor());
+    _scene->UpdateSceneGraph(_mainCamera);
+    _scene->Render(_mainCamera);
 }

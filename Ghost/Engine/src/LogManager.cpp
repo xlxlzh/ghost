@@ -23,7 +23,7 @@ namespace ghost
         }
     }
 
-    void Log::logMessage(LogMessageLevel level, const std::string& message)
+    void Log::LogMessage(LogMessageLevel level, const std::string& message)
     {
         if (_enableTimeStamp)
         {
@@ -47,7 +47,7 @@ namespace ghost
     }
 
 
-    LogPtr LogManager::addLog(const std::string& name, LogLevel level /* = LOG_NORMAL */, bool enableTimestamp /* = true */, bool defaultLog /* = false */)
+    LogPtr LogManager::AddLog(const std::string& name, LogLevel level /* = LOG_NORMAL */, bool enableTimestamp /* = true */, bool defaultLog /* = false */)
     {
         LogPtr newLog = std::make_shared<Log>(name, level, enableTimestamp);
         _logs[name] = newLog;
@@ -60,37 +60,37 @@ namespace ghost
         return newLog;
     }
 
-    void LogManager::logMessage(LogMessageLevel level, const std::string& message)
+    void LogManager::LogMessage(LogMessageLevel level, const std::string& message)
     {
         if (_defeaultLog)
         {
-            _defeaultLog->logMessage(level, message);
+            _defeaultLog->LogMessage(level, message);
         }
     }
 
-    void LogManager::logDebug(const std::string& message)
+    void LogManager::LogDebug(const std::string& message)
     {
 #ifdef _DEBUG
-        logMessage(LOG_DEBUG, message);
+        LogMessage(LOG_DEBUG, message);
 #endif
     }
 
-    void LogManager::logInfo(const std::string& message)
+    void LogManager::LogInfo(const std::string& message)
     {
-        logMessage(LOG_INFO, message);
+        LogMessage(LOG_INFO, message);
     }
 
-    void LogManager::logError(const std::string& message)
+    void LogManager::LogError(const std::string& message)
     {
-        logMessage(LOG_ERROR, message);
+        LogMessage(LOG_ERROR, message);
     }
 
-    void LogManager::logWarning(const std::string& message)
+    void LogManager::LogWarning(const std::string& message)
     {
-        logMessage(LOG_WARNING, message);
+        LogMessage(LOG_WARNING, message);
     }
 
-    void LogManager::destoryLog(const std::string& name)
+    void LogManager::DestoryLog(const std::string& name)
     {
         auto log = _logs.find(name);
         if (log != _logs.end())
@@ -109,7 +109,7 @@ namespace ghost
         }
     }
 
-    LogPtr LogManager::getLog(const std::string& name) const
+    LogPtr LogManager::GetLog(const std::string& name) const
     {
         auto log = _logs.find(name);
         return log == _logs.end() ? nullptr : log->second;

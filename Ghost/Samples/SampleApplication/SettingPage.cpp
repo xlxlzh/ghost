@@ -9,11 +9,11 @@ SettingPage::SettingPage()
     _lightDirection[2] = 1.0f;
 }
 
-void SettingPage::show()
+void SettingPage::Show()
 {
     ImGui::Begin("Sample Settings");
 
-    ImGui::ColorEdit4("Light Color", _lightColor.getColorPtr());
+    ImGui::ColorEdit4("Light Color", _lightColor.GetColorPtr());
 
     ImGui::InputFloat3("Light Direction", _lightDirection);
 

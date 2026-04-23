@@ -4,7 +4,7 @@
 
 namespace ghost
 {
-    bool MeshImportManager::importMeshFromFile(const std::string& meshName)
+    bool MeshImportManager::ImportMeshFromFile(const std::string& meshName)
     {
         std::string ext = GetExtension(meshName);
         if (ext.empty())
@@ -20,17 +20,17 @@ namespace ghost
             return false;
         }
             
-        auto importer = fac->second->createMeshImporter();
+        auto importer = fac->second->CreateMeshImporter();
 
-        return importer->importMeshFromFile(meshName);
+        return importer->ImportMeshFromFile(meshName);
     }
 
-    void MeshImportManager::registerMeshImporter(const std::string& ext, MeshImporterFactory* importer)
+    void MeshImportManager::RegisterMeshImporter(const std::string& ext, MeshImporterFactory* importer)
     {
 
     }
 
-    void MeshImportManager::unregisterMeshImporter(const std::string& ext)
+    void MeshImportManager::UnregisterMeshImporter(const std::string& ext)
     {
 
     }

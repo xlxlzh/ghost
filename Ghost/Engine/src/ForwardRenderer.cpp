@@ -2,17 +2,17 @@
 
 namespace ghost
 {
-    void ForwardRenderer::renderOpaueObjects()
+    void ForwardRenderer::RenderOpaueObjects()
     {
 
     }
 
-    void ForwardRenderer::renderShadowMap()
+    void ForwardRenderer::RenderShadowMap()
     {
 
     }
 
-    void ForwardRenderer::render(const RenderQueue& renderQueue)
+    void ForwardRenderer::Render(const RenderQueue& renderQueue)
     {
 
     }

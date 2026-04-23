@@ -53,7 +53,7 @@ namespace ghost
     }
 
 
-    bool D3D11RenderDevice::initDevice(bool fullscreen, unsigned msaaCount)
+    bool D3D11RenderDevice::InitDevice(bool fullscreen, unsigned msaaCount)
     {
         HRESULT hr = S_OK;
 
@@ -124,16 +124,16 @@ namespace ghost
         _sampleQulity = msaaQuality;
         _fullscreen = fullscreen;
 
-        _width = Engine::getInstance()->getWidth();
-        _height = Engine::getInstance()->getHeight();
+        _width = Engine::GetInstance()->GetWidth();
+        _height = Engine::GetInstance()->GetHeight();
 
         //IMGUI
         ImGui_ImplDX11_Init(_device.Get(), _context.Get());
 
-        return _initSwapchain();
+        return _InitSwapchain();
     }
 
-    bool D3D11RenderDevice::_initSwapchain()
+    bool D3D11RenderDevice::_InitSwapchain()
     {
         HRESULT hr = S_OK;
 
@@ -143,14 +143,14 @@ namespace ghost
 
         _dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(_dxgiFactory.GetAddressOf()));
 
-        HWND window = (HWND)Engine::getInstance()->getWindow();
+        HWND window = (HWND)Engine::GetInstance()->GetWindow();
 
 #ifdef GHOST_USE_D3D_11_1
         DXGI_SWAP_CHAIN_DESC1 swapchainDesc;
         memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC1));
         swapchainDesc.BufferCount = 1;
-        swapchainDesc.Width = Engine::getInstance()->getWidth();
-        swapchainDesc.Height = Engine::getInstance()->getHeight();
+        swapchainDesc.Width = Engine::GetInstance()->GetWidth();
+        swapchainDesc.Height = Engine::GetInstance()->GetHeight();
         swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         swapchainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapchainDesc.Flags = 0;
@@ -166,15 +166,15 @@ namespace ghost
         hr = _dxgiFactory->CreateSwapChainForHwnd(_device.Get(), window, &swapchainDesc, &fullDesc, nullptr, _dxgiSwapchain.ReleaseAndGetAddressOf());
         if (FAILED(hr))
         {
-            LogManager::getInstance()->logDebug("CreateSwapChain failed.");
+            LogManager::GetInstance()->LogDebug("CreateSwapChain failed.");
             return false;
         }
 #else
         DXGI_SWAP_CHAIN_DESC swapchainDesc;
         memset(&swapchainDesc, 0, sizeof(DXGI_SWAP_CHAIN_DESC));
         swapchainDesc.BufferCount = 1;
-        swapchainDesc.BufferDesc.Width = Engine::getInstance()->getWidth();
-        swapchainDesc.BufferDesc.Height = Engine::getInstance()->getHeight();
+        swapchainDesc.BufferDesc.Width = Engine::GetInstance()->GetWidth();
+        swapchainDesc.BufferDesc.Height = Engine::GetInstance()->GetHeight();
         swapchainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         swapchainDesc.BufferDesc.RefreshRate.Numerator = 60;
         swapchainDesc.BufferDesc.RefreshRate.Denominator = 1;
@@ -191,7 +191,7 @@ namespace ghost
         hr = _dxgiFactory->CreateSwapChain(_device.Get(), &swapchainDesc, _dxgiSwapchain.GetAddressOf());
         if (FAILED(hr))
         {
-            LogManager::getInstance()->logDebug("CreateSwapChain failed.");
+            LogManager::GetInstance()->LogDebug("CreateSwapChain failed.");
             return false;
         }
 #endif // GHOST_USE_D3D_11_1
@@ -215,11 +215,11 @@ namespace ghost
         depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
         depthDesc.CPUAccessFlags = 0;
         depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-        depthDesc.Height = Engine::getInstance()->getHeight();
+        depthDesc.Height = Engine::GetInstance()->GetHeight();
         depthDesc.MipLevels = 1;
         depthDesc.MiscFlags = 0;
         depthDesc.Usage = D3D11_USAGE_DEFAULT;
-        depthDesc.Width = Engine::getInstance()->getWidth();
+        depthDesc.Width = Engine::GetInstance()->GetWidth();
 
         if (_sampleCount > 1)
         {
@@ -247,7 +247,7 @@ namespace ghost
         return true;
     }
 
-    bool D3D11RenderDevice::checkSampleCount(unsigned checkCount)
+    bool D3D11RenderDevice::CheckSampleCount(unsigned checkCount)
     {
         unsigned checkQuality = 0;
         _device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, checkCount, &checkQuality);
@@ -263,13 +263,13 @@ namespace ghost
         "ps_4_0"
     };
 
-    bool D3D11RenderDevice::compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader)
+    bool D3D11RenderDevice::CompileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader)
     {
         if (type == SHADER_TYPE_NUM || !entry)
             return false;
 
-        unsigned char* rowdata = shader.getRawdata();
-        int dataSize = shader.getRawdataSize();
+        unsigned char* rowdata = shader.GetRawdata();
+        int dataSize = shader.GetRawdataSize();
 
         if (rowdata == nullptr || dataSize <= 0)
             return false;
@@ -290,28 +290,28 @@ namespace ghost
         macros.push_back(endMacro);
 
         ID3DBlobPtr byteCode, errorMsg;
-        HRESULT hr = D3DCompile(rowdata, dataSize, shader.getName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], D3DCOMPILE_PACK_MATRIX_ROW_MAJOR | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
+        HRESULT hr = D3DCompile(rowdata, dataSize, shader.GetName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], D3DCOMPILE_PACK_MATRIX_ROW_MAJOR | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
         if (FAILED(hr) || errorMsg)
         {
             if (errorMsg)
             {
                 const char* msg = (const char*)errorMsg->GetBufferPointer();
-                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", shader.getName(), (const char*)errorMsg->GetBufferPointer());
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", shader.GetName(), (const char*)errorMsg->GetBufferPointer());
             }   
             else
             {
-                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed.", shader.getName());
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed.", shader.GetName());
             }
 
             return false;
         }
 
-        shader.updateByteCodes(type, (unsigned char*)byteCode->GetBufferPointer(), byteCode->GetBufferSize());
+        shader.UpdateByteCodes(type, (unsigned char*)byteCode->GetBufferPointer(), byteCode->GetBufferSize());
 
         return true;
     }
 
-    Shader* D3D11RenderDevice::createShader(const ShaderResourcePtr& shadersRes)
+    Shader* D3D11RenderDevice::CreateShader(const ShaderResourcePtr& shadersRes)
     {
         if (shadersRes == nullptr)
             return nullptr;
@@ -319,7 +319,7 @@ namespace ghost
         Shader* hardwareShader = new D3D11HarderwareShader();
         for (int i = 0; i < (int)SHADER_TYPE_NUM; ++i)
         {
-            const ShaderByteCode* byteCode = shadersRes->getByteCodeByType((ShaderType)i);
+            const ShaderByteCode* byteCode = shadersRes->GetByteCodeByType((ShaderType)i);
             if (byteCode && byteCode->ByteCode && byteCode->ByteCodeSize > 0)
             {
                 HRESULT hr = S_OK;
@@ -330,7 +330,7 @@ namespace ghost
                     ID3D11VertexShader* vertexShader = nullptr;
                     _device->CreateVertexShader(byteCode->ByteCode, byteCode->ByteCodeSize, nullptr, &vertexShader);
                     if (SUCCEEDED(hr))
-                        hardwareShader->updateRawShaderPointer((ShaderType)i, vertexShader);
+                        hardwareShader->UpdateRawShaderPointer((ShaderType)i, vertexShader);
                     break;
                 }      
                 case SHADER_PS:
@@ -338,7 +338,7 @@ namespace ghost
                     ID3D11PixelShader* pixelShader = nullptr;
                     _device->CreatePixelShader(byteCode->ByteCode, byteCode->ByteCodeSize, nullptr, &pixelShader);
                     if (SUCCEEDED(hr))
-                        hardwareShader->updateRawShaderPointer((ShaderType)i, pixelShader);
+                        hardwareShader->UpdateRawShaderPointer((ShaderType)i, pixelShader);
                     break;
                 }
                     
@@ -351,14 +351,14 @@ namespace ghost
         return hardwareShader;
     }
 
-    void D3D11RenderDevice::reflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params)
+    void D3D11RenderDevice::ReflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params)
     {
         if (!shadersRes)
             return;
 
         for (unsigned i = 0; i < ShaderType::SHADER_TYPE_NUM; ++i)
         {
-            const ShaderByteCode* byteCode = shadersRes->getByteCodeByType((ShaderType)i);
+            const ShaderByteCode* byteCode = shadersRes->GetByteCodeByType((ShaderType)i);
             if (!byteCode)
                 continue;
 
@@ -448,32 +448,32 @@ namespace ghost
         }
     }
 
-    ConstBufferPtr D3D11RenderDevice::createConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name)
+    ConstBufferPtr D3D11RenderDevice::CreateConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name)
     {
         return GHOST_MAKE_SMART_POINTER(D3D11ConstBuffer, bufferSize, usage, *this, name);
     }
 
-    IndexBufferPtr D3D11RenderDevice::createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage)
+    IndexBufferPtr D3D11RenderDevice::CreateIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage)
     {
         return GHOST_MAKE_SMART_POINTER(D3D11IndexBuffer, iType, numIndexes, usage, *this, false);
     }
 
-    VertexBufferPtr D3D11RenderDevice::createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage)
+    VertexBufferPtr D3D11RenderDevice::CreateVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage)
     {
         return GHOST_MAKE_SMART_POINTER(D3D11VertexBuffer, VertexSize, numVertices, usage, *this, false);
     }
 
-    VertexDeclarationPtr D3D11RenderDevice::createVertexDeclaration()
+    VertexDeclarationPtr D3D11RenderDevice::CreateVertexDeclaration()
     {
         return GHOST_MAKE_SMART_POINTER(D3D11VertexDeclaration, *this);
     }
 
-    RenderTargetPtr D3D11RenderDevice::createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv, bool msaa, bool depth /* = true */)
+    RenderTargetPtr D3D11RenderDevice::CreateRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv, bool msaa, bool depth /* = true */)
     {
         return GHOST_MAKE_SMART_POINTER(D3D11RenderTarget, w, h, numRTS, formats, srv, msaa, depth);
     }
 
-    DepthStencilTargetPtr D3D11RenderDevice::createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv)
+    DepthStencilTargetPtr D3D11RenderDevice::CreateDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv)
     {
         return GHOST_MAKE_SMART_POINTER(D3D11DepthStencilTarget, w, h, msaa, srv);
     }

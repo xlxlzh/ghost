@@ -22,21 +22,21 @@ namespace ghost
         RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true);
         virtual ~RenderTarget();
 
-        void setSize(unsigned w, unsigned h, unsigned d = 1);
-        unsigned getWidth() const { return _width; }
-        unsigned getHeight() const { return _height; }
-        unsigned getDepth() const { return _depth; }
+        void SetSize(unsigned w, unsigned h, unsigned d = 1);
+        unsigned GetWidth() const { return _width; }
+        unsigned GetHeight() const { return _height; }
+        unsigned GetDepth() const { return _depth; }
 
-        void attachDepthBuffer(DepthStencilTargetPtr depth) { _depthBuffer = depth; }
-        DepthStencilTargetPtr getAttachDepthBuffer() { return _depthBuffer; }
-        void detachDepthBuffer() { _depthBuffer = nullptr; }
+        void AttachDepthBuffer(DepthStencilTargetPtr depth) { _depthBuffer = depth; }
+        DepthStencilTargetPtr GetAttachDepthBuffer() { return _depthBuffer; }
+        void DetachDepthBuffer() { _depthBuffer = nullptr; }
 
-        void attachRenderTexture(Texture2DPtr tex);
+        void AttachRenderTexture(Texture2DPtr tex);
 
-        const Viewport& getAttachViewport() const { return _viewport; }
-        void attachViewport(const Viewport& vp) { _viewport = vp; }
+        const Viewport& GetAttachViewport() const { return _viewport; }
+        void AttachViewport(const Viewport& vp) { _viewport = vp; }
 
-        bool isSRV() const { return _srv; }
+        bool IsSRV() const { return _srv; }
 
     protected:
         unsigned _width;

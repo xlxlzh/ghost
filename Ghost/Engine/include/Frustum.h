@@ -21,16 +21,16 @@ namespace ghost
         Frustum();
         ~Frustum();
 
-        void buildViewFrustum(const Matrix4x4f& mat, float fov, float aspect, float nearPlane, float farPlane);
-        void buildViewFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float nearPlane, float farPlane);
-        void buildViewFrustum(const Matrix4x4f& viewMat, const Matrix4x4f& projMat);
+        void BuildViewFrustum(const Matrix4x4f& mat, float fov, float aspect, float nearPlane, float farPlane);
+        void BuildViewFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float nearPlane, float farPlane);
+        void BuildViewFrustum(const Matrix4x4f& viewMat, const Matrix4x4f& projMat);
 
-        void buildBoxFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float front, float back);
+        void BuildBoxFrustum(const Matrix4x4f& mat, float left, float right, float bottom, float top, float front, float back);
 
-        bool cullBox(BoundingBox& box) const;
-        bool cullSphere(Vector3f pos, float rad) const;
+        bool CullBox(BoundingBox& box) const;
+        bool CullSphere(Vector3f pos, float rad) const;
 
-        const FrustumCorners& getFrustumCorners() const { return _corners; }
+        const FrustumCorners& GetFrustumCorners() const { return _corners; }
 
     private:
         FrustumPlanes _planes;

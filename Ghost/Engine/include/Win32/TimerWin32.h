@@ -12,10 +12,10 @@ namespace ghost
         TimerWin32();
         virtual ~TimerWin32();
 
-        virtual void start() override;
-        virtual void reset() override;
+        virtual void Start() override;
+        virtual void Reset() override;
 
-        virtual double getTime() override;
+        virtual double GetTime() override;
 
     private:
         LARGE_INTEGER  _timerFreq;

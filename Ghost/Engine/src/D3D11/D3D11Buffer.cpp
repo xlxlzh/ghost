@@ -14,7 +14,7 @@ namespace ghost
         _bufferSize = bufferSize;
 
         _desc.ByteWidth = _bufferSize;
-        _desc.CPUAccessFlags = D3D11Mappings::getAccessFlags(usage);
+        _desc.CPUAccessFlags = D3D11Mappings::GetAccessFlags(usage);
         _desc.MiscFlags = 0;
 
         if (_useSystemMemory)
@@ -25,13 +25,13 @@ namespace ghost
         }
         else
         {
-            _desc.Usage = D3D11Mappings::getUsage(usage);
+            _desc.Usage = D3D11Mappings::GetUsage(usage);
             _desc.BindFlags = _bufferType == BUFFER_VERTEX ? D3D11_BIND_VERTEX_BUFFER :
                               _bufferType == BUFFER_INDEX ? D3D11_BIND_INDEX_BUFFER :
                                                             D3D11_BIND_CONSTANT_BUFFER;
         }
 
-        ID3D11DevicePtr d3device = _device.getDevice();
+        ID3D11DevicePtr d3device = _device.GetDevice();
         HRESULT hr = d3device->CreateBuffer(&_desc, nullptr, _buffer.ReleaseAndGetAddressOf());
         if (FAILED(hr))
         {
@@ -39,14 +39,14 @@ namespace ghost
         }
     }
 
-    void* D3D11Buffer::_mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag)
+    void* D3D11Buffer::MapImpl(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
         void* pRet = nullptr;
         if (length > _bufferSize)
         {
             _desc.ByteWidth = _bufferSize;
             
-            ID3D11DevicePtr d3ddevice = _device.getDevice();
+            ID3D11DevicePtr d3ddevice = _device.GetDevice();
             HRESULT hr = d3ddevice->CreateBuffer(&_desc, nullptr, _buffer.ReleaseAndGetAddressOf());
             if (FAILED(hr))
             {
@@ -80,7 +80,7 @@ namespace ghost
             D3D11_MAPPED_SUBRESOURCE mapSub;
             mapSub.pData = nullptr;
             
-            ID3D11DeviceContextPtr context = _device.getContext();
+            ID3D11DeviceContextPtr context = _device.GetContext();
             HRESULT hr = context->Map(_buffer.Get(), 0, mapType, 0, &mapSub);
             if (FAILED(hr))
             {
@@ -97,23 +97,23 @@ namespace ghost
         return pRet;
     }
 
-    void D3D11Buffer::_unmapImpl()
+    void D3D11Buffer::UnmapImpl()
     {
-        ID3D11DeviceContextPtr context = _device.getContext();
+        ID3D11DeviceContextPtr context = _device.GetContext();
         context->Unmap(_buffer.Get(), 0);
     }
 
-    void D3D11Buffer::writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer /* = false */)
+    void D3D11Buffer::WriteData(unsigned offset, unsigned length, const void* src, bool discardBuffer /* = false */)
     {
-        void* pData = map(offset, length, discardBuffer ? ResourceLockFlag::LOCK_DISCARD : ResourceLockFlag::LOCK_NORMAL);
+        void* pData = Map(offset, length, discardBuffer ? ResourceLockFlag::LOCK_DISCARD : ResourceLockFlag::LOCK_NORMAL);
         memcpy(pData, src, length);
-        unmap();
+        Unmap();
     }
 
-    void D3D11Buffer::readData(unsigned offset, unsigned length, void* dest)
+    void D3D11Buffer::ReadData(unsigned offset, unsigned length, void* dest)
     {
-        void* pData = map(offset, length, ResourceLockFlag::LOCK_READ_ONLY);
+        void* pData = Map(offset, length, ResourceLockFlag::LOCK_READ_ONLY);
         memcpy(dest, pData, length);
-        unmap();
+        Unmap();
     }
 }

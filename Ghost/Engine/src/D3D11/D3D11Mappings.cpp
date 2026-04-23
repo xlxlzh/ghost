@@ -2,27 +2,27 @@
 
 namespace ghost
 {
-    D3D11_USAGE D3D11Mappings::getUsage(ResourceUsage usage)
+    D3D11_USAGE D3D11Mappings::GetUsage(ResourceUsage usage)
     {
-        return isDynamic(usage) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+        return IsDynamic(usage) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
     }
 
-    UINT D3D11Mappings::getAccessFlags(ResourceUsage usage)
+    UINT D3D11Mappings::GetAccessFlags(ResourceUsage usage)
     {
-        return isDynamic(usage) ? D3D11_CPU_ACCESS_WRITE : 0;
+        return IsDynamic(usage) ? D3D11_CPU_ACCESS_WRITE : 0;
     }
 
-    bool D3D11Mappings::isDynamic(ResourceUsage usage)
+    bool D3D11Mappings::IsDynamic(ResourceUsage usage)
     {
         return (usage & ResourceUsage::USAGE_DYNAMIC);
     }
 
-    DXGI_FORMAT D3D11Mappings::getFormat(IndexBuffer::IndexType type)
+    DXGI_FORMAT D3D11Mappings::GetFormat(IndexBuffer::IndexType type)
     {
         return type == IndexBuffer::INDEX_32BIT ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
     }
 
-    DXGI_FORMAT D3D11Mappings::getFormat(VertexElementType vElemType)
+    DXGI_FORMAT D3D11Mappings::GetFormat(VertexElementType vElemType)
     {
         switch (vElemType)
         {
@@ -40,7 +40,7 @@ namespace ghost
         return DXGI_FORMAT_R32G32B32_FLOAT;
     }
 
-    DXGI_FORMAT D3D11Mappings::getFormat(GhostColorFormat fmt)
+    DXGI_FORMAT D3D11Mappings::GetFormat(GhostColorFormat fmt)
     {
         switch (fmt)
         {
@@ -59,7 +59,7 @@ namespace ghost
         return DXGI_FORMAT_R8G8B8A8_UNORM;
     }
 
-    D3D11_PRIMITIVE_TOPOLOGY D3D11Mappings::getPrimitiveType(PrimitiveType pType)
+    D3D11_PRIMITIVE_TOPOLOGY D3D11Mappings::GetPrimitiveType(PrimitiveType pType)
     {
         switch (pType)
         {
@@ -78,7 +78,7 @@ namespace ghost
         }
     }
 
-    const char* D3D11Mappings::getSemanticName(VertexElementSemantic semantic)
+    const char* D3D11Mappings::GetSemanticName(VertexElementSemantic semantic)
     {
         switch (semantic)
         {
@@ -105,7 +105,7 @@ namespace ghost
         return "";
     }
 
-    D3D11_CULL_MODE D3D11Mappings::getCullMode(CullMode cull)
+    D3D11_CULL_MODE D3D11Mappings::GetCullMode(CullMode cull)
     {
         switch (cull)
         {
@@ -120,7 +120,7 @@ namespace ghost
         return D3D11_CULL_BACK;
     }
 
-    D3D11_FILL_MODE D3D11Mappings::getFillMode(FillMode fill)
+    D3D11_FILL_MODE D3D11Mappings::GetFillMode(FillMode fill)
     {
         switch (fill)
         {
@@ -133,7 +133,7 @@ namespace ghost
         return D3D11_FILL_SOLID;
     }
 
-    D3D11_COMPARISON_FUNC D3D11Mappings::getComparison(CompareFunction func)
+    D3D11_COMPARISON_FUNC D3D11Mappings::GetComparison(CompareFunction func)
     {
         switch (func)
         {
@@ -158,7 +158,7 @@ namespace ghost
         return D3D11_COMPARISON_ALWAYS;
     }
 
-    D3D11_TEXTURE_ADDRESS_MODE D3D11Mappings::getAddressMode(TextureAddressingMode mode)
+    D3D11_TEXTURE_ADDRESS_MODE D3D11Mappings::GetAddressMode(TextureAddressingMode mode)
     {
         switch (mode)
         {
@@ -175,7 +175,7 @@ namespace ghost
         return D3D11_TEXTURE_ADDRESS_WRAP;
     }
 
-    D3D11_FILTER D3D11Mappings::getFilter(const FilterOptions min, const FilterOptions mag, const FilterOptions mip)
+    D3D11_FILTER D3D11Mappings::GetFilter(const FilterOptions min, const FilterOptions mag, const FilterOptions mip)
     {
         if (min == FO_LINEAR && mag == FO_LINEAR && mip == FO_LINEAR)
             return D3D11_FILTER_MIN_MAG_MIP_LINEAR;

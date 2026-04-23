@@ -13,17 +13,17 @@ namespace ghost
         VertexBufferBinding();
         ~VertexBufferBinding();
 
-        void setBinding(unsigned short index, const VertexBufferPtr& buffer);
-        void unsetBinding(unsigned short index);
-        void unsetAllBinding();
+        void SetBinding(unsigned short index, const VertexBufferPtr& buffer);
+        void UnsetBinding(unsigned short index);
+        void UnsetAllBinding();
 
-        const VertexBufferBindingMap& getBindings() const;
+        const VertexBufferBindingMap& GetBindings() const;
 
-        const VertexBufferPtr& getBuffer(unsigned short index) const;
+        const VertexBufferPtr& GetBuffer(unsigned short index) const;
 
-        bool isBufferBound(unsigned short index) const;
+        bool IsBufferBound(unsigned short index) const;
 
-        unsigned getBufferCount() const { return _bindingMap.size(); }
+        unsigned GetBufferCount() const { return _bindingMap.size(); }
 
     protected:
         VertexBufferBindingMap _bindingMap;

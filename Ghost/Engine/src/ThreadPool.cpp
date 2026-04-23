@@ -36,7 +36,7 @@ namespace ghost
     ThreadPool::~ThreadPool()
     {
         {
-            std::unique_lock<std::mutex> lock(_mutex);
+            std::unique_lock<std::mutex> Lock(_mutex);
             _running = false;
         }
         

@@ -13,7 +13,7 @@ namespace ghost
         ConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name = "");
         ~ConstBuffer();
 
-        const std::string& getName() const { return _bufferName; }
+        const std::string& GetName() const { return _bufferName; }
 
     protected:
         std::string _bufferName;

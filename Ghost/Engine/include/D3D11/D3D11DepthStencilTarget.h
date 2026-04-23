@@ -13,13 +13,13 @@ namespace ghost
         D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv);
         virtual ~D3D11DepthStencilTarget();
 
-        ID3D11DepthStencilViewPtr getDepthView() const { return _depthView; }
-        ID3D11Texture2DPtr getDepthTexture() const { return _depthTexture; }
-        ID3D11ShaderResourceViewPtr getShaderResourceView() const { return _srvView; }
+        ID3D11DepthStencilViewPtr GetDepthView() const { return _depthView; }
+        ID3D11Texture2DPtr GetDepthTexture() const { return _depthTexture; }
+        ID3D11ShaderResourceViewPtr GetShaderResourceView() const { return _srvView; }
 
     protected:
-        void _onCreateDepthStencilTarget();
-        void _onDestoryDepthStencilTarget();
+        void OnCreateDepthStencilTarget();
+        void OnDestoryDepthStencilTarget();
 
     private:
         ID3D11DepthStencilViewPtr _depthView = nullptr;

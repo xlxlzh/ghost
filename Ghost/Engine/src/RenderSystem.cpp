@@ -14,23 +14,23 @@ namespace ghost
 
     }
      
-    void RenderSystem::setClearColor(Color cl /* = Color::Black */)
+    void RenderSystem::SetClearColor(Color cl /* = Color::Black */)
     {
         _clearColor = cl;
     }
 
-    void RenderSystem::setMaterial(const MaterialPtr& mat)
+    void RenderSystem::SetMaterial(const MaterialPtr& mat)
     {
         if (_currentMaterial != mat || _renderpassChanged)
         {
             _renderpassChanged = false;
             _currentMaterial = mat;
 
-            _currentMaterial->applyToRenderPass(_currentRenderPass);
+            _currentMaterial->ApplyToRenderPass(_currentRenderPass);
         }
     }
 
-    void RenderSystem::setRenderPass(RenderPass pass)
+    void RenderSystem::SetRenderPass(RenderPass pass)
     {
         _currentRenderPass = pass;
         _renderpassChanged = true;

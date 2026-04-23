@@ -97,13 +97,13 @@ namespace ghost
         ShaderPass(RenderPass pass);
         ~ShaderPass();
 
-        RenderPass getRenderPass() const { return _passType; }
-        ShaderResourcePtr getLinkedShader() { return _linkedShader; }
-        InputSignatureList* getShaderInputSignature() { return &_params._sigDesc; }
-        unsigned getConstBufferSlot(ShaderType type, const std::string& name);
+        RenderPass GetRenderPass() const { return _passType; }
+        ShaderResourcePtr GetLinkedShader() { return _linkedShader; }
+        InputSignatureList* GetShaderInputSignature() { return &_params._sigDesc; }
+        unsigned GetConstBufferSlot(ShaderType type, const std::string& name);
 
-        void applyTextureToSlot(const std::string& name, Texture2DPtr ptr);
-        void applySamplerToSlot(const std::string& name, const Sampler& sampler);
+        void ApplyTextureToSlot(const std::string& name, Texture2DPtr ptr);
+        void ApplySamplerToSlot(const std::string& name, const Sampler& sampler);
 
     protected:
         ShaderResourcePtr _linkedShader = nullptr;
@@ -124,14 +124,14 @@ namespace ghost
         Material() : Material(RESOURCE_MATERIAL, "", 0) { }
         Material(int type, const std::string& name, int flag);
 
-        virtual bool load(DataStream& dataStream) override;
-        virtual void save(DataStream& dataStream) override;
+        virtual bool Load(DataStream& dataStream) override;
+        virtual void Save(DataStream& dataStream) override;
 
-        void applyToRenderPass(RenderPass pass);
+        void ApplyToRenderPass(RenderPass pass);
 
-        static int getTypeStatic() { return RESOURCE_MATERIAL; }
+        static int GetTypeStatic() { return RESOURCE_MATERIAL; }
 
-        ShaderPass* getShaderPass(RenderPass pass);
+        ShaderPass* GetShaderPass(RenderPass pass);
 
     private:
         std::vector<ShaderPass> _passes;

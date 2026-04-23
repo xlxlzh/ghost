@@ -25,10 +25,10 @@ namespace ghost
         ZeroMemory(&_rasterizer, sizeof(_rasterizer));
         ZeroMemory(&_blendDesc, sizeof(_blendDesc));
 
-        setDepthBufferParams(true, true, COMPARISON_LESS_EQUAL);
+        SetDepthBufferParams(true, true, COMPARISON_LESS_EQUAL);
 
-        _rasterizer.FillMode = D3D11Mappings::getFillMode(_fillMode);
-        _rasterizer.CullMode = D3D11Mappings::getCullMode(_cullingMode);
+        _rasterizer.FillMode = D3D11Mappings::GetFillMode(_fillMode);
+        _rasterizer.CullMode = D3D11Mappings::GetCullMode(_cullingMode);
         _rasterizer.DepthClipEnable = true;
         _rasterizer.MultisampleEnable = true;
 
@@ -36,7 +36,7 @@ namespace ghost
             _textures2DUnits[i] = nullptr;
     }
 
-    bool D3D11RenderSystem::initRenderSystem()
+    bool D3D11RenderSystem::InitRenderSystem()
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
@@ -60,7 +60,7 @@ namespace ghost
 
     }
 
-    void D3D11RenderSystem::setRenderTarget(RenderTargetPtr rt)
+    void D3D11RenderSystem::SetRenderTarget(RenderTargetPtr rt)
     {
         _activeRenerTarget = rt;
 
@@ -69,10 +69,10 @@ namespace ghost
         {
             ID3D11RenderTargetView* renderViews[GHOST_MAX_RENDERTARGETS] = {0};
 
-            unsigned numViews = targetPtr->getNumOfViews();
+            unsigned numViews = targetPtr->GetNumOfViews();
             for (unsigned i = 0; i < GHOST_MAX_RENDERTARGETS; ++i)
             {
-                renderViews[i] = targetPtr->getRenderTargetViewByIndex(i).Get();
+                renderViews[i] = targetPtr->GetRenderTargetViewByIndex(i).Get();
                 if (!renderViews[i])
                 {
                     break;
@@ -80,33 +80,33 @@ namespace ghost
             }
 
             ID3D11DepthStencilView* depthView = nullptr;
-            D3D11DepthStencilTargetPtr depthBuffer = GHOST_SMARTPOINTER_CAST(D3D11DepthStencilTarget, rt->getAttachDepthBuffer());
+            D3D11DepthStencilTargetPtr depthBuffer = GHOST_SMARTPOINTER_CAST(D3D11DepthStencilTarget, rt->GetAttachDepthBuffer());
             if (depthBuffer)
             {
-                depthView = depthBuffer->getDepthView().Get();
+                depthView = depthBuffer->GetDepthView().Get();
             }
 
             D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
             devicePtr->_context->OMSetRenderTargets(numViews, renderViews, depthView);
 
-            const Viewport& vp = rt->getAttachViewport();
+            const Viewport& vp = rt->GetAttachViewport();
             D3D11_VIEWPORT d3d11vp;
-            d3d11vp.TopLeftX = vp.getViewportX();
-            d3d11vp.TopLeftY = vp.getViewportY();
-            d3d11vp.Width = vp.getViewportWidth();
-            d3d11vp.Height = vp.getViewportHeight();
-            d3d11vp.MinDepth = vp.getMinZ();
-            d3d11vp.MaxDepth = vp.getMaxZ();
+            d3d11vp.TopLeftX = vp.GetViewportX();
+            d3d11vp.TopLeftY = vp.GetViewportY();
+            d3d11vp.Width = vp.GetViewportWidth();
+            d3d11vp.Height = vp.GetViewportHeight();
+            d3d11vp.MinDepth = vp.GetMinZ();
+            d3d11vp.MaxDepth = vp.GetMaxZ();
 
             devicePtr->_context->RSSetViewports(1, &d3d11vp);
         }
     }
 
-    void D3D11RenderSystem::clearRenderTarget(TargetClear clearFlag /* = CLEAR_ALL */, Color col /* = Color::Black */, float z /* = 1.0 */, unsigned stencil /* = 0.0 */)
+    void D3D11RenderSystem::ClearRenderTarget(TargetClear clearFlag /* = CLEAR_ALL */, Color col /* = Color::Black */, float z /* = 1.0 */, unsigned stencil /* = 0.0 */)
     {
         if (clearFlag & TargetClear::CLEAR_COLOR)
         {
-            _clearRenderTarget(col);
+            InternalClearRenderTarget(col);
         }
 
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
@@ -124,10 +124,10 @@ namespace ghost
 
         if (_activeRenerTarget)
         {
-            D3D11DepthStencilTargetPtr depthPtr = GHOST_SMARTPOINTER_CAST(D3D11DepthStencilTarget, _activeRenerTarget->getAttachDepthBuffer());
+            D3D11DepthStencilTargetPtr depthPtr = GHOST_SMARTPOINTER_CAST(D3D11DepthStencilTarget, _activeRenerTarget->GetAttachDepthBuffer());
             if (depthPtr)
             {
-                devicePtr->_context->ClearDepthStencilView(depthPtr->getDepthView().Get(), flags, z, stencil);
+                devicePtr->_context->ClearDepthStencilView(depthPtr->GetDepthView().Get(), flags, z, stencil);
             }
         }
         else
@@ -136,7 +136,7 @@ namespace ghost
         }
     }
 
-    void D3D11RenderSystem::_clearRenderTarget(Color cl)
+    void D3D11RenderSystem::InternalClearRenderTarget(Color cl)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         if (_activeRenerTarget)
@@ -146,17 +146,17 @@ namespace ghost
             {
                 ID3D11RenderTargetView* renderViews[GHOST_MAX_RENDERTARGETS] = { 0 };
 
-                unsigned numViews = targetPtr->getNumOfViews();
+                unsigned numViews = targetPtr->GetNumOfViews();
                 for (unsigned i = 0; i < GHOST_MAX_RENDERTARGETS; ++i)
                 {
-                    renderViews[i] = targetPtr->getRenderTargetViewByIndex(i).Get();
+                    renderViews[i] = targetPtr->GetRenderTargetViewByIndex(i).Get();
                     if (!renderViews[i])
                     {
                         break;
                     }
                 }
 
-                const float* clearColor = cl.getColorPtr();
+                const float* clearColor = cl.GetColorPtr();
                 for (unsigned i = 0; i < numViews; ++i)
                 {
                     devicePtr->_context->ClearRenderTargetView(renderViews[i], clearColor);
@@ -165,59 +165,59 @@ namespace ghost
         }
         else
         {
-            devicePtr->_context->ClearRenderTargetView(devicePtr->_defaultRenderView.Get(), cl.getColorPtr());
+            devicePtr->_context->ClearRenderTargetView(devicePtr->_defaultRenderView.Get(), cl.GetColorPtr());
         }
     }
 
-    void D3D11RenderSystem::setVertexBuffer(VertexBufferPtr vBuffer)
+    void D3D11RenderSystem::SetVertexBuffer(VertexBufferPtr vBuffer)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
         D3D11VertexBufferPtr vBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11VertexBuffer, vBuffer);
-        ID3D11Buffer* buffers[] = {vBufferPtr->getD3DVertexBuffer()};
-        UINT strides[] = { vBufferPtr->getVertexSize() };
+        ID3D11Buffer* buffers[] = {vBufferPtr->GetD3DVertexBuffer()};
+        UINT strides[] = { vBufferPtr->GetVertexSize() };
         UINT offset = 0;
 
         devicePtr->_context->IASetVertexBuffers(0, 0, buffers, strides, &offset);
     }
 
-    void D3D11RenderSystem::setVertexBufferBinding(VertexBufferBindingPtr binding)
+    void D3D11RenderSystem::SetVertexBufferBinding(VertexBufferBindingPtr binding)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
-        const VertexBufferBindingMap& bindings = binding->getBindings();
+        const VertexBufferBindingMap& bindings = binding->GetBindings();
         for (auto itBind : bindings)
         {
             D3D11VertexBufferPtr d3d11Buffer = GHOST_SMARTPOINTER_CAST(D3D11VertexBuffer, itBind.second);
 
-            UINT stride = d3d11Buffer->getVertexSize();
+            UINT stride = d3d11Buffer->GetVertexSize();
             UINT offset = 0;
             UINT slot = itBind.first;
 
-            ID3D11Buffer* vBuffer = d3d11Buffer->getD3DVertexBuffer();
+            ID3D11Buffer* vBuffer = d3d11Buffer->GetD3DVertexBuffer();
             devicePtr->_context->IASetVertexBuffers(slot, 1, &vBuffer, &stride, &offset);
         }
     }
 
-    void D3D11RenderSystem::setIndexBuffer(IndexBufferPtr iBuffer)
+    void D3D11RenderSystem::SetIndexBuffer(IndexBufferPtr iBuffer)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
         D3D11IndexBufferPtr iBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11IndexBuffer, iBuffer);
-        devicePtr->_context->IASetIndexBuffer(iBufferPtr->getD3DIndexBuffer(), D3D11Mappings::getFormat(iBufferPtr->getIndexType()), 0);
+        devicePtr->_context->IASetIndexBuffer(iBufferPtr->GetD3DIndexBuffer(), D3D11Mappings::GetFormat(iBufferPtr->GetIndexType()), 0);
     }
 
-    void D3D11RenderSystem::setVertexDeclaration(VertexDeclarationPtr vDecl)
+    void D3D11RenderSystem::SetVertexDeclaration(VertexDeclarationPtr vDecl)
     {
         if (_currentMaterial)
         {
-            ShaderPass* pass = _currentMaterial->getShaderPass(_currentRenderPass);
+            ShaderPass* pass = _currentMaterial->GetShaderPass(_currentRenderPass);
 
             D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
             D3D11VertexDeclarationPtr d3d11Decl = GHOST_SMARTPOINTER_CAST(D3D11VertexDeclaration, vDecl);
 
-            InputSignatureList* signatures = pass->getShaderInputSignature();
+            InputSignatureList* signatures = pass->GetShaderInputSignature();
             auto inputIt = _inputlayouts.find(signatures);
             if (inputIt != _inputlayouts.end())
             {
@@ -226,7 +226,7 @@ namespace ghost
             }
             else
             {
-                const auto& elements = d3d11Decl->getElements();
+                const auto& elements = d3d11Decl->GetElements();
 
                 std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc;
 
@@ -237,8 +237,8 @@ namespace ghost
                     std::list<VertexElement>::const_iterator itEle;
                     for (itEle = elements.begin(); itEle != elements.end(); ++itEle)
                     {
-                        const char* semanticName = D3D11Mappings::getSemanticName(itEle->getSemantic());
-                        unsigned semanticIndex = itEle->getIndex();
+                        const char* semanticName = D3D11Mappings::GetSemanticName(itEle->GetSemantic());
+                        unsigned semanticIndex = itEle->GetIndex();
 
                         if (strcmp(semanticName, matSig._semantic.c_str()) == 0
                             && semanticIndex == matSig._index)
@@ -251,15 +251,15 @@ namespace ghost
                     if (!found)
                     {
                         GHOST_LOG_FORMAT_ERROR("No vertex element for semantic %s%s in shader %s found",
-                            matSig._semantic.c_str(), matSig._index, _currentMaterial->getName());
+                            matSig._semantic.c_str(), matSig._index, _currentMaterial->GetName());
                     }
 
                     D3D11_INPUT_ELEMENT_DESC elem = {};
                     elem.SemanticName = matSig._semantic.c_str();
                     elem.SemanticIndex = matSig._index;
-                    elem.Format = D3D11Mappings::getFormat(itEle->getType());
-                    elem.InputSlot = itEle->getStreamSlot();
-                    elem.AlignedByteOffset = itEle->getOffset();
+                    elem.Format = D3D11Mappings::GetFormat(itEle->GetType());
+                    elem.InputSlot = itEle->GetStreamSlot();
+                    elem.AlignedByteOffset = itEle->GetOffset();
                     elem.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
                     elem.InstanceDataStepRate = 0;
                     inputDesc.push_back(elem);
@@ -267,8 +267,8 @@ namespace ghost
 
                 if (!inputDesc.empty())
                 {
-                    auto shaderRes = pass->getLinkedShader();
-                    auto shaderBytecode = shaderRes->getByteCodeByType(SHADER_VS);
+                    auto shaderRes = pass->GetLinkedShader();
+                    auto shaderBytecode = shaderRes->GetByteCodeByType(SHADER_VS);
 
                     ID3D11InputLayoutPtr inputlayoutPtr = nullptr;
                     HRESULT hr = devicePtr->_device->CreateInputLayout(&inputDesc[0], inputDesc.size(),
@@ -286,17 +286,17 @@ namespace ghost
         }
     }
 
-    void D3D11RenderSystem::setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer)
+    void D3D11RenderSystem::SetConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer)
     {
         if (_currentMaterial == nullptr)
             return;
         
-        ShaderPass* pass = _currentMaterial->getShaderPass(_currentRenderPass);
-        unsigned slot = pass->getConstBufferSlot(shaderType, constBuffer->getName());
+        ShaderPass* pass = _currentMaterial->GetShaderPass(_currentRenderPass);
+        unsigned slot = pass->GetConstBufferSlot(shaderType, constBuffer->GetName());
 
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         D3D11ConstBufferPtr constBufferPtr = GHOST_SMARTPOINTER_CAST(D3D11ConstBuffer, constBuffer);
-        ID3D11Buffer* buffers[] = { constBufferPtr->getD3DConstBuffer() };
+        ID3D11Buffer* buffers[] = { constBufferPtr->GetD3DConstBuffer() };
         switch (shaderType)
         {
         case SHADER_VS:
@@ -319,48 +319,48 @@ namespace ghost
         }
     }
 
-    void D3D11RenderSystem::setPrimitiveType(PrimitiveType pType)
+    void D3D11RenderSystem::SetPrimitiveType(PrimitiveType pType)
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
-        devicePtr->_context->IASetPrimitiveTopology(D3D11Mappings::getPrimitiveType(pType));
+        devicePtr->_context->IASetPrimitiveTopology(D3D11Mappings::GetPrimitiveType(pType));
     }
 
-    void D3D11RenderSystem::drawPrimitive(unsigned numVertices, unsigned startIndex)
+    void D3D11RenderSystem::DrawPrimitive(unsigned numVertices, unsigned startIndex)
     {
-        _updateRenderStateBeforeRendering();
+        UpdateRenderStateBeforeRendering();
 
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         devicePtr->_context->Draw(numVertices, startIndex);
     }
 
-    void D3D11RenderSystem::drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex)
+    void D3D11RenderSystem::DrawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex)
     {
-        _updateRenderStateBeforeRendering();
+        UpdateRenderStateBeforeRendering();
 
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
         devicePtr->_context->DrawIndexed(numIndices, indexLocation, baseVertIndex);
     }
 
-    void D3D11RenderSystem::drawPrimitiveInstance()
+    void D3D11RenderSystem::DrawPrimitiveInstance()
     {
         //TODO
-        _updateRenderStateBeforeRendering();
+        UpdateRenderStateBeforeRendering();
     }
 
-    void D3D11RenderSystem::setShader(const Shader* shader)
+    void D3D11RenderSystem::SetShader(const Shader* shader)
     {
-        if (shader && shader->isValid())
+        if (shader && shader->IsValid())
         {
             const D3D11HarderwareShader* d3dshader = dynamic_cast< const D3D11HarderwareShader*>(shader);
             if (d3dshader)
             {
                 D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
-                if (d3dshader->isShaderTypeValid(SHADER_VS))
+                if (d3dshader->IsShaderTypeValid(SHADER_VS))
                 {
                     device->_context->VSSetShader((ID3D11VertexShader*)d3dshader->_shaders[SHADER_VS], nullptr, 0);
                 }
 
-                if (d3dshader->isShaderTypeValid(SHADER_PS))
+                if (d3dshader->IsShaderTypeValid(SHADER_PS))
                 {
                     device->_context->PSSetShader((ID3D11PixelShader*)d3dshader->_shaders[SHADER_PS], nullptr, 0);
                 }
@@ -368,7 +368,7 @@ namespace ghost
         }
     }
 
-    void D3D11RenderSystem::beginScene()
+    void D3D11RenderSystem::BeginScene()
     {
         //IMGUI
         ImGui_ImplDX11_NewFrame();
@@ -379,70 +379,70 @@ namespace ghost
 #endif
     }
 
-    void D3D11RenderSystem::endScene()
+    void D3D11RenderSystem::EndScene()
     {
         //IMGUI
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(Engine::getInstance()->getRenderDevice());
+        D3D11RenderDevicePtr d3dDevice = std::dynamic_pointer_cast<D3D11RenderDevice>(Engine::GetInstance()->GetRenderDevice());
         d3dDevice->_dxgiSwapchain->Present(0, 0);
     }
 
-    void D3D11RenderSystem::setCullMode(CullMode cull)
+    void D3D11RenderSystem::SetCullMode(CullMode cull)
     {
         _cullingMode = cull;
 
         _rasterizerDescChagned = true;
-        _rasterizer.CullMode = D3D11Mappings::getCullMode(cull);
+        _rasterizer.CullMode = D3D11Mappings::GetCullMode(cull);
     }
 
-    void D3D11RenderSystem::setFillMode(FillMode fillMode)
+    void D3D11RenderSystem::SetFillMode(FillMode fillMode)
     {
         _fillMode = fillMode;
 
         _rasterizerDescChagned = true;
-        _rasterizer.FillMode = D3D11Mappings::getFillMode(fillMode);
+        _rasterizer.FillMode = D3D11Mappings::GetFillMode(fillMode);
     }
 
-    void D3D11RenderSystem::setSamplerState(unsigned slot, const Sampler& samler)
+    void D3D11RenderSystem::SetSamplerState(unsigned slot, const Sampler& samler)
     {
         _samplerStatesChanged = true;
 
-        const Sampler::UVWAddressingMode uvwMode = samler.getAddressingMode();
-        _texStageDesc[slot]._samplerDesc.AddressU = D3D11Mappings::getAddressMode(uvwMode.u);
-        _texStageDesc[slot]._samplerDesc.AddressV = D3D11Mappings::getAddressMode(uvwMode.v);
-        _texStageDesc[slot]._samplerDesc.AddressW = D3D11Mappings::getAddressMode(uvwMode.w);
+        const Sampler::UVWAddressingMode uvwMode = samler.GetAddressingMode();
+        _texStageDesc[slot]._samplerDesc.AddressU = D3D11Mappings::GetAddressMode(uvwMode.u);
+        _texStageDesc[slot]._samplerDesc.AddressV = D3D11Mappings::GetAddressMode(uvwMode.v);
+        _texStageDesc[slot]._samplerDesc.AddressW = D3D11Mappings::GetAddressMode(uvwMode.w);
 
         if (uvwMode.u == ADDRESSING_BORDER || uvwMode.v == ADDRESSING_BORDER || uvwMode.w == ADDRESSING_BORDER)
         {
             
         }
 
-        _minFilters[slot] = samler.getFilter(FT_MIN);
-        _magFilters[slot] = samler.getFilter(FT_MAG);
-        _mipFilters[slot] = samler.getFilter(FT_MIP);
+        _minFilters[slot] = samler.GetFilter(FT_MIN);
+        _magFilters[slot] = samler.GetFilter(FT_MAG);
+        _mipFilters[slot] = samler.GetFilter(FT_MIP);
 
-        _texStageDesc[slot]._samplerDesc.Filter = D3D11Mappings::getFilter(_minFilters[slot], _magFilters[slot], _mipFilters[slot]);
+        _texStageDesc[slot]._samplerDesc.Filter = D3D11Mappings::GetFilter(_minFilters[slot], _magFilters[slot], _mipFilters[slot]);
     }
 
-    void D3D11RenderSystem::setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode)
+    void D3D11RenderSystem::SetTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode)
     {
-        _texStageDesc[slot]._samplerDesc.AddressU = D3D11Mappings::getAddressMode(uvwMode.u);
-        _texStageDesc[slot]._samplerDesc.AddressV = D3D11Mappings::getAddressMode(uvwMode.v);
-        _texStageDesc[slot]._samplerDesc.AddressW = D3D11Mappings::getAddressMode(uvwMode.w);
+        _texStageDesc[slot]._samplerDesc.AddressU = D3D11Mappings::GetAddressMode(uvwMode.u);
+        _texStageDesc[slot]._samplerDesc.AddressV = D3D11Mappings::GetAddressMode(uvwMode.v);
+        _texStageDesc[slot]._samplerDesc.AddressW = D3D11Mappings::GetAddressMode(uvwMode.w);
 
         _samplerStatesChanged = true;
     }
 
-    void D3D11RenderSystem::setTexture(unsigned slot, Texture2DPtr tex2D)
+    void D3D11RenderSystem::SetTexture(unsigned slot, Texture2DPtr tex2D)
     {
         if (slot >= GHOST_MAX_TEXTURE_UNITS)
             return;
 
         D3D11Texture2DPtr D3D11Tex = GHOST_SMARTPOINTER_CAST(D3D11Texture2D, tex2D);
-        if (D3D11Tex && tex2D->getWidth() > 0 && tex2D->getHeight() > 0)
+        if (D3D11Tex && tex2D->GetWidth() > 0 && tex2D->GetHeight() > 0)
         {
-            _texStageDesc[slot]._tex = D3D11Tex->getD3D11ShaderResourceView().Get();
+            _texStageDesc[slot]._tex = D3D11Tex->GetD3D11ShaderResourceView().Get();
             _texStageDesc[slot]._used = true;
 
             _lastTextureUnitState = slot + 1;
@@ -457,20 +457,20 @@ namespace ghost
         _samplerStatesChanged = true;
     }
 
-    void D3D11RenderSystem::setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
+    void D3D11RenderSystem::SetDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
     {
-        setDepthTestEnable(depthTest);
-        setDepthWriteEnable(depthWrite);
-        setDepthFunction(depthFunction);
+        SetDepthTestEnable(depthTest);
+        SetDepthWriteEnable(depthWrite);
+        SetDepthFunction(depthFunction);
     }
 
-    void D3D11RenderSystem::setDepthTestEnable(bool enable)
+    void D3D11RenderSystem::SetDepthTestEnable(bool enable)
     {
         _depthStencilDesc.DepthEnable = enable;
         _depthStencilDescChanged = true;
     }
 
-    void D3D11RenderSystem::setDepthWriteEnable(bool enable)
+    void D3D11RenderSystem::SetDepthWriteEnable(bool enable)
     {
         if (enable)
         {
@@ -484,13 +484,13 @@ namespace ghost
         _depthStencilDescChanged = true;
     }
 
-    void D3D11RenderSystem::setDepthFunction(CompareFunction fun)
+    void D3D11RenderSystem::SetDepthFunction(CompareFunction fun)
     {
-        _depthStencilDesc.DepthFunc = D3D11Mappings::getComparison(fun);
+        _depthStencilDesc.DepthFunc = D3D11Mappings::GetComparison(fun);
         _depthStencilDescChanged = true;
     }
 
-    void D3D11RenderSystem::setColorBufferEnable(bool r, bool g, bool b, bool a)
+    void D3D11RenderSystem::SetColorBufferEnable(bool r, bool g, bool b, bool a)
     {
         UINT8 val = 0;
         if (r)
@@ -506,7 +506,7 @@ namespace ghost
         _blendDescChanged = true;
     }
 
-    void D3D11RenderSystem::useDefaultRenderTarget()
+    void D3D11RenderSystem::UseDefaultRenderTarget()
     {
         if (_activeRenerTarget)
             _activeRenerTarget = nullptr;
@@ -543,7 +543,7 @@ namespace ghost
         ~D3D11RenderOperationState() {}
     };
 
-    void D3D11RenderSystem::_updateRenderStateBeforeRendering()
+    void D3D11RenderSystem::UpdateRenderStateBeforeRendering()
     {
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
 
@@ -620,7 +620,7 @@ namespace ghost
                 {
                     texture = texStage._tex;
 
-                    texStage._samplerDesc.Filter = D3D11Mappings::getFilter(_minFilters[i], _magFilters[i], _mipFilters[i]);
+                    texStage._samplerDesc.Filter = D3D11Mappings::GetFilter(_minFilters[i], _magFilters[i], _mipFilters[i]);
                     texStage._samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
                     texStage._samplerDesc.MipLODBias = 0;
                     texStage._samplerDesc.MinLOD = -D3D11_FLOAT32_MAX;
@@ -680,18 +680,18 @@ namespace ghost
         }
     }
 
-    void D3D11RenderSystem::render(const RenderOperation& op)
+    void D3D11RenderSystem::Render(const RenderOperation& op)
     {
-        _updateRenderStateBeforeRendering();
+        UpdateRenderStateBeforeRendering();
 
-        setVertexBufferBinding(op._vertexBinding);
-        setVertexDeclaration(op._vertexDecl);
-        setPrimitiveType(op._primitiveType);
+        SetVertexBufferBinding(op._vertexBinding);
+        SetVertexDeclaration(op._vertexDecl);
+        SetPrimitiveType(op._primitiveType);
 
         if (op._useIndex)
         {
-            setIndexBuffer(op._indexBuffer);
-            drawPrimitiveIndexed(op._indexBuffer->getNumIndices(), 0, 0);
+            SetIndexBuffer(op._indexBuffer);
+            DrawPrimitiveIndexed(op._indexBuffer->GetNumIndices(), 0, 0);
         }
         else
         {
@@ -701,7 +701,7 @@ namespace ghost
 
     }
 
-    void D3D11RenderSystem::pushGPUEvent(const std::wstring& name)
+    void D3D11RenderSystem::PushGPUEvent(const std::wstring& name)
     {
 #ifdef GHOST_USE_D3D_11_1
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
@@ -710,7 +710,7 @@ namespace ghost
 #endif // GHOST_USE_D3D_11_1
     }
 
-    void D3D11RenderSystem::popGPUEvent()
+    void D3D11RenderSystem::PopGPUEvent()
     {
 #ifdef GHOST_USE_D3D_11_1
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);

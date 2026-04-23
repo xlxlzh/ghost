@@ -3,73 +3,73 @@
 #include "ModelNode.h"
 #include <windows.h>
 
-void SampleApplication::initSample()
+void SampleApplication::InitSample()
 {
-    MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
-    MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::getInstance()->addResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
+    MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
+    MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
 
-    ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/dragon.obj", 0));
-    ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));
-    ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.obj", 0));
-    ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/cube.obj", 0));
-    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::getInstance()->addResource(RESOURCE_MODEL, "Meshes/head.obj", 0));
+    ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/dragon.obj", 0));
+    ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));
+    ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.obj", 0));
+    ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/cube.obj", 0));
+    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/head.obj", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);
-    _mainCamera->setProjectParams(90, _window->getWidth() / (float)_window->getHeight(), 1.0f, 15.0f);
-    _mainCamera->setTransform(Vector3f(0.0, 40.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
+    _mainCamera->SetProjectParams(90, _window->GetWidth() / (float)_window->GetHeight(), 1.0f, 15.0f);
+    _mainCamera->SetTransform(Vector3f(0.0, 40.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(1.0, 1.0, 1.0));
 
     ModelNode* dragonNode = new ModelNode(_scene);
-    dragonNode->setModel(dragonModel);
-    dragonModel->setMaterial(0, matPtr);
-    dragonNode->setTransform(Vector3f(-8.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
+    dragonNode->SetModel(dragonModel);
+    dragonModel->SetMaterial(0, matPtr);
+    dragonNode->SetTransform(Vector3f(-8.0, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(4, 4, 4));
     //_scene->addNodeToRoot(dragonNode);
 
     ModelNode* bunny = new ModelNode(_scene);
-    bunny->setModel(bunnyModel);
-    bunnyModel->setMaterial(0, matPtr);
-    bunny->setTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
+    bunny->SetModel(bunnyModel);
+    bunnyModel->SetMaterial(0, matPtr);
+    bunny->SetTransform(Vector3f(2, 40.0, 10.0), Vector3f(0.0, 30.0, 0.0), Vector3f(30, 30, 30));
     //_scene->addNodeToRoot(bunny);
 
     ModelNode* head = new ModelNode(_scene);
-    head->setModel(headModel);
-    headModel->setMaterial(0, headMatPtr);
-    head->setTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(0.5, 0.5, 0.5));
-    _scene->addNodeToRoot(head);
+    head->SetModel(headModel);
+    headModel->SetMaterial(0, headMatPtr);
+    head->SetTransform(Vector3f(7, 40.0, 10.0), Vector3f(0.0, 90.0, 0.0), Vector3f(0.5, 0.5, 0.5));
+    _scene->AddNodeToRoot(head);
 
     ModelNode* cube = new ModelNode(_scene);
-    cube->setModel(cubeModel);
-    cubeModel->setMaterial(0, matPtr);
-    cube->setTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
-    _scene->addNodeToRoot(cube);
+    cube->SetModel(cubeModel);
+    cubeModel->SetMaterial(0, matPtr);
+    cube->SetTransform(Vector3f(-150, 30.0, 0.0), Vector3f(0.0, 0.0, 0.0), Vector3f(300, 1, 300));
+    _scene->AddNodeToRoot(cube);
 
     _mainLight = new Light(_scene);
-    _mainLight->setLightType(LIGHT_DIRECTIONAL);
-    _mainLight->setLightColor(Color(1.0, 1.0, 1.0));
-    _mainLight->setTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
-    _mainLight->setLightShiness(100);
-    _scene->addNodeToRoot(_mainLight);
+    _mainLight->SetLightType(LIGHT_DIRECTIONAL);
+    _mainLight->SetLightColor(Color(1.0, 1.0, 1.0));
+    _mainLight->SetTransform(Vector3f(0.0, 0.0, 0.0), Vector3f(0.0, -45.0, 45.0), Vector3f(1.0, 1.0, 1.0));
+    _mainLight->SetLightShiness(100);
+    _scene->AddNodeToRoot(_mainLight);
 
-    _scene->addNodeToRoot(_mainCamera);
+    _scene->AddNodeToRoot(_mainCamera);
 
     _settingPage = GHOST_MAKE_SMART_POINTER(SettingPage);
 
-    getWindow()->setWindowIcon("Textures/logo.jpg");
+    GetWindow()->SetWindowIcon("Textures/logo.jpg");
 
-    ghost::GuiManager::getInstance()->registerGuiPage(_settingPage);
+    ghost::GuiManager::GetInstance()->RegisterGuiPage(_settingPage);
 }
 
-void SampleApplication::onKeydown(GhostKey key)
+void SampleApplication::OnKeydown(GhostKey key)
 {
     if (key == GhostKey::GHOST_KEY_1)
-        Engine::getInstance()->getRenderSystem()->setFillMode(FillMode::FILL_WIREFRAME);
+        Engine::GetInstance()->GetRenderSystem()->SetFillMode(FillMode::FILL_WIREFRAME);
     if (key == GhostKey::GHOST_KEY_2)
-        Engine::getInstance()->getRenderSystem()->setDepthTestEnable(false);
+        Engine::GetInstance()->GetRenderSystem()->SetDepthTestEnable(false);
 }
 
-void SampleApplication::onUpdate()
+void SampleApplication::OnUpdate()
 {
-    _mainLight->setLightColor(_settingPage->getLightColor());
-    _scene->updateSceneGraph(_mainCamera);
-    _scene->render(_mainCamera);
+    _mainLight->SetLightColor(_settingPage->GetLightColor());
+    _scene->UpdateSceneGraph(_mainCamera);
+    _scene->Render(_mainCamera);
 }

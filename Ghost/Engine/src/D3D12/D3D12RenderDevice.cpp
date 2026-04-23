@@ -3,17 +3,17 @@
 
 namespace ghost
 {
-    bool D3D12RenderDevice::initDevice(bool fullscreen, unsigned msaaCount)
+    bool D3D12RenderDevice::InitDevice(bool fullscreen, unsigned msaaCount)
     {
         return true;
     }
 
-    bool D3D12RenderDevice::_initSwapchain()
+    bool D3D12RenderDevice::_InitSwapchain()
     {
         return true;
     }
 
-    bool D3D12RenderDevice::checkSampleCount(unsigned checkCount)
+    bool D3D12RenderDevice::CheckSampleCount(unsigned checkCount)
     {
         return true;
     }

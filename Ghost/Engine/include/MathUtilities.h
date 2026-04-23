@@ -10,73 +10,73 @@ namespace ghost
 	{
 	public:
 		template<typename T>
-		static bool equal(const T& lhs, const T& rhs)
+		static bool Equal(const T& lhs, const T& rhs)
 		{
 			return abs(lhs - rhs) < PRECISION_FLOAT;
 		}
 
 		template<typename T>
-		static T sqrt(const T x)
+		static T Sqrt(const T x)
 		{
 			return ::sqrtf(static_cast<float>(x));
 		}
 
 		template<>
-		static float sqrt(const float x)
+		static float Sqrt(const float x)
 		{
 			return ::sqrtf(x);
 		}
 
 		template<>
-		static double sqrt(const double x)
+		static double Sqrt(const double x)
 		{
 			return ::sqrt(x);
 		}
 
         template<typename T>
-        static T sin(T angle)
+        static T Sin(T angle)
         {
             float radian = static_cast<float>(angle * PI / 180.0f);
             return ::sinf(radian);
         }
 
         template<>
-        static double sin(double angle)
+        static double Sin(double angle)
         {
             double radian = static_cast<double>(angle * PI / 180.0f);
             return ::sin(radian);
         }
 
         template<typename T>
-        static T cos(T angle)
+        static T Cos(T angle)
         {
             float radian = static_cast<float>(angle * PI / 180.0f);
             return ::cosf(radian);
         }
 
         template<>
-        static double cos(double angle)
+        static double Cos(double angle)
         {
             double radian = static_cast<double>(angle * PI / 180.0f);
             return ::cos(radian);
         }
 
         template<typename T>
-        static T tan(T angle)
+        static T Tan(T angle)
         {
             float radian = static_cast<float>(angle * PI / 180.0f);
             return ::tanf(static_cast<float>(radian));
         }
 
         template<>
-        static double tan(double angle)
+        static double Tan(double angle)
         {
             double radian = static_cast<double>(angle * PI / 180.0f);
             return ::tan(radian);
         }
 
         template<typename T>
-        static T cot(T angle)
+        static T Cot(T angle)
         {
             float radian = static_cast<float>(angle * PI / 180.0f);
             float ret =  ::tanf(static_cast<float>(radian));
@@ -84,7 +84,7 @@ namespace ghost
         }
 
         template<>
-        static double cot(double angle)
+        static double Cot(double angle)
         {
             double radian = static_cast<double>(angle * PI / 180.0f);
             double ret = ::tan(radian);

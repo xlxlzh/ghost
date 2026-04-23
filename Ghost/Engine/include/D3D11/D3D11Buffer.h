@@ -22,14 +22,14 @@ namespace ghost
         D3D11Buffer(BufferType buffType, unsigned bufferSize, ResourceUsage usage, bool systemMemory, D3D11RenderDevice& device);
         ~D3D11Buffer() { }
 
-        ID3D11Buffer* getD3DBuffer() { return _buffer.Get(); }
+        ID3D11Buffer* GetD3DBuffer() { return _buffer.Get(); }
 
-        virtual void readData(unsigned offset, unsigned length, void* dest);
-        virtual void writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false);
+        virtual void ReadData(unsigned offset, unsigned length, void* dest);
+        virtual void WriteData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false);
 
     protected:
-        virtual void* _mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) override;
-        virtual void _unmapImpl() override;
+        virtual void* MapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) override;
+        virtual void UnmapImpl() override;
 
     protected:
         ID3D11BufferPtr _buffer;

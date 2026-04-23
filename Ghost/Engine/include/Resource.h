@@ -33,21 +33,21 @@ namespace ghost
         Resource(int type) : _type(type) { }
         Resource(int type, const std::string &name, int flags);
         virtual ~Resource();
-        virtual ResourcePtr clone();
+        virtual ResourcePtr Clone();
 
-        virtual void initDefault();
-        virtual void release();
-        virtual bool load(DataStream& dataStream) = 0;
-        virtual void save(DataStream& dataStream) = 0;
-        virtual void unload();
+        virtual void InitDefault();
+        virtual void Release();
+        virtual bool Load(DataStream& dataStream) = 0;
+        virtual void Save(DataStream& dataStream) = 0;
+        virtual void Unload();
 
-        int getType() const { return _type; }
-        int getFlags() const { return _flags; }
-        const std::string& getName() const { return _name; }
-        void setName(const std::string& name) { _name = name; }
-        bool isLoaded() const { return _loaded; }
+        int GetType() const { return _type; }
+        int GetFlags() const { return _flags; }
+        const std::string& GetName() const { return _name; }
+        void SetName(const std::string& name) { _name = name; }
+        bool IsLoaded() const { return _loaded; }
 
-        static int getTypeStatic() { return RESOURCE_NONE; }
+        static int GetTypeStatic() { return RESOURCE_NONE; }
 
     protected:
         std::string          _name{0};
@@ -56,55 +56,55 @@ namespace ghost
         int                  _flags = 0;
     };
 
-    #define DECLAR_RESOURCE_TYPE(type) static int getTypeStatic() { return RESOURCE_##type; }
+    #define DECLAR_RESOURCE_TYPE(type) static int GetTypeStatic() { return RESOURCE_##type; }
 
     class GHOST_API ResourceFactory
     {
     public:
-        virtual ResourcePtr createResource(const std::string& name, int flags) = 0;
-        virtual void destoryResource(ResourcePtr res) = 0;
-        virtual int getType() = 0;
+        virtual ResourcePtr CreateResource(const std::string& name, int flags) = 0;
+        virtual void DestoryResource(ResourcePtr res) = 0;
+        virtual int GetType() = 0;
     };
 
     template <typename T>
     class GHOST_API ResourceFactoryIml : public ResourceFactory
     {
     public:
-        virtual ResourcePtr createResource(const std::string& name, int flags) override
+        virtual ResourcePtr CreateResource(const std::string& name, int flags) override
         {
             ResourcePtr res = GHOST_MAKE_SMART_POINTER(T);
-            res->setName(name);
+            res->SetName(name);
             return res;
         }
 
-        virtual void destoryResource(ResourcePtr res)
+        virtual void DestoryResource(ResourcePtr res)
         {
             res.reset();
         }
 
-        virtual int getType()
+        virtual int GetType()
         {
-            return T::getTypeStatic();
+            return T::GetTypeStatic();
         }
     };
 
     class GHOST_API ResourceManager : public SingleTon<ResourceManager>
     {
     public:
-        void registerResourceFactory(ResourceFactory* factory);
-        void registerResourceFactory(int type, ResourceFactory* factory);
+        void RegisterResourceFactory(ResourceFactory* factory);
+        void RegisterResourceFactory(int type, ResourceFactory* factory);
 
-        ResourcePtr addResource(int type, const std::string &name, int flags);
-        ResourcePtr addResource(ResourcePtr& resource);
-        int removeResource(Resource &resource);
-        ResourcePtr findResource(int type, const std::string& name) const;
+        ResourcePtr AddResource(int type, const std::string &name, int flags);
+        ResourcePtr AddResource(ResourcePtr& resource);
+        int RemoveResource(Resource &resource);
+        ResourcePtr FindResource(int type, const std::string& name) const;
 
-        ResourcePtr cloneResource(Resource& sourceResource, const std::string& name);
+        ResourcePtr CloneResource(Resource& sourceResource, const std::string& name);
 
-        void clear();
+        void Clear();
 
-        void setResourcesPath(const std::string resourcesPath) { _resourcesPath = resourcesPath; }
-        const std::string& getResourcesPath() const { return _resourcesPath; }
+        void SetResourcesPath(const std::string resourcesPath) { _resourcesPath = resourcesPath; }
+        const std::string& GetResourcesPath() const { return _resourcesPath; }
 
     protected:
         std::vector<ResourcePtr> _resources;

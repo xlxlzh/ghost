@@ -14,7 +14,7 @@ namespace ghost
 	public:
 		Matrix4x4()
 		{
-			identify();
+			Identify();
 		}
 
 		Matrix4x4(const T* floatArray)
@@ -187,12 +187,12 @@ namespace ghost
 			return *this;
 		}
 
-        const T* getAddress()
+        const T* GetAddress()
         {
             return &_m[0];
         }
         
-		Matrix4x4<T> getTransposed() const
+		Matrix4x4<T> GetTransposed() const
 		{
 			Matrix4x4<T> m(*this);
 
@@ -209,7 +209,7 @@ namespace ghost
 			return m;
 		}
 
-        void transpose()
+        void Transpose()
         {
             for (int y = 0; y < 4; ++y)
             {
@@ -222,12 +222,12 @@ namespace ghost
             }
         }
 
-		Matrix4x4<T> inverse() const
+		Matrix4x4<T> Inverse() const
 		{
 			Matrix4x4<T> m;
 
-			T d = determinant();
-			if (MathUtilities::equal<T>(d, 0))
+			T d = Determinant();
+			if (MathUtilities::Equal<T>(d, 0))
 			{
 				return m;
 			}
@@ -255,7 +255,7 @@ namespace ghost
             return m;
 		}
 
-		T determinant() const
+		T Determinant() const
 		{
 			return
                 _14 * _23 * _32 * _41 - _13 * _24 * _32 * _41 - _14 * _22 * _33 * _41 + _12 * _24 * _33 * _41 +
@@ -266,7 +266,7 @@ namespace ghost
                 _13 * _21 * _32 * _44 - _11 * _23 * _32 * _44 - _12 * _21 * _33 * _44 + _11 * _22 * _33 * _44;
 		}
 
-		void identify()
+		void Identify()
 		{
 			_11 = 1, _12 = 0, _13 = 0, _14 = 0;
 			_21 = 0, _22 = 1, _23 = 0, _24 = 0;
@@ -274,23 +274,23 @@ namespace ghost
 			_41 = 0, _42 = 0, _43 = 0, _44 = 1;
 		}
 
-        void translate(T x, T y, T z)
+        void Translate(T x, T y, T z)
         {
-            *this *= transformMatrix(x, y, z);
+            *this *= TransformMatrix(x, y, z);
         }
 
-        void scale(T x, T y, T z)
+        void Scale(T x, T y, T z)
         {
-            *this *= scaleMatrix(x, y, z);
+            *this *= ScaleMatrix(x, y, z);
         }
 
-        void rotate(T x, T y, T z)
+        void Rotate(T x, T y, T z)
         {
-            *this *= rotationMatrix(x, y, z);
+            *this *= RotationMatrix(x, y, z);
         }
 
 	public:
-		static Matrix4x4<T> scaleMatrix(T x, T y, T z)
+		static Matrix4x4<T> ScaleMatrix(T x, T y, T z)
 		{
 			Matrix4x4<T> m;
 
@@ -301,7 +301,7 @@ namespace ghost
 			return m;
 		}
 
-		static Matrix4x4<T> transformMatrix(T x, T y, T z)
+		static Matrix4x4<T> TransformMatrix(T x, T y, T z)
 		{
 			Matrix4x4<T> m;
 
@@ -312,7 +312,7 @@ namespace ghost
 			return m;
 		}
 
-		static Matrix4x4<T> rotationMatrixXAxis(T angle)
+		static Matrix4x4<T> RotationMatrixXAxis(T angle)
 		{
 			Matrix4x4<T> m;
             m._22 = MathUtilities::cos<T>(angle);
@@ -322,7 +322,7 @@ namespace ghost
 			return m;
 		}
 
-        static Matrix4x4<T> rotationMatrixYAxis(T angle)
+        static Matrix4x4<T> RotationMatrixYAxis(T angle)
         {
             Matrix4x4<T> m;
 
@@ -334,7 +334,7 @@ namespace ghost
             return m;
         }
 
-        static Matrix4x4<T> rotationMatrixZAxis(T angle)
+        static Matrix4x4<T> RotationMatrixZAxis(T angle)
         {
             Matrix4x4<T> m;
 
@@ -346,22 +346,22 @@ namespace ghost
             return m;
         }
 
-        static Matrix4x4<T> rotationMatrix(Vector3<T> axis, float angle)
+        static Matrix4x4<T> RotationMatrix(Vector3<T> axis, float angle)
         {
             axis = axis * MathUtilities::sin<T>(angle * 0.5f);
             return Matrix4x4<T>(Quaternion<T>(axis._x, axis._y, axis._z, MathUtilities::cos<float>(angle * 0.5)));
         }
 
-        static Matrix4x4<T> rotationMatrix(const T angleX, const T angleY, const T angleZ)
+        static Matrix4x4<T> RotationMatrix(const T angleX, const T angleY, const T angleZ)
         {
             return Matrix4x4<T>(Quaternion<T>(angleX, angleY, angleZ));
         }
 
-        static Matrix4x4<T> perspectiveMatrix(float fov, float aspect, float n, float f)
+        static Matrix4x4<T> PerspectiveMatrix(float fov, float aspect, float n, float f)
         {
             Matrix4x4<T> m;
 
-            float yScale = MathUtilities::cot(fov / 2.0f);
+            float yScale = MathUtilities::Cot(fov / 2.0f);
             float xScale = yScale / aspect;
 
             m._11 = xScale;
@@ -373,7 +373,7 @@ namespace ghost
             return m;
         }
 
-        static Matrix4x4<T> orthoMatrix(float w, float h, float n, float f)
+        static Matrix4x4<T> OrthoMatrix(float w, float h, float n, float f)
         {
             Matrix4x4<T> m;
 
@@ -386,22 +386,22 @@ namespace ghost
             return m;
         }
 
-        static Matrix4x4<T> viewMatrix(Vector3<T> pos, Vector3<T> lookAt, Vector3<T> up)
+        static Matrix4x4<T> ViewMatrix(Vector3<T> pos, Vector3<T> lookAt, Vector3<T> up)
         {
             Matrix4x4<T> m;
 
             Vector3<T> dir = lookAt - pos;
-            dir.normalize();
+            dir.Normalize();
 
-            Vector3<T> r = up.crossProduct(dir);
-            r.normalize();
+            Vector3<T> r = up.CrossProduct(dir);
+            r.Normalize();
 
-            up = dir.crossProduct(r);
-            up.normalize();
+            up = dir.CrossProduct(r);
+            up.Normalize();
 
-            T x = -pos.dotProduct(r);
-            T y = -pos.dotProduct(up);
-            T z = -pos.dotProduct(dir);
+            T x = -pos.DotProduct(r);
+            T y = -pos.DotProduct(up);
+            T z = -pos.DotProduct(dir);
 
             m._11 = r._x;
             m._21 = r._y;

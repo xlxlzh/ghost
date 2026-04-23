@@ -64,13 +64,13 @@ namespace ghost
 	class GHOST_API MessageHandler
 	{
 	public:
-		virtual void onMouseRightClick() { }
-		virtual void onMouseLeftClick() { }
-        virtual void onMouseRightRelease() { }
-        virtual void onMouseLeftRelease() { }
-        virtual void onMouseMove() { }
-		virtual void onKeydown(GhostKey key) { }
-		virtual void onKeyup(GhostKey key) { }
+		virtual void OnMouseRightClick() { }
+		virtual void OnMouseLeftClick() { }
+        virtual void OnMouseRightRelease() { }
+        virtual void OnMouseLeftRelease() { }
+        virtual void OnMouseMove() { }
+		virtual void OnKeydown(GhostKey key) { }
+		virtual void OnKeyup(GhostKey key) { }
 	};
 }
 

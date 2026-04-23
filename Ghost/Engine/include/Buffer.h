@@ -13,20 +13,20 @@ namespace ghost
         Buffer(ResourceUsage usage, bool systemMemory);
         virtual ~Buffer() { }
 
-        bool isLocked() const { return _isLocked; }
-        ResourceUsage getUsage() const { return _usage; }
-        bool isSystemMemory() const { return _useSystemMemory; }
+        bool IsLocked() const { return _isLocked; }
+        ResourceUsage GetUsage() const { return _usage; }
+        bool IsSystemMemory() const { return _useSystemMemory; }
 
 
-        virtual void* map(unsigned offset, unsigned length, ResourceLockFlag flag);
-        virtual void unmap();
+        virtual void* Map(unsigned offset, unsigned length, ResourceLockFlag flag);
+        virtual void Unmap();
 
-        virtual void readData(unsigned offset, unsigned length, void* dest) = 0;
-        virtual void writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false) = 0;
+        virtual void ReadData(unsigned offset, unsigned length, void* dest) = 0;
+        virtual void WriteData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false) = 0;
 
     protected:
-        virtual void* _mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) = 0;
-        virtual void _unmapImpl() = 0;
+        virtual void* MapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) = 0;
+        virtual void UnmapImpl() = 0;
 
     protected:
         ResourceUsage _usage;

@@ -18,7 +18,7 @@ namespace ghost
         SCENENODE_MODEL
     };
 
-    #define GET_SCENENODE_TYPE(NodeType) virtual SceneNodeType getType() const { return SCENENODE_##NodeType; }
+    #define GET_SCENENODE_TYPE(NodeType) virtual SceneNodeType GetType() const { return SCENENODE_##NodeType; }
 
     class Octree;
     class SceneManager;
@@ -31,36 +31,36 @@ namespace ghost
         SceneNode(SceneManager* owner);
         virtual ~SceneNode() = default;
 
-        BoundingBox& getBoundingBox() { return _boundingBox; }
-        SceneNode* getParent() const { return _parent; }
+        BoundingBox& GetBoundingBox() { return _boundingBox; }
+        SceneNode* GetParent() const { return _parent; }
 
-        void setTree(Octree* tree) { _tree = tree; }
-        Octree* getTree() const { return _tree; }
+        void SetTree(Octree* tree) { _tree = tree; }
+        Octree* GetTree() const { return _tree; }
 
-        Matrix4x4f& getRelTrans() { return _relTrans; }
-        Matrix4x4f& getAbsTrans() { return _absTrans; }
-        void setTransform(const Vector3f& pos, const Vector3f& rotation, const Vector3f& scale);
-        void setTransform(const Matrix4x4f& mat);
-        void setPosition(const Vector3f& pos);
-        void getTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale);
-        void setScale(const Vector3f& scale);
-        void setRotation(const Vector3f&rotation);
+        Matrix4x4f& GetRelTrans() { return _relTrans; }
+        Matrix4x4f& GetAbsTrans() { return _absTrans; }
+        void SetTransform(const Vector3f& pos, const Vector3f& rotation, const Vector3f& scale);
+        void SetTransform(const Matrix4x4f& mat);
+        void SetPosition(const Vector3f& pos);
+        void GetTransform(Vector3f& pos, Vector3f& rotation, Vector3f& scale);
+        void SetScale(const Vector3f& scale);
+        void SetRotation(const Vector3f&rotation);
 
-        void update();
+        void Update();
 
-        void markDirty();
-        void markChildrenDirty();
+        void MarkDirty();
+        void MarkChildrenDirty();
 
-        bool isIn(const BoundingBox& inBox) const { return true; }
+        bool IsIn(const BoundingBox& inBox) const { return true; }
 
-        virtual void render(Camera* cam) { }
+        virtual void Render(Camera* cam) { }
 
         //virtual void getRenderOperation(RenderOperation& op) { }
 
         GET_SCENENODE_TYPE(UNDEFINED)
 
     protected:
-        virtual void onPostUpdate() { }
+        virtual void OnPostUpdate() { }
 
     protected:
         std::string _name;

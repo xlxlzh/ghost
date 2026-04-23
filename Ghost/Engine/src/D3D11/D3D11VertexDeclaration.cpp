@@ -12,7 +12,7 @@ namespace ghost
 
     }
 
-    void D3D11VertexDeclaration::bindToShader()
+    void D3D11VertexDeclaration::BindToShader()
     {
 
     }

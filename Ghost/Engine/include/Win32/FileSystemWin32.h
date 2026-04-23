@@ -11,17 +11,17 @@ namespace ghost
         FileSystemWin32() = default;
         virtual ~FileSystemWin32() { }
 
-        virtual bool setCurrentDir(const std::string& pathName) override;
-        virtual bool createDir(const std::string& pathName) override;
-        virtual std::string getCurrentDir() const override;
+        virtual bool SetCurrentDir(const std::string& pathName) override;
+        virtual bool CreateDir(const std::string& pathName) override;
+        virtual std::string GetCurrentDir() const override;
 
-        virtual bool renameFile(const std::string& srcFileName, const std::string& dstFileName) override;
-        virtual bool deleteFile(const std::string& fileName);
+        virtual bool RenameFile(const std::string& srcFileName, const std::string& dstFileName) override;
+        virtual bool DeleteFileByName(const std::string& fileName) override;
 
-        virtual bool fileExists(const std::string& fileName) const override;
-        virtual bool dirExists(const std::string& pathName) const override;
+        virtual bool FileExists(const std::string& fileName) const override;
+        virtual bool DirExists(const std::string& pathName) const override;
 
-        virtual void scanDir(std::vector<std::string>& result, const std::string& pathName, const std::string& filter) override;
+        virtual void ScanDir(std::vector<std::string>& result, const std::string& pathName, const std::string& filter) override;
     };
 
     DECLAR_SMART_POINTER(FileSystemWin32);

@@ -18,24 +18,24 @@ namespace ghost
     class GHOST_API RenderDevice
     {
     public:
-        virtual bool initDevice(bool fullscreen, unsigned msaaCount) = 0;
-        virtual bool checkSampleCount(unsigned checkCount) = 0;
+        virtual bool InitDevice(bool fullscreen, unsigned msaaCount) = 0;
+        virtual bool CheckSampleCount(unsigned checkCount) = 0;
         
-        virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
-        virtual Shader* createShader(const ShaderResourcePtr& shadersRes) = 0;
-        virtual void reflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params) = 0;
+        virtual bool CompileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) = 0;
+        virtual Shader* CreateShader(const ShaderResourcePtr& shadersRes) = 0;
+        virtual void ReflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params) = 0;
 
-        virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) = 0;
-        virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) = 0;
-        virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) = 0;
-        virtual VertexDeclarationPtr createVertexDeclaration() = 0;
+        virtual VertexBufferPtr CreateVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) = 0;
+        virtual IndexBufferPtr CreateIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) = 0;
+        virtual ConstBufferPtr CreateConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) = 0;
+        virtual VertexDeclarationPtr CreateVertexDeclaration() = 0;
 
-        virtual RenderTargetPtr createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) = 0;
-        virtual RenderTargetPtr createSingleRenderTarget(unsigned w, unsigned h, GhostColorFormat format, bool srv = false, bool msaa = false, bool depth = true);
-        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) = 0;
+        virtual RenderTargetPtr CreateRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) = 0;
+        virtual RenderTargetPtr CreateSingleRenderTarget(unsigned w, unsigned h, GhostColorFormat format, bool srv = false, bool msaa = false, bool depth = true);
+        virtual DepthStencilTargetPtr CreateDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) = 0;
 
-        unsigned getMSAACount() const { return _sampleCount; }
-        unsigned getMSAAQuality() const { return _sampleQulity; }
+        unsigned GetMSAACount() const { return _sampleCount; }
+        unsigned GetMSAAQuality() const { return _sampleQulity; }
 
     protected:
         unsigned _sampleCount;

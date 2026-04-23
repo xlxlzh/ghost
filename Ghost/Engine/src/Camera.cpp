@@ -5,35 +5,35 @@
 
 namespace ghost
 {
-    void Camera::setViewport(const ViewportPtr& vPtr)
+    void Camera::SetViewport(const ViewportPtr& vPtr)
     {
         _viewport = vPtr;
     }
 
-    void Camera::onPostUpdate()
+    void Camera::OnPostUpdate()
     {
         _absPos = Vector3f(_absTrans._41, _absTrans._42, _absTrans._43);
 
-        _matView = _absTrans.inverse();
+        _matView = _absTrans.Inverse();
 
         if (!_orthographic)
         {
-            _matProj = Matrix4x4f::perspectiveMatrix(_fov, _aspect, _frustNear, _frustFar);
-            _frustum.buildViewFrustum(_absTrans, _fov, _aspect, _frustNear, _frustFar);
+            _matProj = Matrix4x4f::PerspectiveMatrix(_fov, _aspect, _frustNear, _frustFar);
+            _frustum.BuildViewFrustum(_absTrans, _fov, _aspect, _frustNear, _frustFar);
         }   
         else
         {
-            _matProj = Matrix4x4f::orthoMatrix(_frustRight - _frustLeft, _frustTop - _frustBottom, _frustNear, _frustFar);
+            _matProj = Matrix4x4f::OrthoMatrix(_frustRight - _frustLeft, _frustTop - _frustBottom, _frustNear, _frustFar);
             //_frustum.buildBoxFrustum();
         }
     }
 
-    void Camera::setProjectParams(float fov, float aspect, float n, float f)
+    void Camera::SetProjectParams(float fov, float aspect, float n, float f)
     {
         _fov = fov;
         _aspect = aspect;
 
-        float ymax = n * MathUtilities::tan(fov / 2.0f);
+        float ymax = n * MathUtilities::Tan(fov / 2.0f);
         float xmax = ymax * aspect;
 
         _frustNear = n;
@@ -43,17 +43,17 @@ namespace ghost
         _frustTop = ymax;
         _frustBottom = -ymax;
 
-        markDirty();
+        MarkDirty();
     }
 
-    void Camera::prepareForRendering()
+    void Camera::PrepareForRendering()
     {
         if (_cameraParams == nullptr)
-            _cameraParams = Engine::getInstance()->getRenderDevice()->createConstBuffer(sizeof(PerFrame), ResourceUsage::USAGE_DYNAMIC, "PerFrame");
+            _cameraParams = Engine::GetInstance()->GetRenderDevice()->CreateConstBuffer(sizeof(PerFrame), ResourceUsage::USAGE_DYNAMIC, "PerFrame");
 
         PerFrame frame;
         frame._cameraPos = Vector4f(_absPos._x, _absPos._y, _absPos._z, 1.0f);
 
-        _cameraParams->writeData(0, sizeof(PerFrame), &frame, true);
+        _cameraParams->WriteData(0, sizeof(PerFrame), &frame, true);
     }
 }

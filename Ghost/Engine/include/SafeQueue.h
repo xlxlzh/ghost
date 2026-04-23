@@ -11,27 +11,27 @@ namespace ghost
         SafeQueue() = default;
         ~SafeQueue() = default;
         
-        bool empty() const
+        bool Empty() const
         {
-            std::unique_lock<std::mutex> lock(_mutex);
+            std::unique_lock<std::mutex> Lock(_mutex);
             return _queue.empty();
         }
         
-        int size() const
+        int Size() const
         {
-            std::unique_lock<std::mutex> lock(_mutex);
+            std::unique_lock<std::mutex> Lock(_mutex);
             return _queue.size();
         }
         
-        void enqueue(T& item)
+        void Enqueue(T& item)
         {
-            std::unique_lock<std::mutex> lock(_mutex);
+            std::unique_lock<std::mutex> Lock(_mutex);
             _queue.emplace(item);
         }
         
-        bool dequeue(T& item)
+        bool Dequeue(T& item)
         {
-            std::unique_lock<std::mutex> lock(_mutex);
+            std::unique_lock<std::mutex> Lock(_mutex);
             if (_queue.empty()) return false;
             
             item = std::move(_queue.front());

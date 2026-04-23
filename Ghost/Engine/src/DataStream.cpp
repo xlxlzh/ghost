@@ -27,7 +27,7 @@ namespace ghost
 		assert(_end >= _pos);
 	}
 
-	std::size_t MemoryDataStream::read(void* buf, std::size_t count)
+	std::size_t MemoryDataStream::Read(void* buf, std::size_t count)
 	{
 		std::size_t cnt = count;
 		
@@ -47,10 +47,10 @@ namespace ghost
 		return cnt;
 	}
 
-	std::size_t MemoryDataStream::write(const void* buf, size_t count)
+	std::size_t MemoryDataStream::Write(const void* buf, size_t count)
 	{
 		std::size_t sizeWritten = 0;
-		if (isWriteable())
+		if (IsWriteable())
 		{
 			sizeWritten = count;
 			
@@ -71,7 +71,7 @@ namespace ghost
 		return sizeWritten;
 	}
 
-	void MemoryDataStream::skip(std::size_t count)
+	void MemoryDataStream::Skip(std::size_t count)
 	{
 		std::size_t newPos = static_cast<std::size_t>((_pos - _data) + count);
 		assert(_data + newPos <= _end);
@@ -79,23 +79,23 @@ namespace ghost
 		_pos = _data + newPos;
 	}
 
-	void MemoryDataStream::seek(std::size_t pos)
+	void MemoryDataStream::Seek(std::size_t pos)
 	{
 		assert(_data + pos <= _end);
 		_pos = _data + pos;
 	}
 
-	std::size_t MemoryDataStream::tell() const
+	std::size_t MemoryDataStream::Tell() const
 	{
 		return _pos - _data;
 	}
 
-	bool MemoryDataStream::eof() const
+	bool MemoryDataStream::Eof() const
 	{
 		return _pos >= _end;
 	}
 
-	void MemoryDataStream::close()
+	void MemoryDataStream::Close()
 	{
 		_accessMode = AccessMode::AM_READ;
 		if (_freeOnClose && _data)
@@ -105,7 +105,7 @@ namespace ghost
 		}
 	}
 
-    bool MemoryDataStream::isOpened() const 
+    bool MemoryDataStream::IsOpened() const 
     {
         return _data != nullptr;
     }
@@ -114,7 +114,7 @@ namespace ghost
 		: DataStream(fileName, mode)
 	{
 		_fileStream = new std::fstream();
-		unsigned flag = getStreamFlag(mode);
+		unsigned flag = GetStreamFlag(mode);
 
 		if (_fileStream)
 		{
@@ -128,7 +128,7 @@ namespace ghost
 		}
 	}
 
-	unsigned FileStream::getStreamFlag(AccessMode mode)
+	unsigned FileStream::GetStreamFlag(AccessMode mode)
 	{
 		unsigned flag = 0;
 		if (mode & AccessMode::AM_READ)
@@ -144,9 +144,9 @@ namespace ghost
 		return flag;
 	}
 
-	std::size_t FileStream::read(void* buf, std::size_t count)
+	std::size_t FileStream::Read(void* buf, std::size_t count)
 	{
-		if (_fileStream && isReadable())
+		if (_fileStream && IsReadable())
 		{
 			_fileStream->read(static_cast<char*>(buf), count);
 			return _fileStream->gcount();
@@ -155,10 +155,10 @@ namespace ghost
 		return 0;
 	}
 
-	std::size_t FileStream::write(const void* buf, size_t count)
+	std::size_t FileStream::Write(const void* buf, size_t count)
 	{
 		std::size_t writeCount = 0;
-		if (_fileStream && isWriteable())
+		if (_fileStream && IsWriteable())
 		{
 			_fileStream->write(static_cast<const char*>(buf), static_cast<std::streamsize>(count));
 			writeCount = count;
@@ -167,7 +167,7 @@ namespace ghost
 		return writeCount;
 	}
 
-	void FileStream::skip(std::size_t count)
+	void FileStream::Skip(std::size_t count)
 	{
 		if (_fileStream)
 		{
@@ -176,7 +176,7 @@ namespace ghost
 		}
 	}
 
-	void FileStream::seek(std::size_t pos)
+	void FileStream::Seek(std::size_t pos)
 	{
 		if (_fileStream)
 		{
@@ -185,7 +185,7 @@ namespace ghost
 		}
 	}
 
-	std::size_t FileStream::tell() const
+	std::size_t FileStream::Tell() const
 	{
 		if (_fileStream)
 		{
@@ -196,12 +196,12 @@ namespace ghost
 		return 0;
 	}
 
-	bool FileStream::eof() const
+	bool FileStream::Eof() const
 	{
 		return _fileStream && _fileStream->eof();
 	}
 
-	void FileStream::close()
+	void FileStream::Close()
 	{
 		if (_fileStream)
 		{
@@ -211,7 +211,7 @@ namespace ghost
 		}
 	}
 
-    bool FileStream::isOpened() const
+    bool FileStream::IsOpened() const
     {
         return _fileStream && _fileStream->is_open();
     }

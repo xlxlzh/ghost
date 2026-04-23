@@ -18,16 +18,16 @@ namespace ghost
         Sampler();
         ~Sampler() { }
 
-        void setAddressingMode(TextureAddressingMode u, TextureAddressingMode v, TextureAddressingMode w) { setAddressingMode({ u, v, w }); }
-        void setAddressingMode(TextureAddressingMode mode) { setAddressingMode({ mode, mode, mode }); }
-        void setAddressingMode(const UVWAddressingMode& mode);
+        void SetAddressingMode(TextureAddressingMode u, TextureAddressingMode v, TextureAddressingMode w) { SetAddressingMode({ u, v, w }); }
+        void SetAddressingMode(TextureAddressingMode mode) { SetAddressingMode({ mode, mode, mode }); }
+        void SetAddressingMode(const UVWAddressingMode& mode);
 
-        void setFilter(TextureFilterOptions filterType);
-        void setFilter(FilterType type, FilterOptions opts);
-        void setFilter(FilterOptions minFilter, FilterOptions magFilter, FilterOptions mipFilter);
-        FilterOptions getFilter(FilterType type) const;
+        void SetFilter(TextureFilterOptions filterType);
+        void SetFilter(FilterType type, FilterOptions opts);
+        void SetFilter(FilterOptions minFilter, FilterOptions magFilter, FilterOptions mipFilter);
+        FilterOptions GetFilter(FilterType type) const;
 
-        UVWAddressingMode getAddressingMode() const { return _addressingMode; }
+        UVWAddressingMode GetAddressingMode() const { return _addressingMode; }
 
 
     protected:

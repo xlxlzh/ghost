@@ -10,8 +10,8 @@ namespace ghost
     class GHOST_API UtilityGenerator final
     {
     public:
-        static ModelPtr createBox(const Vector3f& size);
-        static ModelPtr createSphere(float radius);
+        static ModelPtr CreateBox(const Vector3f& size);
+        static ModelPtr CreateSphere(float radius);
     };
 }
 

@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    void RenderQueue::resetRenderQueue()
+    void RenderQueue::ResetRenderQueue()
     {
         _opaueQueue.clear();
         _shadowQueue.clear();

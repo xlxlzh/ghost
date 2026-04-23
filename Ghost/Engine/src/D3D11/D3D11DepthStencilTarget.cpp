@@ -9,23 +9,23 @@ namespace ghost
     D3D11DepthStencilTarget::D3D11DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) :
         DepthStencilTarget(w, h, msaa, srv)
     {
-        _onCreateDepthStencilTarget();
+        OnCreateDepthStencilTarget();
     }
 
     D3D11DepthStencilTarget::~D3D11DepthStencilTarget()
     {
-        _onDestoryDepthStencilTarget();
+        OnDestoryDepthStencilTarget();
     }
 
-    void D3D11DepthStencilTarget::_onCreateDepthStencilTarget()
+    void D3D11DepthStencilTarget::OnCreateDepthStencilTarget()
     {
-        D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::getInstance()->getRenderDevice());
-        ID3D11DevicePtr d3d11Device = device->getDevice();
+        D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::GetInstance()->GetRenderDevice());
+        ID3D11DevicePtr d3d11Device = device->GetDevice();
 
         D3D11_TEXTURE2D_DESC texDesc = { 0 };
         texDesc.Width = _width;
         texDesc.Height = _height;
-        texDesc.Format = device->getFeatureLevel() > D3D_FEATURE_LEVEL_10_0 ? DXGI_FORMAT_R24G8_TYPELESS : DXGI_FORMAT_D24_UNORM_S8_UINT;
+        texDesc.Format = device->GetFeatureLevel() > D3D_FEATURE_LEVEL_10_0 ? DXGI_FORMAT_R24G8_TYPELESS : DXGI_FORMAT_D24_UNORM_S8_UINT;
         texDesc.Usage = D3D11_USAGE_DEFAULT;
         texDesc.CPUAccessFlags = 0;
         texDesc.ArraySize = 1;
@@ -35,8 +35,8 @@ namespace ghost
 
         if (_msaa)
         {
-            texDesc.SampleDesc.Count = device->getMSAACount();
-            texDesc.SampleDesc.Quality = device->getMSAAQuality();
+            texDesc.SampleDesc.Count = device->GetMSAACount();
+            texDesc.SampleDesc.Quality = device->GetMSAAQuality();
         }
         else
         {
@@ -53,7 +53,7 @@ namespace ghost
             GHOST_LOG_FORMAT_ERROR_THROW("%s CreateTexture2D failed.", __FUNCTION__);
         }
 
-        if (device->getFeatureLevel() > D3D_FEATURE_LEVEL_10_0 && _srv)
+        if (device->GetFeatureLevel() > D3D_FEATURE_LEVEL_10_0 && _srv)
         {
             D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
             viewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
@@ -80,7 +80,7 @@ namespace ghost
         }
     }
 
-    void D3D11DepthStencilTarget::_onDestoryDepthStencilTarget()
+    void D3D11DepthStencilTarget::OnDestoryDepthStencilTarget()
     {
         _depthView.Reset();
         _depthTexture.Reset();

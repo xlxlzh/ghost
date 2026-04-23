@@ -16,27 +16,27 @@ namespace ghost
 		RenderWindow(Application* app) : _app(app) { }
         virtual ~RenderWindow(){ }
 
-		bool initialize(int width, int height, const std::string windowName, bool fullscreen);
+		bool Initialize(int width, int height, const std::string windowName, bool fullscreen);
 
-		int getWidth() const { return _width; }
-		int getHeight() const { return _height; }
+		int GetWidth() const { return _width; }
+		int GetHeight() const { return _height; }
 
-		const std::string& getWindowTitle() const { return _windowTitle; }
+		const std::string& GetWindowTitle() const { return _windowTitle; }
 
-		void showWindow() const;
-		void updateWindow() const;
+		void ShowWindow() const;
+		void UpdateWindow() const;
 
-		virtual void* getWindowHandle() const = 0;
-        virtual void setWindowTitle(const std::string& title) = 0;
-        virtual void setWindowPos(int posx, int posy) = 0;
-        virtual void setWindowIcon(const std::string& iconName) = 0;
+		virtual void* GetWindowHandle() const = 0;
+        virtual void SetWindowTitle(const std::string& title) = 0;
+        virtual void SetWindowPos(int posx, int posy) = 0;
+        virtual void SetWindowIcon(const std::string& iconName) = 0;
 
 	protected:
-		virtual bool _createWindow() = 0;
-		virtual void _showWindow() const = 0;
-		virtual void _updateWindow() const = 0;
+		virtual bool InternalCreateWindow() = 0;
+		virtual void InternalShowWindow() const = 0;
+		virtual void InternalUpdateWindow() const = 0;
 
-		virtual void _messageLoop() { }
+		virtual void InternalMessageLoop() { }
 
 	protected:
 		std::string _windowTitle;

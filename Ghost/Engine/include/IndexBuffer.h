@@ -18,9 +18,9 @@ namespace ghost
         IndexBuffer(IndexType type, unsigned numIndex, ResourceUsage usage, bool systemMemory);
         ~IndexBuffer();
 
-        IndexType getIndexType() const { return _type; }
-        unsigned getNumIndices() const { return _numIndices; }
-        unsigned getIndexSize() const { return _indexSize; }
+        IndexType GetIndexType() const { return _type; }
+        unsigned GetNumIndices() const { return _numIndices; }
+        unsigned GetIndexSize() const { return _indexSize; }
 
     protected:
         IndexType _type;

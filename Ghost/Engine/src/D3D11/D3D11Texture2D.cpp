@@ -18,10 +18,10 @@ namespace ghost
 
     }
 
-    void D3D11Texture2D::_createTextureInternal()
+    void D3D11Texture2D::InternalCreateTexture()
     {
-        D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::getInstance()->getRenderDevice());
-        ID3D11DevicePtr d3d11Device = device->getDevice();
+        D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::GetInstance()->GetRenderDevice());
+        ID3D11DevicePtr d3d11Device = device->GetDevice();
 
         D3D11_TEXTURE2D_DESC texDesc{ 0 };
         texDesc.Width = _width;
@@ -29,8 +29,8 @@ namespace ghost
         texDesc.ArraySize = 1;
         texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
         texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        texDesc.Usage = D3D11Mappings::getUsage(_usage);
-        texDesc.CPUAccessFlags = D3D11Mappings::getAccessFlags(_usage);
+        texDesc.Usage = D3D11Mappings::GetUsage(_usage);
+        texDesc.CPUAccessFlags = D3D11Mappings::GetAccessFlags(_usage);
         texDesc.SampleDesc.Count = 1;
         texDesc.SampleDesc.Quality = 0;
         texDesc.MiscFlags = 0;
@@ -38,7 +38,7 @@ namespace ghost
 
         D3D11_SUBRESOURCE_DATA subData{ 0 };
         subData.pSysMem = _datas;
-        subData.SysMemPitch = _width * FormatUtilies::getFormatSizeInByte(GHOST_FORMAT_R8G8B8A8);
+        subData.SysMemPitch = _width * FormatUtilies::GetFormatSizeInByte(GHOST_FORMAT_R8G8B8A8);
 
         HRESULT hr = S_OK;
         hr = d3d11Device->CreateTexture2D(&texDesc, &subData, _texture.ReleaseAndGetAddressOf());
@@ -49,7 +49,7 @@ namespace ghost
         }
 
         D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc{ };
-        viewDesc.Format = D3D11Mappings::getFormat(_format);
+        viewDesc.Format = D3D11Mappings::GetFormat(_format);
         viewDesc.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
         viewDesc.Texture2D.MipLevels = texDesc.MipLevels;
         viewDesc.Texture2D.MostDetailedMip = 0;

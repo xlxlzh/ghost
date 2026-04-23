@@ -12,19 +12,19 @@ namespace ghost
         Octree(Octree* parent);
         ~Octree();
 
-        void addNode(SceneNode* node);
-        void removeNode(SceneNode* node);
+        void AddNode(SceneNode* node);
+        void RemoveNode(SceneNode* node);
 
-        int numNodes() const { return _numNodes; }
-        BoundingBox& getBoundingBox() { return _boundingBox; }
+        int NumNodes() const { return _numNodes; }
+        BoundingBox& GetBoundingBox() { return _boundingBox; }
 
-        bool isTwiceSize(const BoundingBox& box) const;
+        bool IsTwiceSize(const BoundingBox& box) const;
 
     private:
-        void _increaseNumNodes();
-        void _decreaseNumNodes();
+        void IncreaseNumNodes();
+        void DecreaseNumNodes();
 
-        void _getChildIndexes(const BoundingBox& box, int& x, int& y, int& z) const;
+        void GetChildIndexes(const BoundingBox& box, int& x, int& y, int& z) const;
 
     private:
         Octree* _children[2][2][2]{ nullptr };

@@ -10,11 +10,11 @@ namespace ghost
     {
         friend class D3D12RenderSystem;
     public:
-        virtual bool initDevice(bool fullscreen, unsigned msaaCount) override;
-        virtual bool checkSampleCount(unsigned checkCount) override;
+        virtual bool InitDevice(bool fullscreen, unsigned msaaCount) override;
+        virtual bool CheckSampleCount(unsigned checkCount) override;
 
     private:
-        bool _initSwapchain();
+        bool _InitSwapchain();
 
     private:
 

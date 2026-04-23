@@ -4,18 +4,18 @@
 
 namespace ghost
 {
-    bool FileSystemWin32::setCurrentDir(const std::string& pathName)
+    bool FileSystemWin32::SetCurrentDir(const std::string& pathName)
     {
         if (SetCurrentDirectoryA(GetNativePath(pathName).c_str()) == FALSE)
         {
-            LogManager::getInstance()->logError("setCurrentDir failed.");
+            LogManager::GetInstance()->LogError("setCurrentDir failed.");
             return false;
         }
 
         return true;
     }
 
-    bool FileSystemWin32::createDir(const std::string& pathName)
+    bool FileSystemWin32::CreateDir(const std::string& pathName)
     {
         bool sucess = CreateDirectoryA(GetNativePath(pathName).c_str(), nullptr) ||
             (GetLastError() == ERROR_ALIAS_EXISTS);
@@ -23,24 +23,24 @@ namespace ghost
         return sucess;
     }
 
-    std::string FileSystemWin32::getCurrentDir() const
+    std::string FileSystemWin32::GetCurrentDir() const
     {
         char path[MAX_PATH] = { 0 };
         GetCurrentDirectoryA(MAX_PATH, path);
         return path;
     }
 
-    bool FileSystemWin32::renameFile(const std::string& srcFileName, const std::string& dstFileName)
+    bool FileSystemWin32::RenameFile(const std::string& srcFileName, const std::string& dstFileName)
     {
         return MoveFileA(GetNativePath(srcFileName).c_str(), GetNativePath(dstFileName).c_str());
     }
 
-    bool FileSystemWin32::deleteFile(const std::string& fileName)
+    bool FileSystemWin32::DeleteFileByName(const std::string& fileName)
     {
         return DeleteFileA(GetNativePath(fileName).c_str());
     }
 
-    bool FileSystemWin32::fileExists(const std::string& fileName) const
+    bool FileSystemWin32::FileExists(const std::string& fileName) const
     {
         std::string nativeName = GetNativePath(fileName);
 
@@ -51,7 +51,7 @@ namespace ghost
         return true;
     }
 
-    bool FileSystemWin32::dirExists(const std::string& pathName) const
+    bool FileSystemWin32::DirExists(const std::string& pathName) const
     {
         std::string nativeName = GetNativePath(pathName);
 
@@ -62,7 +62,7 @@ namespace ghost
         return true;
     }
 
-    void FileSystemWin32::scanDir(std::vector<std::string>& result, const std::string& pathName, const std::string& filter)
+    void FileSystemWin32::ScanDir(std::vector<std::string>& result, const std::string& pathName, const std::string& filter)
     {
         result.clear();
         //TODO

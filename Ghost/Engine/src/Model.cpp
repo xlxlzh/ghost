@@ -25,12 +25,12 @@ namespace ghost
             if (node->mParent == nullptr)
             {
                 globalMatrix = node->mTransformation[0];
-                globalMatrix.transpose();
+                globalMatrix.Transpose();
             }
             else
             {
                 Matrix4x4f localMat = node->mTransformation[0];
-                localMat.transpose();
+                localMat.Transpose();
                 globalMatrix = localMat * globalMatrix;
             }
 
@@ -62,7 +62,7 @@ namespace ghost
 
             SubMesh subMesh;
             subMesh._localMatrix = localMatrix;
-            unsigned eleSize = Model::getVertexSizeByMask(_loader->_mask) / sizeof(float);
+            unsigned eleSize = Model::GetVertexSizeByMask(_loader->_mask) / sizeof(float);
             subMesh._vertexDatas.resize(eleSize * mesh->mNumVertices);
 
             unsigned offset = 0;
@@ -102,9 +102,9 @@ namespace ghost
 
         bool preocessLoad(DataStream& dataStream)
         {
-            int meshSize = dataStream.getSize();
+            int meshSize = dataStream.GetSize();
             _buff = new unsigned char[meshSize];
-            meshSize = dataStream.read(_buff, meshSize);
+            meshSize = dataStream.Read(_buff, meshSize);
 
             if (meshSize > 0)
             {
@@ -129,24 +129,24 @@ namespace ghost
         unsigned char* _buff = nullptr;
     };
 
-    void SubMesh::createVertexBinding(unsigned mask)
+    void SubMesh::CreateVertexBinding(unsigned mask)
     {
         if (!_vertexDatas.empty())
         {
-            unsigned vSize = Model::getVertexSizeByMask(mask);
+            unsigned vSize = Model::GetVertexSizeByMask(mask);
             unsigned numVertex = _vertexDatas.size() * sizeof(float) / vSize;
 
-            _vertexBuffer = Engine::getInstance()->getRenderDevice()->createVertexBuffer(
+            _vertexBuffer = Engine::GetInstance()->GetRenderDevice()->CreateVertexBuffer(
                 vSize, numVertex, ResourceUsage::USAGE_DYNAMIC);
 
-            _vertexBuffer->writeData(0, vSize * numVertex, &_vertexDatas[0], true);
+            _vertexBuffer->WriteData(0, vSize * numVertex, &_vertexDatas[0], true);
 
             _bindings = std::make_shared<VertexBufferBinding>();
-            _bindings->setBinding(0, _vertexBuffer);
+            _bindings->SetBinding(0, _vertexBuffer);
 
-            _indexBuffer = Engine::getInstance()->getRenderDevice()->createIndexBuffer(
+            _indexBuffer = Engine::GetInstance()->GetRenderDevice()->CreateIndexBuffer(
                 IndexBuffer::INDEX_32BIT, _indices.size(), ResourceUsage::USAGE_DYNAMIC);
-            _indexBuffer->writeData(0, sizeof(unsigned int) * _indices.size(), &_indices[0], true);
+            _indexBuffer->WriteData(0, sizeof(unsigned int) * _indices.size(), &_indices[0], true);
         }
     }
 
@@ -155,7 +155,7 @@ namespace ghost
 
     }
 
-    bool Model::load(DataStream& dataStream)
+    bool Model::Load(DataStream& dataStream)
     {
         ModelLoadHelper helper(this);
 
@@ -164,44 +164,44 @@ namespace ghost
 
         for (auto& subMesh : _meshes)
         {
-            subMesh.createVertexBinding(_mask);
+            subMesh.CreateVertexBinding(_mask);
         }
 
         _materials.resize(_meshes.size());
 
-        createVertexDecl();
+        CreateVertexDecl();
 
         return true;
     }
 
-    void Model::save(DataStream& dataStream)
+    void Model::Save(DataStream& dataStream)
     {
         //TODO
     }
 
-    void Model::createVertexDecl()
+    void Model::CreateVertexDecl()
     {
-        _vertexDec = Engine::getInstance()->getRenderDevice()->createVertexDeclaration();
+        _vertexDec = Engine::GetInstance()->GetRenderDevice()->CreateVertexDeclaration();
 
         unsigned offset = 0;
         //if (_mask & VERTEX_POSITION)
         {
-            _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_POSITION);
-            offset += VertexElement::getTypeSize(VET_FLOAT_3);
+            _vertexDec->AddElement(0, offset, VET_FLOAT_3, VES_POSITION);
+            offset += VertexElement::GetTypeSize(VET_FLOAT_3);
         }
         //if (_mask & VERTEX_NORMAL)
         {
-            _vertexDec->addElement(0, offset, VET_FLOAT_3, VES_NORMAL);
-            offset += VertexElement::getTypeSize(VET_FLOAT_3);
+            _vertexDec->AddElement(0, offset, VET_FLOAT_3, VES_NORMAL);
+            offset += VertexElement::GetTypeSize(VET_FLOAT_3);
         }
         //if (_mask & VERTEX_TEXCOORD)
         {
-            _vertexDec->addElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
-            offset += VertexElement::getTypeSize(VET_FLOAT_2);
+            _vertexDec->AddElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
+            offset += VertexElement::GetTypeSize(VET_FLOAT_2);
         }
     }
 
-    void Model::setMaterial(unsigned subIndex, const MaterialPtr& material)
+    void Model::SetMaterial(unsigned subIndex, const MaterialPtr& material)
     {
         assert(subIndex >= 0 && subIndex < _meshes.size());
 
@@ -209,19 +209,19 @@ namespace ghost
         _meshes[subIndex]._MaterialIndex = subIndex;
     }
 
-    const MaterialPtr& Model::getMaterial(unsigned subIndex) const 
+    const MaterialPtr& Model::GetMaterial(unsigned subIndex) const 
     {
         assert(subIndex >= 0 && subIndex < _meshes.size());
 
         return _materials[subIndex];
     }
 
-    void Model::addSubmesh(const SubMesh& mesh)
+    void Model::AddSubmesh(const SubMesh& mesh)
     {
         _meshes.emplace_back(mesh);
     }
 
-    unsigned Model::getVertexSizeByMask(unsigned mask)
+    unsigned Model::GetVertexSizeByMask(unsigned mask)
     {
         unsigned vSize = 0;
         if (mask & VERTEX_POSITION)

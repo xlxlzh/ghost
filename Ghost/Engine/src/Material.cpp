@@ -36,7 +36,7 @@ namespace ghost
 
     }
 
-    unsigned ShaderPass::getConstBufferSlot(ShaderType type, const std::string& name)
+    unsigned ShaderPass::GetConstBufferSlot(ShaderType type, const std::string& name)
     {
         auto& buffers = _params._constBuffers[type];
         for (auto& cb : buffers)
@@ -48,7 +48,7 @@ namespace ghost
         return 0;
     }
 
-    void ShaderPass::applyTextureToSlot(const std::string& name, Texture2DPtr ptr)
+    void ShaderPass::ApplyTextureToSlot(const std::string& name, Texture2DPtr ptr)
     {
         auto it = std::find_if(_params._textures.begin(), _params._textures.end(), 
             [&name](const TextureVariableInfo& info)->bool 
@@ -63,7 +63,7 @@ namespace ghost
             it->_texture = ptr;
     }
 
-    void ShaderPass::applySamplerToSlot(const std::string& name, const Sampler& sampler)
+    void ShaderPass::ApplySamplerToSlot(const std::string& name, const Sampler& sampler)
     {
         auto it = std::find_if(_params._samplers.begin(), _params._samplers.end(),
             [&name](const SamplerInfo& info)->bool
@@ -106,11 +106,11 @@ namespace ghost
     };
 
 
-    bool Material::load(DataStream& dataStream)
+    bool Material::Load(DataStream& dataStream)
     {
-        int size = dataStream.getSize();
+        int size = dataStream.GetSize();
         char* data = new char[size];
-        dataStream.read(data, size);
+        dataStream.Read(data, size);
 
         tinyxml2::XMLDocument doc;
         doc.Parse(data, size);
@@ -118,7 +118,7 @@ namespace ghost
         tinyxml2::XMLElement* root = doc.RootElement();
         if (strcmp(root->Name(), "Material") != 0)
         {
-            GHOST_LOG_FORMAT_ERROR("Can not find <Material> element in material %s.", this->getName().c_str());
+            GHOST_LOG_FORMAT_ERROR("Can not find <Material> element in material %s.", this->GetName().c_str());
             SAFE_DELETE_ARRAY(data);
             return false;
         }
@@ -152,7 +152,7 @@ namespace ghost
                 tinyxml2::XMLElement* shader = passElement->FirstChildElement("Shader");
                 if (!shader)
                 {
-                    GHOST_LOG_FORMAT_ERROR("Can not find <Shader> element in material %s.", this->getName().c_str());
+                    GHOST_LOG_FORMAT_ERROR("Can not find <Shader> element in material %s.", this->GetName().c_str());
                     SAFE_DELETE_ARRAY(data);
                     return false;
                 }
@@ -160,9 +160,9 @@ namespace ghost
                 const tinyxml2::XMLAttribute* shaderSource = shader->FindAttribute("source");
                 if (shaderSource)
                 {
-                    currentPass._linkedShader = GHOST_SMARTPOINTER_CAST(ShaderResource, ResourceManager::getInstance()->addResource(RESOURCE_SHADER, shaderSource->Value(), 0));
+                    currentPass._linkedShader = GHOST_SMARTPOINTER_CAST(ShaderResource, ResourceManager::GetInstance()->AddResource(RESOURCE_SHADER, shaderSource->Value(), 0));
 
-                    auto renderDevice = Engine::getInstance()->getRenderDevice();
+                    auto renderDevice = Engine::GetInstance()->GetRenderDevice();
 
                     const tinyxml2::XMLElement* shaderEntry = shader->FirstChildElement();
                     while (shaderEntry)
@@ -174,17 +174,17 @@ namespace ghost
                         if (entry)
                         {
                             const char* entryName = entry->Value();
-                            renderDevice->compileShader(type, entryName, currentPass._defines, *currentPass._linkedShader);
+                            renderDevice->CompileShader(type, entryName, currentPass._defines, *currentPass._linkedShader);
                         }
 
                         shaderEntry = shaderEntry->NextSiblingElement();
                     }
 
                     //Shader reflection
-                    const ShaderByteCode* byteCode = currentPass._linkedShader->getByteCodeByType(SHADER_VS);
+                    const ShaderByteCode* byteCode = currentPass._linkedShader->GetByteCodeByType(SHADER_VS);
                     if (byteCode)
                     {
-                        renderDevice->reflectShader(currentPass._linkedShader, currentPass._params);
+                        renderDevice->ReflectShader(currentPass._linkedShader, currentPass._params);
                     }
                 }
 
@@ -204,8 +204,8 @@ namespace ghost
                         const char* texturePath = textureElement->Attribute("path");
                         if (texturePath)
                         {
-                            Texture2DPtr tex2D = GHOST_SMARTPOINTER_CAST(Texture2D, ResourceManager::getInstance()->addResource(RESOURCE_TEXTURE2D, texturePath, 0));
-                            currentPass.applyTextureToSlot(textureName, tex2D);
+                            Texture2DPtr tex2D = GHOST_SMARTPOINTER_CAST(Texture2D, ResourceManager::GetInstance()->AddResource(RESOURCE_TEXTURE2D, texturePath, 0));
+                            currentPass.ApplyTextureToSlot(textureName, tex2D);
                         }
 
                         textureElement = textureElement->NextSiblingElement();
@@ -232,9 +232,9 @@ namespace ghost
                         samplerElement = sampler->FirstChildElement("MIP");
                         if (samplerElement)
                             mip = FilterOptionMappings.find(samplerElement->Attribute("value"))->second;
-                        currentSampler.setFilter(min, mag, mip);
+                        currentSampler.SetFilter(min, mag, mip);
 
-                        currentPass.applySamplerToSlot(samplerName, currentSampler);
+                        currentPass.ApplySamplerToSlot(samplerName, currentSampler);
 
                         sampler = sampler->NextSiblingElement();
                     }
@@ -247,46 +247,46 @@ namespace ghost
         return true;
     }
 
-    void Material::save(DataStream& dataStream)
+    void Material::Save(DataStream& dataStream)
     {
         //TODO
     }
 
-    void Material::applyToRenderPass(RenderPass pass)
+    void Material::ApplyToRenderPass(RenderPass pass)
     {
-        ShaderPass* currentPass = getShaderPass(pass);
+        ShaderPass* currentPass = GetShaderPass(pass);
         if (currentPass == nullptr || currentPass->_linkedShader == nullptr)
             return;
 
         if (!currentPass->_handwareShader)
         {
-            auto renderDevice = Engine::getInstance()->getRenderDevice();
-            currentPass->_handwareShader = renderDevice->createShader(currentPass->_linkedShader);
+            auto renderDevice = Engine::GetInstance()->GetRenderDevice();
+            currentPass->_handwareShader = renderDevice->CreateShader(currentPass->_linkedShader);
         }
 
-        auto rendersystem = Engine::getInstance()->getRenderSystem();
+        auto rendersystem = Engine::GetInstance()->GetRenderSystem();
 
         //Setup shader
         Shader* hardwareShader = currentPass->_handwareShader;
-        if (hardwareShader && hardwareShader->isValid())
+        if (hardwareShader && hardwareShader->IsValid())
         {
-            rendersystem->setShader(hardwareShader);
+            rendersystem->SetShader(hardwareShader);
 
             const ShaderParams& params = currentPass->_params;
 
             for (const TextureVariableInfo& texInfo : params._textures)
             {
-                rendersystem->setTexture(texInfo._bindPoint, texInfo._texture);
+                rendersystem->SetTexture(texInfo._bindPoint, texInfo._texture);
             }
 
             for (const SamplerInfo& sampler : params._samplers)
             {
-                rendersystem->setSamplerState(sampler._bindPoint, sampler._sampler);
+                rendersystem->SetSamplerState(sampler._bindPoint, sampler._sampler);
             }
         }
     }
 
-    ShaderPass* Material::getShaderPass(RenderPass pass)
+    ShaderPass* Material::GetShaderPass(RenderPass pass)
     {
         for (unsigned i = 0; i < _passes.size(); ++i)
         {

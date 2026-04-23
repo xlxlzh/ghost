@@ -22,54 +22,54 @@ namespace ghost
         RenderSystem(RenderDevicePtr device);
         virtual ~RenderSystem();
 
-        virtual bool initRenderSystem() = 0;
+        virtual bool InitRenderSystem() = 0;
 
-        virtual void setClearColor(Color cl = Color::Black);
-        Color getClearColor() const { return _clearColor; }
+        virtual void SetClearColor(Color cl = Color::Black);
+        Color GetClearColor() const { return _clearColor; }
 
-        virtual void setRenderTarget(RenderTargetPtr rt) = 0;
-        virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) = 0;
+        virtual void SetRenderTarget(RenderTargetPtr rt) = 0;
+        virtual void ClearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) = 0;
 
-        virtual void setVertexBuffer(VertexBufferPtr vBuffer) = 0;
-        virtual void setVertexBufferBinding(VertexBufferBindingPtr binding) = 0;
-        virtual void setIndexBuffer(IndexBufferPtr iBuffer) = 0;
-        virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) = 0;
-        virtual void setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) = 0;
+        virtual void SetVertexBuffer(VertexBufferPtr vBuffer) = 0;
+        virtual void SetVertexBufferBinding(VertexBufferBindingPtr binding) = 0;
+        virtual void SetIndexBuffer(IndexBufferPtr iBuffer) = 0;
+        virtual void SetVertexDeclaration(VertexDeclarationPtr vDecl) = 0;
+        virtual void SetConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) = 0;
 
-        virtual void setPrimitiveType(PrimitiveType pType) = 0;
+        virtual void SetPrimitiveType(PrimitiveType pType) = 0;
 
-        virtual void setMaterial(const MaterialPtr& mat);
+        virtual void SetMaterial(const MaterialPtr& mat);
 
-        virtual void setShader(const Shader* shader) = 0;
-        virtual void drawPrimitive(unsigned numVertices, unsigned startIndex) = 0;
-        virtual void drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) = 0;
-        virtual void drawPrimitiveInstance() = 0;
+        virtual void SetShader(const Shader* shader) = 0;
+        virtual void DrawPrimitive(unsigned numVertices, unsigned startIndex) = 0;
+        virtual void DrawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) = 0;
+        virtual void DrawPrimitiveInstance() = 0;
 
-        virtual void beginScene() = 0;
-        virtual void endScene() = 0;
+        virtual void BeginScene() = 0;
+        virtual void EndScene() = 0;
 
-        virtual void setCullMode(CullMode cull) = 0;
-        virtual void setFillMode(FillMode fillMode) = 0;
-        virtual void setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction) = 0;
-        virtual void setDepthTestEnable(bool enable) = 0;
-        virtual void setDepthWriteEnable(bool enable) = 0;
-        virtual void setDepthFunction(CompareFunction fun) = 0;
-        virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) = 0;
+        virtual void SetCullMode(CullMode cull) = 0;
+        virtual void SetFillMode(FillMode fillMode) = 0;
+        virtual void SetDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction) = 0;
+        virtual void SetDepthTestEnable(bool enable) = 0;
+        virtual void SetDepthWriteEnable(bool enable) = 0;
+        virtual void SetDepthFunction(CompareFunction fun) = 0;
+        virtual void SetColorBufferEnable(bool r, bool g, bool b, bool a) = 0;
 
-        virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) = 0;
-        virtual void setSamplerState(unsigned slot, const Sampler& sampler) = 0;
-        virtual void setTexture(unsigned slot, Texture2DPtr tex2D) = 0;
+        virtual void SetTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) = 0;
+        virtual void SetSamplerState(unsigned slot, const Sampler& sampler) = 0;
+        virtual void SetTexture(unsigned slot, Texture2DPtr tex2D) = 0;
 
-        virtual void pushGPUEvent(const std::wstring& name) = 0;
-        virtual void popGPUEvent() = 0;
+        virtual void PushGPUEvent(const std::wstring& name) = 0;
+        virtual void PopGPUEvent() = 0;
 
-        virtual void render(const RenderOperation& op) = 0;
+        virtual void Render(const RenderOperation& op) = 0;
 
         //Test interface
-        virtual void useDefaultRenderTarget() { }
+        virtual void UseDefaultRenderTarget() { }
 
-        void setRenderPass(RenderPass pass);
-        RenderPass getRenderPass() const { return _currentRenderPass; }
+        void SetRenderPass(RenderPass pass);
+        RenderPass GetRenderPass() const { return _currentRenderPass; }
 
     protected:
         Color _clearColor;
@@ -93,12 +93,12 @@ namespace ghost
     public:
         GPUEventScope(const RenderSystemPtr &rs, const std::wstring& eventName) : _rs(rs)
         {
-            _rs->pushGPUEvent(eventName);
+            _rs->PushGPUEvent(eventName);
         }
 
         ~GPUEventScope()
         {
-            _rs->popGPUEvent();
+            _rs->PopGPUEvent();
         }
 
     private:
@@ -106,8 +106,8 @@ namespace ghost
     };
 
     #define GHOST_GPU_EVENT_SCOPE(rs, eventName) GPUEventScope GPU_EVENT_##eventName(rs, L#eventName);
-    #define GHOST_GPU_EVENT_BEGIN(rs, eventName) rs->pushGPUEvent(L#eventName);
-    #define GHOST_GPU_EVENT_END(rs) rs->popGPUEvent();
+    #define GHOST_GPU_EVENT_BEGIN(rs, eventName) rs->PushGPUEvent(L#eventName);
+    #define GHOST_GPU_EVENT_END(rs) rs->PopGPUEvent();
 }
 
 #endif

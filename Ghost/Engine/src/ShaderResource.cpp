@@ -19,32 +19,32 @@ namespace ghost
 
     }
 
-    bool ShaderResource::load(DataStream& dataStream)
+    bool ShaderResource::Load(DataStream& dataStream)
     {
-        int dataSize = dataStream.getSize();
+        int dataSize = dataStream.GetSize();
         if (dataSize <= 0)
             return false;
 
         _rawDataSize = dataSize;
         _rawData = new unsigned char[_rawDataSize];
-        dataStream.read(_rawData, _rawDataSize);
+        dataStream.Read(_rawData, _rawDataSize);
 
         return true;
     }
 
-    void ShaderResource::save(DataStream& dataStream)
+    void ShaderResource::Save(DataStream& dataStream)
     {
         //TODO
     }
 
-    const ShaderByteCode* ShaderResource::getByteCodeByType(ShaderType type) const
+    const ShaderByteCode* ShaderResource::GetByteCodeByType(ShaderType type) const
     {
         //The code maybe cause memory crash, will be fix later.
         auto byteCode = _byteCodes.find(type);
         return byteCode == _byteCodes.end() ? nullptr : &byteCode->second;
     }
 
-    void ShaderResource::updateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize)
+    void ShaderResource::UpdateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize)
     {
         if (!byteCodes || codeSize < 0 || type == SHADER_TYPE_NUM)
             return;

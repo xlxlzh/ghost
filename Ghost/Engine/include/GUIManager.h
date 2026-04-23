@@ -14,7 +14,7 @@ namespace ghost
         GuiPage() { }
         virtual ~GuiPage() { }
 
-        virtual void show() = 0;
+        virtual void Show() = 0;
     };
 
     DECLAR_SMART_POINTER(GuiPage);
@@ -28,14 +28,14 @@ namespace ghost
         GuiManager();
         ~GuiManager();
 
-        GuiHandle registerGuiPage(GuiPagePtr page, bool enable = true);
-        void unregisterGuiPage(const GuiPagePtr& page);
-        void unregisterGuiPage(GuiHandle pageHandle);
+        GuiHandle RegisterGuiPage(GuiPagePtr page, bool enable = true);
+        void UnregisterGuiPage(const GuiPagePtr& page);
+        void UnregisterGuiPage(GuiHandle pageHandle);
 
-        void enableGuiPage(GuiHandle pageHandle);
-        void disableGuiPage(GuiHandle pageHandle);
+        void EnableGuiPage(GuiHandle pageHandle);
+        void DisableGuiPage(GuiHandle pageHandle);
 
-        void renderAllPages();
+        void RenderAllPages();
 
     private:
 

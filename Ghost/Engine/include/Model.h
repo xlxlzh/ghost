@@ -33,11 +33,11 @@ namespace ghost
             _indices.clear();
         }
 
-        void createVertexBinding(unsigned mask);
-        const std::vector<float>& getVertexDatas() const { return _vertexDatas; }
-        const std::vector<unsigned>& getIndices() const { return _indices; }
-        void setVertexDatas(const std::vector<float>& datas) { _vertexDatas = datas; }
-        void setIndices(const std::vector<unsigned>& indices) { _indices = indices; }
+        void CreateVertexBinding(unsigned mask);
+        const std::vector<float>& GetVertexDatas() const { return _vertexDatas; }
+        const std::vector<unsigned>& GetIndices() const { return _indices; }
+        void SetVertexDatas(const std::vector<float>& datas) { _vertexDatas = datas; }
+        void SetIndices(const std::vector<unsigned>& indices) { _indices = indices; }
 
     private:
         int _MaterialIndex{ GHOST_INVALID_INDEX };
@@ -61,15 +61,15 @@ namespace ghost
         Model() : Model(RESOURCE_MODEL, "", 0) { }
         Model(int type, const std::string& name, int flag);
 
-        virtual bool load(DataStream& dataStream) override;
-        virtual void save(DataStream& dataStream) override;
+        virtual bool Load(DataStream& dataStream) override;
+        virtual void Save(DataStream& dataStream) override;
 
-        void createVertexDecl();
-        void setMaterial(unsigned subIndex, const MaterialPtr& material);
-        const MaterialPtr& getMaterial(unsigned subIndex) const;
-        void addSubmesh(const SubMesh& mesh);
+        void CreateVertexDecl();
+        void SetMaterial(unsigned subIndex, const MaterialPtr& material);
+        const MaterialPtr& GetMaterial(unsigned subIndex) const;
+        void AddSubmesh(const SubMesh& mesh);
 
-        static unsigned getVertexSizeByMask(unsigned mask);
+        static unsigned GetVertexSizeByMask(unsigned mask);
 
         DECLAR_RESOURCE_TYPE(MODEL);
 

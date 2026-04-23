@@ -9,7 +9,7 @@ namespace ghost
 	public:
         SingleTon() = default;
 
-		static T* getInstance()
+		static T* GetInstance()
 		{
 			if (_instance == nullptr)
 			{
@@ -19,7 +19,7 @@ namespace ghost
 			return _instance;
 		}
 
-		static void destoryInstance()
+		static void DestoryInstance()
 		{
 			if (_instance != nullptr)
 			{

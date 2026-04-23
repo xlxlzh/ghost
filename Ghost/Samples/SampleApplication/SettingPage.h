@@ -7,10 +7,10 @@ class SettingPage : public ghost::GuiPage
 public:
     SettingPage();
 
-    virtual void show();
+    virtual void Show();
 
-    const ghost::Color& getLightColor() const { return _lightColor; }
-    const ghost::Vector3f& getLightDirection() const { return _lightDirection; }
+    const ghost::Color& GetLightColor() const { return _lightColor; }
+    const ghost::Vector3f& GetLightDirection() const { return _lightDirection; }
 
 private:
     float _lightDirection[3];

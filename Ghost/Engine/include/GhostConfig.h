@@ -26,16 +26,16 @@ namespace ghost
     class GHOST_API GhostConfig : public SingleTon<GhostConfig>
     {
     public:
-        bool loadConfig(const std::string& configFile);
-        bool saveConfigTo(const std::string& configFile);
+        bool LoadConfig(const std::string& configFile);
+        bool SaveConfigTo(const std::string& configFile);
 
-        const GlobalConfig& getGlobalConfig() { return _globalConfig; }
-        const RenderConfig& getRenderConfig() { return _renderConfig; }
+        const GlobalConfig& GetGlobalConfig() { return _globalConfig; }
+        const RenderConfig& GetRenderConfig() { return _renderConfig; }
 
-        bool isDefault() const { return _default; }
+        bool IsDefault() const { return _default; }
 
     private:
-        void _initDefault();
+        void InitDefault();
 
     private:
         GlobalConfig _globalConfig;

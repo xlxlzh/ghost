@@ -2,31 +2,31 @@
 #include "Engine.h"
 
 
-void SampleBase::onInit()
+void SampleBase::OnInit()
 {
-    auto ri = Engine::getInstance()->getRenderSystem();
-    ri->setClearColor(Color::Gray);
+    auto ri = Engine::GetInstance()->GetRenderSystem();
+    ri->SetClearColor(Color::Gray);
 
-    auto fileSystem = Engine::getInstance()->getFileSystem();
-    _generateResourcesPath(fileSystem->getCurrentDir());
-    ResourceManager::getInstance()->setResourcesPath(_resourcesPath);
+    auto fileSystem = Engine::GetInstance()->GetFileSystem();
+    GenerateResourcesPath(fileSystem->GetCurrentDir());
+    ResourceManager::GetInstance()->SetResourcesPath(_resourcesPath);
 
-    initSample();
+    InitSample();
 }
 
-void SampleBase::onExit()
+void SampleBase::OnExit()
 {
 
 }
 
-void SampleBase::onTick(float deltaTime)
+void SampleBase::OnTick(float deltaTime)
 {
     char fpsTitle[128] = { 0 };
     sprintf(fpsTitle, "SampleApplication FPS:%0.2f", 1000.0 / deltaTime);
-    getWindow()->setWindowTitle(fpsTitle);
+    GetWindow()->SetWindowTitle(fpsTitle);
 }
 
-void SampleBase::_generateResourcesPath(const std::string& workdir)
+void SampleBase::GenerateResourcesPath(const std::string& workdir)
 {
     _resourcesPath.clear();
     _resourcesPath = AddTrailingSlash(workdir);

@@ -7,10 +7,10 @@ public:
     EditorApplication() = default;
     virtual ~EditorApplication() = default;
     
-    virtual void onTick(float deltaTime) override;
-    virtual void onInit() override;
-    virtual void onExit() override;
-    virtual void onUpdate() override;
+    virtual void OnTick(float deltaTime) override;
+    virtual void OnInit() override;
+    virtual void OnExit() override;
+    virtual void OnUpdate() override;
     
 protected:
     ContentBrowserPagePtr _contentBrowserPage;

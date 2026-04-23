@@ -15,21 +15,21 @@ namespace ghost
         ModelNode(SceneManager* owner);
         ~ModelNode() { }
 
-        void setModel(const ModelPtr& model);
-        const ModelPtr& getMesh() const { return _mesh; }
+        void SetModel(const ModelPtr& model);
+        const ModelPtr& GetMesh() const { return _mesh; }
 
-        void prepareRendering(Camera* cam, unsigned index);
+        void PrepareRendering(Camera* cam, unsigned index);
 
-        void setInstanceMaterial(unsigned subindex, const MaterialPtr& mat);
+        void SetInstanceMaterial(unsigned subindex, const MaterialPtr& mat);
 
-        virtual void render(Camera* cam);
+        virtual void Render(Camera* cam);
 
-        void getRenderOperation(unsigned index, RenderOperation& op);
+        void GetRenderOperation(unsigned index, RenderOperation& op);
 
         GET_SCENENODE_TYPE(MODEL)
 
     protected:
-        virtual void onPostUpdate();
+        virtual void OnPostUpdate();
 
     protected:
         ModelPtr _mesh = nullptr;

@@ -12,7 +12,7 @@ namespace ghost
         D3D11VertexDeclaration(D3D11RenderDevice& device);
         ~D3D11VertexDeclaration();
 
-        void bindToShader();
+        void BindToShader();
 
     protected:
 

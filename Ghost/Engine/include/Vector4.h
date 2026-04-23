@@ -21,8 +21,8 @@ namespace ghost
 
 		Vector4<T>& operator= (const Vector4<T>& rhs) { _x = rhs._x; _y = rhs._y; _z = rhs._z; _w = rhs._w; return *this; }
 
-		bool operator== (const Vector4<T>& rhs) const { return this->equal(rhs); }
-		bool operator!= (const Vector4<T>& rhs) const { return !this->equal(rhs); }
+		bool operator== (const Vector4<T>& rhs) const { return this->Equal(rhs); }
+		bool operator!= (const Vector4<T>& rhs) const { return !this->Equal(rhs); }
 
 		Vector4<T> operator* (const T& rhs) const { return Vector4<T>(rhs * _x, rhs * _y, rhs * _z, rhs * _w); }
 		Vector4<T>& operator*= (const T& rhs) { _x *= rhs; _y *= rhs; _z *= rhs; _w *= rhs; return *this; }
@@ -39,9 +39,9 @@ namespace ghost
                 _x * rhs._14 + _y * rhs._24 + _z * rhs._34 + _w * rhs._44);
         }
 
-		bool equal(const Vector4<T>& rhs) const
+		bool Equal(const Vector4<T>& rhs) const
 		{
-			return MathUtilities::equal(_x, rhs._x) && MathUtilities::equal(_y, rhs._y) && MathUtilities::equal(_z, rhs._z) && MathUtilities::equal(_w, rhs._w);
+			return MathUtilities::Equal(_x, rhs._x) && MathUtilities::Equal(_y, rhs._y) && MathUtilities::Equal(_z, rhs._z) && MathUtilities::Equal(_w, rhs._w);
 		}
 
 	public:

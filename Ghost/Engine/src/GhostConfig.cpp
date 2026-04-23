@@ -45,7 +45,7 @@ namespace ghost
             return PLATFORM_WIN32;
     }
 
-    void GhostConfig::_initDefault()
+    void GhostConfig::InitDefault()
     {
         _default = true;
 
@@ -60,21 +60,21 @@ namespace ghost
         _renderConfig._shadowResolution = 2048;
     }
 
-    bool GhostConfig::loadConfig(const std::string& configFile)
+    bool GhostConfig::LoadConfig(const std::string& configFile)
     {
-        _initDefault();
+        InitDefault();
 
         DataStreamPtr data = GHOST_MAKE_SMART_POINTER(FileStream, configFile);
-        if (!data || !data->isOpened())
+        if (!data || !data->IsOpened())
             return false;
 
         std::vector<char> bytes;
 
-        unsigned fileSize = data->getSize();
+        unsigned fileSize = data->GetSize();
         bytes.resize(fileSize);
 
-        fileSize = data->read(&bytes[0], fileSize);
-        data->close();
+        fileSize = data->Read(&bytes[0], fileSize);
+        data->Close();
 
         if (fileSize <= 0)
             return false;
@@ -165,7 +165,7 @@ namespace ghost
         return true;
     }
 
-    bool GhostConfig::saveConfigTo(const std::string& configFile)
+    bool GhostConfig::SaveConfigTo(const std::string& configFile)
     {
         return true;
     }

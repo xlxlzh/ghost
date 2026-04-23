@@ -10,28 +10,28 @@ namespace ghost
     {
         friend class D3D11RenderSystem;
     public:
-        virtual bool initDevice(bool fullscreen, unsigned msaaCount) override;
-        virtual bool checkSampleCount(unsigned checkCount) override;
+        virtual bool InitDevice(bool fullscreen, unsigned msaaCount) override;
+        virtual bool CheckSampleCount(unsigned checkCount) override;
 
-        virtual bool compileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) override;
-        virtual Shader* createShader(const ShaderResourcePtr& shadersRes) override;
-        virtual void reflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params) override;
+        virtual bool CompileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) override;
+        virtual Shader* CreateShader(const ShaderResourcePtr& shadersRes) override;
+        virtual void ReflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params) override;
 
-        virtual VertexBufferPtr createVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) override;
-        virtual IndexBufferPtr createIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) override;
-        virtual ConstBufferPtr createConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) override;
-        virtual VertexDeclarationPtr createVertexDeclaration() override;
+        virtual VertexBufferPtr CreateVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) override;
+        virtual IndexBufferPtr CreateIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) override;
+        virtual ConstBufferPtr CreateConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) override;
+        virtual VertexDeclarationPtr CreateVertexDeclaration() override;
 
-        virtual RenderTargetPtr createRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) override;
-        virtual DepthStencilTargetPtr createDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) override;
+        virtual RenderTargetPtr CreateRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) override;
+        virtual DepthStencilTargetPtr CreateDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) override;
 
-        ID3D11DevicePtr getDevice() const { return _device; }
-        ID3D11DeviceContextPtr getContext() const { return _context; }
+        ID3D11DevicePtr GetDevice() const { return _device; }
+        ID3D11DeviceContextPtr GetContext() const { return _context; }
 
-        D3D_FEATURE_LEVEL getFeatureLevel() const { return _featureLevel; }
+        D3D_FEATURE_LEVEL GetFeatureLevel() const { return _featureLevel; }
 
     private:
-        bool _initSwapchain();
+        bool _InitSwapchain();
 
     private:
         ID3D11DevicePtr _device;

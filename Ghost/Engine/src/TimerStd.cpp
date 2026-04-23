@@ -2,17 +2,17 @@
 
 namespace ghost
 {
-    void TimerStd::start()
+    void TimerStd::Start()
     {
         _enable = true;
     }
     
-    void TimerStd::reset()
+    void TimerStd::Reset()
     {
         
     }
     
-    double TimerStd::getTime()
+    double TimerStd::GetTime()
     {
         return 0.0;
     }

@@ -20,14 +20,14 @@ namespace ghost
         _viewport = Viewport(0.0f, 0.0f, _width, _height);
     }
 
-    void RenderTarget::setSize(unsigned w, unsigned h, unsigned d /* = 1 */)
+    void RenderTarget::SetSize(unsigned w, unsigned h, unsigned d /* = 1 */)
     {
         _width = w;
         _height = h;
         _depth = d;
     }
 
-    void RenderTarget::attachRenderTexture(Texture2DPtr tex)
+    void RenderTarget::AttachRenderTexture(Texture2DPtr tex)
     {
         
     }

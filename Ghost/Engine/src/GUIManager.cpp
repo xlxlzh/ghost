@@ -14,7 +14,7 @@ namespace ghost
 
     }
 
-    GuiHandle GuiManager::registerGuiPage(GuiPagePtr page, bool enable /* = true */)
+    GuiHandle GuiManager::RegisterGuiPage(GuiPagePtr page, bool enable /* = true */)
     {
         if (page == nullptr)
             return GUI_NO_HANDLE;
@@ -51,7 +51,7 @@ namespace ghost
         return newPage.handle;
     }
 
-    void GuiManager::unregisterGuiPage(GuiHandle pageHandle)
+    void GuiManager::UnregisterGuiPage(GuiHandle pageHandle)
     {
         if (pageHandle >= _pages.size())
             return;
@@ -62,7 +62,7 @@ namespace ghost
         pageInfo.isEnable = false;
     }
 
-    void GuiManager::unregisterGuiPage(const GuiPagePtr& page)
+    void GuiManager::UnregisterGuiPage(const GuiPagePtr& page)
     {
         if (page == nullptr)
             return;
@@ -82,7 +82,7 @@ namespace ghost
         }
     }
 
-    void GuiManager::enableGuiPage(GuiHandle pageHandle)
+    void GuiManager::EnableGuiPage(GuiHandle pageHandle)
     {
         if (pageHandle >= _pages.size())
             return;
@@ -92,7 +92,7 @@ namespace ghost
             pageInfo.isEnable = true;
     }
 
-    void GuiManager::disableGuiPage(GuiHandle pageHandle)
+    void GuiManager::DisableGuiPage(GuiHandle pageHandle)
     {
         if (pageHandle >= _pages.size())
             return;
@@ -100,7 +100,7 @@ namespace ghost
         _pages[pageHandle].isEnable = false;
     }
 
-    void GuiManager::renderAllPages()
+    void GuiManager::RenderAllPages()
     {
         if (ImGui::GetCurrentContext())
         {
@@ -109,7 +109,7 @@ namespace ghost
             for (const auto& page : _pages)
             {
                 if (page.isEnable && page.pagePtr)
-                    page.pagePtr->show();
+                    page.pagePtr->Show();
             }
 
             ImGui::Render();

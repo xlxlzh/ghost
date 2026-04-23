@@ -19,23 +19,23 @@ namespace ghost
 
     }
 
-    void TimerWin32::reset()
+    void TimerWin32::Reset()
     {
         _elapsedTime = 0.0;
         if (_enable)
         {
-            _startTime = getTime();
+            _startTime = GetTime();
         }
     }
 
-    void TimerWin32::start()
+    void TimerWin32::Start()
     {
         _enable = true;
-        _startTime = getTime();
+        _startTime = GetTime();
         _elapsedTime = 0.0;
     }
 
-    double TimerWin32::getTime()
+    double TimerWin32::GetTime()
     {
         DWORD_PTR threadAffMask = SetThreadAffinityMask(GetCurrentThread(), _affMask);
 

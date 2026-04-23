@@ -38,8 +38,8 @@ namespace ghost
 
 		Vector3<T>& operator= (const Vector3<T>& rhs) { _x = rhs._x; _y = rhs._y; _z = rhs._z; return *this; }
 
-		bool operator== (const Vector3<T>& rhs) const { return this->equal(rhs); }
-		bool operator!= (const Vector3<T>& rhs) const { return !this->equal(rhs); }
+		bool operator== (const Vector3<T>& rhs) const { return this->Equal(rhs); }
+		bool operator!= (const Vector3<T>& rhs) const { return !this->Equal(rhs); }
 
 		Vector3<T>& operator+= (const Vector3<T>& rhs) { _x += rhs._x; _y += rhs._y; _z += rhs._z; return *this; }
 		Vector3<T>& operator-= (const Vector3<T>& rhs) { _x -= rhs._x; _y -= rhs._y; _z -= rhs._z; return *this; }
@@ -66,26 +66,26 @@ namespace ghost
                 );
         }
 
-		T dotProduct(const Vector3<T>& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
+		T DotProduct(const Vector3<T>& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
 
-		bool equal(const Vector3<T>& rhs) const
+		bool Equal(const Vector3<T>& rhs) const
 		{
-			return MathUtilities::equal(_x, rhs._x) && MathUtilities::equal(_y, rhs._y) && MathUtilities::equal(_z, rhs._z);
+			return MathUtilities::Equal(_x, rhs._x) && MathUtilities::Equal(_y, rhs._y) && MathUtilities::Equal(_z, rhs._z);
 		}
 
-		T length() const
+		T Length() const
 		{
-			return MathUtilities::sqrt<T>(_x * _x + _y * _y + _z * _z);
+			return MathUtilities::Sqrt<T>(_x * _x + _y * _y + _z * _z);
 		}
 
-		Vector3<T> crossProduct(const Vector3<T>& rhs) const
+		Vector3<T> CrossProduct(const Vector3<T>& rhs) const
 		{
 			return Vector3<T>(_y * rhs._z - _z * rhs._y, _z * rhs._x - _x * rhs._z, _x * rhs._y - _y * rhs._x);
 		}
 
-		Vector3<T> normalize()
+		Vector3<T> Normalize()
 		{
-			T vecLength = length();
+			T vecLength = Length();
 			assert(vecLength > 0.0f);
 
 			_x /= vecLength;

@@ -14,18 +14,18 @@ namespace ghost
 
     bool Color::operator== (const Color& rhs) const
     {
-        return MathUtilities::equal<float>(_r, rhs._r) &&
-            MathUtilities::equal<float>(_g, rhs._g) &&
-            MathUtilities::equal<float>(_b, rhs._b) &&
-            MathUtilities::equal<float>(_a, rhs._a);
+        return MathUtilities::Equal<float>(_r, rhs._r) &&
+            MathUtilities::Equal<float>(_g, rhs._g) &&
+            MathUtilities::Equal<float>(_b, rhs._b) &&
+            MathUtilities::Equal<float>(_a, rhs._a);
     }
 
     bool Color::operator!= (const Color& rhs) const
     {
-        return !MathUtilities::equal<float>(_r, rhs._r) ||
-            !MathUtilities::equal<float>(_g, rhs._g) ||
-            !MathUtilities::equal<float>(_b, rhs._b) ||
-            !MathUtilities::equal<float>(_a, rhs._a);
+        return !MathUtilities::Equal<float>(_r, rhs._r) ||
+            !MathUtilities::Equal<float>(_g, rhs._g) ||
+            !MathUtilities::Equal<float>(_b, rhs._b) ||
+            !MathUtilities::Equal<float>(_a, rhs._a);
     }
 
     float Color::operator[] (const size_t i) const
@@ -40,7 +40,7 @@ namespace ghost
         return _color[i];
     }
 
-    float* Color::getColorPtr()
+    float* Color::GetColorPtr()
     {
         return &_color[0];
     }

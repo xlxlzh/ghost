@@ -7,7 +7,7 @@ class ContentBrowserPage : public ghost::GuiPage
 public:
     ContentBrowserPage();
 
-    virtual void show();
+    virtual void Show();
 };
 
 DECLAR_SMART_POINTER(ContentBrowserPage);

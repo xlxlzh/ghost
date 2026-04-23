@@ -11,20 +11,20 @@
 
 namespace ghost
 {
-    bool Engine::initEngine(void* window, RendersystemType type, MSAA msaa, unsigned w, unsigned h)
+    bool Engine::InitEngine(void* window, RendersystemType type, MSAA msaa, unsigned w, unsigned h)
     {
         _window = window;
         _width = w;
         _height = h;
 
-        auto resMan = ResourceManager::getInstance();
+        auto resMan = ResourceManager::GetInstance();
         switch (type)
         {
         case ghost::RENDER_D3D11:
             _renderDevice = std::make_shared<D3D11RenderDevice>();
             _renderSystem = std::make_shared<D3D11RenderSystem>(_renderDevice);
 
-            resMan->registerResourceFactory(new ResourceFactoryIml<D3D11Texture2D>());
+            resMan->RegisterResourceFactory(new ResourceFactoryIml<D3D11Texture2D>());
 
             _fileSystem = std::make_shared<FileSystemWin32>();
             break;
@@ -35,12 +35,12 @@ namespace ghost
             break;
         }
 
-        resMan->registerResourceFactory(new ResourceFactoryIml<Material>());
-        resMan->registerResourceFactory(new ResourceFactoryIml<ShaderResource>());
-        resMan->registerResourceFactory(new ResourceFactoryIml<Model>());
+        resMan->RegisterResourceFactory(new ResourceFactoryIml<Material>());
+        resMan->RegisterResourceFactory(new ResourceFactoryIml<ShaderResource>());
+        resMan->RegisterResourceFactory(new ResourceFactoryIml<Model>());
 
-        _renderDevice->initDevice(false, GetMSAASampleCount(msaa));
-        _renderSystem->initRenderSystem();
+        _renderDevice->InitDevice(false, GetMSAASampleCount(msaa));
+        _renderSystem->InitRenderSystem();
         return true;
     }
 }

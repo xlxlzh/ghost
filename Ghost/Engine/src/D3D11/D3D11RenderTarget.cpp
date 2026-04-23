@@ -10,23 +10,23 @@ namespace ghost
     D3D11RenderTarget::D3D11RenderTarget(unsigned w, unsigned h, unsigned numRTs, GhostColorFormat* formats, bool srv, bool msaa, bool depth) :
         RenderTarget(w, h, numRTs, formats, srv, msaa, depth)
     {
-        _onCreateRenderTarget();
+        OnCreateRenderTarget();
     }
 
-    void D3D11RenderTarget::_onCreateRenderTarget()
+    void D3D11RenderTarget::OnCreateRenderTarget()
     {
-        RenderSystemPtr renderSystem = Engine::getInstance()->getRenderSystem();
+        RenderSystemPtr renderSystem = Engine::GetInstance()->GetRenderSystem();
         if (_numRTs > 0 && _width > 0 && _height)
         {
-            D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::getInstance()->getRenderDevice());
-            ID3D11DevicePtr d3d11Device = device->getDevice();
+            D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::GetInstance()->GetRenderDevice());
+            ID3D11DevicePtr d3d11Device = device->GetDevice();
 
             for (unsigned i = 0; i < _numRTs; ++i)
             {
                 D3D11_TEXTURE2D_DESC texDesc = { };
                 texDesc.Width = _width;
                 texDesc.Height = _height;
-                texDesc.Format = D3D11Mappings::getFormat(_formats[i]);
+                texDesc.Format = D3D11Mappings::GetFormat(_formats[i]);
                 texDesc.ArraySize = 1;
                 texDesc.MipLevels = 1;
                 texDesc.CPUAccessFlags = 0;
@@ -35,8 +35,8 @@ namespace ghost
                 
                 if (_msaa)
                 {
-                    texDesc.SampleDesc.Count = device->getMSAACount();
-                    texDesc.SampleDesc.Quality = device->getMSAAQuality();
+                    texDesc.SampleDesc.Count = device->GetMSAACount();
+                    texDesc.SampleDesc.Quality = device->GetMSAAQuality();
                 }
                 else
                 {
@@ -80,12 +80,12 @@ namespace ghost
 
             if (_depthAttach)
             {
-                _depthBuffer = Engine::getInstance()->getRenderDevice()->createDepthStencilTarget(_width, _height, false, _msaa);
+                _depthBuffer = Engine::GetInstance()->GetRenderDevice()->CreateDepthStencilTarget(_width, _height, false, _msaa);
             }
         }
     }
 
-    void D3D11RenderTarget::_onDestoryRenderTarget()
+    void D3D11RenderTarget::OnDestoryRenderTarget()
     {
         for (unsigned i = 0; i < _numRTs; ++i)
         {
@@ -96,23 +96,23 @@ namespace ghost
         _numRTs = 0;
     }
 
-    void D3D11RenderTarget::_onUpdateRenderTarget()
+    void D3D11RenderTarget::OnUpdateRenderTarget()
     {
 
     }
 
-    unsigned D3D11RenderTarget::getNumOfViews() const
+    unsigned D3D11RenderTarget::GetNumOfViews() const
     {
         return _numRTs;
     }
 
-    ID3D11RenderTargetViewPtr D3D11RenderTarget::getRenderTargetViewByIndex(unsigned index /* = 0 */)
+    ID3D11RenderTargetViewPtr D3D11RenderTarget::GetRenderTargetViewByIndex(unsigned index /* = 0 */)
     {
         ID3D11RenderTargetViewPtr rt = _renderTargets[index];
         return rt ? rt : nullptr;
     }
 
-    ID3D11Texture2DPtr D3D11RenderTarget::getSurface(unsigned index /* = 0 */)
+    ID3D11Texture2DPtr D3D11RenderTarget::GetSurface(unsigned index /* = 0 */)
     {
         ID3D11Texture2DPtr rt = _renderTextures[index];
         return rt ? rt : nullptr;

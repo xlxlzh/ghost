@@ -13,28 +13,28 @@ namespace ghost
 
     }
 
-    bool Texture2D::load(DataStream& dataStream)
+    bool Texture2D::Load(DataStream& dataStream)
     {
-        int dataSize = dataStream.getSize();
+        int dataSize = dataStream.GetSize();
         unsigned char* buffer = new unsigned char[dataSize];
-        dataStream.read(buffer, dataSize);
+        dataStream.Read(buffer, dataSize);
 
         const unsigned char* pixelData = stbi_load_from_memory(buffer, dataSize, &_width, &_height, &_components, 4);
-        _setData(pixelData);
+        SetData(pixelData);
 
         SAFE_DELETE_ARRAY(buffer);
 
-        _createTextureInternal();
+        InternalCreateTexture();
 
         return true;
     }
 
-    void Texture2D::save(DataStream& dataStream)
+    void Texture2D::Save(DataStream& dataStream)
     {
         //TODO
     }
 
-    void Texture2D::_setData(const unsigned char* data)
+    void Texture2D::SetData(const unsigned char* data)
     {
         _dataSize = _width * _height * 4;
 

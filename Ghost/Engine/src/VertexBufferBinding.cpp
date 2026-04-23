@@ -11,16 +11,16 @@ namespace ghost
 
     VertexBufferBinding::~VertexBufferBinding()
     {
-        unsetAllBinding();
+        UnsetAllBinding();
     }
 
-    void VertexBufferBinding::setBinding(unsigned short index, const VertexBufferPtr& buffer)
+    void VertexBufferBinding::SetBinding(unsigned short index, const VertexBufferPtr& buffer)
     {
         _bindingMap[index] = buffer;
         _highIndex = std::max(_highIndex, (unsigned short)(_highIndex + 1));
     }
 
-    void VertexBufferBinding::unsetBinding(unsigned short index)
+    void VertexBufferBinding::UnsetBinding(unsigned short index)
     {
         auto it = _bindingMap.find(index);
         if (it == _bindingMap.end())
@@ -32,18 +32,18 @@ namespace ghost
         _bindingMap.erase(it);
     }
 
-    void VertexBufferBinding::unsetAllBinding()
+    void VertexBufferBinding::UnsetAllBinding()
     {
         _bindingMap.clear();
         _highIndex = 0;
     }
 
-    const VertexBufferBindingMap& VertexBufferBinding::getBindings() const
+    const VertexBufferBindingMap& VertexBufferBinding::GetBindings() const
     {
         return _bindingMap;
     }
 
-    const VertexBufferPtr& VertexBufferBinding::getBuffer(unsigned short index) const
+    const VertexBufferPtr& VertexBufferBinding::GetBuffer(unsigned short index) const
     {
         auto it = _bindingMap.find(index);
         if (it == _bindingMap.end())
@@ -55,7 +55,7 @@ namespace ghost
         return it->second;
     }
 
-    bool VertexBufferBinding::isBufferBound(unsigned short index) const
+    bool VertexBufferBinding::IsBufferBound(unsigned short index) const
     {
         return _bindingMap.find(index) != _bindingMap.end();
     }

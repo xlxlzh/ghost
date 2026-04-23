@@ -12,25 +12,25 @@ namespace ghost
         Timer() = default;
         virtual ~Timer() { }
 
-        virtual void start() = 0;
-        virtual void reset() = 0;
-        virtual double getTime() = 0;
+        virtual void Start() = 0;
+        virtual void Reset() = 0;
+        virtual double GetTime() = 0;
 
-        void pause()
+        void Pause()
         {
             if (_enable)
             {
-                double endTime = getTime();
+                double endTime = GetTime();
                 _elapsedTime += endTime - _startTime;
                 _enable = false;
             }
         }
 
-        float getElapsedTimeMS()
+        float GetElapsedTimeMS()
         {
             if (_enable)
             {
-                double endTime = getTime();
+                double endTime = GetTime();
                 _elapsedTime += endTime - _startTime;
                 _startTime = endTime;
             }

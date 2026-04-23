@@ -4,30 +4,30 @@ namespace ghost
 {
     PostprocessingManager::PostprocessingManager()
     {
-        initDefaultEffects();
+        InitDefaultEffects();
     }
 
-    void PostprocessingManager::initDefaultEffects()
+    void PostprocessingManager::InitDefaultEffects()
     {
 
     }
 
-    bool PostprocessingManager::isEffectEnable(PostprocessingType effect) const
+    bool PostprocessingManager::IsEffectEnable(PostprocessingType effect) const
     {
         unsigned flag = static_cast<unsigned>(effect);
         return _postprocessingFlag & flag;
     }
 
-    void PostprocessingManager::enableEffect(PostprocessingType effect)
+    void PostprocessingManager::EnableEffect(PostprocessingType effect)
     {
         _postprocessingFlag |= static_cast<unsigned>(effect);
     }
 
-    void PostprocessingManager::renderAlleffects()
+    void PostprocessingManager::RenderAlleffects()
     {
         for (const auto& effect : _effects)
         {
-            effect.second->render();
+            effect.second->Render();
         }
     }
 }

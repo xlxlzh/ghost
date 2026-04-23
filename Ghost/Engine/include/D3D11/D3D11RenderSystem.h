@@ -15,49 +15,49 @@ namespace ghost
         D3D11RenderSystem(RenderDevicePtr device);
         ~D3D11RenderSystem();
         
-        virtual bool initRenderSystem() override;
+        virtual bool InitRenderSystem() override;
 
-        virtual void setRenderTarget(RenderTargetPtr rt) override;
-        virtual void clearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
+        virtual void SetRenderTarget(RenderTargetPtr rt) override;
+        virtual void ClearRenderTarget(TargetClear clearFlag = CLEAR_ALL, Color col = Color::Black, float z = 1.0, unsigned stencil = 0.0) override;
 
-        virtual void setVertexBuffer(VertexBufferPtr vBuffer) override;
-        virtual void setVertexBufferBinding(VertexBufferBindingPtr binding) override;
-        virtual void setIndexBuffer(IndexBufferPtr iBuffer) override;
-        virtual void setVertexDeclaration(VertexDeclarationPtr vDecl) override;
-        virtual void setConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) override;
+        virtual void SetVertexBuffer(VertexBufferPtr vBuffer) override;
+        virtual void SetVertexBufferBinding(VertexBufferBindingPtr binding) override;
+        virtual void SetIndexBuffer(IndexBufferPtr iBuffer) override;
+        virtual void SetVertexDeclaration(VertexDeclarationPtr vDecl) override;
+        virtual void SetConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer) override;
 
-        virtual void setPrimitiveType(PrimitiveType pType) override;
+        virtual void SetPrimitiveType(PrimitiveType pType) override;
 
-        virtual void setShader(const Shader* shader) override;
-        virtual void drawPrimitive(unsigned numVertices, unsigned startIndex) override;
-        virtual void drawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) override;
-        virtual void drawPrimitiveInstance() override;
+        virtual void SetShader(const Shader* shader) override;
+        virtual void DrawPrimitive(unsigned numVertices, unsigned startIndex) override;
+        virtual void DrawPrimitiveIndexed(unsigned numIndices, unsigned indexLocation, int baseVertIndex) override;
+        virtual void DrawPrimitiveInstance() override;
 
-        virtual void useDefaultRenderTarget() override;
+        virtual void UseDefaultRenderTarget() override;
 
-        virtual void beginScene() override;
-        virtual void endScene() override;
+        virtual void BeginScene() override;
+        virtual void EndScene() override;
 
-        virtual void setCullMode(CullMode cull) override;
-        virtual void setFillMode(FillMode fillMode) override;
-        virtual void setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction) override;
-        virtual void setDepthTestEnable(bool enable) override;
-        virtual void setDepthWriteEnable(bool enable) override;
-        virtual void setDepthFunction(CompareFunction fun) override;
-        virtual void setColorBufferEnable(bool r, bool g, bool b, bool a) override;
+        virtual void SetCullMode(CullMode cull) override;
+        virtual void SetFillMode(FillMode fillMode) override;
+        virtual void SetDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction) override;
+        virtual void SetDepthTestEnable(bool enable) override;
+        virtual void SetDepthWriteEnable(bool enable) override;
+        virtual void SetDepthFunction(CompareFunction fun) override;
+        virtual void SetColorBufferEnable(bool r, bool g, bool b, bool a) override;
 
-        virtual void setSamplerState(unsigned slot, const Sampler& sampler) override;
-        virtual void setTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) override;
-        virtual void setTexture(unsigned slot, Texture2DPtr tex2D) override;
+        virtual void SetSamplerState(unsigned slot, const Sampler& sampler) override;
+        virtual void SetTextureAddressingMode(unsigned slot, const Sampler::UVWAddressingMode& uvwMode) override;
+        virtual void SetTexture(unsigned slot, Texture2DPtr tex2D) override;
 
-        virtual void pushGPUEvent(const std::wstring& name) override;
-        virtual void popGPUEvent() override;
+        virtual void PushGPUEvent(const std::wstring& name) override;
+        virtual void PopGPUEvent() override;
 
-        virtual void render(const RenderOperation& op) override;
+        virtual void Render(const RenderOperation& op) override;
 
     protected:
-        void _clearRenderTarget(Color cl);
-        void _updateRenderStateBeforeRendering();
+        void InternalClearRenderTarget(Color cl);
+        void UpdateRenderStateBeforeRendering();
 
     protected:
         std::map<InputSignatureList*, ID3D11InputLayoutPtr> _inputlayouts;

@@ -9,12 +9,12 @@ namespace ghost
 
     }
 
-    unsigned VertexElement::getSize() const
+    unsigned VertexElement::GetSize() const
     {
-        return getTypeSize(_type);
+        return GetTypeSize(_type);
     }
 
-    unsigned VertexElement::getTypeSize(VertexElementType type)
+    unsigned VertexElement::GetTypeSize(VertexElementType type)
     {
         switch (type)
         {
@@ -31,7 +31,7 @@ namespace ghost
         return 0;
     }
 
-    unsigned short VertexElement::getTypeCount(VertexElementType type)
+    unsigned short VertexElement::GetTypeCount(VertexElementType type)
     {
         switch (type)
         {
@@ -62,17 +62,17 @@ namespace ghost
 
     }
 
-    const VertexElement& VertexDeclaration::addElement(unsigned short slot, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index /* = 0 */)
+    const VertexElement& VertexDeclaration::AddElement(unsigned short slot, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index /* = 0 */)
     {
         _elementList.push_back(VertexElement(slot, offset, type, semantic, index));
 
         return _elementList.back();
     }
 
-    const VertexElement& VertexDeclaration::insertElement(unsigned short slot, unsigned short pos, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index /* = 0 */)
+    const VertexElement& VertexDeclaration::InsertElement(unsigned short slot, unsigned short pos, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index /* = 0 */)
     {
         if (pos >= _elementList.size())
-            return addElement(slot, offset, type, semantic, index);
+            return AddElement(slot, offset, type, semantic, index);
 
         auto it = _elementList.begin();
         for (unsigned short i = 0; i < pos; ++i)
@@ -83,7 +83,7 @@ namespace ghost
         return *it;
     }
 
-    const VertexElement* VertexDeclaration::getElement(unsigned short index) const
+    const VertexElement* VertexDeclaration::GetElement(unsigned short index) const
     {
         assert(index < _elementList.size());
 
@@ -94,12 +94,12 @@ namespace ghost
         return &(*it);
     }
 
-    const std::list<VertexElement>& VertexDeclaration::getElements() const
+    const std::list<VertexElement>& VertexDeclaration::GetElements() const
     {
         return _elementList;
     }
 
-    void VertexDeclaration::removeElement(unsigned short pos)
+    void VertexDeclaration::RemoveElement(unsigned short pos)
     {
         assert(pos < _elementList.size());
 
@@ -110,11 +110,11 @@ namespace ghost
         _elementList.erase(it);
     }
 
-    void VertexDeclaration::removeElement(VertexElementSemantic semantic, unsigned short index /* = 0 */)
+    void VertexDeclaration::RemoveElement(VertexElementSemantic semantic, unsigned short index /* = 0 */)
     {
         for (auto it = _elementList.begin(); it != _elementList.end(); ++it)
         {
-            if (it->getSemantic() == semantic && it->getIndex() == index)
+            if (it->GetSemantic() == semantic && it->GetIndex() == index)
             {
                 _elementList.erase(it);
                 break;
@@ -122,16 +122,16 @@ namespace ghost
         }
     }
 
-    void VertexDeclaration::removeAllElements()
+    void VertexDeclaration::RemoveAllElements()
     {
         _elementList.clear();
     }
 
-    const VertexElement* VertexDeclaration::findElementBySemantic(VertexElementSemantic semantic, unsigned short index) const
+    const VertexElement* VertexDeclaration::FindElementBySemantic(VertexElementSemantic semantic, unsigned short index) const
     {
         for (auto it = _elementList.begin(); it != _elementList.end(); ++it)
         {
-            if (it->getSemantic() == semantic && it->getIndex() == index)
+            if (it->GetSemantic() == semantic && it->GetIndex() == index)
             {
                 return &(*it);
             }

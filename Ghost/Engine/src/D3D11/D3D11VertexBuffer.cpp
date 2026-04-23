@@ -13,33 +13,33 @@ namespace ghost
         SAFE_DELETE(_buffer);
     }
 
-    bool D3D11VertexBuffer::isLocked() const
+    bool D3D11VertexBuffer::IsLocked() const
     {
-        return _buffer->isLocked();
+        return _buffer->IsLocked();
     }
 
-    void* D3D11VertexBuffer::map(unsigned offset, unsigned length, ResourceLockFlag flag)
+    void* D3D11VertexBuffer::Map(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
-        return _buffer->map(offset, length, flag);
+        return _buffer->Map(offset, length, flag);
     }
 
-    void D3D11VertexBuffer::unmap()
+    void D3D11VertexBuffer::Unmap()
     {
-        _buffer->unmap();
+        _buffer->Unmap();
     }
 
-    void D3D11VertexBuffer::readData(unsigned offset, unsigned length, void* dest)
+    void D3D11VertexBuffer::ReadData(unsigned offset, unsigned length, void* dest)
     {
-        _buffer->readData(offset, length, dest);
+        _buffer->ReadData(offset, length, dest);
     }
 
-    void D3D11VertexBuffer::writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer /* = false */)
+    void D3D11VertexBuffer::WriteData(unsigned offset, unsigned length, const void* src, bool discardBuffer /* = false */)
     {
-        _buffer->writeData(offset, length, src, discardBuffer);
+        _buffer->WriteData(offset, length, src, discardBuffer);
     }
 
-    ID3D11Buffer* D3D11VertexBuffer::getD3DVertexBuffer() const
+    ID3D11Buffer* D3D11VertexBuffer::GetD3DVertexBuffer() const
     {
-        return _buffer->getD3DBuffer();
+        return _buffer->GetD3DBuffer();
     }
 }

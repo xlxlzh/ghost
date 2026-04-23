@@ -13,17 +13,17 @@ namespace ghost
 		RenderWindowWin32(Application* app);
         ~RenderWindowWin32();
 
-		virtual void* getWindowHandle() const override;
-        virtual void setWindowTitle(const std::string& title) override;
-        virtual void setWindowPos(int posx, int posy) override;
-        virtual void setWindowIcon(const std::string& iconName) override;
+		virtual void* GetWindowHandle() const override;
+        virtual void SetWindowTitle(const std::string& title) override;
+        virtual void SetWindowPos(int posx, int posy) override;
+        virtual void SetWindowIcon(const std::string& iconName) override;
 
 	protected:
-		virtual void _showWindow() const override;
-		virtual void _updateWindow() const override;
-		virtual bool _createWindow() override;
+		virtual void InternalShowWindow() const override;
+		virtual void InternalUpdateWindow() const override;
+		virtual bool InternalCreateWindow() override;
 
-		virtual void _messageLoop() override;
+		virtual void InternalMessageLoop() override;
 
 		static LRESULT CALLBACK WndPro(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

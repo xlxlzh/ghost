@@ -10,9 +10,9 @@ namespace ghost
 
     }
 
-    void* Buffer::map(unsigned offset, unsigned length, ResourceLockFlag flag)
+    void* Buffer::Map(unsigned offset, unsigned length, ResourceLockFlag flag)
     {
-        assert(!isLocked());
+        assert(!IsLocked());
 
         void* ret = nullptr;
         if (length + offset > _bufferSize)
@@ -21,7 +21,7 @@ namespace ghost
         }
         else
         {
-            ret = _mapImpl(offset, length, flag);
+            ret = MapImpl(offset, length, flag);
             _isLocked = true;
         }
 
@@ -31,11 +31,11 @@ namespace ghost
         return ret;
     }
 
-    void Buffer::unmap()
+    void Buffer::Unmap()
     {
-        assert(isLocked());
+        assert(IsLocked());
 
-        _unmapImpl();
+        UnmapImpl();
         _isLocked = false;
     }
 }

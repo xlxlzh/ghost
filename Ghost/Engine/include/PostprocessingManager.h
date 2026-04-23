@@ -17,7 +17,7 @@ namespace ghost
     class GHOST_API Postprocessing
     {
     public:
-        virtual void render() = 0;
+        virtual void Render() = 0;
     };
 
     DECLAR_SMART_POINTER(Postprocessing);
@@ -27,11 +27,11 @@ namespace ghost
     public:
         PostprocessingManager();
 
-        void initDefaultEffects();
-        bool isEffectEnable(PostprocessingType effect) const;
-        void enableEffect(PostprocessingType effect);
+        void InitDefaultEffects();
+        bool IsEffectEnable(PostprocessingType effect) const;
+        void EnableEffect(PostprocessingType effect);
 
-        void renderAlleffects();
+        void RenderAlleffects();
 
     private:
         unsigned _postprocessingFlag;

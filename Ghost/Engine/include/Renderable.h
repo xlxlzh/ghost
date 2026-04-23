@@ -11,13 +11,13 @@ namespace ghost
     public:
         Renderable(SceneManager* owner) : SceneNode(owner) { }
 
-        void setVisible(bool v) { _visible; }
-        void setAcceptShadow(bool s) { _acceptShdow = s; }
-        void setProjectShadow(bool s) { _projShadow = s; }
+        void SetVisible(bool v) { _visible; }
+        void SetAcceptShadow(bool s) { _acceptShdow = s; }
+        void SetProjectShadow(bool s) { _projShadow = s; }
 
-        bool getVisible() const { return _visible; }
-        bool getAcceptShadow() const { return _acceptShdow; }
-        bool getProjectShadow() const { return _projShadow; }
+        bool GetVisible() const { return _visible; }
+        bool GetAcceptShadow() const { return _acceptShdow; }
+        bool GetProjectShadow() const { return _projShadow; }
 
     protected:
         bool _visible{ true };

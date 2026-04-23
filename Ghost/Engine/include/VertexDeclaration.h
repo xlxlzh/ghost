@@ -36,17 +36,17 @@ namespace ghost
         VertexElement() { }
         VertexElement(unsigned short slot, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index = 0);
 
-        unsigned short getIndex() const { return _index; }
-        unsigned getOffset() const { return _offset; }
-        unsigned short getStreamSlot() const { return _slot; }
-        VertexElementType getType() const { return _type; }
-        VertexElementSemantic getSemantic() const { return _semantic; }
+        unsigned short GetIndex() const { return _index; }
+        unsigned GetOffset() const { return _offset; }
+        unsigned short GetStreamSlot() const { return _slot; }
+        VertexElementType GetType() const { return _type; }
+        VertexElementSemantic GetSemantic() const { return _semantic; }
 
-        unsigned getSize() const;
+        unsigned GetSize() const;
 
     public:
-        static unsigned getTypeSize(VertexElementType type);
-        static unsigned short getTypeCount(VertexElementType type);
+        static unsigned GetTypeSize(VertexElementType type);
+        static unsigned short GetTypeCount(VertexElementType type);
 
     protected:
         unsigned short _index;
@@ -63,18 +63,18 @@ namespace ghost
         VertexDeclaration();
         virtual ~VertexDeclaration();
 
-        unsigned getElementCount() const { return _elementList.size(); }
-        const VertexElement* getElement(unsigned short index) const;
-        const std::list<VertexElement>& getElements() const;
+        unsigned GetElementCount() const { return _elementList.size(); }
+        const VertexElement* GetElement(unsigned short index) const;
+        const std::list<VertexElement>& GetElements() const;
 
-        const VertexElement& addElement(unsigned short slot, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index = 0);
-        const VertexElement& insertElement(unsigned short slot, unsigned short pos, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index = 0);
+        const VertexElement& AddElement(unsigned short slot, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index = 0);
+        const VertexElement& InsertElement(unsigned short slot, unsigned short pos, unsigned offset, VertexElementType type, VertexElementSemantic semantic, unsigned short index = 0);
 
-        void removeElement(unsigned short pos);
-        void removeElement(VertexElementSemantic semantic, unsigned short index = 0);
-        void removeAllElements();
+        void RemoveElement(unsigned short pos);
+        void RemoveElement(VertexElementSemantic semantic, unsigned short index = 0);
+        void RemoveAllElements();
 
-        const VertexElement* findElementBySemantic(VertexElementSemantic semantic, unsigned short index) const;
+        const VertexElement* FindElementBySemantic(VertexElementSemantic semantic, unsigned short index) const;
 
     protected:
         std::list<VertexElement> _elementList;

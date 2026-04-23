@@ -10,18 +10,18 @@ namespace ghost
     class GHOST_API Engine : public SingleTon<Engine>
     {
     public:
-        bool initEngine(void* window, RendersystemType type, MSAA msaa, unsigned w, unsigned h);
+        bool InitEngine(void* window, RendersystemType type, MSAA msaa, unsigned w, unsigned h);
 
-        RenderSystemPtr getRenderSystem() const { return _renderSystem; }
-        RenderDevicePtr getRenderDevice() const { return _renderDevice; }
+        RenderSystemPtr GetRenderSystem() const { return _renderSystem; }
+        RenderDevicePtr GetRenderDevice() const { return _renderDevice; }
 
-        FileSystemPtr getFileSystem() const { return _fileSystem; }
+        FileSystemPtr GetFileSystem() const { return _fileSystem; }
 
-        void* getWindow() const { return _window; }
-        unsigned getWidth() const { return _width; }
-        unsigned getHeight() const { return _height; }
+        void* GetWindow() const { return _window; }
+        unsigned GetWidth() const { return _width; }
+        unsigned GetHeight() const { return _height; }
 
-        unsigned _getMsaaCount(MSAA msaa)
+        unsigned _GetMsaaCount(MSAA msaa)
         {
             switch (msaa)
             {

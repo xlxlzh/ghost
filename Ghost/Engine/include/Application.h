@@ -15,29 +15,29 @@ namespace ghost
 	public:
 		Application() = default;
 		
-		bool initialize(const std::string& wname, const std::string& configFile);
+		bool Initialize(const std::string& wname, const std::string& configFile);
 
-        virtual PlatformType getPlatformType() const { return _platformType; }
+        virtual PlatformType GetPlatformType() const { return _platformType; }
 
-		virtual void onTick(float deltaTime) { }
-        virtual void onInit() { }
-        virtual void onExit() { }
-        virtual void onUpdate() { }
+		virtual void OnTick(float deltaTime) { }
+        virtual void OnInit() { }
+        virtual void OnExit() { }
+        virtual void OnUpdate() { }
 
-		void* getAttachWindow() { return _window->getWindowHandle(); }
-        RenderWindow* getWindow() const { return _window; }
+		void* GetAttachWindow() { return _window->GetWindowHandle(); }
+        RenderWindow* GetWindow() const { return _window; }
 
-		void run();
+		void Run();
 
-		void exitApplication() { _exit = true; }
+		void ExitApplication() { _exit = true; }
 
-		void show();
-        float getFPS() const;
+		void Show();
+        float GetFPS() const;
 
 	protected:
-		virtual void _messageLoop() { _window->_messageLoop(); }
+		virtual void InternalMessageLoop() { _window->InternalMessageLoop(); }
 
-        void _updateFrameTime(float ms) { _msPerFrame = ms; }
+        void UpdateFrameTime(float ms) { _msPerFrame = ms; }
 
 	protected:
 		RenderWindow* _window;

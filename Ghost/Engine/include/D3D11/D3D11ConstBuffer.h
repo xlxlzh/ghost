@@ -14,18 +14,18 @@ namespace ghost
         D3D11ConstBuffer(unsigned bufferSize, ResourceUsage usage, D3D11RenderDevice& device, const std::string& name = "");
         ~D3D11ConstBuffer();
 
-        virtual void readData(unsigned offset, unsigned length, void* dest) override;
-        virtual void writeData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false) override;
+        virtual void ReadData(unsigned offset, unsigned length, void* dest) override;
+        virtual void WriteData(unsigned offset, unsigned length, const void* src, bool discardBuffer = false) override;
 
-        virtual void* map(unsigned offset, unsigned length, ResourceLockFlag flag) override;
-        virtual void unmap() override;
+        virtual void* Map(unsigned offset, unsigned length, ResourceLockFlag flag) override;
+        virtual void Unmap() override;
 
-        ID3D11Buffer* getD3DConstBuffer() const;
+        ID3D11Buffer* GetD3DConstBuffer() const;
 
     protected:
         //Not use two interface, use it at impl.
-        virtual void* _mapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) override { return nullptr; }
-        virtual void _unmapImpl() override { }
+        virtual void* MapImpl(unsigned offset, unsigned length, ResourceLockFlag flag) override { return nullptr; }
+        virtual void UnmapImpl() override { }
 
     private:
         D3D11Buffer* _buffer;

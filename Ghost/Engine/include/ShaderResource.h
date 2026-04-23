@@ -39,19 +39,19 @@ namespace ghost
         ShaderResource() : ShaderResource(RESOURCE_SHADER, "", 0) { }
         ShaderResource(int type, const std::string& name, int flag);
 
-        virtual bool load(DataStream& dataStream) override;
-        virtual void save(DataStream& dataStream) override;
+        virtual bool Load(DataStream& dataStream) override;
+        virtual void Save(DataStream& dataStream) override;
 
-        static int getTypeStatic() { return RESOURCE_SHADER; }
+        static int GetTypeStatic() { return RESOURCE_SHADER; }
 
-        unsigned char* getRawdata() const { return _rawData; }
-        int getRawdataSize() const { return _rawDataSize; }
+        unsigned char* GetRawdata() const { return _rawData; }
+        int GetRawdataSize() const { return _rawDataSize; }
 
-        void updateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize);
+        void UpdateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize);
 
-        const ShaderByteCode* getByteCodeByType(ShaderType type) const;
+        const ShaderByteCode* GetByteCodeByType(ShaderType type) const;
 
-        int getValidShaderCount() const;
+        int GetValidShaderCount() const;
 
     protected:
         unsigned char* _rawData = nullptr;

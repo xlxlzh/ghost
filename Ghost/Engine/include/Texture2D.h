@@ -21,19 +21,19 @@ namespace ghost
         Texture2D();
         Texture2D(const std::string& name, int flag);
         ~Texture2D();
-        int getWidth() const { return _width; }
-        int getHeight() const { return _height; }
+        int GetWidth() const { return _width; }
+        int GetHeight() const { return _height; }
 
-        unsigned char* getRawImageData() const { return _datas; }
+        unsigned char* GetRawImageData() const { return _datas; }
 
-        virtual bool load(DataStream& dataStream) override;
-        virtual void save(DataStream& dataStream) override;
+        virtual bool Load(DataStream& dataStream) override;
+        virtual void Save(DataStream& dataStream) override;
 
-        static int getTypeStatic() { return RESOURCE_TEXTURE2D; }
+        static int GetTypeStatic() { return RESOURCE_TEXTURE2D; }
 
     protected:
-        void _setData(const unsigned char* data);
-        virtual void _createTextureInternal() { }
+        void SetData(const unsigned char* data);
+        virtual void InternalCreateTexture() { }
 
     protected:
         int _width;

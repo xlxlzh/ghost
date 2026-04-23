@@ -8,22 +8,22 @@ namespace ghost
         , _magFilter(FO_LINEAR)
         , _mipFilter(FO_POINT)
     {
-        setAddressingMode(ADDRESSING_WRAP);
+        SetAddressingMode(ADDRESSING_WRAP);
     }
 
-    void Sampler::setAddressingMode(const UVWAddressingMode& mode)
+    void Sampler::SetAddressingMode(const UVWAddressingMode& mode)
     {
         _addressingMode = mode;
     }
 
-    void Sampler::setFilter(FilterOptions minFilter, FilterOptions magFilter, FilterOptions mipFilter)
+    void Sampler::SetFilter(FilterOptions minFilter, FilterOptions magFilter, FilterOptions mipFilter)
     {
         _minFilter = minFilter;
         _magFilter = magFilter;
         _mipFilter = minFilter;
     }
 
-    void Sampler::setFilter(FilterType type, FilterOptions opts)
+    void Sampler::SetFilter(FilterType type, FilterOptions opts)
     {
         switch (type)
         {
@@ -39,26 +39,26 @@ namespace ghost
         }
     }
 
-    void Sampler::setFilter(TextureFilterOptions filterType)
+    void Sampler::SetFilter(TextureFilterOptions filterType)
     {
         switch (filterType)
         {
         case TextureFilterOptions::FILTER_NONE:
-            setFilter(FO_POINT, FO_POINT, FO_NONE);
+            SetFilter(FO_POINT, FO_POINT, FO_NONE);
             break;
         case TextureFilterOptions::FILTER_BILINEAR:
-            setFilter(FO_LINEAR, FO_LINEAR, FO_NONE);
+            SetFilter(FO_LINEAR, FO_LINEAR, FO_NONE);
             break;
         case TextureFilterOptions::FILTER_TRILINEAR:
-            setFilter(FO_LINEAR, FO_LINEAR, FO_LINEAR);
+            SetFilter(FO_LINEAR, FO_LINEAR, FO_LINEAR);
             break;
         case TextureFilterOptions::FILTER_ANISOTROPIC:
-            setFilter(FO_ANISOTROPIC, FO_ANISOTROPIC, FO_LINEAR);
+            SetFilter(FO_ANISOTROPIC, FO_ANISOTROPIC, FO_LINEAR);
             break;
         }
     }
 
-    FilterOptions Sampler::getFilter(FilterType type) const
+    FilterOptions Sampler::GetFilter(FilterType type) const
     {
         switch (type)
         {

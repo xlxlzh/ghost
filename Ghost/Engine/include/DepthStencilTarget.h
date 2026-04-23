@@ -12,10 +12,10 @@ namespace ghost
         DepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv);
         virtual ~DepthStencilTarget();
 
-        unsigned getWidth() const { return _width; }
-        unsigned getHeight() const { return _height; }
+        unsigned GetWidth() const { return _width; }
+        unsigned GetHeight() const { return _height; }
 
-        bool isSRV() const { return _srv; }
+        bool IsSRV() const { return _srv; }
 
     protected:
         unsigned _width = 0;

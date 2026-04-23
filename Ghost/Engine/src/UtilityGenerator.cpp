@@ -2,7 +2,7 @@
 
 namespace ghost
 {
-    ModelPtr UtilityGenerator::createBox(const Vector3f& size)
+    ModelPtr UtilityGenerator::CreateBox(const Vector3f& size)
     {
         ModelPtr model = GHOST_MAKE_SMART_POINTER(Model);
 
@@ -36,17 +36,17 @@ namespace ghost
             0, 1, 2
         };
 
-        subMesh.setVertexDatas(datas);
-        subMesh.setIndices(indices);
+        subMesh.SetVertexDatas(datas);
+        subMesh.SetIndices(indices);
 
-        subMesh.createVertexBinding(0);
+        subMesh.CreateVertexBinding(0);
 
-        model->addSubmesh(subMesh);
+        model->AddSubmesh(subMesh);
 
         return model;
     }
 
-    ModelPtr UtilityGenerator::createSphere(float radius)
+    ModelPtr UtilityGenerator::CreateSphere(float radius)
     {
         ModelPtr model = GHOST_MAKE_SMART_POINTER(Model);
         return model;

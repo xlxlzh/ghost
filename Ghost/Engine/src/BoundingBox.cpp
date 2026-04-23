@@ -22,24 +22,24 @@ namespace ghost
         _min._z = minZ;
     }
 
-    Vector3<float> BoundingBox::getHalfSize() const
+    Vector3<float> BoundingBox::GetHalfSize() const
     {
         return (_max - _min) * 0.5f;
     }
 
-    Vector3<float> BoundingBox::getCenter() const
+    Vector3<float> BoundingBox::GetCenter() const
     {
         return (_max + _min) * 0.5f;
     }
 
-    bool BoundingBox::contains(const Vector3<float>& point) const
+    bool BoundingBox::Contains(const Vector3<float>& point) const
     {
         return point._x >= _min._x && point._y >= _min._y &&
             point._z >= _min._z && point._x <= _max._x && point._y <= _max._y &&
             point._z <= _max._z;
     }
 
-    void BoundingBox::merge(const BoundingBox& rhs)
+    void BoundingBox::Merge(const BoundingBox& rhs)
     {
         _min._x = std::min(_min._x, rhs._min._x);
         _min._y = std::min(_min._y, rhs._min._y);
@@ -50,13 +50,13 @@ namespace ghost
         _max._z = std::max(_max._z, rhs._max._z);
     }
 
-    void BoundingBox::transform(const Matrix4x4f& mat)
+    void BoundingBox::Transform(const Matrix4x4f& mat)
     {
         Vector3f vMin = Vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
         Vector3f vMax = Vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
         for (unsigned i = 0; i < 8; ++i)
         {
-            Vector3f v = getCorner(i) * mat;
+            Vector3f v = GetCorner(i) * mat;
 
             vMin._x = std::min(v._x, vMin._x);
             vMin._y = std::min(v._y, vMin._y);
@@ -71,7 +71,7 @@ namespace ghost
         _max = vMax;
     }
 
-    Vector3f BoundingBox::getCorner(unsigned index) const
+    Vector3f BoundingBox::GetCorner(unsigned index) const
     {
         switch (index)
         {

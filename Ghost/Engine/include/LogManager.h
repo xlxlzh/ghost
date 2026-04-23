@@ -38,10 +38,10 @@ namespace ghost
         Log(std::string name, LogLevel level = LOG_NORMAL, bool timestamp = true);
         ~Log();
 
-        std::string getName() const { return _logName; }
-        LogLevel getLogLevel() const { return _level; }
+        std::string GetName() const { return _logName; }
+        LogLevel GetLogLevel() const { return _level; }
 
-        void logMessage(LogMessageLevel level, const std::string& message);
+        void LogMessage(LogMessageLevel level, const std::string& message);
 
     private:
         std::ofstream _stream;
@@ -57,18 +57,18 @@ namespace ghost
     public:
         LogManager() = default;
 
-        LogPtr addLog(const std::string& name, LogLevel level = LOG_NORMAL, bool enableTimestamp = true, bool defaultLog = true);
-        void destoryLog(const std::string& name);
-        LogPtr getLog(const std::string& name) const;
+        LogPtr AddLog(const std::string& name, LogLevel level = LOG_NORMAL, bool enableTimestamp = true, bool defaultLog = true);
+        void DestoryLog(const std::string& name);
+        LogPtr GetLog(const std::string& name) const;
 
-        void setDefaultLog(LogPtr log) { _defeaultLog = log; }
-        LogPtr getDefaultLog() const { return _defeaultLog; }
+        void SetDefaultLog(LogPtr log) { _defeaultLog = log; }
+        LogPtr GetDefaultLog() const { return _defeaultLog; }
 
-        void logMessage(LogMessageLevel level, const std::string& message);
-        void logDebug(const std::string& message);
-        void logInfo(const std::string& message);
-        void logError(const std::string& message);
-        void logWarning(const std::string& message);
+        void LogMessage(LogMessageLevel level, const std::string& message);
+        void LogDebug(const std::string& message);
+        void LogInfo(const std::string& message);
+        void LogError(const std::string& message);
+        void LogWarning(const std::string& message);
 
     private:
         std::map<std::string, LogPtr> _logs;
@@ -77,7 +77,7 @@ namespace ghost
 
     GHOST_API std::string FormatStringToString(const char* fmt, ...);
 
-    #define GHOST_LOG_FORMAT(level, fmt, ...) LogManager::getInstance()->logMessage(level, FormatStringToString(fmt, ##__VA_ARGS__));
+    #define GHOST_LOG_FORMAT(level, fmt, ...) LogManager::GetInstance()->LogMessage(level, FormatStringToString(fmt, ##__VA_ARGS__));
     #define GHOST_LOG_FORMAT_DEBUG(fmt, ...) GHOST_LOG_FORMAT(LOG_DEBUG, fmt, ##__VA_ARGS__)
     #define GHOST_LOG_FORMAT_INFO(fmt, ...) GHOST_LOG_FORMAT(LOG_INFO, fmt, ##__VA_ARGS__)
     #define GHOST_LOG_FORMAT_WARNNING(fmt, ...) GHOST_LOG_FORMAT(LOG_WARNING, fmt, ##__VA_ARGS__)
