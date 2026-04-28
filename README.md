@@ -1,5 +1,10 @@
 # GHOST
-The project is a small graphics engine for learning. So most of frameworks will be implemented as simple as posible, maybe i will reconfigure the code when most features have been finished.
+
+This project is a personal learning sandbox for **computer graphics** and **modern C++**. The architecture is intentionally kept simple and minimal — the goal is to understand how things work under the hood, not to ship a production engine.
+
+- **Graphics APIs**: Covers as many low-level graphics APIs as possible (D3D11, D3D12, Vulkan, etc.).
+- **Modern C++**: Uses the latest C++ standards and language features wherever appropriate to explore new techniques and best practices.
+- **Simplicity first**: Frameworks and systems are implemented in the simplest way that works. Refactoring may happen as features grow.
 
 ## Features
 
