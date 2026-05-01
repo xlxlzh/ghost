@@ -2,8 +2,26 @@
 
 namespace ghost
 {
-    ThreadPool::ThreadPool(int numThreads) : _numThreads(numThreads), _running(true)
+    ThreadPool::~ThreadPool()
     {
+        {
+            std::unique_lock<std::mutex> Lock(_mutex);
+            _running = false;
+        }
+        
+        _cond.notify_all();
+        for (std::thread& worker : _workers)
+        {
+            worker.join();
+        }
+    }
+
+    void ThreadPool::InitThreadPool(int numThreads)
+    {
+        if (numThreads <= 0)
+            return;
+        
+        _numThreads = numThreads;
         for (int i = 0; i < numThreads; ++i)
         {
             _workers.emplace_back(
@@ -31,19 +49,7 @@ namespace ghost
                 }
             });
         }
-    }
-
-    ThreadPool::~ThreadPool()
-    {
-        {
-            std::unique_lock<std::mutex> Lock(_mutex);
-            _running = false;
-        }
         
-        _cond.notify_all();
-        for (std::thread& worker : _workers)
-        {
-            worker.join();
-        }
+        _initialized = true;
     }
 }

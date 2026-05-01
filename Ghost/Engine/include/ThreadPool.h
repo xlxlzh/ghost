@@ -9,15 +9,17 @@
 #include <functional>
 #include <vector>
 #include "Ghost.h"
+#include "SingleTon.h"
 
 namespace ghost
 {
-    class GHOST_API ThreadPool
+    class GHOST_API ThreadPool : public SingleTon<ThreadPool>
     {
     public:
-        ThreadPool(int numThreads);
-    
+        ThreadPool() = default;
         ~ThreadPool();
+        
+        void InitThreadPool(int numThreads);
         
         template <typename F, typename... Args>
         auto SubmitTask(F&& f, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>
@@ -43,14 +45,15 @@ namespace ghost
                     (*packedTask)();
                 });
             }
-            
+
             _cond.notify_one();
             return task;
         }
         
     private:
-        int _numThreads;
-        bool _running;
+        int _numThreads = 0;
+        bool _running = false;
+        bool _initialized = false;
         
         std::vector<std::thread> _workers;
         std::mutex _mutex;
