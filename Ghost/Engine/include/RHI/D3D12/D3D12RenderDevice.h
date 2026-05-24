@@ -3,6 +3,7 @@
 
 #include "RenderDevice.h"
 #include "D3D11ComPtr.h"
+#include "D3D12ComPtr.h"
 
 namespace ghost
 {
@@ -18,9 +19,10 @@ namespace ghost
 
     private:
 
-
         D3D_FEATURE_LEVEL _featureLevel;
         D3D_DRIVER_TYPE _driverType;
+        
+        ID3D12DevicePtr _device;
 
         //dxgi
         IDXGISwapChainPtr _dxgiSwapchain;

@@ -5,6 +5,7 @@ namespace ghost
 {
     bool D3D12RenderDevice::InitDevice(bool fullscreen, unsigned msaaCount)
     {
+        
         return true;
     }
 

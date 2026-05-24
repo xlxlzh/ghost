@@ -10,6 +10,7 @@ endif(WIN32)
 
 include_directories(../Engine/include ../Engine/GUI)
 include_directories(./include)
+include_directories(../Engine/include/RHI)
 
 link_directories(../../External/assimp/assimp/lib)
 link_directories(../../External/SDL2/lib)
