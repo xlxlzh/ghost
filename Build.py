@@ -210,7 +210,7 @@ def __main():
 
         #batches.AddMSBuildCommand(msbuildCommand)
     
-    #batches.ExcuteCommand()
+    batches.ExcuteCommand()
 
 if __name__ == "__main__":
     __main()
