@@ -1,5 +1,4 @@
 ![](https://github.com/xlxlzh/ghost/raw/master/Images/logo.jpg)
-# GHOST
 
 This project is a personal learning sandbox for **computer graphics** and **modern C++**. The architecture is intentionally kept simple and minimal — the goal is to understand how things work under the hood, not to ship a production engine.
 
