@@ -2,6 +2,8 @@
 #define _COMMANDQUEUE_H_
 
 #include "Ghost.h"
+#include "RenderDevice.h"
+#include "Fence.h"
 
 enum class CommandQueueType
 {
@@ -22,8 +24,12 @@ namespace ghost
         
         CommandQueueType GetType() const;
         
+        virtual bool CreateCommandQueue(const RenderDevicePtr& device) { return true; }
+        
     protected:
         CommandQueueType _commandQueueType {CommandQueueType::CommandQueue_Graphics};
+        
+        FencePtr _fence;
     };
 }
 

@@ -44,8 +44,8 @@ source_group("GUI\\SDL2" FILES ${GUI_CODES_SDL2})
 
 add_definitions(-DGHOST_EXPORT)
 
-find_package(DirectX11 REQUIRED)
-include_directories(${DirectX11_INCLUDE_DIR})
+find_package(WindowsSDK REQUIRED)
+include_directories(${WindowsSDK_INCLUDE_DIRS})
 
 include_directories(include)
 include_directories(include/Win32)
@@ -78,4 +78,4 @@ add_library(GhostEngine SHARED ${GUI_CODES} ${GUI_CODES_SDL2} ${GUI_CODES_WIN32}
                             ${D3D11_CODE} ${D3D12_HEADERS} ${D3D12_CODE}
                             ${RHI_CODE} ${RHI_HEADERS})
 
-target_link_libraries(GhostEngine assimp SDL2 SDL2main ${DirectX11_LIBRARY} TinyXML2 ${GHOST_SDL2})
+target_link_libraries(GhostEngine assimp SDL2 SDL2main ${DirectX_LIBRARIES} TinyXML2 ${GHOST_SDL2})
