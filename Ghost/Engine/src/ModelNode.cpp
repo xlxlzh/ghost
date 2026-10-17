@@ -50,6 +50,9 @@ namespace ghost
 
     void ModelNode::Render(Camera* cam)
     {
+        if (_mesh == nullptr)
+            return;
+
         auto renderSystem = Engine::GetInstance()->GetRenderSystem();
 
         for (unsigned i = 0; i < _mesh->_meshes.size(); ++i)

@@ -33,6 +33,15 @@ namespace ghost
 
         BoundingBox& GetBoundingBox() { return _boundingBox; }
         SceneNode* GetParent() const { return _parent; }
+        const std::vector<SceneNode*>& GetChildren() const { return _children; }
+
+        const std::string& GetName() const { return _name; }
+        void SetName(const std::string& name) { _name = name; }
+
+        // Editor-only nodes (e.g. the free-fly editor camera) are not shown in
+        // the hierarchy and are not serialized with the scene.
+        bool IsEditorOnly() const { return _editorOnly; }
+        void SetEditorOnly(bool editorOnly) { _editorOnly = editorOnly; }
 
         void SetTree(Octree* tree) { _tree = tree; }
         Octree* GetTree() const { return _tree; }
@@ -64,6 +73,7 @@ namespace ghost
 
     protected:
         std::string _name;
+        bool _editorOnly = false;
         BoundingBox _boundingBox;
 
         std::vector<SceneNode*> _children;

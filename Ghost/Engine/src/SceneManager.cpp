@@ -8,6 +8,8 @@
 
 #include "GUIManager.h"
 
+#include <algorithm>
+
 namespace ghost
 {
     SceneManager::SceneManager()
@@ -31,6 +33,15 @@ namespace ghost
 
     SceneManager::~SceneManager()
     {
+        Clear();
+
+        if (!_sceneNodes.empty())
+        {
+            delete _sceneNodes[0];
+            _sceneNodes.clear();
+        }
+
+        _lights.clear();
         SAFE_DELETE(_octree);
     }
 
@@ -56,6 +67,58 @@ namespace ghost
             return;
 
         AddNode(node, root);
+    }
+
+    void SceneManager::RemoveNode(SceneNode* node)
+    {
+        if (!node || _sceneNodes.empty() || node == _sceneNodes[0])
+            return;
+
+        // Remove children first (copy because RemoveNode mutates the child list).
+        std::vector<SceneNode*> children = node->_children;
+        for (SceneNode* child : children)
+            RemoveNode(child);
+
+        if (node->_parent)
+        {
+            std::vector<SceneNode*>& siblings = node->_parent->_children;
+            siblings.erase(std::remove(siblings.begin(), siblings.end(), node), siblings.end());
+            node->_parent = nullptr;
+        }
+
+        if (Octree* tree = node->GetTree())
+        {
+            tree->RemoveNode(node);
+            node->SetTree(nullptr);
+        }
+
+        if (node->GetType() == SCENENODE_LIGHT)
+        {
+            Light* light = static_cast<Light*>(node);
+            _lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
+        }
+
+        _sceneNodes.erase(std::remove(_sceneNodes.begin(), _sceneNodes.end(), node), _sceneNodes.end());
+        delete node;
+    }
+
+    void SceneManager::Clear()
+    {
+        if (_sceneNodes.empty())
+            return;
+
+        SceneNode* root = _sceneNodes[0];
+
+        std::vector<SceneNode*> children = root->_children;
+        for (SceneNode* child : children)
+            RemoveNode(child);
+
+        // Remove any nodes that were not linked to the root (e.g. stale
+        // entries left behind by the old octree insertion path).
+        while (_sceneNodes.size() > 1)
+            RemoveNode(_sceneNodes.back());
+
+        _lights.clear();
     }
 
     void SceneManager::AddNode(SceneNode* node, SceneNode* parent)

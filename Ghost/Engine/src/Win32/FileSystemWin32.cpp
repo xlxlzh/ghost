@@ -65,7 +65,24 @@ namespace ghost
     void FileSystemWin32::ScanDir(std::vector<std::string>& result, const std::string& pathName, const std::string& filter)
     {
         result.clear();
-        //TODO
-        return;
+
+        std::string directory = GetNativePath(pathName);
+        if (!directory.empty() && directory.back() != '\\')
+            directory += '\\';
+
+        const std::string pattern = directory + (filter.empty() ? "*" : filter);
+
+        WIN32_FIND_DATAA findData = {};
+        HANDLE findHandle = FindFirstFileA(pattern.c_str(), &findData);
+        if (findHandle == INVALID_HANDLE_VALUE)
+            return;
+
+        do
+        {
+            if ((findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+                result.push_back(findData.cFileName);
+        } while (FindNextFileA(findHandle, &findData) != FALSE);
+
+        FindClose(findHandle);
     }
 }

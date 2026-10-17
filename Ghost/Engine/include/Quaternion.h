@@ -13,7 +13,7 @@ namespace ghost
         Quaternion(const T eulerX, const T eulerY, const T eulerZ)
         {
             Quaternion<T> roll(0.0f, 0.0f, MathUtilities::Sin<T>(eulerZ * 0.5f), MathUtilities::Cos<T>(eulerZ * 0.5f));
-            Quaternion<T> pitch(MathUtilities::Sin<T>(eulerX * 0.5f), 0.0f, 0.0f, MathUtilities::Cos<T>(eulerX * 0.5));
+            Quaternion<T> pitch(MathUtilities::Sin<T>(eulerX * 0.5f), 0.0f, 0.0f, MathUtilities::Cos<T>(eulerX * 0.5f));
             Quaternion<T> yaw(0.0f, MathUtilities::Sin<T>(eulerY * 0.5f), 0.0f, MathUtilities::Cos<T>(eulerY * 0.5f));
 
             *this = roll * pitch * yaw;

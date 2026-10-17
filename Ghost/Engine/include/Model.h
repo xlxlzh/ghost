@@ -67,6 +67,7 @@ namespace ghost
         void CreateVertexDecl();
         void SetMaterial(unsigned subIndex, const MaterialPtr& material);
         const MaterialPtr& GetMaterial(unsigned subIndex) const;
+        unsigned GetSubMeshCount() const { return static_cast<unsigned>(_meshes.size()); }
         void AddSubmesh(const SubMesh& mesh);
 
         static unsigned GetVertexSizeByMask(unsigned mask);
