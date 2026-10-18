@@ -8,6 +8,7 @@
 #include "GUIManager.h"
 #include "LogManager.h"
 #include "Resource.h"
+#include "Scene.h"
 #include "EditorScene.h"
 #include "SceneSerializer.h"
 
@@ -18,14 +19,11 @@ namespace
         auto fileSystem = ghost::Engine::GetInstance()->GetFileSystem();
         const std::string currentDir = ghost::AddTrailingSlash(fileSystem->GetCurrentDir());
 
-        // Depending on whether the editor is launched from the Visual Studio
-        // project directory or straight from Build/Bin, the resources root is
-        // at a different relative depth.
         const std::string candidates[] =
         {
-            currentDir + "../../Resources/",     // Build/Ghost/Editor
-            currentDir + "../Resources/",        // Build/Bin
-            currentDir + "../../../Resources/",  // SampleBase convention
+            currentDir + "../../Resources/",
+            currentDir + "../Resources/",
+            currentDir + "../../../Resources/",
             currentDir + "Resources/"
         };
 
@@ -48,7 +46,10 @@ void EditorApplication::OnInit()
     ghost::ResourceManager::GetInstance()->SetResourcesPath(_context.resourcesPath);
     ghost::LogManager::GetInstance()->LogInfo("Editor resources path: " + _context.resourcesPath);
 
-    _context.scene = new ghost::SceneManager();
+    _context.sceneManager = new ghost::SceneManager();
+    _context.sceneData = std::make_shared<ghost::Scene>();
+    _context.sceneData->SetName("Scenes/editor_scene.xml");
+    _context.sceneManager->SetScene(_context.sceneData);
 
     const float width = static_cast<float>(GetWindow()->GetWidth());
     const float height = static_cast<float>(GetWindow()->GetHeight());
@@ -67,8 +68,6 @@ void EditorApplication::OnInit()
     _contentBrowserPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::ContentBrowserPanel, _context);
 
     auto guiManager = ghost::GuiManager::GetInstance();
-    // The menu bar must be registered first so it is drawn before the other
-    // panels (and so scene changes happen before they read the hierarchy).
     guiManager->RegisterGuiPage(_menuBarPanel);
     guiManager->RegisterGuiPage(_viewportInputPanel);
     guiManager->RegisterGuiPage(_hierarchyPanel);
@@ -78,11 +77,13 @@ void EditorApplication::OnInit()
 
 void EditorApplication::OnExit()
 {
-    delete _context.scene;
-    _context.scene = nullptr;
+    delete _context.sceneManager;
+    _context.sceneManager = nullptr;
     _context.camera = nullptr;
+    _context.editorCamera = nullptr;
     _context.defaultLight = nullptr;
     _context.selectedNode = nullptr;
+    _context.sceneData.reset();
 }
 
 void EditorApplication::OnUpdate()
@@ -90,12 +91,11 @@ void EditorApplication::OnUpdate()
     _context.SyncEditorCameraToSceneCamera();
 
     ghost::Camera* renderCamera = _context.GetRenderCamera();
-    if (!_context.scene || !renderCamera)
+    if (!_context.sceneManager || !renderCamera)
         return;
 
-    // SceneManager::Render owns BeginScene/RenderAllPages/EndScene.
-    _context.scene->UpdateSceneGraph(renderCamera);
-    _context.scene->Render(renderCamera);
+    _context.sceneManager->UpdateSceneGraph(renderCamera);
+    _context.sceneManager->Render(renderCamera);
 }
 
 void EditorApplication::OnTick(float deltaTime)

@@ -23,6 +23,7 @@ namespace ghost
     class Octree;
     class SceneManager;
     class Camera;
+    struct SceneNodeData;
 
     class GHOST_API SceneNode
     {
@@ -36,10 +37,11 @@ namespace ghost
         const std::vector<SceneNode*>& GetChildren() const { return _children; }
 
         const std::string& GetName() const { return _name; }
-        void SetName(const std::string& name) { _name = name; }
+        void SetName(const std::string& name);
 
-        // Editor-only nodes (e.g. the free-fly editor camera) are not shown in
-        // the hierarchy and are not serialized with the scene.
+        SceneNodeData* GetSourceData() const { return _sourceData; }
+        void SetSourceData(SceneNodeData* data) { _sourceData = data; }
+
         bool IsEditorOnly() const { return _editorOnly; }
         void SetEditorOnly(bool editorOnly) { _editorOnly = editorOnly; }
 
@@ -89,6 +91,7 @@ namespace ghost
 
         bool _dirty;
         SceneManager* _owner;
+        SceneNodeData* _sourceData = nullptr;
     };
 
 

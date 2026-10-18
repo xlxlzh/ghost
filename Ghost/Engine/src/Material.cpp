@@ -1,5 +1,5 @@
 #include "Material.h"
-#include "../../External/tinyxml2/tinyxml2.h"
+#include "tinyxml2.h"
 #include "DataStream.h"
 #include "Engine.h"
 #include "LogManager.h"
@@ -247,9 +247,11 @@ namespace ghost
         return true;
     }
 
-    void Material::Save(DataStream& dataStream)
+    bool Material::Save(DataStream& dataStream)
     {
         //TODO
+        (void)dataStream;
+        return true;
     }
 
     void Material::ApplyToRenderPass(RenderPass pass)

@@ -22,6 +22,11 @@ namespace ghost
         const Vector3f& GetAbsPos() const { return _absPos; }
         const Matrix4x4f& GetProjectMatrix() const { return _matProj; }
 
+        float GetFov() const { return _fov; }
+        float GetAspect() const { return _aspect; }
+        float GetNear() const { return _frustNear; }
+        float GetFar() const { return _frustFar; }
+
         const Frustum& GetFrustum() const { return _frustum; }
 
         void PrepareForRendering();

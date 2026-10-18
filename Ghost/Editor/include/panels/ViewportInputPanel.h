@@ -7,8 +7,6 @@ namespace ghost
 {
     namespace editor
     {
-        // Invisible panel that drives the free-fly editor camera from ImGui
-        // mouse input (RMB look, wheel dolly).
         class ViewportInputPanel final : public EditorPanel
         {
         public:

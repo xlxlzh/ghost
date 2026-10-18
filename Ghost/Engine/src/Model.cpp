@@ -174,9 +174,11 @@ namespace ghost
         return true;
     }
 
-    void Model::Save(DataStream& dataStream)
+    bool Model::Save(DataStream& dataStream)
     {
         //TODO
+        (void)dataStream;
+        return true;
     }
 
     void Model::CreateVertexDecl()

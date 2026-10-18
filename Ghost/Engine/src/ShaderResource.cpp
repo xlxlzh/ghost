@@ -32,9 +32,11 @@ namespace ghost
         return true;
     }
 
-    void ShaderResource::Save(DataStream& dataStream)
+    bool ShaderResource::Save(DataStream& dataStream)
     {
         //TODO
+        (void)dataStream;
+        return true;
     }
 
     const ShaderByteCode* ShaderResource::GetByteCodeByType(ShaderType type) const

@@ -124,6 +124,9 @@ namespace ghost
                 ImGui::TextDisabled("Select another object (or navigate in the viewport) to return to the editor camera.");
             }
 
+            if (_context.sceneManager)
+                _context.sceneManager->SyncNodeToData(node);
+
             ImGui::Separator();
 
             const bool canDelete = (node != _context.camera && node != _context.editorCamera);
@@ -137,7 +140,7 @@ namespace ghost
             {
                 ImGui::EndDisabled();
                 if (deleteHovered)
-                    ImGui::SetTooltip("The editor camera cannot be deleted.");
+                    ImGui::SetTooltip("The scene/editor camera cannot be deleted.");
             }
 
             ImGui::PopID();

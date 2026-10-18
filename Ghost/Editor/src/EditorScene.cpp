@@ -4,9 +4,10 @@
 
 #include "Engine.h"
 #include "FileSystem.h"
-#include "LogManager.h"
-#include "Resource.h"
-#include "Material.h"
+#include "Scene.h"
+#include "Camera.h"
+#include "Light.h"
+#include "ModelNode.h"
 
 namespace ghost
 {
@@ -14,6 +15,8 @@ namespace ghost
     {
         namespace
         {
+            const char* DefaultMaterialPath = "Materials/DefaultMaterial.xml";
+
             std::string GetFileStem(const std::string& path)
             {
                 const size_t slashPos = path.find_last_of("/\\");
@@ -25,48 +28,46 @@ namespace ghost
 
                 return name;
             }
-        }
 
-        std::string MakeUniqueNodeName(const EditorContext& context, const std::string& baseName)
-        {
-            if (!context.scene)
-                return baseName;
-
-            auto nameExists = [&context](const std::string& name)
+            bool ContainsNode(SceneNode* root, SceneNode* target)
             {
-                for (SceneNode* node : context.scene->GetSceneNodes())
+                for (SceneNode* node = root; node != nullptr; node = node->GetParent())
                 {
-                    if (node && node->GetName() == name)
+                    if (node == target)
                         return true;
                 }
 
                 return false;
-            };
+            }
+        }
 
-            if (!nameExists(baseName))
+        std::string MakeUniqueNodeName(const EditorContext& context, const std::string& baseName)
+        {
+            if (!context.sceneData)
+                return baseName;
+
+            if (!context.sceneData->FindNode(baseName))
                 return baseName;
 
             for (unsigned index = 2; ; ++index)
             {
                 const std::string candidate = baseName + " " + std::to_string(index);
-                if (!nameExists(candidate))
+                if (!context.sceneData->FindNode(candidate))
                     return candidate;
             }
         }
 
         Light* SpawnLight(EditorContext& context, LightType lightType)
         {
-            if (!context.scene)
+            if (!context.sceneManager || !context.sceneData)
                 return nullptr;
-
-            Light* light = new Light(context.scene);
-            light->SetLightType(lightType);
-            light->SetLightColor(Color::White);
-            light->SetLightShiness(100.0f);
 
             Vector3f position(0.0f, 50.0f, 8.0f);
             Vector3f rotation(0.0f, 0.0f, 0.0f);
             std::string baseName;
+            float radius = 0.0f;
+            float spotInner = 0.0f;
+            float spotOuter = 0.0f;
 
             switch (lightType)
             {
@@ -78,26 +79,41 @@ namespace ghost
 
             case LIGHT_POINT:
                 baseName = "Point Light";
-                light->SetRadius(50.0f);
+                radius = 50.0f;
                 break;
 
             case LIGHT_SPOT:
                 baseName = "Spot Light";
-                light->SetRadius(100.0f);
-                light->SetSpotInner(30.0f);
-                light->SetSpotOuter(45.0f);
+                radius = 100.0f;
+                spotInner = 30.0f;
+                spotOuter = 45.0f;
                 rotation = Vector3f(45.0f, 0.0f, 0.0f);
                 break;
             }
 
-            light->SetName(MakeUniqueNodeName(context, baseName));
-            light->SetTransform(position, rotation, Vector3f(1.0f, 1.0f, 1.0f));
+            SceneNodeData* data = context.sceneData->AddNode(
+                SceneNodeDataType::Light, MakeUniqueNodeName(context, baseName));
+            data->lightType = lightType;
+            data->color = Color(1.0f, 1.0f, 1.0f, 1.0f);
+            data->shininess = 100.0f;
+            data->radius = radius;
+            data->spotInner = spotInner;
+            data->spotOuter = spotOuter;
+            data->position = position;
+            data->rotation = rotation;
+            data->scale = Vector3f(1.0f, 1.0f, 1.0f);
 
-            context.scene->AddNodeToRoot(light);
+            Light* light = static_cast<Light*>(context.sceneManager->InstantiateNode(
+                data, context.sceneManager->GetRootNode()));
 
-            if (!context.defaultLight)
-                context.defaultLight = light;
+            if (!light)
+            {
+                context.sceneData->RemoveNode(data);
+                context.statusMessage = "Failed to create light.";
+                return nullptr;
+            }
 
+            context.defaultLight = context.sceneManager->GetMainLigt();
             context.selectedNode = light;
             context.statusMessage = "Added " + light->GetName();
 
@@ -106,66 +122,70 @@ namespace ghost
 
         ModelNode* SpawnModel(EditorContext& context, const std::string& logicalModelPath)
         {
-            if (!context.scene)
+            if (!context.sceneManager || !context.sceneData)
                 return nullptr;
-
-            if (!context.defaultMaterial)
-            {
-                context.statusMessage = "Cannot add model: default material is not loaded.";
-                return nullptr;
-            }
-
-            ModelPtr model = GHOST_SMARTPOINTER_CAST(Model,
-                ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, logicalModelPath, 0));
-
-            if (!model)
-            {
-                context.statusMessage = "Failed to load model: " + logicalModelPath;
-                return nullptr;
-            }
-
-            const unsigned subMeshCount = model->GetSubMeshCount();
-            if (subMeshCount == 0)
-            {
-                context.statusMessage = "Model has no submeshes: " + logicalModelPath;
-                return nullptr;
-            }
-
-            // ModelNode renders every submesh and RenderSystem::SetMaterial does
-            // not accept null, so every submesh needs a material.
-            for (unsigned index = 0; index < subMeshCount; ++index)
-                model->SetMaterial(index, context.defaultMaterial);
-
-            ModelNode* node = new ModelNode(context.scene);
-            node->SetModel(model);
-            node->SetName(MakeUniqueNodeName(context, "Model: " + GetFileStem(logicalModelPath)));
 
             static const float spawnOffsets[] = { -6.0f, -3.0f, 0.0f, 3.0f, 6.0f };
             const float x = spawnOffsets[context.spawnCounter % 5];
             ++context.spawnCounter;
 
-            node->SetTransform(Vector3f(x, 40.0f, 8.0f),
-                Vector3f(0.0f, 0.0f, 0.0f),
-                Vector3f(1.0f, 1.0f, 1.0f));
+            SceneNodeData* data = context.sceneData->AddNode(
+                SceneNodeDataType::Model,
+                MakeUniqueNodeName(context, "Model: " + GetFileStem(logicalModelPath)));
+            data->modelPath = logicalModelPath;
+            data->materialPath = DefaultMaterialPath;
+            data->position = Vector3f(x, 40.0f, 8.0f);
+            data->rotation = Vector3f(0.0f, 0.0f, 0.0f);
+            data->scale = Vector3f(1.0f, 1.0f, 1.0f);
 
-            context.scene->AddNodeToRoot(node);
+            ModelNode* node = static_cast<ModelNode*>(context.sceneManager->InstantiateNode(
+                data, context.sceneManager->GetRootNode()));
+
+            if (!node)
+            {
+                context.sceneData->RemoveNode(data);
+                context.statusMessage = "Failed to create model node.";
+                return nullptr;
+            }
 
             context.selectedNode = node;
-            context.statusMessage = "Added " + node->GetName();
+
+            if (node->GetMesh())
+                context.statusMessage = "Added " + node->GetName();
+            else
+                context.statusMessage = "Added " + node->GetName() + " (model/material failed to load).";
 
             return node;
         }
 
         bool DeleteNode(EditorContext& context, SceneNode* node)
         {
-            if (!context.scene || !node || node == context.camera || node == context.editorCamera)
+            if (!context.sceneManager || !context.sceneData || !node)
                 return false;
 
-            if (context.selectedNode == node)
+            if (node == context.camera || node == context.editorCamera)
+                return false;
+
+            SceneNodeData* data = node->GetSourceData();
+            if (!data)
+                return false;
+
+            if (ContainsNode(context.camera, node))
+                return false;
+
+            if (ContainsNode(context.selectedNode, node))
                 context.selectedNode = nullptr;
 
-            context.scene->RemoveNode(node);
-            context.defaultLight = context.scene->GetMainLigt();
+            context.sceneManager->RemoveNode(node);
+
+            if (!context.sceneData->RemoveNode(data))
+            {
+                context.statusMessage = "Removed runtime node, but its scene data was not found.";
+                context.defaultLight = context.sceneManager->GetMainLigt();
+                return false;
+            }
+
+            context.defaultLight = context.sceneManager->GetMainLigt();
             context.statusMessage = "Deleted node.";
 
             return true;
@@ -203,29 +223,32 @@ namespace ghost
 
         Camera* CreateSceneCamera(EditorContext& context)
         {
-            if (!context.scene)
+            if (!context.sceneManager || !context.sceneData)
                 return nullptr;
 
-            Camera* camera = new Camera(context.scene);
-            const float aspect = context.viewportAspect > 0.0f ? context.viewportAspect : 1.0f;
-            camera->SetProjectParams(90.0f, aspect, 1.0f, 100.0f);
-            camera->SetName("Main Camera");
-            camera->SetTransform(Vector3f(0.0f, 40.0f, 0.0f),
-                Vector3f(0.0f, 0.0f, 0.0f),
-                Vector3f(1.0f, 1.0f, 1.0f));
+            SceneNodeData* data = context.sceneData->AddNode(
+                SceneNodeDataType::Camera, "Main Camera");
+            data->position = Vector3f(0.0f, 40.0f, 0.0f);
+            data->rotation = Vector3f(0.0f, 0.0f, 0.0f);
+            data->scale = Vector3f(1.0f, 1.0f, 1.0f);
+            data->cameraFov = 90.0f;
+            data->cameraAspect = context.viewportAspect > 0.0f ? context.viewportAspect : 1.0f;
+            data->cameraNear = 1.0f;
+            data->cameraFar = 100.0f;
 
-            context.scene->AddNodeToRoot(camera);
+            Camera* camera = static_cast<Camera*>(context.sceneManager->InstantiateNode(
+                data, context.sceneManager->GetRootNode()));
+
             context.camera = camera;
-
             return camera;
         }
 
         Camera* CreateEditorCamera(EditorContext& context)
         {
-            if (!context.scene)
+            if (!context.sceneManager)
                 return nullptr;
 
-            Camera* camera = new Camera(context.scene);
+            Camera* camera = new Camera(context.sceneManager);
             const float aspect = context.viewportAspect > 0.0f ? context.viewportAspect : 1.0f;
             camera->SetProjectParams(90.0f, aspect, 1.0f, 100.0f);
             camera->SetName("Editor Camera");
@@ -234,7 +257,7 @@ namespace ghost
                 Vector3f(1.0f, 1.0f, 1.0f));
             camera->SetEditorOnly(true);
 
-            context.scene->AddNodeToRoot(camera);
+            context.sceneManager->AddNodeToRoot(camera);
             context.editorCamera = camera;
 
             return camera;
@@ -242,15 +265,8 @@ namespace ghost
 
         void SetupDefaultScene(EditorContext& context)
         {
-            if (!context.scene)
+            if (!context.sceneManager || !context.sceneData)
                 return;
-
-            ResourcePtr materialResource = ResourceManager::GetInstance()->AddResource(
-                RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0);
-            context.defaultMaterial = GHOST_SMARTPOINTER_CAST(Material, materialResource);
-
-            if (!context.defaultMaterial)
-                context.statusMessage = "Failed to load Materials/DefaultMaterial.xml";
 
             Light* mainLight = SpawnLight(context, LIGHT_DIRECTIONAL);
 
@@ -258,16 +274,21 @@ namespace ghost
             if (ground)
             {
                 ground->SetName("Ground");
-                // cube.obj is authored from (0,0,0) to (1,1,1), so offset by
-                // half its scaled size to center the ground under the camera.
                 ground->SetTransform(Vector3f(-150.0f, 30.0f, -150.0f),
                     Vector3f(0.0f, 0.0f, 0.0f),
                     Vector3f(300.0f, 1.0f, 300.0f));
-                context.statusMessage = "Default scene ready.";
+
+                if (ground->GetMesh())
+                    context.statusMessage = "Default scene ready.";
+                else
+                    context.statusMessage = "Default scene created, but the ground model failed to load.";
             }
 
+            context.defaultLight = context.sceneManager->GetMainLigt();
             if (mainLight)
                 context.selectedNode = mainLight;
+            else if (context.defaultLight)
+                context.selectedNode = context.defaultLight;
         }
 
         void FocusEditorCamera(EditorContext& context, SceneNode* node)
@@ -301,7 +322,7 @@ namespace ghost
 
         void NewScene(EditorContext& context)
         {
-            if (!context.scene)
+            if (!context.sceneManager)
                 return;
 
             Vector3f editorPosition(0.0f, 40.0f, 0.0f);
@@ -310,12 +331,16 @@ namespace ghost
             if (context.editorCamera)
                 context.editorCamera->GetTransform(editorPosition, editorRotation, editorScale);
 
-            context.scene->Clear();
             context.camera = nullptr;
             context.editorCamera = nullptr;
             context.defaultLight = nullptr;
             context.selectedNode = nullptr;
             context.spawnCounter = 0;
+
+            ScenePtr scene = std::make_shared<Scene>();
+            scene->SetName("Scenes/untitled.xml");
+            context.sceneManager->SetScene(scene);
+            context.sceneData = scene;
             context.scenePath = "Scenes/untitled.xml";
 
             Camera* editorCamera = CreateEditorCamera(context);

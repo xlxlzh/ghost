@@ -119,14 +119,20 @@ namespace ghost
 		if (_fileStream)
 		{
 			_fileStream->open(fileName.c_str(), flag | std::ios::binary);
-            if (_fileStream->is_open())
+            if (_fileStream->is_open() && (mode & AccessMode::AM_READ))
             {
                 _fileStream->seekg(0, std::ios::end);
-                _size = _fileStream->tellg();
+                const std::streampos end = _fileStream->tellg();
+                _size = end >= 0 ? static_cast<unsigned>(end) : 0;
                 _fileStream->seekg(0, std::ios::beg);
             }
 		}
 	}
+
+    FileStream::~FileStream()
+    {
+        Close();
+    }
 
 	unsigned FileStream::GetStreamFlag(AccessMode mode)
 	{
@@ -139,6 +145,8 @@ namespace ghost
 		if (mode & AccessMode::AM_WRITE)
 		{
 			flag |= std::ios::out;
+            if (!(mode & AccessMode::AM_READ))
+                flag |= std::ios::trunc;
 		}
 
 		return flag;
@@ -161,7 +169,8 @@ namespace ghost
 		if (_fileStream && IsWriteable())
 		{
 			_fileStream->write(static_cast<const char*>(buf), static_cast<std::streamsize>(count));
-			writeCount = count;
+            if (_fileStream->good())
+			    writeCount = count;
 		}
 
 		return writeCount;

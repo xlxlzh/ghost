@@ -82,9 +82,6 @@ namespace ghost
                 ImGui::EndMainMenuBar();
             }
 
-            // OpenPopup/BeginPopupModal must share the same window ID stack.
-            // GuiPages are drawn outside of any ImGui window, so use a tiny
-            // invisible host window for the scene dialogs.
             const ImGuiWindowFlags hostFlags =
                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |

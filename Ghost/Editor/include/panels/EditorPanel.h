@@ -8,8 +8,6 @@ namespace ghost
 {
     namespace editor
     {
-        // Base class for editor panels. Future panels only need to derive from
-        // this, implement Show(), and be registered in EditorApplication.
         class EditorPanel : public GuiPage
         {
         public:

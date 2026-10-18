@@ -11,7 +11,7 @@ namespace ghost
     public:
         Renderable(SceneManager* owner) : SceneNode(owner) { }
 
-        void SetVisible(bool v) { _visible; }
+        void SetVisible(bool v) { _visible = v; }
         void SetAcceptShadow(bool s) { _acceptShdow = s; }
         void SetProjectShadow(bool s) { _projShadow = s; }
 

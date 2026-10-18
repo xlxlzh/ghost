@@ -1,15 +1,12 @@
 #include "SceneSerializer.h"
 
 #include <algorithm>
-#include <cstdio>
 #include <filesystem>
-#include <sstream>
-
-#include "tinyxml2.h"
 
 #include "Engine.h"
 #include "FileSystem.h"
-#include "ModelNode.h"
+#include "Scene.h"
+#include "Camera.h"
 #include "EditorScene.h"
 
 namespace ghost
@@ -18,48 +15,6 @@ namespace ghost
     {
         namespace
         {
-            std::string FormatVector(const Vector3f& value)
-            {
-                char buffer[128] = {};
-                std::snprintf(buffer, sizeof(buffer), "%g %g %g",
-                    value._x, value._y, value._z);
-                return buffer;
-            }
-
-            std::string FormatColor(const Color& color)
-            {
-                char buffer[160] = {};
-                std::snprintf(buffer, sizeof(buffer), "%g %g %g %g",
-                    color._r, color._g, color._b, color._a);
-                return buffer;
-            }
-
-            Vector3f ParseVector(const char* text, const Vector3f& fallback)
-            {
-                if (!text)
-                    return fallback;
-
-                std::istringstream stream(text);
-                Vector3f value = fallback;
-                if (!(stream >> value._x >> value._y >> value._z))
-                    return fallback;
-
-                return value;
-            }
-
-            Color ParseColor(const char* text, const Color& fallback)
-            {
-                if (!text)
-                    return fallback;
-
-                std::istringstream stream(text);
-                Color value = fallback;
-                if (!(stream >> value._r >> value._g >> value._b >> value._a))
-                    return fallback;
-
-                return value;
-            }
-
             std::string NormalizeScenePath(const std::string& path)
             {
                 std::string result = path;
@@ -90,18 +45,33 @@ namespace ghost
                     std::filesystem::create_directories(directory, error);
             }
 
-            std::string GetNodeName(const tinyxml2::XMLElement& element, const std::string& fallback)
+            SceneNode* FindFirstSelectable(SceneNode* node)
             {
-                const char* name = element.Attribute("name");
-                return (name && name[0]) ? std::string(name) : fallback;
+                if (!node)
+                    return nullptr;
+
+                for (SceneNode* child : node->GetChildren())
+                {
+                    if (!child || child->IsEditorOnly())
+                        continue;
+
+                    const SceneNodeType type = child->GetType();
+                    if (type == SCENENODE_LIGHT || type == SCENENODE_MODEL)
+                        return child;
+
+                    if (SceneNode* found = FindFirstSelectable(child))
+                        return found;
+                }
+
+                return nullptr;
             }
         }
 
         bool SaveScene(EditorContext& context, const std::string& relativePath)
         {
-            if (!context.scene || !context.scene->GetRootNode())
+            if (!context.sceneManager || !context.sceneData)
             {
-                context.statusMessage = "Cannot save scene: no scene.";
+                context.statusMessage = "Cannot save scene: no scene data.";
                 return false;
             }
 
@@ -109,66 +79,25 @@ namespace ghost
             const std::string fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
             EnsureDirectory(fullPath);
 
-            tinyxml2::XMLDocument document;
-            document.InsertFirstChild(document.NewDeclaration());
+            context.sceneManager->SyncAllToData();
 
-            tinyxml2::XMLElement* sceneElement = document.NewElement("Scene");
-            sceneElement->SetAttribute("version", 1);
-            document.InsertEndChild(sceneElement);
-
-            for (SceneNode* node : context.scene->GetRootNode()->GetChildren())
+            FileStream stream(fullPath, AM_WRITE);
+            if (!stream.IsOpened())
             {
-                if (!node || node->IsEditorOnly())
-                    continue;
-
-                Vector3f position;
-                Vector3f rotation;
-                Vector3f scale;
-                node->GetTransform(position, rotation, scale);
-
-                tinyxml2::XMLElement* nodeElement = document.NewElement("Node");
-                nodeElement->SetAttribute("name", node->GetName().c_str());
-                nodeElement->SetAttribute("position", FormatVector(position).c_str());
-                nodeElement->SetAttribute("rotation", FormatVector(rotation).c_str());
-                nodeElement->SetAttribute("scale", FormatVector(scale).c_str());
-
-                if (dynamic_cast<Camera*>(node))
-                {
-                    nodeElement->SetAttribute("type", "Camera");
-                }
-                else if (Light* light = dynamic_cast<Light*>(node))
-                {
-                    nodeElement->SetAttribute("type", "Light");
-                    nodeElement->SetAttribute("lightType", static_cast<int>(light->GetLightType()));
-                    nodeElement->SetAttribute("color", FormatColor(light->GetLightColor()).c_str());
-                    nodeElement->SetAttribute("shininess", light->GetLightShiness());
-                    nodeElement->SetAttribute("radius", light->GetRadius());
-                    nodeElement->SetAttribute("spotInner", light->GetSpotInner());
-                    nodeElement->SetAttribute("spotOuter", light->GetSpotOuter());
-                }
-                else if (ModelNode* modelNode = dynamic_cast<ModelNode*>(node))
-                {
-                    const ModelPtr& model = modelNode->GetMesh();
-                    if (!model)
-                        continue;
-
-                    nodeElement->SetAttribute("type", "Model");
-                    nodeElement->SetAttribute("model", model->GetName().c_str());
-                }
-                else
-                {
-                    continue;
-                }
-
-                sceneElement->InsertEndChild(nodeElement);
+                context.statusMessage = "Failed to open scene for writing: " + normalizedPath;
+                return false;
             }
 
-            if (document.SaveFile(fullPath.c_str()) != tinyxml2::XML_SUCCESS)
+            const bool saved = context.sceneData->Save(stream);
+            stream.Close();
+
+            if (!saved)
             {
                 context.statusMessage = "Failed to save scene: " + normalizedPath;
                 return false;
             }
 
+            context.sceneData->SetName(normalizedPath);
             context.scenePath = normalizedPath;
             context.statusMessage = "Saved scene: " + normalizedPath;
             return true;
@@ -176,141 +105,73 @@ namespace ghost
 
         bool LoadScene(EditorContext& context, const std::string& relativePath)
         {
-            if (!context.scene)
+            if (!context.sceneManager)
             {
-                context.statusMessage = "Cannot load scene: no scene.";
+                context.statusMessage = "Cannot load scene: no scene manager.";
                 return false;
             }
 
             const std::string normalizedPath = NormalizeScenePath(relativePath);
             const std::string fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
 
-            tinyxml2::XMLDocument document;
-            if (document.LoadFile(fullPath.c_str()) != tinyxml2::XML_SUCCESS)
+            ScenePtr scene = std::make_shared<Scene>();
+            scene->SetName(normalizedPath);
+
+            FileStream stream(fullPath, AM_READ);
+            if (!stream.IsOpened() || !scene->Load(stream))
             {
+                stream.Close();
                 context.statusMessage = "Failed to load scene: " + normalizedPath;
                 return false;
             }
+            stream.Close();
 
-            tinyxml2::XMLElement* sceneElement = document.FirstChildElement("Scene");
-            if (!sceneElement)
-            {
-                context.statusMessage = "Invalid scene file: " + normalizedPath;
-                return false;
-            }
-
-            // Keep the current editor view across scene loads.
             Vector3f editorPosition(0.0f, 40.0f, 0.0f);
             Vector3f editorRotation(0.0f, 0.0f, 0.0f);
             Vector3f editorScale(1.0f, 1.0f, 1.0f);
             if (context.editorCamera)
                 context.editorCamera->GetTransform(editorPosition, editorRotation, editorScale);
 
-            // Only clear once the file has been validated.
-            context.scene->Clear();
             context.camera = nullptr;
             context.editorCamera = nullptr;
             context.defaultLight = nullptr;
             context.selectedNode = nullptr;
             context.spawnCounter = 0;
 
-            Camera* loadedCamera = nullptr;
-            SceneNode* firstSelectableNode = nullptr;
-            unsigned loadedNodes = 0;
-            unsigned failedNodes = 0;
+            context.sceneManager->SetScene(scene);
+            context.sceneData = scene;
 
             Camera* editorCamera = CreateEditorCamera(context);
             if (editorCamera)
                 editorCamera->SetTransform(editorPosition, editorRotation, editorScale);
 
-            for (tinyxml2::XMLElement* nodeElement = sceneElement->FirstChildElement("Node");
-                nodeElement != nullptr;
-                nodeElement = nodeElement->NextSiblingElement("Node"))
+            Camera* sceneCamera = nullptr;
+            for (SceneNode* node : context.sceneManager->GetSceneNodes())
             {
-                const char* type = nodeElement->Attribute("type");
-                if (!type)
-                    continue;
-
-                const Vector3f position = ParseVector(nodeElement->Attribute("position"), Vector3f(0.0f, 0.0f, 0.0f));
-                const Vector3f rotation = ParseVector(nodeElement->Attribute("rotation"), Vector3f(0.0f, 0.0f, 0.0f));
-                const Vector3f scale = ParseVector(nodeElement->Attribute("scale"), Vector3f(1.0f, 1.0f, 1.0f));
-
-                if (std::string(type) == "Camera")
+                if (node && !node->IsEditorOnly() && node->GetType() == SCENENODE_CAMERA)
                 {
-                    Camera* camera = new Camera(context.scene);
-                    camera->SetProjectParams(90.0f, context.viewportAspect > 0.0f ? context.viewportAspect : 1.0f, 1.0f, 100.0f);
-                    camera->SetName(GetNodeName(*nodeElement, "Main Camera"));
-                    camera->SetTransform(position, rotation, scale);
-                    context.scene->AddNodeToRoot(camera);
-
-                    loadedCamera = camera;
-                    ++loadedNodes;
-                }
-                else if (std::string(type) == "Light")
-                {
-                    int lightType = nodeElement->IntAttribute("lightType", 0);
-                    if (lightType < 0 || lightType > LIGHT_SPOT)
-                        lightType = LIGHT_DIRECTIONAL;
-
-                    Light* light = SpawnLight(context, static_cast<LightType>(lightType));
-                    if (!light)
-                    {
-                        ++failedNodes;
-                        continue;
-                    }
-
-                    light->SetName(GetNodeName(*nodeElement, light->GetName()));
-                    light->SetTransform(position, rotation, scale);
-                    light->SetLightColor(ParseColor(nodeElement->Attribute("color"), Color::White));
-                    light->SetLightShiness(nodeElement->FloatAttribute("shininess", 100.0f));
-                    light->SetRadius(nodeElement->FloatAttribute("radius", 0.0f));
-                    light->SetSpotInner(nodeElement->FloatAttribute("spotInner", 0.0f));
-                    light->SetSpotOuter(nodeElement->FloatAttribute("spotOuter", 0.0f));
-
-                    if (!firstSelectableNode)
-                        firstSelectableNode = light;
-
-                    ++loadedNodes;
-                }
-                else if (std::string(type) == "Model")
-                {
-                    const char* modelPath = nodeElement->Attribute("model");
-                    if (!modelPath || !modelPath[0])
-                    {
-                        ++failedNodes;
-                        continue;
-                    }
-
-                    ModelNode* modelNode = SpawnModel(context, modelPath);
-                    if (!modelNode)
-                    {
-                        ++failedNodes;
-                        continue;
-                    }
-
-                    modelNode->SetName(GetNodeName(*nodeElement, modelNode->GetName()));
-                    modelNode->SetTransform(position, rotation, scale);
-
-                    if (!firstSelectableNode)
-                        firstSelectableNode = modelNode;
-
-                    ++loadedNodes;
+                    sceneCamera = static_cast<Camera*>(node);
+                    break;
                 }
             }
 
-            if (!loadedCamera)
-                loadedCamera = CreateSceneCamera(context);
+            if (!sceneCamera)
+                sceneCamera = CreateSceneCamera(context);
 
-            context.camera = loadedCamera;
-            context.defaultLight = context.scene->GetMainLigt();
-            context.selectedNode = firstSelectableNode;
+            context.camera = sceneCamera;
+
+            if (sceneCamera)
+            {
+                const float aspect = context.viewportAspect > 0.0f ? context.viewportAspect : 1.0f;
+                sceneCamera->SetProjectParams(sceneCamera->GetFov(), aspect,
+                    sceneCamera->GetNear(), sceneCamera->GetFar());
+                context.sceneManager->SyncNodeToData(sceneCamera);
+            }
+
+            context.defaultLight = context.sceneManager->GetMainLigt();
+            context.selectedNode = FindFirstSelectable(context.sceneManager->GetRootNode());
             context.scenePath = normalizedPath;
-
-            context.statusMessage = "Loaded scene: " + normalizedPath +
-                " (" + std::to_string(loadedNodes) + " nodes";
-            if (failedNodes > 0)
-                context.statusMessage += ", " + std::to_string(failedNodes) + " failed";
-            context.statusMessage += ")";
+            context.statusMessage = "Loaded scene: " + normalizedPath;
 
             return true;
         }

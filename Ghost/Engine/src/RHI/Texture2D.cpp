@@ -29,9 +29,11 @@ namespace ghost
         return true;
     }
 
-    void Texture2D::Save(DataStream& dataStream)
+    bool Texture2D::Save(DataStream& dataStream)
     {
         //TODO
+        (void)dataStream;
+        return true;
     }
 
     void Texture2D::SetData(const unsigned char* data)

@@ -29,14 +29,14 @@ namespace ghost
 
             ImGui::Begin("Hierarchy");
 
-            if (!_context.scene || !_context.scene->GetRootNode())
+            if (!_context.sceneManager || !_context.sceneManager->GetRootNode())
             {
                 ImGui::TextDisabled("No scene.");
                 ImGui::End();
                 return;
             }
 
-            for (SceneNode* node : _context.scene->GetRootNode()->GetChildren())
+            for (SceneNode* node : _context.sceneManager->GetRootNode()->GetChildren())
                 DrawNode(node);
 
             ImGui::End();

@@ -60,6 +60,7 @@ include_directories(GUI/Win32)
 include_directories(GUI/SDL2)
 
 include_directories(../../External/stb)
+include_directories(../../External/tinyxml2)
 
 include_directories(../../External/assimp/)
 include_directories(../../External/assimp/Compiler)

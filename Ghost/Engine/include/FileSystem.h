@@ -23,8 +23,6 @@ namespace ghost
         virtual bool FileExists(const std::string& fileName) const = 0;
         virtual bool DirExists(const std::string& pathName) const = 0;
 
-        // Fills result with bare file names (directories excluded).
-        // filter is a native wildcard, e.g. "*.obj"; empty means "*".
         virtual void ScanDir(std::vector<std::string>& result, const std::string& pathName, const std::string& filter) = 0;
     };
 

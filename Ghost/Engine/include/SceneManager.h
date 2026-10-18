@@ -5,6 +5,7 @@
 #include "SceneNode.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Scene.h"
 
 #include "RenderTarget.h"
 #include "Renderer.h"
@@ -18,14 +19,20 @@ namespace ghost
         SceneManager(const BoundingBox& box, int depth);
         ~SceneManager();
 
+        void SetScene(const ScenePtr& scene);
+        const ScenePtr& GetScene() const { return _scene; }
+
+        SceneNode* InstantiateNode(SceneNodeData* data, SceneNode* parent = nullptr);
+        SceneNode* FindNodeByData(SceneNodeData* data) const;
+
+        void SyncNodeToData(SceneNode* node);
+        void SyncAllToData();
+
         void AddNodeToRoot(SceneNode* node);
         void AddNode(SceneNode* node, SceneNode* parent);
 
-        // Removes node and its children from the scene and deletes them.
-        // The root node cannot be removed.
         void RemoveNode(SceneNode* node);
 
-        // Removes and deletes every node except the root GroupNode.
         void Clear();
 
         void UpdateSceneGraph(Camera* camera);
@@ -34,7 +41,6 @@ namespace ghost
 
         SceneNode* GetRootNode() const { return _sceneNodes[0]; }
 
-        // Includes the root GroupNode at index 0.
         const std::vector<SceneNode*>& GetSceneNodes() const { return _sceneNodes; }
         const std::vector<Light*>& GetLights() const { return _lights; }
 
@@ -51,6 +57,7 @@ namespace ghost
         const Matrix4x4f& GetShadowProjMat() const { return _lightProjMat; }
 
     private:
+        void Initialize(const BoundingBox& box, int depth);
         void InitTree(const BoundingBox& box, int depth);
 
         void AddNodeToTree(SceneNode* node, Octree* octree, int depth = 0);
@@ -61,6 +68,8 @@ namespace ghost
         void GetShadowmapRenderObjects(Light* light, std::vector<SceneNode*>& nodes);
 
     private:
+        ScenePtr _scene;
+
         Octree* _octree{ nullptr };
         int _maxDepth{ 0 };
 

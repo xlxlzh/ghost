@@ -16,13 +16,9 @@ namespace ghost
 
             ImGuiIO& io = ImGui::GetIO();
 
-            // Only navigate when the mouse is over the scene, not over an
-            // ImGui panel or popup.
             if (io.WantCaptureMouse)
                 return;
 
-            // Navigating while looking through the scene camera returns to the
-            // free-fly editor camera.
             if (_context.selectedNode == _context.camera &&
                 (ImGui::IsMouseClicked(ImGuiMouseButton_Right) || io.MouseWheel != 0.0f))
             {

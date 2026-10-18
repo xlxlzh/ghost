@@ -1,12 +1,28 @@
 #include "SceneNode.h"
 #include "SceneManager.h"
+#include "Scene.h"
 
 namespace ghost
 {
-    SceneNode::SceneNode(SceneManager* owner) : _owner(owner), _dirty(true), _parent(nullptr)
+    SceneNode::SceneNode(SceneManager* owner)
+        : _parent(nullptr)
+        , _tree(nullptr)
+        , _pos(0.0f, 0.0f, 0.0f)
+        , _scale(1.0f, 1.0f, 1.0f)
+        , _rotation(0.0f, 0.0f, 0.0f)
+        , _dirty(true)
+        , _owner(owner)
     {
         _absTrans.Identify();
         _relTrans.Identify();
+    }
+
+    void SceneNode::SetName(const std::string& name)
+    {
+        _name = name;
+
+        if (_sourceData)
+            _sourceData->name = name;
     }
 
     void SceneNode::SetTransform(const Vector3f& pos, const Vector3f& rotation, const Vector3f& scale)
@@ -14,6 +30,13 @@ namespace ghost
         _pos = pos;
         _rotation = rotation;
         _scale = scale;
+
+        if (_sourceData)
+        {
+            _sourceData->position = pos;
+            _sourceData->rotation = rotation;
+            _sourceData->scale = scale;
+        }
 
         _relTrans = Matrix4x4f::ScaleMatrix(scale._x, scale._y, scale._z);
         _relTrans.Rotate(rotation._x, rotation._y, rotation._z);
@@ -31,10 +54,7 @@ namespace ghost
 
     void SceneNode::SetPosition(const Vector3f& pos)
     {
-        _pos = pos;
-        _relTrans.Translate(pos._x, pos._y, pos._z);
-
-        MarkDirty();
+        SetTransform(pos, _rotation, _scale);
     }
 
     void SceneNode::SetScale(const Vector3f& scale)

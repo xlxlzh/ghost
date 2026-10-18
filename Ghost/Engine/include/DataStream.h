@@ -94,6 +94,7 @@ namespace ghost
 	{
 	public:
 		FileStream(const std::string& fileName, AccessMode mode = AccessMode::AM_READ);
+		~FileStream() override;
 
 		virtual std::size_t Read(void* buf, std::size_t count) override;
 		virtual std::size_t Write(const void* buf, size_t count) override;

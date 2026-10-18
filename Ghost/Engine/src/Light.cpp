@@ -5,13 +5,16 @@
 namespace ghost
 {
     Light::Light(SceneManager* owner) : SceneNode(owner),
-        _radius(0.0f), _falloff(1.0f), _spotInner(0.0f),
-        _spotOuter(0.0f), _shiness(0.0f)
+        _lightType(LIGHT_DIRECTIONAL),
+        _lightColor(1.0f, 1.0f, 1.0f, 1.0f),
+        _lightDir(0.0f, 0.0f, 1.0f),
+        _position(0.0f, 0.0f, 0.0f),
+        _spotOuter(0.0f),
+        _spotInner(0.0f),
+        _falloff(1.0f),
+        _radius(0.0f),
+        _shiness(0.0f)
     {
-        _lightColor = Color();
-        _lightDir = Vector3f(0.0f, 0.0f, 1.0f);
-        _position = Vector3f(0.0f, 0.0f, 0.0f);
-
         _viewMat.Identify();
     }
 
