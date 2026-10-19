@@ -7,6 +7,62 @@
 
 namespace ghost
 {
+    bool ModelRenderData::InitRenderData()
+    {
+        int subMeshCount = _mesh->GetSubMeshCount();
+        _subMeshRenderDatas.resize(subMeshCount);
+        for (int i = 0; i < subMeshCount; ++i)
+        {
+            SubMeshRenderData& renderData = _subMeshRenderDatas[i];
+            const SubMesh& subMesh = _mesh->GetSubMesh(i);
+            
+            const std::vector<float>& vertexData = subMesh.GetVertexDatas();
+            const std::vector<unsigned>& indices = subMesh.GetIndices();
+            
+            if (!vertexData.empty())
+            {
+                unsigned vSize = Model::GetVertexSizeByMask(subMesh.GetMask());
+                unsigned numVertex = vertexData.size() * sizeof(float) / vSize;
+
+                renderData._vertexBuffer = Engine::GetInstance()->GetRenderDevice()->CreateVertexBuffer(
+                    vSize, numVertex, ResourceUsage::USAGE_DYNAMIC);
+
+                renderData._vertexBuffer->WriteData(0, vSize * numVertex, &vertexData[0], true);
+
+                renderData._bindings = std::make_shared<VertexBufferBinding>();
+                renderData._bindings->SetBinding(0, renderData._vertexBuffer);
+
+                renderData._indexBuffer = Engine::GetInstance()->GetRenderDevice()->CreateIndexBuffer(
+                    IndexBuffer::INDEX_32BIT, indices.size(), ResourceUsage::USAGE_DYNAMIC);
+                renderData._indexBuffer->WriteData(0, sizeof(unsigned int) * indices.size(), &indices[0], true);
+            }
+            
+            renderData._vertexDeclaration = Engine::GetInstance()->GetRenderDevice()->CreateVertexDeclaration();
+
+            unsigned offset = 0;
+            unsigned mask = subMesh.GetMask();
+            //if (mask & VERTEX_POSITION)
+            {
+                renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_3, VES_POSITION);
+                offset += VertexElement::GetTypeSize(VET_FLOAT_3);
+            }
+            
+            //if (mask & VERTEX_NORMAL)
+            {
+                renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_3, VES_NORMAL);
+                offset += VertexElement::GetTypeSize(VET_FLOAT_3);
+            }
+            
+            //if (mask & VERTEX_TEXCOORD)
+            {
+                renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
+                offset += VertexElement::GetTypeSize(VET_FLOAT_2);
+            }
+        }
+        
+        return true;
+    }
+
     ModelNode::ModelNode(SceneManager* owner) : Renderable(owner)
     {
 
@@ -15,6 +71,12 @@ namespace ghost
     void ModelNode::SetModel(const ModelPtr& mesh)
     {
         _mesh = mesh;
+        if (!_renderData || _renderData->_mesh != mesh)
+        {
+            _renderData = GHOST_MAKE_SMART_POINTER(ModelRenderData, mesh);
+            _renderData->InitRenderData();
+        }
+        
         _dirty = true;
     }
 
@@ -68,10 +130,10 @@ namespace ghost
 
     void ModelNode::GetRenderOperation(unsigned index, RenderOperation& op)
     {
-        op._indexBuffer = _mesh->_meshes[index]._indexBuffer;
-        op._vertexBinding = _mesh->_meshes[index]._bindings;
+        op._indexBuffer = _renderData->_subMeshRenderDatas[index]._indexBuffer;
+        op._vertexBinding = _renderData->_subMeshRenderDatas[index]._bindings;
         op._primitiveType = PRIMITIVE_TRIANGLELIST;
-        op._vertexDecl = _mesh->_vertexDec;
+        op._vertexDecl = _renderData->_subMeshRenderDatas[index]._vertexDeclaration;
     }
 
     void ModelNode::OnPostUpdate()

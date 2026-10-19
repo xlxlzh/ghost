@@ -9,6 +9,29 @@
 
 namespace ghost
 {
+    class GHOST_API ModelRenderData
+    {
+    public:
+        ModelRenderData(const ModelPtr& model) : _mesh(model) { }
+        ~ModelRenderData() { }
+        
+        bool InitRenderData();
+        
+        struct SubMeshRenderData
+        {
+            VertexBufferPtr _vertexBuffer;
+            IndexBufferPtr _indexBuffer;
+
+            VertexBufferBindingPtr _bindings;
+            VertexDeclarationPtr _vertexDeclaration;
+        };
+        
+        std::vector<SubMeshRenderData> _subMeshRenderDatas;
+        ModelPtr _mesh;
+    };
+    
+    DECLAR_SMART_POINTER(ModelRenderData)
+    
     class GHOST_API ModelNode : public Renderable
     {
     public:
@@ -33,6 +56,7 @@ namespace ghost
 
     protected:
         ModelPtr _mesh = nullptr;
+        ModelRenderDataPtr _renderData = nullptr;
 
         std::vector<MaterialPtr> _instanceMaterial;
 

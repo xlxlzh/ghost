@@ -39,8 +39,6 @@ namespace ghost
         subMesh.SetVertexDatas(datas);
         subMesh.SetIndices(indices);
 
-        subMesh.CreateVertexBinding(0);
-
         model->AddSubmesh(subMesh);
 
         return model;

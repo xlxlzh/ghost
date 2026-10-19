@@ -52,17 +52,18 @@ namespace ghost
             bool hasTangent = mesh->HasTangentsAndBitangents();
             bool hasUv = mesh->mTextureCoords[0];
 
-            _loader->_mask = VERTEX_POSITION;
-            if (hasNormal)
-                _loader->_mask |= VERTEX_NORMAL;
-            if (hasUv)
-                _loader->_mask |= VERTEX_TEXCOORD;
-            if (hasTangent)
-                _loader->_mask |= VERTEX_TANGENT;
-
             SubMesh subMesh;
             subMesh._localMatrix = localMatrix;
-            unsigned eleSize = Model::GetVertexSizeByMask(_loader->_mask) / sizeof(float);
+            
+            subMesh._mask = VERTEX_POSITION;
+            if (hasNormal)
+                subMesh._mask |= VERTEX_NORMAL;
+            if (hasUv)
+                subMesh._mask |= VERTEX_TEXCOORD;
+            if (hasTangent)
+                subMesh._mask |= VERTEX_TANGENT;
+            
+            unsigned eleSize = Model::GetVertexSizeByMask(subMesh._mask) / sizeof(float);
             subMesh._vertexDatas.resize(eleSize * mesh->mNumVertices);
 
             unsigned offset = 0;
@@ -129,27 +130,6 @@ namespace ghost
         unsigned char* _buff = nullptr;
     };
 
-    void SubMesh::CreateVertexBinding(unsigned mask)
-    {
-        if (!_vertexDatas.empty())
-        {
-            unsigned vSize = Model::GetVertexSizeByMask(mask);
-            unsigned numVertex = _vertexDatas.size() * sizeof(float) / vSize;
-
-            _vertexBuffer = Engine::GetInstance()->GetRenderDevice()->CreateVertexBuffer(
-                vSize, numVertex, ResourceUsage::USAGE_DYNAMIC);
-
-            _vertexBuffer->WriteData(0, vSize * numVertex, &_vertexDatas[0], true);
-
-            _bindings = std::make_shared<VertexBufferBinding>();
-            _bindings->SetBinding(0, _vertexBuffer);
-
-            _indexBuffer = Engine::GetInstance()->GetRenderDevice()->CreateIndexBuffer(
-                IndexBuffer::INDEX_32BIT, _indices.size(), ResourceUsage::USAGE_DYNAMIC);
-            _indexBuffer->WriteData(0, sizeof(unsigned int) * _indices.size(), &_indices[0], true);
-        }
-    }
-
     Model::Model(int type, const std::string& name, int flag) : Resource(type, name, flag)
     {
 
@@ -162,15 +142,8 @@ namespace ghost
         if (!helper.preocessLoad(dataStream))
             return false;
 
-        for (auto& subMesh : _meshes)
-        {
-            subMesh.CreateVertexBinding(_mask);
-        }
-
         _materials.resize(_meshes.size());
-
-        CreateVertexDecl();
-
+        
         return true;
     }
 
@@ -179,28 +152,6 @@ namespace ghost
         //TODO
         (void)dataStream;
         return true;
-    }
-
-    void Model::CreateVertexDecl()
-    {
-        _vertexDec = Engine::GetInstance()->GetRenderDevice()->CreateVertexDeclaration();
-
-        unsigned offset = 0;
-        //if (_mask & VERTEX_POSITION)
-        {
-            _vertexDec->AddElement(0, offset, VET_FLOAT_3, VES_POSITION);
-            offset += VertexElement::GetTypeSize(VET_FLOAT_3);
-        }
-        //if (_mask & VERTEX_NORMAL)
-        {
-            _vertexDec->AddElement(0, offset, VET_FLOAT_3, VES_NORMAL);
-            offset += VertexElement::GetTypeSize(VET_FLOAT_3);
-        }
-        //if (_mask & VERTEX_TEXCOORD)
-        {
-            _vertexDec->AddElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
-            offset += VertexElement::GetTypeSize(VET_FLOAT_2);
-        }
     }
 
     void Model::SetMaterial(unsigned subIndex, const MaterialPtr& material)

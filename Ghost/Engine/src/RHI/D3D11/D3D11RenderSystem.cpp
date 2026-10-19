@@ -178,7 +178,7 @@ namespace ghost
         UINT strides[] = { vBufferPtr->GetVertexSize() };
         UINT offset = 0;
 
-        devicePtr->_context->IASetVertexBuffers(0, 0, buffers, strides, &offset);
+        devicePtr->_context->IASetVertexBuffers(0, 1, buffers, strides, &offset);
     }
 
     void D3D11RenderSystem::SetVertexBufferBinding(VertexBufferBindingPtr binding)

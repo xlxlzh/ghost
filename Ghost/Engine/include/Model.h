@@ -32,23 +32,19 @@ namespace ghost
             _vertexDatas.clear();
             _indices.clear();
         }
-
-        void CreateVertexBinding(unsigned mask);
+        
         const std::vector<float>& GetVertexDatas() const { return _vertexDatas; }
         const std::vector<unsigned>& GetIndices() const { return _indices; }
         void SetVertexDatas(const std::vector<float>& datas) { _vertexDatas = datas; }
         void SetIndices(const std::vector<unsigned>& indices) { _indices = indices; }
+        unsigned GetMask() const { return _mask; }
 
     private:
         int _MaterialIndex{ GHOST_INVALID_INDEX };
 
         std::vector<float> _vertexDatas;
         std::vector<unsigned> _indices;
-
-        VertexBufferPtr _vertexBuffer;
-        IndexBufferPtr _indexBuffer;
-
-        VertexBufferBindingPtr _bindings;
+        unsigned _mask{ VERTEX_NONE };
 
         Matrix4x4f _localMatrix;
     };
@@ -63,12 +59,12 @@ namespace ghost
 
         virtual bool Load(DataStream& dataStream) override;
         virtual bool Save(DataStream& dataStream) override;
-
-        void CreateVertexDecl();
+        
         void SetMaterial(unsigned subIndex, const MaterialPtr& material);
         const MaterialPtr& GetMaterial(unsigned subIndex) const;
         unsigned GetSubMeshCount() const { return static_cast<unsigned>(_meshes.size()); }
         void AddSubmesh(const SubMesh& mesh);
+        const SubMesh& GetSubMesh(unsigned subIndex) const { return _meshes[subIndex]; }
 
         static unsigned GetVertexSizeByMask(unsigned mask);
 
@@ -77,11 +73,6 @@ namespace ghost
     protected:
         std::vector<SubMesh> _meshes;
         std::vector<MaterialPtr> _materials;
-
-        unsigned _mask{ VERTEX_NONE };
-
-        VertexDeclarationPtr _vertexDec;
-        ConstBufferPtr _objConstBuffer;
     };
 
     DECLAR_SMART_POINTER(Model);
