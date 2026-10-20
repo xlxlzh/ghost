@@ -60,7 +60,8 @@ namespace ghost
         void UpdateRenderStateBeforeRendering();
 
     protected:
-        std::map<InputSignatureList*, ID3D11InputLayoutPtr> _inputlayouts;
+        using InputLayoutKey = std::pair<InputSignatureList*, const VertexDeclaration*>;
+        std::map<InputLayoutKey, ID3D11InputLayoutPtr> _inputlayouts;
 
         bool _rasterizerDescChagned = true;
         ID3D11RasterizerStatePtr _rasterizerState = nullptr;

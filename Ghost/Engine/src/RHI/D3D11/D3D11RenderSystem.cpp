@@ -209,81 +209,85 @@ namespace ghost
 
     void D3D11RenderSystem::SetVertexDeclaration(VertexDeclarationPtr vDecl)
     {
-        if (_currentMaterial)
+        if (!_currentMaterial || !vDecl)
+            return;
+
+        ShaderPass* pass = _currentMaterial->GetShaderPass(_currentRenderPass);
+        if (!pass)
+            return;
+
+        InputSignatureList* signatures = pass->GetShaderInputSignature();
+        if (!signatures)
+            return;
+
+        D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        D3D11VertexDeclarationPtr d3d11Decl = GHOST_SMARTPOINTER_CAST(D3D11VertexDeclaration, vDecl);
+
+        const InputLayoutKey key(signatures, vDecl.get());
+        auto inputIt = _inputlayouts.find(key);
+        if (inputIt != _inputlayouts.end())
         {
-            ShaderPass* pass = _currentMaterial->GetShaderPass(_currentRenderPass);
+            devicePtr->_context->IASetInputLayout(inputIt->second.Get());
+            return;
+        }
 
-            D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);
+        const auto& elements = d3d11Decl->GetElements();
+        std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc;
 
-            D3D11VertexDeclarationPtr d3d11Decl = GHOST_SMARTPOINTER_CAST(D3D11VertexDeclaration, vDecl);
-
-            InputSignatureList* signatures = pass->GetShaderInputSignature();
-            auto inputIt = _inputlayouts.find(signatures);
-            if (inputIt != _inputlayouts.end())
+        for (auto& matSig : *signatures)
+        {
+            const VertexElement* matchedElement = nullptr;
+            for (const VertexElement& element : elements)
             {
-                ID3D11InputLayout* d3d11Input = inputIt->second.Get();
-                devicePtr->_context->IASetInputLayout(d3d11Input);
-            }
-            else
-            {
-                const auto& elements = d3d11Decl->GetElements();
-
-                std::vector<D3D11_INPUT_ELEMENT_DESC> inputDesc;
-
-                InputSignatureList sigs = *signatures;
-                for (auto& matSig : sigs)
+                const char* semanticName = D3D11Mappings::GetSemanticName(element.GetSemantic());
+                if (strcmp(semanticName, matSig._semantic.c_str()) == 0
+                    && element.GetIndex() == matSig._index)
                 {
-                    bool found = false;
-                    std::list<VertexElement>::const_iterator itEle;
-                    for (itEle = elements.begin(); itEle != elements.end(); ++itEle)
-                    {
-                        const char* semanticName = D3D11Mappings::GetSemanticName(itEle->GetSemantic());
-                        unsigned semanticIndex = itEle->GetIndex();
-
-                        if (strcmp(semanticName, matSig._semantic.c_str()) == 0
-                            && semanticIndex == matSig._index)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        GHOST_LOG_FORMAT_ERROR("No vertex element for semantic %s%s in shader %s found",
-                            matSig._semantic.c_str(), matSig._index, _currentMaterial->GetName());
-                    }
-
-                    D3D11_INPUT_ELEMENT_DESC elem = {};
-                    elem.SemanticName = matSig._semantic.c_str();
-                    elem.SemanticIndex = matSig._index;
-                    elem.Format = D3D11Mappings::GetFormat(itEle->GetType());
-                    elem.InputSlot = itEle->GetStreamSlot();
-                    elem.AlignedByteOffset = itEle->GetOffset();
-                    elem.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-                    elem.InstanceDataStepRate = 0;
-                    inputDesc.push_back(elem);
+                    matchedElement = &element;
+                    break;
                 }
+            }
 
-                if (!inputDesc.empty())
+            if (!matchedElement)
+            {
+                GHOST_LOG_FORMAT_ERROR("No vertex element for semantic %s%s in shader %s found",
+                    matSig._semantic.c_str(), matSig._index, _currentMaterial->GetName().c_str());
+                continue;
+            }
+
+            D3D11_INPUT_ELEMENT_DESC elem = {};
+            elem.SemanticName = matSig._semantic.c_str();
+            elem.SemanticIndex = matSig._index;
+            elem.Format = D3D11Mappings::GetFormat(matchedElement->GetType());
+            elem.InputSlot = matchedElement->GetStreamSlot();
+            elem.AlignedByteOffset = matchedElement->GetOffset();
+            elem.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+            elem.InstanceDataStepRate = 0;
+            inputDesc.push_back(elem);
+        }
+
+        ID3D11InputLayoutPtr inputlayoutPtr = nullptr;
+        if (!inputDesc.empty())
+        {
+            auto shaderRes = pass->GetLinkedShader();
+            if (shaderRes)
+            {
+                const ShaderByteCode* shaderBytecode = shaderRes->GetByteCodeByType(SHADER_VS);
+                if (shaderBytecode && shaderBytecode->ByteCode && shaderBytecode->ByteCodeSize > 0)
                 {
-                    auto shaderRes = pass->GetLinkedShader();
-                    auto shaderBytecode = shaderRes->GetByteCodeByType(SHADER_VS);
-
-                    ID3D11InputLayoutPtr inputlayoutPtr = nullptr;
                     HRESULT hr = devicePtr->_device->CreateInputLayout(&inputDesc[0], inputDesc.size(),
-                        &shaderBytecode->ByteCode[0], shaderBytecode->ByteCodeSize, inputlayoutPtr.ReleaseAndGetAddressOf());
+                        &shaderBytecode->ByteCode[0], shaderBytecode->ByteCodeSize,
+                        inputlayoutPtr.ReleaseAndGetAddressOf());
                     if (FAILED(hr))
                     {
                         GHOST_LOG_FORMAT_ERROR("Can not CreateInputLayout");
                     }
-
-                    _inputlayouts[signatures] = inputlayoutPtr;
-
-                    devicePtr->_context->IASetInputLayout(inputlayoutPtr.Get());
                 }
             }
         }
+
+        _inputlayouts[key] = inputlayoutPtr;
+        devicePtr->_context->IASetInputLayout(inputlayoutPtr.Get());
     }
 
     void D3D11RenderSystem::SetConstBuffer(ShaderType shaderType, ConstBufferPtr constBuffer)
