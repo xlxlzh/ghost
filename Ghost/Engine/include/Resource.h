@@ -39,6 +39,13 @@ namespace ghost
         virtual void Release();
         virtual bool Load(DataStream& dataStream) = 0;
         virtual bool Save(DataStream& dataStream) = 0;
+
+        virtual bool SaveXml(DataStream& dataStream)
+        {
+            (void)dataStream;
+            return false;
+        }
+
         virtual void Unload();
 
         int GetType() const { return _type; }

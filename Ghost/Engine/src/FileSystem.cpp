@@ -74,8 +74,11 @@ namespace ghost
     {
         std::string ext;
 
-        auto extPos = fullPath.find_last_of('.');
-        if (extPos != std::string::npos)
+        const size_t slashPos = fullPath.find_last_of("/\\");
+        const size_t namePos = slashPos == std::string::npos ? 0 : slashPos + 1;
+        const size_t extPos = fullPath.find_last_of('.');
+
+        if (extPos != std::string::npos && extPos >= namePos)
         {
             ext = fullPath.substr(extPos);
             if (lowercase)

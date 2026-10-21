@@ -11,6 +11,7 @@ namespace ghost
     {
         bool SaveScene(EditorContext& context, const std::string& relativePath);
         bool LoadScene(EditorContext& context, const std::string& relativePath);
+        bool ExportSceneXml(EditorContext& context, const std::string& relativePath);
 
         void RefreshSceneFiles(EditorContext& context);
     }

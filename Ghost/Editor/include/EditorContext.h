@@ -46,8 +46,9 @@ namespace ghost
 
             std::string resourcesPath;
             std::vector<std::string> modelAssets;
+            std::vector<std::string> sourceMeshAssets;
             std::vector<std::string> sceneFiles;
-            std::string scenePath = "Scenes/editor_scene.xml";
+            std::string scenePath = "Scenes/editor_scene.gmap";
             float viewportAspect = 1.0f;
             unsigned spawnCounter = 0;
             std::string statusMessage;

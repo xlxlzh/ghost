@@ -20,7 +20,7 @@ namespace ghost
     {
         _minFilter = minFilter;
         _magFilter = magFilter;
-        _mipFilter = minFilter;
+        _mipFilter = mipFilter;
     }
 
     void Sampler::SetFilter(FilterType type, FilterOptions opts)

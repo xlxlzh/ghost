@@ -31,7 +31,7 @@ namespace ghost
         Vector3f scale = Vector3f(1.0f, 1.0f, 1.0f);
 
         std::string modelPath;
-        std::string materialPath = "Materials/DefaultMaterial.xml";
+        std::string materialPath = "Materials/DefaultMaterial.gres";
 
         bool visible = true;
         bool acceptShadow = true;
@@ -66,6 +66,7 @@ namespace ghost
 
         bool Load(DataStream& dataStream) override;
         bool Save(DataStream& dataStream) override;
+        bool SaveXml(DataStream& dataStream) override;
 
         SceneNodeData* GetRoot() const { return _root.get(); }
 
@@ -81,6 +82,9 @@ namespace ghost
         DECLAR_RESOURCE_TYPE(SCENE);
 
     private:
+        bool LoadBinary(DataStream& dataStream);
+        bool LoadXml(DataStream& dataStream);
+
         std::unique_ptr<SceneNodeData> _root;
     };
 

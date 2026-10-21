@@ -41,19 +41,26 @@ namespace ghost
 
             unsigned offset = 0;
             unsigned mask = subMesh.GetMask();
-            //if (mask & VERTEX_POSITION)
+
+            if (mask & VERTEX_POSITION)
             {
                 renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_3, VES_POSITION);
                 offset += VertexElement::GetTypeSize(VET_FLOAT_3);
             }
-            
-            //if (mask & VERTEX_NORMAL)
+
+            if (mask & VERTEX_NORMAL)
             {
                 renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_3, VES_NORMAL);
                 offset += VertexElement::GetTypeSize(VET_FLOAT_3);
             }
-            
-            //if (mask & VERTEX_TEXCOORD)
+
+            if (mask & VERTEX_TANGENT)
+            {
+                renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_3, VES_TANGENT);
+                offset += VertexElement::GetTypeSize(VET_FLOAT_3);
+            }
+
+            if (mask & VERTEX_TEXCOORD)
             {
                 renderData._vertexDeclaration->AddElement(0, offset, VET_FLOAT_2, VES_TEXTURE_COORDINATES);
                 offset += VertexElement::GetTypeSize(VET_FLOAT_2);

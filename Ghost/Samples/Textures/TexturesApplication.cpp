@@ -5,10 +5,10 @@
 
 void TexturesApplication::InitSample()
 {
-    MaterialPtr matPart1 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_1.xml", 0));
-    MaterialPtr matPart2 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_2.xml", 0));
-    MaterialPtr matPart3 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_3.xml", 0));
-    MaterialPtr matPart4 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_4.xml", 0));
+    MaterialPtr matPart1 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_1.gres", 0));
+    MaterialPtr matPart2 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_2.gres", 0));
+    MaterialPtr matPart3 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_3.gres", 0));
+    MaterialPtr matPart4 = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HouseMaterial_4.gres", 0));
 
     ModelPtr houseModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/miniHouse_FBX.FBX", 0));
 

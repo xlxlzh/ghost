@@ -48,7 +48,7 @@ void EditorApplication::OnInit()
 
     _context.sceneManager = new ghost::SceneManager();
     _context.sceneData = std::make_shared<ghost::Scene>();
-    _context.sceneData->SetName("Scenes/editor_scene.xml");
+    _context.sceneData->SetName("Scenes/editor_scene.gmap");
     _context.sceneManager->SetScene(_context.sceneData);
 
     const float width = static_cast<float>(GetWindow()->GetWidth());

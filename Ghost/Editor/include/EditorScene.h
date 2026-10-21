@@ -15,6 +15,9 @@ namespace ghost
         void SetupDefaultScene(EditorContext& context);
         void NewScene(EditorContext& context);
         void RefreshModelAssets(EditorContext& context);
+        bool ImportModelAsset(EditorContext& context, const std::string& sourceLogicalPath,
+            const std::string& destLogicalPath);
+        bool ExportModelAssetXml(EditorContext& context, const std::string& logicalModelPath);
 
         void FocusEditorCamera(EditorContext& context, SceneNode* node);
 

@@ -1,8 +1,10 @@
 #include "SceneSerializer.h"
 
 #include <algorithm>
+#include <cstring>
 #include <filesystem>
 
+#include "BinaryArchive.h"
 #include "Engine.h"
 #include "FileSystem.h"
 #include "Scene.h"
@@ -15,14 +17,51 @@ namespace ghost
     {
         namespace
         {
-            std::string NormalizeScenePath(const std::string& path)
+            std::string ReplaceExtension(const std::string& path, const std::string& extension)
+            {
+                const std::string currentExtension = GetExtension(path);
+                if (currentExtension.empty())
+                    return path + extension;
+
+                return path.substr(0, path.size() - currentExtension.size()) + extension;
+            }
+
+            std::string NormalizeScenePath(const std::string& path, const char* defaultExtension)
             {
                 std::string result = path;
                 if (result.empty())
                     result = "editor_scene";
 
-                if (GetExtension(result).empty())
-                    result += ".xml";
+                const std::string extension = GetExtension(result);
+                if (extension.empty())
+                {
+                    result += defaultExtension;
+                }
+                else if (strcmp(defaultExtension, AssetFormat::GMAP_EXTENSION) == 0 &&
+                    extension != AssetFormat::GMAP_EXTENSION)
+                {
+                    result = ReplaceExtension(result, AssetFormat::GMAP_EXTENSION);
+                }
+                else if (strcmp(defaultExtension, AssetFormat::XML_EXTENSION) == 0 &&
+                    extension != AssetFormat::XML_EXTENSION)
+                {
+                    result = ReplaceExtension(result, AssetFormat::XML_EXTENSION);
+                }
+
+                if (result.find('/') == std::string::npos &&
+                    result.find('\\') == std::string::npos)
+                {
+                    result = "Scenes/" + result;
+                }
+
+                return GetInternalPath(result);
+            }
+
+            std::string ResolveScenePath(const std::string& path)
+            {
+                std::string result = path;
+                if (result.empty())
+                    result = "editor_scene";
 
                 if (result.find('/') == std::string::npos &&
                     result.find('\\') == std::string::npos)
@@ -75,7 +114,8 @@ namespace ghost
                 return false;
             }
 
-            const std::string normalizedPath = NormalizeScenePath(relativePath);
+            const std::string normalizedPath = NormalizeScenePath(relativePath,
+                AssetFormat::GMAP_EXTENSION);
             const std::string fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
             EnsureDirectory(fullPath);
 
@@ -111,8 +151,36 @@ namespace ghost
                 return false;
             }
 
-            const std::string normalizedPath = NormalizeScenePath(relativePath);
-            const std::string fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
+            std::string normalizedPath = ResolveScenePath(relativePath);
+            std::string fullPath;
+
+            if (GetExtension(normalizedPath).empty())
+            {
+                const std::string basePath = AddTrailingSlash(context.resourcesPath);
+                const std::string gmapPath = normalizedPath + AssetFormat::GMAP_EXTENSION;
+                const std::string xmlPath = normalizedPath + AssetFormat::XML_EXTENSION;
+
+                std::error_code error;
+                if (std::filesystem::exists(basePath + gmapPath, error))
+                {
+                    normalizedPath = gmapPath;
+                    fullPath = basePath + normalizedPath;
+                }
+                else if (std::filesystem::exists(basePath + xmlPath, error))
+                {
+                    normalizedPath = xmlPath;
+                    fullPath = basePath + xmlPath;
+                }
+                else
+                {
+                    normalizedPath = gmapPath;
+                    fullPath = basePath + normalizedPath;
+                }
+            }
+            else
+            {
+                fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
+            }
 
             ScenePtr scene = std::make_shared<Scene>();
             scene->SetName(normalizedPath);
@@ -176,6 +244,41 @@ namespace ghost
             return true;
         }
 
+        bool ExportSceneXml(EditorContext& context, const std::string& relativePath)
+        {
+            if (!context.sceneManager || !context.sceneData)
+            {
+                context.statusMessage = "Cannot export scene XML: no scene data.";
+                return false;
+            }
+
+            const std::string normalizedPath = NormalizeScenePath(relativePath,
+                AssetFormat::XML_EXTENSION);
+            const std::string fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
+            EnsureDirectory(fullPath);
+
+            context.sceneManager->SyncAllToData();
+
+            FileStream stream(fullPath, AM_WRITE);
+            if (!stream.IsOpened())
+            {
+                context.statusMessage = "Failed to open scene XML for writing: " + normalizedPath;
+                return false;
+            }
+
+            const bool saved = context.sceneData->SaveXml(stream);
+            stream.Close();
+
+            if (!saved)
+            {
+                context.statusMessage = "Failed to export scene XML: " + normalizedPath;
+                return false;
+            }
+
+            context.statusMessage = "Exported scene XML: " + normalizedPath;
+            return true;
+        }
+
         void RefreshSceneFiles(EditorContext& context)
         {
             context.sceneFiles.clear();
@@ -189,8 +292,12 @@ namespace ghost
 
             for (const std::string& file : files)
             {
-                if (GetExtension(file) == ".xml")
+                const std::string extension = GetExtension(file);
+                if (extension == AssetFormat::GMAP_EXTENSION ||
+                    extension == AssetFormat::XML_EXTENSION)
+                {
                     context.sceneFiles.push_back("Scenes/" + file);
+                }
             }
 
             std::sort(context.sceneFiles.begin(), context.sceneFiles.end());

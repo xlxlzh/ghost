@@ -220,7 +220,7 @@ namespace ghost
             if (!data->modelPath.empty())
             {
                 const std::string materialPath = data->materialPath.empty()
-                    ? "Materials/DefaultMaterial.xml" : data->materialPath;
+                    ? "Materials/DefaultMaterial.gres" : data->materialPath;
 
                 ModelPtr model = GHOST_SMARTPOINTER_CAST(Model,
                     ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, data->modelPath, 0));

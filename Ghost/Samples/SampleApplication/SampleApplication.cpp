@@ -5,8 +5,8 @@
 
 void SampleApplication::InitSample()
 {
-    MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.xml", 0));
-    MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.xml", 0));
+    MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.gres", 0));
+    MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.gres", 0));
 
     ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/dragon.obj", 0));
     ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));

@@ -89,6 +89,26 @@ namespace ghost
         RENDER_PASS_NUM
     };
 
+    struct GHOST_API ShaderEntryDefinition
+    {
+        ShaderType type = SHADER_TYPE_NUM;
+        std::string entry;
+    };
+
+    struct GHOST_API TextureSlotDefinition
+    {
+        std::string name;
+        std::string path;
+    };
+
+    struct GHOST_API SamplerSlotDefinition
+    {
+        std::string name;
+        FilterOptions minFilter = FO_LINEAR;
+        FilterOptions magFilter = FO_LINEAR;
+        FilterOptions mipFilter = FO_LINEAR;
+    };
+
     class GHOST_API ShaderPass
     {
         friend class Material;
@@ -107,15 +127,18 @@ namespace ghost
 
     protected:
         ShaderResourcePtr _linkedShader = nullptr;
-        RenderPass _passType;
-         
+        RenderPass _passType = RENDER_PASS_FORWARD;
+
         std::unordered_map<std::string, std::string> _defines{};
+
+        std::string _shaderSource;
+        std::vector<ShaderEntryDefinition> _shaderEntries;
+        std::vector<TextureSlotDefinition> _textureSlots;
+        std::vector<SamplerSlotDefinition> _samplerSlots;
 
         Shader* _handwareShader{ nullptr };
 
         ShaderParams _params;
-
-
     };
 
     class GHOST_API Material : public Resource
@@ -126,6 +149,7 @@ namespace ghost
 
         virtual bool Load(DataStream& dataStream) override;
         virtual bool Save(DataStream& dataStream) override;
+        virtual bool SaveXml(DataStream& dataStream) override;
 
         void ApplyToRenderPass(RenderPass pass);
 
@@ -134,6 +158,17 @@ namespace ghost
         ShaderPass* GetShaderPass(RenderPass pass);
 
     private:
+        static bool LoadPassesXml(DataStream& dataStream, std::vector<ShaderPass>& passes,
+            const std::string& assetName);
+        static bool LoadPassesBinary(DataStream& dataStream, std::vector<ShaderPass>& passes,
+            const std::string& assetName);
+        static bool FinalizePasses(std::vector<ShaderPass>& passes,
+            const std::string& assetName);
+        static bool SavePassesBinary(const std::vector<ShaderPass>& passes,
+            DataStream& dataStream, const std::string& assetName);
+        static bool SavePassesXml(const std::vector<ShaderPass>& passes,
+            DataStream& dataStream, const std::string& assetName);
+
         std::vector<ShaderPass> _passes;
     };
 

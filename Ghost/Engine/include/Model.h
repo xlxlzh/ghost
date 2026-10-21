@@ -12,6 +12,8 @@
 
 namespace ghost
 {
+    class ModelHelper;
+
     enum VertexMask : unsigned
     {
         VERTEX_NONE = 0x0,
@@ -26,18 +28,22 @@ namespace ghost
         friend class ModelNode;
         friend class ModelLoadHelper;
         friend class Model;
+        friend class ModelHelper;
     public:
         SubMesh()
         {
             _vertexDatas.clear();
             _indices.clear();
         }
-        
+
         const std::vector<float>& GetVertexDatas() const { return _vertexDatas; }
         const std::vector<unsigned>& GetIndices() const { return _indices; }
         void SetVertexDatas(const std::vector<float>& datas) { _vertexDatas = datas; }
         void SetIndices(const std::vector<unsigned>& indices) { _indices = indices; }
         unsigned GetMask() const { return _mask; }
+        void SetMask(unsigned mask) { _mask = mask; }
+        const Matrix4x4f& GetLocalMatrix() const { return _localMatrix; }
+        void SetLocalMatrix(const Matrix4x4f& matrix) { _localMatrix = matrix; }
 
     private:
         int _MaterialIndex{ GHOST_INVALID_INDEX };
@@ -53,12 +59,14 @@ namespace ghost
     {
         friend class ModelNode;
         friend class ModelLoadHelper;
+        friend class ModelHelper;
     public:
         Model() : Model(RESOURCE_MODEL, "", 0) { }
         Model(int type, const std::string& name, int flag);
 
         virtual bool Load(DataStream& dataStream) override;
         virtual bool Save(DataStream& dataStream) override;
+        virtual bool SaveXml(DataStream& dataStream) override;
         
         void SetMaterial(unsigned subIndex, const MaterialPtr& material);
         const MaterialPtr& GetMaterial(unsigned subIndex) const;
@@ -76,6 +84,20 @@ namespace ghost
     };
 
     DECLAR_SMART_POINTER(Model);
+    
+    class GHOST_API ModelHelper
+    {
+    public:
+        static ModelPtr ImportModel(const std::string& filename);
+        static bool ExportModel(const ModelPtr& model, const std::string& filename);
+        static bool ExportModelXml(const ModelPtr& model, const std::string& filename);
+
+        static bool LoadNativeModel(Model& model, DataStream& dataStream);
+        static bool LoadNativeModelBinary(Model& model, DataStream& dataStream);
+        static bool LoadNativeModelXml(Model& model, DataStream& dataStream);
+        static bool SaveNativeModel(const Model& model, DataStream& dataStream);
+        static bool SaveNativeModelXml(const Model& model, DataStream& dataStream);
+    };
 }
 
 #endif

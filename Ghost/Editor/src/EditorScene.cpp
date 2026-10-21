@@ -1,12 +1,16 @@
 #include "EditorScene.h"
 
 #include <algorithm>
+#include <filesystem>
 
+#include "BinaryArchive.h"
 #include "Engine.h"
 #include "FileSystem.h"
+#include "Resource.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Model.h"
 #include "ModelNode.h"
 
 namespace ghost
@@ -15,7 +19,7 @@ namespace ghost
     {
         namespace
         {
-            const char* DefaultMaterialPath = "Materials/DefaultMaterial.xml";
+            const char* DefaultMaterialPath = "Materials/DefaultMaterial.gres";
 
             std::string GetFileStem(const std::string& path)
             {
@@ -191,9 +195,83 @@ namespace ghost
             return true;
         }
 
+        bool ImportModelAsset(EditorContext& context, const std::string& sourceLogicalPath,
+            const std::string& destLogicalPath)
+        {
+            if (context.resourcesPath.empty() || sourceLogicalPath.empty() || destLogicalPath.empty())
+                return false;
+
+            std::string destination = GetInternalPath(destLogicalPath);
+            if (GetExtension(destination) != AssetFormat::GRES_EXTENSION)
+                destination += AssetFormat::GRES_EXTENSION;
+
+            if (destination.find('/') == std::string::npos)
+                destination = "Meshes/" + destination;
+
+            const std::string sourcePath = AddTrailingSlash(context.resourcesPath) + GetInternalPath(sourceLogicalPath);
+            const std::string destPath = AddTrailingSlash(context.resourcesPath) + destination;
+
+            const size_t slashPos = destPath.find_last_of('/');
+            if (slashPos != std::string::npos)
+            {
+                std::error_code error;
+                std::filesystem::create_directories(destPath.substr(0, slashPos), error);
+            }
+
+            ModelPtr model = ModelHelper::ImportModel(sourcePath);
+            if (!model)
+            {
+                context.statusMessage = "Failed to import model: " + sourceLogicalPath;
+                return false;
+            }
+
+            if (!ModelHelper::ExportModel(model, destPath))
+            {
+                context.statusMessage = "Failed to save native model: " + destination;
+                return false;
+            }
+
+            RefreshModelAssets(context);
+            context.statusMessage = "Imported " + sourceLogicalPath + " to " + destination;
+            return true;
+        }
+
+        bool ExportModelAssetXml(EditorContext& context, const std::string& logicalModelPath)
+        {
+            if (context.resourcesPath.empty() || logicalModelPath.empty())
+                return false;
+
+            ModelPtr model = GHOST_SMARTPOINTER_CAST(Model,
+                ResourceManager::GetInstance()->AddResource(
+                    RESOURCE_MODEL, logicalModelPath, 0));
+
+            if (!model)
+            {
+                context.statusMessage = "Failed to load model for XML export: " + logicalModelPath;
+                return false;
+            }
+
+            std::string logicalXmlPath = GetInternalPath(logicalModelPath);
+            const std::string extension = GetExtension(logicalXmlPath);
+            if (!extension.empty())
+                logicalXmlPath.erase(logicalXmlPath.size() - extension.size());
+            logicalXmlPath += AssetFormat::XML_EXTENSION;
+
+            const std::string xmlPath = AddTrailingSlash(context.resourcesPath) + logicalXmlPath;
+            if (!ModelHelper::ExportModelXml(model, xmlPath))
+            {
+                context.statusMessage = "Failed to export model XML: " + logicalXmlPath;
+                return false;
+            }
+
+            context.statusMessage = "Exported model XML: " + logicalXmlPath;
+            return true;
+        }
+
         void RefreshModelAssets(EditorContext& context)
         {
             context.modelAssets.clear();
+            context.sourceMeshAssets.clear();
 
             if (context.resourcesPath.empty())
             {
@@ -208,15 +286,18 @@ namespace ghost
             for (const std::string& file : files)
             {
                 const std::string extension = GetExtension(file);
-                if (extension == ".obj" || extension == ".fbx")
+                if (extension == AssetFormat::GRES_EXTENSION)
                     context.modelAssets.push_back("Meshes/" + file);
+                else if (extension == ".obj" || extension == ".fbx")
+                    context.sourceMeshAssets.push_back("Meshes/" + file);
             }
 
             std::sort(context.modelAssets.begin(), context.modelAssets.end());
+            std::sort(context.sourceMeshAssets.begin(), context.sourceMeshAssets.end());
 
             if (context.modelAssets.empty())
             {
-                context.statusMessage = "No model assets found under " +
+                context.statusMessage = "No native models (.gres) found under " +
                     AddTrailingSlash(context.resourcesPath) + "Meshes.";
             }
         }
@@ -270,7 +351,7 @@ namespace ghost
 
             Light* mainLight = SpawnLight(context, LIGHT_DIRECTIONAL);
 
-            ModelNode* ground = SpawnModel(context, "Meshes/cube.obj");
+            ModelNode* ground = SpawnModel(context, "Meshes/Ground.gres");
             if (ground)
             {
                 ground->SetName("Ground");
@@ -338,10 +419,10 @@ namespace ghost
             context.spawnCounter = 0;
 
             ScenePtr scene = std::make_shared<Scene>();
-            scene->SetName("Scenes/untitled.xml");
+            scene->SetName("Scenes/untitled.gmap");
             context.sceneManager->SetScene(scene);
             context.sceneData = scene;
-            context.scenePath = "Scenes/untitled.xml";
+            context.scenePath = "Scenes/untitled.gmap";
 
             Camera* editorCamera = CreateEditorCamera(context);
             if (editorCamera)
