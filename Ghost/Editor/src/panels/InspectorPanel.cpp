@@ -117,9 +117,15 @@ namespace ghost
                     ImGui::TextDisabled("No model assigned.");
                 }
             }
-            else if (node->GetType() == SCENENODE_CAMERA)
+            else if (Camera* camera = dynamic_cast<Camera*>(node))
             {
                 ImGui::Separator();
+                float nearPlane = camera->GetNear();
+                if (ImGui::DragFloat("NearPlane", &nearPlane, 0.5f, 1.0f, 1000.0f))
+                    camera->SetNear(nearPlane);
+                float farPlane = camera->GetFar();
+                if (ImGui::DragFloat("FarPlane", &farPlane, 0.5f, 1.0f, 1000.0f))
+                    camera->SetFar(farPlane);
                 ImGui::TextDisabled("Scene camera. The viewport is looking through it while selected.");
                 ImGui::TextDisabled("Select another object (or navigate in the viewport) to return to the editor camera.");
             }

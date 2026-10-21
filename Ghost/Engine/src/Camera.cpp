@@ -46,6 +46,18 @@ namespace ghost
         MarkDirty();
     }
 
+    void Camera::SetFar(float f)
+    {
+        _frustFar = f;
+        MarkDirty();
+    }
+    
+    void Camera::SetNear(float n)
+    {
+        _frustNear = n;
+        MarkDirty();
+    }
+
     void Camera::PrepareForRendering()
     {
         if (_cameraParams == nullptr)

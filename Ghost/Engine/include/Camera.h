@@ -26,6 +26,8 @@ namespace ghost
         float GetAspect() const { return _aspect; }
         float GetNear() const { return _frustNear; }
         float GetFar() const { return _frustFar; }
+        void SetNear(float n);
+        void SetFar(float f);
 
         const Frustum& GetFrustum() const { return _frustum; }
 

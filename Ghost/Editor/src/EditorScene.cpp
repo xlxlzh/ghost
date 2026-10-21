@@ -331,7 +331,7 @@ namespace ghost
 
             Camera* camera = new Camera(context.sceneManager);
             const float aspect = context.viewportAspect > 0.0f ? context.viewportAspect : 1.0f;
-            camera->SetProjectParams(90.0f, aspect, 1.0f, 100.0f);
+            camera->SetProjectParams(90.0f, aspect, 1.0f, 1000.0f);
             camera->SetName("Editor Camera");
             camera->SetTransform(Vector3f(0.0f, 40.0f, 0.0f),
                 Vector3f(0.0f, 0.0f, 0.0f),
