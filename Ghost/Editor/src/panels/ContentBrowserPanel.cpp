@@ -86,18 +86,20 @@ namespace ghost
                     }
 
                     if (ImGui::IsItemHovered())
+                    {
                         ImGui::SetTooltip("Double-click to add %s to the scene", asset.c_str());
-
-                    ImGui::SameLine();
-                    if (ImGui::SmallButton("Add"))
-                        SpawnModel(_context, asset);
-
-                    ImGui::SameLine();
-                    if (ImGui::SmallButton("XML"))
-                        ExportModelAssetXml(_context, asset);
-
-                    if (ImGui::IsItemHovered())
-                        ImGui::SetTooltip("Export debug XML next to this asset");
+                        if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+                            ImGui::OpenPopup("AddModel");
+                    }
+                    
+                    if (ImGui::BeginPopup("AddModel"))
+                    {
+                        if (ImGui::MenuItem("Add to scene"))
+                            SpawnModel(_context, asset);
+                        if (ImGui::MenuItem("Export to XML"))
+                            ExportModelAssetXml(_context, asset);
+                        ImGui::EndPopup();
+                    }
 
                     ImGui::PopID();
                 }
