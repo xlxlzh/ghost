@@ -14,6 +14,10 @@ namespace ghost
             virtual ~ViewportInputPanel() = default;
 
             virtual void Show() override;
+
+        private:
+            bool _looking = false;
+            float _moveSpeed = 30.0f;
         };
 
         DECLAR_SMART_POINTER(ViewportInputPanel)
