@@ -147,6 +147,7 @@ namespace ghost
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         ImGui_ImplSDL2_InitForD3D(_window);
 
         return true;

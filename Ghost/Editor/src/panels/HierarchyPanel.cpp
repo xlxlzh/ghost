@@ -27,7 +27,7 @@ namespace ghost
             ImGui::SetNextWindowPos(ImVec2(8.0f, 28.0f), ImGuiCond_FirstUseEver);
             ImGui::SetNextWindowSize(ImVec2(280.0f, io.DisplaySize.y * 0.6f - 36.0f), ImGuiCond_FirstUseEver);
 
-            ImGui::Begin("Hierarchy", 0, ImGuiWindowFlags_NoMove);
+            ImGui::Begin("Hierarchy");
 
             if (!_context.sceneManager || !_context.sceneManager->GetRootNode())
             {

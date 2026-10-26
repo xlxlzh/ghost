@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "EditorScene.h"
 #include "SceneSerializer.h"
+#include "panels/DockspacePanel.h"
 
 namespace
 {
@@ -61,14 +62,18 @@ void EditorApplication::OnInit()
     ghost::editor::RefreshModelAssets(_context);
     ghost::editor::RefreshSceneFiles(_context);
 
+    _dockspacePanel = GHOST_MAKE_SMART_POINTER(ghost::editor::DockspacePanel, _context);
     _menuBarPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::MenuBarPanel, _context);
+    _sceneViewportPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::SceneViewportPanel, _context);
     _viewportInputPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::ViewportInputPanel, _context);
     _hierarchyPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::HierarchyPanel, _context);
     _inspectorPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::InspectorPanel, _context);
     _contentBrowserPanel = GHOST_MAKE_SMART_POINTER(ghost::editor::ContentBrowserPanel, _context);
 
     auto guiManager = ghost::GuiManager::GetInstance();
+    guiManager->RegisterGuiPage(_dockspacePanel);
     guiManager->RegisterGuiPage(_menuBarPanel);
+    guiManager->RegisterGuiPage(_sceneViewportPanel);
     guiManager->RegisterGuiPage(_viewportInputPanel);
     guiManager->RegisterGuiPage(_hierarchyPanel);
     guiManager->RegisterGuiPage(_inspectorPanel);

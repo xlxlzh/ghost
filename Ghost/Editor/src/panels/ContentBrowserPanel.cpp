@@ -31,7 +31,7 @@ namespace ghost
             ImGui::SetNextWindowPos(ImVec2(8.0f, io.DisplaySize.y * 0.6f + 4.0f), ImGuiCond_FirstUseEver);
             ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x - 16.0f, io.DisplaySize.y * 0.4f - 12.0f), ImGuiCond_FirstUseEver);
 
-            ImGui::Begin("Content Browser", 0, ImGuiWindowFlags_NoMove);
+            ImGui::Begin("Content Browser");
 
             ImGui::TextDisabled("Resource root: %s", _context.resourcesPath.c_str());
             ImGui::TextDisabled("Scene save/load lives in the File menu.");

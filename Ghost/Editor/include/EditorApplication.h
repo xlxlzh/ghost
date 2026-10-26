@@ -8,6 +8,8 @@
 #include "panels/InspectorPanel.h"
 #include "panels/MenuBarPanel.h"
 #include "panels/ViewportInputPanel.h"
+#include "panels/DockspacePanel.h"
+#include "panels/SceneViewportPanel.h"
 
 class EditorApplication : public ghost::Application
 {
@@ -22,7 +24,9 @@ public:
 
 protected:
     ghost::editor::EditorContext _context;
+    ghost::editor::DockspacePanelPtr _dockspacePanel;
     ghost::editor::MenuBarPanelPtr _menuBarPanel;
+    ghost::editor::SceneViewportPanelPtr _sceneViewportPanel;
     ghost::editor::ViewportInputPanelPtr _viewportInputPanel;
     ghost::editor::HierarchyPanelPtr _hierarchyPanel;
     ghost::editor::InspectorPanelPtr _inspectorPanel;

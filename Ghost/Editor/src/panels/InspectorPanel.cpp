@@ -30,7 +30,7 @@ namespace ghost
             ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x - 296.0f, 28.0f), ImGuiCond_FirstUseEver);
             ImGui::SetNextWindowSize(ImVec2(288.0f, io.DisplaySize.y * 0.6f - 36.0f), ImGuiCond_FirstUseEver);
 
-            ImGui::Begin("Inspector", 0, ImGuiWindowFlags_NoMove);
+            ImGui::Begin("Inspector");
 
             SceneNode* node = _context.selectedNode;
             if (!node)
