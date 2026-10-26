@@ -1,8 +1,8 @@
 #include "SDLRenderWindow.h"
 #include "SDL_syswm.h"
 #include "imgui.h"
-#include "imgui_impl_win32.h"
-#include "imgui_impl_sdl.h"
+#include "imgui_impl_sdl2.h"
+#include "LogManager.h"
 #include "MessageHandler.h"
 #include "Resource.h"
 #include "Texture2D.h"
@@ -248,6 +248,15 @@ namespace ghost
                     else if (_event.button.button == SDL_BUTTON_RIGHT)
                         _app->OnMouseRightRelease();
                     break;
+                }
+                
+                case SDL_WINDOWEVENT:
+                {
+                    if (_event.type == SDL_WINDOWEVENT_RESIZED || _event.type == SDL_WINDOWEVENT_SIZE_CHANGED)
+                    {
+                        _app->OnResize(_event.window.data1, _event.window.data2);
+                    }
+                    break;    
                 }
 
                 default:

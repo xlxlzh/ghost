@@ -23,6 +23,8 @@ namespace ghost
         virtual void OnInit() { }
         virtual void OnExit() { }
         virtual void OnUpdate() { }
+		
+		virtual void OnResize(int width, int height) override {}
 
 		void* GetAttachWindow() { return _window->GetWindowHandle(); }
         RenderWindow* GetWindow() const { return _window; }

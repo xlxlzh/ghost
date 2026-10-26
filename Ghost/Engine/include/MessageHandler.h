@@ -71,6 +71,8 @@ namespace ghost
         virtual void OnMouseMove() { }
 		virtual void OnKeydown(GhostKey key) { }
 		virtual void OnKeyup(GhostKey key) { }
+		
+		virtual void OnResize(int width, int height) { }
 	};
 }
 
