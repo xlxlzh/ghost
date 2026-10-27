@@ -16,6 +16,7 @@ namespace ghost
 
         unsigned GetNumOfViews() const;
         ID3D11RenderTargetViewPtr GetRenderTargetViewByIndex(unsigned index = 0);
+        ID3D11ShaderResourceViewPtr GetShaderResourceViewByIndex(unsigned index = 0);
         ID3D11Texture2DPtr GetSurface(unsigned index = 0);
 
     protected:

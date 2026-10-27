@@ -15,7 +15,6 @@ namespace ghost
 
     void D3D11RenderTarget::OnCreateRenderTarget()
     {
-        RenderSystemPtr renderSystem = Engine::GetInstance()->GetRenderSystem();
         if (_numRTs > 0 && _width > 0 && _height)
         {
             D3D11RenderDevicePtr device = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, Engine::GetInstance()->GetRenderDevice());
@@ -110,6 +109,17 @@ namespace ghost
     {
         ID3D11RenderTargetViewPtr rt = _renderTargets[index];
         return rt ? rt : nullptr;
+    }
+    
+    ID3D11ShaderResourceViewPtr D3D11RenderTarget::GetShaderResourceViewByIndex(unsigned index)
+    {
+        if (_srv)
+        {
+            ID3D11ShaderResourceViewPtr srv = _srvs[index];
+            return srv ? srv : nullptr;
+        }
+        
+        return nullptr;
     }
 
     ID3D11Texture2DPtr D3D11RenderTarget::GetSurface(unsigned index /* = 0 */)
