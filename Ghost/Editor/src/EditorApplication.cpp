@@ -99,8 +99,44 @@ void EditorApplication::OnUpdate()
     if (!_context.sceneManager || !renderCamera)
         return;
 
+    unsigned viewportWidth = _context.viewportWidth;
+    unsigned viewportHeight = _context.viewportHeight;
+
+    if (viewportWidth == 0 || viewportHeight == 0)
+    {
+        viewportWidth = static_cast<unsigned>(GetWindow()->GetWidth());
+        viewportHeight = static_cast<unsigned>(GetWindow()->GetHeight());
+    }
+
+    if (viewportWidth == 0 || viewportHeight == 0)
+        return;
+
+    const bool needCreate = !_context.viewportRenderTarget ||
+        _context.viewportRenderTarget->GetWidth() != viewportWidth ||
+        _context.viewportRenderTarget->GetHeight() != viewportHeight;
+
+    if (needCreate)
+    {
+        _context.viewportRenderTarget = ghost::Engine::GetInstance()->GetRenderDevice()->CreateSingleRenderTarget(
+            viewportWidth, viewportHeight, ghost::GHOST_FORMAT_R8G8B8A8, true, false, true);
+    }
+
+    _context.viewportAspect = static_cast<float>(viewportWidth) / static_cast<float>(viewportHeight);
+
+    if (_context.camera)
+    {
+        _context.camera->SetProjectParams(_context.camera->GetFov(), _context.viewportAspect,
+            _context.camera->GetNear(), _context.camera->GetFar());
+    }
+
+    if (_context.editorCamera)
+    {
+        _context.editorCamera->SetProjectParams(_context.editorCamera->GetFov(), _context.viewportAspect,
+            _context.editorCamera->GetNear(), _context.editorCamera->GetFar());
+    }
+
     _context.sceneManager->UpdateSceneGraph(renderCamera);
-    _context.sceneManager->Render(renderCamera);
+    _context.sceneManager->Render(renderCamera, _context.viewportRenderTarget);
 }
 
 void EditorApplication::OnTick(float deltaTime)

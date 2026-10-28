@@ -37,7 +37,7 @@ namespace ghost
 
         void UpdateSceneGraph(Camera* camera);
 
-        void Render(Camera* camera);
+        void Render(Camera* camera, RenderTargetPtr renderTarget = nullptr);
 
         SceneNode* GetRootNode() const { return _sceneNodes[0]; }
 

@@ -1,5 +1,6 @@
 #include "D3D11RenderTarget.h"
 #include "D3D11Texture2D.h"
+#include "D3D11TextureView.h"
 #include "Engine.h"
 #include "D3D11RenderDevice.h"
 #include "D3D11Mappings.h"
@@ -49,7 +50,7 @@ namespace ghost
                     GHOST_LOG_FORMAT_ERROR_THROW("%s CreateTexture2D failed", __FUNCTION__);
                 }
 
-                D3D11_RENDER_TARGET_VIEW_DESC rtDecs;
+                D3D11_RENDER_TARGET_VIEW_DESC rtDecs = {};
                 rtDecs.Format = texDesc.Format;
                 rtDecs.Texture2D.MipSlice = 0;
                 rtDecs.ViewDimension = _msaa ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
@@ -63,10 +64,11 @@ namespace ghost
 
                 if (_srv)
                 {
-                    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+                    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
                     srvDesc.Format = texDesc.Format;
-                    srvDesc.Texture2D.MipLevels = 0;
                     srvDesc.ViewDimension = _msaa ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
+                    srvDesc.Texture2D.MostDetailedMip = 0;
+                    srvDesc.Texture2D.MipLevels = 1;
 
                     hr = d3d11Device->CreateShaderResourceView(_renderTextures[i].Get(),
                         &srvDesc, _srvs[i].ReleaseAndGetAddressOf());
@@ -74,6 +76,9 @@ namespace ghost
                     {
                         GHOST_LOG_FORMAT_ERROR_THROW("%s CreateShaderResourceView failed", __FUNCTION__);
                     }
+
+                    _colorViews[i] = std::make_shared<D3D11TextureView>(
+                        _srvs[i], _width, _height, _formats[i]);
                 }
             }
 
@@ -88,6 +93,8 @@ namespace ghost
     {
         for (unsigned i = 0; i < _numRTs; ++i)
         {
+            _colorViews[i].reset();
+            _srvs[i].Reset();
             _renderTargets[i].Reset();
             _renderTextures[i].Reset();
         }
@@ -126,6 +133,14 @@ namespace ghost
     {
         ID3D11Texture2DPtr rt = _renderTextures[index];
         return rt ? rt : nullptr;
+    }
+
+    TextureViewPtr D3D11RenderTarget::GetColorTextureView(unsigned index /* = 0 */) const
+    {
+        if (index >= _numRTs)
+            return nullptr;
+
+        return _colorViews[index];
     }
 }
 

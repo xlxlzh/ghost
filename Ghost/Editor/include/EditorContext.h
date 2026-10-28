@@ -49,7 +49,12 @@ namespace ghost
             std::vector<std::string> sourceMeshAssets;
             std::vector<std::string> sceneFiles;
             std::string scenePath = "Scenes/editor_scene.gmap";
+            RenderTargetPtr viewportRenderTarget;
+            unsigned viewportWidth = 0;
+            unsigned viewportHeight = 0;
             float viewportAspect = 1.0f;
+            bool viewportHovered = false;
+            bool viewportFocused = false;
             unsigned spawnCounter = 0;
             std::string statusMessage;
         };

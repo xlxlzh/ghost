@@ -578,7 +578,7 @@ namespace ghost
         GetRootNode()->Update();
     }
 
-    void SceneManager::Render(Camera* camera)
+    void SceneManager::Render(Camera* camera, RenderTargetPtr renderTarget)
     {
         auto renderSystem = Engine::GetInstance()->GetRenderSystem();
 
@@ -617,8 +617,11 @@ namespace ghost
         RenderShadowmap(camera ,mainLight);
         GHOST_GPU_EVENT_END(renderSystem);
 
-        renderSystem->UseDefaultRenderTarget();
-        
+        if (renderTarget)
+            renderSystem->SetRenderTarget(renderTarget);
+        else
+            renderSystem->UseDefaultRenderTarget();
+
         GHOST_GPU_EVENT_BEGIN(renderSystem, RenderOpaue);
         renderSystem->SetRenderPass(RENDER_PASS_FORWARD);
         renderSystem->ClearRenderTarget(CLEAR_ALL, renderSystem->GetClearColor());
@@ -644,8 +647,9 @@ namespace ghost
         PostprocessingManager::GetInstance()->RenderAlleffects();
         GHOST_GPU_EVENT_END(renderSystem);
 
+        renderSystem->UseDefaultRenderTarget();
+
         GHOST_GPU_EVENT_BEGIN(renderSystem, RenderImgui);
-        //Test IMGUI
         GuiManager::GetInstance()->RenderAllPages();
         GHOST_GPU_EVENT_END(renderSystem);
 

@@ -18,6 +18,7 @@ namespace ghost
         ID3D11RenderTargetViewPtr GetRenderTargetViewByIndex(unsigned index = 0);
         ID3D11ShaderResourceViewPtr GetShaderResourceViewByIndex(unsigned index = 0);
         ID3D11Texture2DPtr GetSurface(unsigned index = 0);
+        TextureViewPtr GetColorTextureView(unsigned index = 0) const override;
 
     protected:
         void OnCreateRenderTarget();
@@ -28,6 +29,7 @@ namespace ghost
         ID3D11RenderTargetViewPtr _renderTargets[GHOST_MAX_RENDERTARGETS] = {0};
         ID3D11ShaderResourceViewPtr _srvs[GHOST_MAX_RENDERTARGETS]{ 0 };
         ID3D11Texture2DPtr _renderTextures[GHOST_MAX_RENDERTARGETS] = { 0 };
+        TextureViewPtr _colorViews[GHOST_MAX_RENDERTARGETS];
     };
 
     DECLAR_SMART_POINTER(D3D11RenderTarget)

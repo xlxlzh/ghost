@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 #include "Texture2D.h"
+#include "TextureView.h"
 #include "DepthStencilTarget.h"
 #include "Color.h"
 #include "RenderConfig.h"
@@ -37,6 +38,12 @@ namespace ghost
         void AttachViewport(const Viewport& vp) { _viewport = vp; }
 
         bool IsSRV() const { return _srv; }
+
+        virtual TextureViewPtr GetColorTextureView(unsigned index = 0) const
+        {
+            (void)index;
+            return nullptr;
+        }
 
     protected:
         unsigned _width;

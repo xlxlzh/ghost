@@ -21,7 +21,7 @@ namespace ghost
             if (!rightMouseDown)
                 _looking = false;
 
-            if (_context.selectedNode == _context.camera && !io.WantCaptureMouse &&
+            if (_context.selectedNode == _context.camera && _context.viewportHovered &&
                 (ImGui::IsMouseClicked(ImGuiMouseButton_Right) || io.MouseWheel != 0.0f))
             {
                 _context.selectedNode = nullptr;
@@ -33,7 +33,7 @@ namespace ghost
             if (io.WantCaptureKeyboard)
                 return;
 
-            if (!_looking && rightMouseDown && !io.WantCaptureMouse)
+            if (!_looking && rightMouseDown && _context.viewportHovered)
                 _looking = true;
 
             Vector3f position;
@@ -99,7 +99,7 @@ namespace ghost
                     changed = true;
                 }
             }
-            else if (io.MouseWheel != 0.0f && !io.WantCaptureMouse)
+            else if (io.MouseWheel != 0.0f && _context.viewportHovered)
             {
                 const Matrix4x4f& cameraAbs = _context.editorCamera->GetAbsTrans();
                 Vector3f forward(cameraAbs._31, cameraAbs._32, cameraAbs._33);
