@@ -17,6 +17,10 @@ namespace ghost
 
         private:
             void DrawNode(SceneNode* node);
+
+            SceneNode* _renameNode = nullptr;
+            char _renameBuffer[256] = {};
+            bool _requestRenamePopup = false;
         };
 
         DECLAR_SMART_POINTER(HierarchyPanel)

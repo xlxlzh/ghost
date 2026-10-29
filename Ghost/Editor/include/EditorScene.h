@@ -25,6 +25,7 @@ namespace ghost
         Light* SpawnLight(EditorContext& context, LightType lightType);
 
         bool DeleteNode(EditorContext& context, SceneNode* node);
+        void RenameNode(EditorContext& context, SceneNode* node, const std::string& newName);
 
         std::string MakeUniqueNodeName(const EditorContext& context, const std::string& baseName);
     }

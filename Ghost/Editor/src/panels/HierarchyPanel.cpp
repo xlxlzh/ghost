@@ -1,5 +1,7 @@
 #include "panels/HierarchyPanel.h"
 
+#include <cstdio>
+
 #include "imgui.h"
 #include "EditorScene.h"
 
@@ -39,6 +41,40 @@ namespace ghost
             for (SceneNode* node : _context.sceneManager->GetRootNode()->GetChildren())
                 DrawNode(node);
 
+            if (_requestRenamePopup)
+            {
+                ImGui::OpenPopup("Rename Node");
+                _requestRenamePopup = false;
+            }
+
+            if (ImGui::BeginPopupModal("Rename Node", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+            {
+                if (ImGui::IsWindowAppearing())
+                    ImGui::SetKeyboardFocusHere();
+
+                ImGui::SetNextItemWidth(260.0f);
+                const bool submitted = ImGui::InputText("##NodeName", _renameBuffer,
+                    sizeof(_renameBuffer),
+                    ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll);
+
+                if (ImGui::Button("Rename") || submitted)
+                {
+                    RenameNode(_context, _renameNode, _renameBuffer);
+                    _renameNode = nullptr;
+                    ImGui::CloseCurrentPopup();
+                }
+
+                ImGui::SameLine();
+
+                if (ImGui::Button("Cancel"))
+                {
+                    _renameNode = nullptr;
+                    ImGui::CloseCurrentPopup();
+                }
+
+                ImGui::EndPopup();
+            }
+
             ImGui::End();
         }
 
@@ -73,7 +109,22 @@ namespace ghost
             {
                 _context.selectedNode = node;
             }
-
+            
+            if (ImGui::BeginPopupContextItem())
+            {
+                if (ImGui::MenuItem("Delete"))
+                    DeleteNode(_context, node);
+                
+                if (ImGui::MenuItem("Rename"))
+                {
+                    _renameNode = node;
+                    std::snprintf(_renameBuffer, sizeof(_renameBuffer), "%s", node->GetName().c_str());
+                    _requestRenamePopup = true;
+                }
+            
+                ImGui::EndPopup();
+            }
+            
             if (open && !children.empty())
             {
                 for (SceneNode* child : children)

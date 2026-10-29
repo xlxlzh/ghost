@@ -195,6 +195,42 @@ namespace ghost
             return true;
         }
 
+        void RenameNode(EditorContext& context, SceneNode* node, const std::string& newName)
+        {
+            if (!node || !context.sceneData)
+                return;
+
+            const size_t first = newName.find_first_not_of(" \t\r\n");
+            if (first == std::string::npos)
+            {
+                context.statusMessage = "Node name cannot be empty.";
+                return;
+            }
+
+            const size_t last = newName.find_last_not_of(" \t\r\n");
+            const std::string trimmedName = newName.substr(first, last - first + 1);
+
+            if (trimmedName.size() > 255)
+            {
+                context.statusMessage = "Node name is too long.";
+                return;
+            }
+
+            if (trimmedName == node->GetName())
+                return;
+
+            SceneNodeData* data = node->GetSourceData();
+            SceneNodeData* existing = context.sceneData->FindNode(trimmedName);
+            if (existing && existing != data)
+            {
+                context.statusMessage = "A node named '" + trimmedName + "' already exists.";
+                return;
+            }
+
+            node->SetName(trimmedName);
+            context.statusMessage = "Renamed node to " + trimmedName;
+        }
+
         bool ImportModelAsset(EditorContext& context, const std::string& sourceLogicalPath,
             const std::string& destLogicalPath)
         {
