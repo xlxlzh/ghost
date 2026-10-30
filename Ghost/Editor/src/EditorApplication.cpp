@@ -143,8 +143,6 @@ void EditorApplication::OnTick(float deltaTime)
 {
     if (deltaTime <= 0.0f)
         return;
-
-    char title[128] = { 0 };
-    std::snprintf(title, sizeof(title), "GhostEditor FPS: %.2f", 1000.0f / deltaTime);
-    GetWindow()->SetWindowTitle(title);
+    
+    GetWindow()->SetWindowTitle("GhostEditor");
 }
