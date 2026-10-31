@@ -1,49 +1,29 @@
 #include "Texture2D.h"
-#include "STBWrapper.h"
 
 namespace ghost
 {
-    Texture2D::Texture2D() : Resource(RESOURCE_TEXTURE2D, "", 0)
+    Texture2D::Texture2D()
     {
 
     }
 
-    Texture2D::Texture2D(const std::string& name, int flag) : Resource(RESOURCE_TEXTURE2D, name, flag)
+    Texture2D::Texture2D(const Texture2DResPtr& texRes) : _rawTexture(texRes), _name("")
     {
-
+        if (_rawTexture)
+        {
+            _width = _rawTexture->GetWidth();
+            _height = _rawTexture->GetHeight();
+            _components = _rawTexture->GetComponents();
+            _format = _rawTexture->GetFormat();
+            _name = _rawTexture->GetName();
+        }
     }
 
-    bool Texture2D::Load(DataStream& dataStream)
-    {
-        int dataSize = dataStream.GetSize();
-        unsigned char* buffer = new unsigned char[dataSize];
-        dataStream.Read(buffer, dataSize);
-
-        const unsigned char* pixelData = stbi_load_from_memory(buffer, dataSize, &_width, &_height, &_components, 4);
-        SetData(pixelData);
-
-        SAFE_DELETE_ARRAY(buffer);
-
-        InternalCreateTexture();
-
-        return true;
-    }
-
-    bool Texture2D::Save(DataStream& dataStream)
+    Texture2D::Texture2D(const std::string& name)
     {
         //TODO
-        (void)dataStream;
-        return true;
     }
-
-    void Texture2D::SetData(const unsigned char* data)
-    {
-        _dataSize = _width * _height * 4;
-
-        _datas = new unsigned char[_dataSize];
-        memcpy(_datas, data, _dataSize);
-    }
-
+    
     Texture2D::~Texture2D()
     {
 

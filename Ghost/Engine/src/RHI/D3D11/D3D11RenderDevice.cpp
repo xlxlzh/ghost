@@ -10,6 +10,7 @@
 #include "D3D11DepthStencilTarget.h"
 
 //IMGUI
+#include "D3D11Texture2D.h"
 #include "imgui_impl_dx11.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -466,6 +467,12 @@ namespace ghost
     VertexDeclarationPtr D3D11RenderDevice::CreateVertexDeclaration()
     {
         return GHOST_MAKE_SMART_POINTER(D3D11VertexDeclaration, *this);
+    }
+
+    Texture2DPtr D3D11RenderDevice::CreateTexture2D(const Texture2DResPtr& texRes)
+    {
+        Texture2DPtr texture = GHOST_MAKE_SMART_POINTER(D3D11Texture2D, texRes);
+        return texture;
     }
 
     RenderTargetPtr D3D11RenderDevice::CreateRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv, bool msaa, bool depth /* = true */)

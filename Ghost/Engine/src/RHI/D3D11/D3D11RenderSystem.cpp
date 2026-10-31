@@ -448,7 +448,8 @@ namespace ghost
         {
             _texStageDesc[slot]._tex = D3D11Tex->GetD3D11ShaderResourceView().Get();
             _texStageDesc[slot]._used = true;
-
+            
+            _textures2DUnits[slot] = D3D11Tex;
             _lastTextureUnitState = slot + 1;
         }
         else

@@ -21,6 +21,8 @@ namespace ghost
         virtual IndexBufferPtr CreateIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) override;
         virtual ConstBufferPtr CreateConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) override;
         virtual VertexDeclarationPtr CreateVertexDeclaration() override;
+        
+        virtual Texture2DPtr CreateTexture2D(const Texture2DResPtr& texRes) override;
 
         virtual RenderTargetPtr CreateRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) override;
         virtual DepthStencilTargetPtr CreateDepthStencilTarget(unsigned w, unsigned h, bool msaa, bool srv) override;

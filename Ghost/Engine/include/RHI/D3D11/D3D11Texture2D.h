@@ -11,6 +11,7 @@ namespace ghost
     {
     public:
         D3D11Texture2D();
+        D3D11Texture2D(const Texture2DResPtr& texRes);
         ~D3D11Texture2D();
 
         ID3D11Texture2DPtr GetD3D11Texture2D() const { return _texture; }
@@ -29,7 +30,7 @@ namespace ghost
         ID3D11RenderTargetViewPtr _rendertargetView;
         ID3D11DepthStencilViewPtr _depthStencilView;
 
-        static ID3D11Texture2DPtr _whilteTexture;
+        static ID3D11Texture2DPtr _whiteTexture;
     };
 
     DECLAR_SMART_POINTER(D3D11Texture2D)

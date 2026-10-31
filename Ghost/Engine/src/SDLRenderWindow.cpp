@@ -175,9 +175,9 @@ namespace ghost
 
     void SDLRenderWindow::SetWindowIcon(const std::string& iconName)
     {
-        auto iconTex = GHOST_SMARTPOINTER_CAST(Texture2D, ResourceManager::GetInstance()->AddResource(RESOURCE_TEXTURE2D, iconName, 0));
+        auto iconTex = GHOST_SMARTPOINTER_CAST(Texture2DRes, ResourceManager::GetInstance()->AddResource(RESOURCE_TEXTURE2D, iconName, 0));
 
-        _icon = SDL_CreateRGBSurfaceFrom(iconTex->GetRawImageData(), iconTex->GetWidth(), iconTex->GetHeight(), 8 * 4, iconTex->GetWidth() * 4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+        _icon = SDL_CreateRGBSurfaceFrom(iconTex->GetDatas().data(), iconTex->GetWidth(), iconTex->GetHeight(), 8 * 4, iconTex->GetWidth() * 4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
         SDL_SetWindowIcon(_window, _icon);
     }
 

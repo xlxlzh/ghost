@@ -24,9 +24,6 @@ namespace ghost
         case ghost::RENDER_D3D11:
             _renderDevice = std::make_shared<D3D11RenderDevice>();
             _renderSystem = std::make_shared<D3D11RenderSystem>(_renderDevice);
-
-            resMan->RegisterResourceFactory(new ResourceFactoryIml<D3D11Texture2D>());
-
             _fileSystem = std::make_shared<FileSystemWin32>();
             break;
         default:
@@ -40,6 +37,7 @@ namespace ghost
         resMan->RegisterResourceFactory(new ResourceFactoryIml<ShaderResource>());
         resMan->RegisterResourceFactory(new ResourceFactoryIml<Model>());
         resMan->RegisterResourceFactory(new ResourceFactoryIml<Scene>());
+        resMan->RegisterResourceFactory(new ResourceFactoryIml<Texture2DRes>());
 
         _renderDevice->InitDevice(false, GetMSAASampleCount(msaa));
         _renderSystem->InitRenderSystem();

@@ -1,52 +1,39 @@
 #ifndef _TEXTURE2D_H_
 #define _TEXTURE2D_H_
 
-#include "Resource.h"
+#include "Texture2DRes.h"
 #include "Color.h"
 #include "GPUResourceFlags.h"
 
 namespace ghost
 {
-    enum TextureUsage
-    {
-        TEX_USAGE_SHADERRESOURCE,
-        TEX_USAGE_RENDERTARGET,
-        TEX_USAGE_DEPTH,
-        TEX_USAGE_SHADOWMAP,
-    };
-
-    class GHOST_API Texture2D : public Resource
+    class GHOST_API Texture2D
      {
     public:
         Texture2D();
-        Texture2D(const std::string& name, int flag);
-        ~Texture2D();
+        Texture2D(const Texture2DResPtr& texRes);
+        Texture2D(const std::string& name);
+        virtual ~Texture2D();
+        
         int GetWidth() const { return _width; }
         int GetHeight() const { return _height; }
-
-        unsigned char* GetRawImageData() const { return _datas; }
-
-        virtual bool Load(DataStream& dataStream) override;
-        virtual bool Save(DataStream& dataStream) override;
-
-        static int GetTypeStatic() { return RESOURCE_TEXTURE2D; }
+        PixelFormat GetFormat() const { return _format; }
 
     protected:
-        void SetData(const unsigned char* data);
         virtual void InternalCreateTexture() { }
 
     protected:
-        int _width;
-        int _height;
-        int _components;
+        int _width = 0;
+        int _height = 0;
+        int _components = 0;
+        Texture2DResPtr _rawTexture = nullptr;
 
-        bool _mipmap;
-        int _mipmapLevel;
-
-        GhostColorFormat _format = GHOST_FORMAT_UNKNOWN;
-        unsigned char* _datas = nullptr;
-        int _dataSize = 0;
-
+        bool _mipmap = false;
+        int _mipmapLevel = 1;
+        
+        std::string _name;
+        
+        PixelFormat _format = PixelFormat::PF_UNKNOWN;
         ResourceUsage _usage = USAGE_STATIC;
     };
 

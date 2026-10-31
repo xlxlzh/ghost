@@ -56,7 +56,7 @@ namespace ghost
     {
         std::string _name;
         unsigned _bindPoint;
-        Texture2DPtr _texture;
+        Texture2DResPtr _texture;
     };
 
     using TextureVariableList = std::vector<TextureVariableInfo>;
@@ -122,7 +122,7 @@ namespace ghost
         InputSignatureList* GetShaderInputSignature() { return &_params._sigDesc; }
         unsigned GetConstBufferSlot(ShaderType type, const std::string& name);
 
-        void ApplyTextureToSlot(const std::string& name, Texture2DPtr ptr);
+        void ApplyTextureToSlot(const std::string& name, Texture2DResPtr ptr);
         void ApplySamplerToSlot(const std::string& name, const Sampler& sampler);
 
     protected:

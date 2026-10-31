@@ -10,6 +10,7 @@
 #include "VertexDeclaration.h"
 #include "Material.h"
 #include "RenderTarget.h"
+#include "Texture2DRes.h"
 
 namespace ghost
 {
@@ -29,6 +30,8 @@ namespace ghost
         virtual IndexBufferPtr CreateIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) = 0;
         virtual ConstBufferPtr CreateConstBuffer(unsigned bufferSize, ResourceUsage usage, const std::string& name) = 0;
         virtual VertexDeclarationPtr CreateVertexDeclaration() = 0;
+        
+        virtual Texture2DPtr CreateTexture2D(const Texture2DResPtr& texRes) = 0;
 
         virtual RenderTargetPtr CreateRenderTargets(unsigned w, unsigned h, unsigned numRTS, GhostColorFormat* formats, bool srv = false, bool msaa = false, bool depth = true) = 0;
         virtual RenderTargetPtr CreateSingleRenderTarget(unsigned w, unsigned h, GhostColorFormat format, bool srv = false, bool msaa = false, bool depth = true);

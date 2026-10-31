@@ -7,6 +7,7 @@
 #include "IndexBuffer.h"
 #include "RenderSystem.h"
 #include "RenderCommon.h"
+#include "Texture2DRes.h"
 
 namespace ghost
 {
@@ -20,6 +21,7 @@ namespace ghost
         static DXGI_FORMAT GetFormat(IndexBuffer::IndexType type);
         static DXGI_FORMAT GetFormat(VertexElementType vElemType);
         static DXGI_FORMAT GetFormat(GhostColorFormat fmt);
+        static DXGI_FORMAT GetFormat(PixelFormat fmt);
 
         static D3D11_PRIMITIVE_TOPOLOGY GetPrimitiveType(PrimitiveType pType);
 

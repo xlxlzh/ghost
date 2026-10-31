@@ -8,11 +8,11 @@ void SampleApplication::InitSample()
     MaterialPtr matPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/DefaultMaterial.gres", 0));
     MaterialPtr headMatPtr = GHOST_SMARTPOINTER_CAST(Material, ResourceManager::GetInstance()->AddResource(RESOURCE_MATERIAL, "Materials/HeadMaterial.gres", 0));
 
-    ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/dragon.obj", 0));
-    ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/bunny.obj", 0));
-    ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.obj", 0));
-    ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/cube.obj", 0));
-    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/head.obj", 0));
+    ModelPtr dragonModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/dragon.gres", 0));
+    ModelPtr bunnyModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/bunny.gres", 0));
+    ModelPtr lizardModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/LizardMage_Lowpoly.gres", 0));
+    ModelPtr cubeModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/cube.gres", 0));
+    ModelPtr headModel = GHOST_SMARTPOINTER_CAST(Model, ResourceManager::GetInstance()->AddResource(RESOURCE_MODEL, "Meshes/head.gres", 0));
 
     _scene = new SceneManager();
     _mainCamera = new Camera(_scene);

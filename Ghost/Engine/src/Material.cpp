@@ -1,8 +1,5 @@
-#include "Material.h"
-
 #include <algorithm>
 #include <cstring>
-#include <limits>
 #include <map>
 #include <utility>
 
@@ -11,6 +8,8 @@
 #include "Engine.h"
 #include "LogManager.h"
 #include "tinyxml2.h"
+#include "Material.h"
+#include "GPUObjectManager.h"
 
 namespace ghost
 {
@@ -125,7 +124,7 @@ namespace ghost
         return 0;
     }
 
-    void ShaderPass::ApplyTextureToSlot(const std::string& name, Texture2DPtr ptr)
+    void ShaderPass::ApplyTextureToSlot(const std::string& name, Texture2DResPtr ptr)
     {
         auto it = std::find_if(_params._textures.begin(), _params._textures.end(),
             [&name](const TextureVariableInfo& info)->bool
@@ -578,10 +577,10 @@ namespace ghost
 
             for (const TextureSlotDefinition& slot : pass._textureSlots)
             {
-                Texture2DPtr texture = nullptr;
+                Texture2DResPtr texture = nullptr;
                 if (!slot.path.empty())
                 {
-                    texture = GHOST_SMARTPOINTER_CAST(Texture2D,
+                    texture = GHOST_SMARTPOINTER_CAST(Texture2DRes,
                         ResourceManager::GetInstance()->AddResource(
                             RESOURCE_TEXTURE2D, slot.path, 0));
 
@@ -858,7 +857,10 @@ namespace ghost
             const ShaderParams& params = currentPass->_params;
 
             for (const TextureVariableInfo& texInfo : params._textures)
-                rendersystem->SetTexture(texInfo._bindPoint, texInfo._texture);
+            {
+                auto texture = GPUObjectManager::GetInstance()->GetOrCreateTexture(texInfo._texture);
+                rendersystem->SetTexture(texInfo._bindPoint, texture);
+            }
 
             for (const SamplerInfo& sampler : params._samplers)
                 rendersystem->SetSamplerState(sampler._bindPoint, sampler._sampler);

@@ -59,6 +59,38 @@ namespace ghost
         return DXGI_FORMAT_R8G8B8A8_UNORM;
     }
 
+    DXGI_FORMAT D3D11Mappings::GetFormat(PixelFormat fmt)
+    {
+        switch (fmt)
+        {
+        case PixelFormat::PF_R8:
+            return DXGI_FORMAT_R8_UNORM;
+        case PixelFormat::PF_R8G8:
+            return DXGI_FORMAT_R8G8_UNORM;
+        case PixelFormat::PF_R8G8B8A8:
+            return DXGI_FORMAT_R8G8B8A8_UNORM;
+        case PixelFormat::PF_R16:
+            return DXGI_FORMAT_R16_UNORM;
+        case PixelFormat::PF_R16G16:
+            return DXGI_FORMAT_R16G16_UNORM;
+        case PixelFormat::PF_R16G16B16A16:
+            return DXGI_FORMAT_R16G16B16A16_UNORM;
+        case PixelFormat::PF_R32F:
+            return DXGI_FORMAT_R32_FLOAT;
+        case PixelFormat::PF_RG32F:
+            return DXGI_FORMAT_R32G32_FLOAT;
+        case PixelFormat::PF_RGBA32F:
+            return DXGI_FORMAT_R32G32B32A32_FLOAT;
+        case PixelFormat::PF_UNKNOWN:
+        case PixelFormat::PF_R8G8B8:
+        case PixelFormat::PF_R16G16B16:
+        case PixelFormat::PF_RGB32F:
+            return DXGI_FORMAT_UNKNOWN;
+        }
+
+        return DXGI_FORMAT_UNKNOWN;
+    }
+
     D3D11_PRIMITIVE_TOPOLOGY D3D11Mappings::GetPrimitiveType(PrimitiveType pType)
     {
         switch (pType)
