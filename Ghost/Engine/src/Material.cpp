@@ -21,14 +21,6 @@ namespace ghost
         constexpr uint32_t kMaxMaterialEntries = 16;
         constexpr uint32_t kMaxMaterialSlots = 64;
 
-        const std::map<std::string, FilterOptions> FilterOptionMappings =
-        {
-            {"FILTER_NONE", FO_NONE},
-            {"FILTER_POINT", FO_POINT},
-            {"FILTER_LINEAR", FO_LINEAR},
-            {"FILTER_ANISOTROPIC", FO_ANISOTROPIC},
-        };
-
         RenderPass ParsePassName(const char* name)
         {
             if (!name)
@@ -70,18 +62,21 @@ namespace ghost
             default:             return "FILTER_LINEAR";
             }
         }
-
+        
         FilterOptions ParseFilterOption(const char* name)
         {
-            if (name)
+            if (!name)
             {
-                const auto& iterator = FilterOptionMappings.find(name);
-                if (iterator != FilterOptionMappings.end())
-                    return iterator->second;
+                GHOST_LOG_FORMAT_WARNNING("Material: unknown filter value, using linear.");
+                return FO_LINEAR;
             }
 
-            GHOST_LOG_FORMAT_WARNNING("Material: unknown filter value '%s', using linear.",
-                name ? name : "");
+            if (strcmp(name, "FILTER_NONE") == 0) return FO_NONE;
+            if (strcmp(name, "FILTER_POINT") == 0) return FO_POINT;
+            if (strcmp(name, "FILTER_LINEAR") == 0) return FO_LINEAR;
+            if (strcmp(name, "FILTER_ANISOTROPIC") == 0) return FO_ANISOTROPIC;
+
+            GHOST_LOG_FORMAT_WARNNING("Material: unknown filter value '%s', using linear.", name);
             return FO_LINEAR;
         }
 
