@@ -30,6 +30,7 @@ namespace ghost
         virtual void SetWindowTitle(const std::string& title) = 0;
         virtual void SetWindowPos(int posx, int posy) = 0;
         virtual void SetWindowIcon(const std::string& iconName) = 0;
+        virtual void ImGuiNewFrame() = 0;
 
 	protected:
 		virtual bool InternalCreateWindow() = 0;

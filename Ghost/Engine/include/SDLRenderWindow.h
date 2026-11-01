@@ -18,6 +18,7 @@ namespace ghost
         virtual void SetWindowTitle(const std::string& title) override;
         virtual void SetWindowPos(int posx, int posy) override;
         virtual void SetWindowIcon(const std::string& iconName) override;
+        virtual void ImGuiNewFrame() override;
 
     protected:
         virtual bool InternalCreateWindow() override;

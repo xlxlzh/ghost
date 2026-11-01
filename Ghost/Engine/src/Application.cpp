@@ -20,11 +20,11 @@ namespace ghost
         switch (_platformType)
         {
         case ghost::PLATFORM_WIN32:
-            _window = new SDLRenderWindow(this);
+            _window = new RenderWindowWin32(this);
             _applicationTimer = std::make_shared<TimerWin32>();
             break;
         default:
-            _window = new RenderWindowWin32(this);
+            _window = new SDLRenderWindow(this);
             break;
         }
 
@@ -58,6 +58,7 @@ namespace ghost
 		while (!_exit)
 		{
 			InternalMessageLoop();
+            _window->ImGuiNewFrame();
             OnUpdate();
 
             float currentTime = _applicationTimer->GetElapsedTimeMS();

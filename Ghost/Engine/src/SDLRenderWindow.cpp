@@ -162,7 +162,12 @@ namespace ghost
         
         return sysInfo.info.win.window;
     }
-    
+
+    void SDLRenderWindow::ImGuiNewFrame()
+    {
+        ImGui_ImplSDL2_NewFrame();
+    }
+
     void SDLRenderWindow::SetWindowTitle(const std::string& title)
     {
         SDL_SetWindowTitle(_window, title.c_str());
