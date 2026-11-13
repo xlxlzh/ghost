@@ -14,10 +14,6 @@ namespace ghost
             virtual ~ContentBrowserPanel() = default;
 
             virtual void Show() override;
-
-        private:
-            int _importSourceIndex = -1;
-            char _importDestination[256] = {};
         };
 
         DECLAR_SMART_POINTER(ContentBrowserPanel)

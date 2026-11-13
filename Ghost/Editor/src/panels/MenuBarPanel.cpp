@@ -2,9 +2,12 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 #include "imgui.h"
 #include "EditorScene.h"
+#include "Engine.h"
+#include "FileDialog.h"
 #include "FileSystem.h"
 #include "SceneSerializer.h"
 
@@ -104,6 +107,23 @@ namespace ghost
                 ImGui::EndMainMenuBar();
             }
 
+            if (requestExportXml)
+            {
+                std::string defaultName = MakeSceneXmlPath(_context.scenePath);
+                const size_t slashPos = defaultName.find_last_of("/\\");
+                if (slashPos != std::string::npos)
+                    defaultName = defaultName.substr(slashPos + 1);
+
+                const std::vector<ghost::FileDialogFilter> filters = { { "XML files", "*.xml" } };
+                std::string exportPath;
+                if (ghost::FileDialog::SaveFile(ghost::Engine::GetInstance()->GetWindow(), filters,
+                    defaultName, "xml", exportPath,
+                    AddTrailingSlash(_context.resourcesPath) + "Scenes/"))
+                {
+                    ExportSceneXml(_context, exportPath);
+                }
+            }
+
             const ImGuiWindowFlags hostFlags =
                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
@@ -126,13 +146,6 @@ namespace ghost
                 RefreshSceneFiles(_context);
                 std::snprintf(_dialogPath, sizeof(_dialogPath), "%s", _context.scenePath.c_str());
                 ImGui::OpenPopup("Open Scene");
-            }
-
-            if (requestExportXml)
-            {
-                std::snprintf(_exportPath, sizeof(_exportPath), "%s",
-                    MakeSceneXmlPath(_context.scenePath).c_str());
-                ImGui::OpenPopup("Export Scene to XML");
             }
 
             if (ImGui::BeginPopupModal("Save Scene As", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -219,28 +232,6 @@ namespace ghost
                     }
                     ImGui::EndChild();
                 }
-
-                ImGui::EndPopup();
-            }
-
-            if (ImGui::BeginPopupModal("Export Scene to XML", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-            {
-                ImGui::TextDisabled("Resources: %s", _context.resourcesPath.c_str());
-                ImGui::TextDisabled("The .xml extension is enforced.");
-                ImGui::SetNextItemWidth(460.0f);
-                if (ImGui::IsWindowAppearing())
-                    ImGui::SetKeyboardFocusHere();
-                ImGui::InputText("Path", _exportPath, sizeof(_exportPath));
-
-                if (ImGui::Button("Export"))
-                {
-                    if (ExportSceneXml(_context, _exportPath))
-                        ImGui::CloseCurrentPopup();
-                }
-
-                ImGui::SameLine();
-                if (ImGui::Button("Cancel"))
-                    ImGui::CloseCurrentPopup();
 
                 ImGui::EndPopup();
             }

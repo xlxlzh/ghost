@@ -254,7 +254,10 @@ namespace ghost
 
             const std::string normalizedPath = NormalizeScenePath(relativePath,
                 AssetFormat::XML_EXTENSION);
-            const std::string fullPath = AddTrailingSlash(context.resourcesPath) + normalizedPath;
+            const std::filesystem::path outputPath(normalizedPath);
+            const std::string fullPath = outputPath.is_absolute()
+                ? outputPath.string()
+                : AddTrailingSlash(context.resourcesPath) + normalizedPath;
             EnsureDirectory(fullPath);
 
             context.sceneManager->SyncAllToData();

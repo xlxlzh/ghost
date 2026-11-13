@@ -244,7 +244,10 @@ namespace ghost
             if (destination.find('/') == std::string::npos)
                 destination = "Meshes/" + destination;
 
-            const std::string sourcePath = AddTrailingSlash(context.resourcesPath) + GetInternalPath(sourceLogicalPath);
+            const std::string internalSourcePath = GetInternalPath(sourceLogicalPath);
+            const std::string sourcePath = std::filesystem::path(internalSourcePath).is_absolute()
+                ? internalSourcePath
+                : AddTrailingSlash(context.resourcesPath) + internalSourcePath;
             const std::string destPath = AddTrailingSlash(context.resourcesPath) + destination;
 
             const size_t slashPos = destPath.find_last_of('/');

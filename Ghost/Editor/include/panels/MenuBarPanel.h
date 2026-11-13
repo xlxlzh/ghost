@@ -17,7 +17,6 @@ namespace ghost
 
         private:
             char _dialogPath[256] = {};
-            char _exportPath[256] = {};
         };
 
         DECLAR_SMART_POINTER(MenuBarPanel)

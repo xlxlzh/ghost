@@ -2,9 +2,12 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 #include "imgui.h"
 #include "EditorScene.h"
+#include "Engine.h"
+#include "FileDialog.h"
 
 namespace ghost
 {
@@ -47,12 +50,19 @@ namespace ghost
             ImGui::SameLine();
             if (ImGui::Button("Import..."))
             {
-                RefreshModelAssets(_context);
-                _importSourceIndex = _context.sourceMeshAssets.empty() ? -1 : 0;
-                if (_importSourceIndex >= 0)
-                    std::snprintf(_importDestination, sizeof(_importDestination), "%s",
-                        MakeDefaultModelPath(_context.sourceMeshAssets[0]).c_str());
-                ImGui::OpenPopup("Import Model");
+                const std::vector<ghost::FileDialogFilter> filters =
+                {
+                    { "Model files", "*.obj;*.fbx;*.gltf;*.glb;*.dae;*.3ds;*.stl" },
+                    { "All files", "*.*" }
+                };
+
+                std::vector<std::string> sourcePaths;
+                if (ghost::FileDialog::OpenFile(ghost::Engine::GetInstance()->GetWindow(),
+                    filters, true, sourcePaths))
+                {
+                    for (const std::string& sourcePath : sourcePaths)
+                        ImportModelAsset(_context, sourcePath, MakeDefaultModelPath(sourcePath));
+                }
             }
 
             ImGui::SameLine();
@@ -106,67 +116,6 @@ namespace ghost
             }
 
             ImGui::EndChild();
-
-            if (ImGui::BeginPopupModal("Import Model", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-            {
-                ImGui::TextDisabled("Source meshes:");
-
-                if (_context.sourceMeshAssets.empty())
-                {
-                    ImGui::TextDisabled("No .obj/.fbx source meshes found.");
-                }
-                else
-                {
-                    ImGui::BeginChild("##ImportSources", ImVec2(460.0f, 180.0f), true);
-                    for (size_t index = 0; index < _context.sourceMeshAssets.size(); ++index)
-                    {
-                        const std::string& source = _context.sourceMeshAssets[index];
-                        ImGui::PushID(static_cast<int>(index));
-                        if (ImGui::Selectable(source.c_str(), _importSourceIndex == static_cast<int>(index)))
-                        {
-                            _importSourceIndex = static_cast<int>(index);
-                            std::snprintf(_importDestination, sizeof(_importDestination), "%s",
-                                MakeDefaultModelPath(source).c_str());
-                        }
-                        ImGui::PopID();
-                    }
-                    ImGui::EndChild();
-                }
-
-                ImGui::SetNextItemWidth(460.0f);
-                ImGui::InputText("Destination", _importDestination, sizeof(_importDestination));
-
-                const bool canImport = _importSourceIndex >= 0 &&
-                    _importSourceIndex < static_cast<int>(_context.sourceMeshAssets.size()) &&
-                    _importDestination[0] != '\0';
-
-                if (!canImport)
-                    ImGui::BeginDisabled();
-
-                if (ImGui::Button("Import"))
-                {
-                    const std::string source = _context.sourceMeshAssets[_importSourceIndex];
-                    if (ImportModelAsset(_context, source, _importDestination))
-                        ImGui::CloseCurrentPopup();
-                }
-
-                if (!canImport)
-                    ImGui::EndDisabled();
-
-                ImGui::SameLine();
-                if (ImGui::Button("Cancel"))
-                    ImGui::CloseCurrentPopup();
-
-                ImGui::SameLine();
-                if (ImGui::Button("Refresh"))
-                {
-                    RefreshModelAssets(_context);
-                    if (_importSourceIndex >= static_cast<int>(_context.sourceMeshAssets.size()))
-                        _importSourceIndex = _context.sourceMeshAssets.empty() ? -1 : 0;
-                }
-
-                ImGui::EndPopup();
-            }
 
             ImGui::End();
         }
