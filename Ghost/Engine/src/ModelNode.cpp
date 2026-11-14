@@ -78,18 +78,40 @@ namespace ghost
     void ModelNode::SetModel(const ModelPtr& mesh)
     {
         _mesh = mesh;
+
+        const unsigned subMeshCount = _mesh ? _mesh->GetSubMeshCount() : 0;
+        if (_instanceMaterial.size() != subMeshCount)
+            _instanceMaterial.assign(subMeshCount, nullptr);
+
         if (!_renderData || _renderData->_mesh != mesh)
         {
             _renderData = GHOST_MAKE_SMART_POINTER(ModelRenderData, mesh);
             _renderData->InitRenderData();
         }
-        
+
         _dirty = true;
     }
 
     void ModelNode::SetInstanceMaterial(unsigned subindex, const MaterialPtr& mat)
     {
+        if (!_mesh || subindex >= _mesh->GetSubMeshCount())
+            return;
 
+        if (_instanceMaterial.size() != _mesh->GetSubMeshCount())
+            _instanceMaterial.assign(_mesh->GetSubMeshCount(), nullptr);
+
+        _instanceMaterial[subindex] = mat;
+    }
+
+    MaterialPtr ModelNode::GetMaterial(unsigned subindex) const
+    {
+        if (subindex < _instanceMaterial.size() && _instanceMaterial[subindex])
+            return _instanceMaterial[subindex];
+
+        if (_mesh && subindex < _mesh->GetSubMeshCount())
+            return _mesh->GetMaterial(subindex);
+
+        return nullptr;
     }
 
     void ModelNode::PrepareRendering(Camera* cam, unsigned index)
@@ -100,7 +122,7 @@ namespace ghost
         auto renderSystem = Engine::GetInstance()->GetRenderSystem();
         Light* mainLight = _owner->GetMainLigt();
 
-        const MaterialPtr& mat = _mesh->GetMaterial(index);
+        MaterialPtr mat = GetMaterial(index);
         renderSystem->SetMaterial(mat);
 
         Matrix4x4f worldMat = _mesh->_meshes[index]._localMatrix * _absTrans;

@@ -229,10 +229,10 @@ namespace ghost
 
                 if (model && material && model->GetSubMeshCount() > 0)
                 {
-                    for (unsigned index = 0; index < model->GetSubMeshCount(); ++index)
-                        model->SetMaterial(index, material);
-
                     modelNode->SetModel(model);
+
+                    for (unsigned index = 0; index < model->GetSubMeshCount(); ++index)
+                        modelNode->SetInstanceMaterial(index, material);
                 }
                 else
                 {
@@ -311,7 +311,7 @@ namespace ghost
 
                 if (model->GetSubMeshCount() > 0)
                 {
-                    const MaterialPtr& material = model->GetMaterial(0);
+                    MaterialPtr material = modelNode->GetMaterial(0);
                     if (material)
                         data->materialPath = material->GetName();
                 }

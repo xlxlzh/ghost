@@ -1,6 +1,8 @@
 #ifndef _SHADER_RESOURCE_H_
 #define _SHADER_RESOURCE_H_
 
+#include <array>
+
 #include "Resource.h"
 
 namespace ghost
@@ -33,6 +35,24 @@ namespace ghost
         int ByteCodeSize{ 0 };
     };
 
+    class GHOST_API CompiledShader
+    {
+    public:
+        CompiledShader() = default;
+        ~CompiledShader();
+
+        CompiledShader(const CompiledShader&) = delete;
+        CompiledShader& operator=(const CompiledShader&) = delete;
+
+        void UpdateByteCode(ShaderType type, const void* byteCode, int codeSize);
+        const ShaderByteCode* GetByteCodeByType(ShaderType type) const;
+
+    private:
+        std::array<ShaderByteCode, static_cast<std::size_t>(SHADER_TYPE_NUM)> _byteCodes{};
+    };
+
+    DECLAR_SMART_POINTER(CompiledShader);
+
     class GHOST_API ShaderResource : public Resource
     {
     public:
@@ -47,17 +67,9 @@ namespace ghost
         unsigned char* GetRawdata() const { return _rawData; }
         int GetRawdataSize() const { return _rawDataSize; }
 
-        void UpdateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize);
-
-        const ShaderByteCode* GetByteCodeByType(ShaderType type) const;
-
-        int GetValidShaderCount() const;
-
     protected:
         unsigned char* _rawData = nullptr;
         int _rawDataSize = 0;
-
-        std::unordered_map<ShaderType, ShaderByteCode> _byteCodes{};
     };
 
     DECLAR_SMART_POINTER(ShaderResource);

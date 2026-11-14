@@ -1,5 +1,7 @@
 #include "ShaderResource.h"
 
+#include <cstring>
+
 namespace ghost
 {
     ShaderType GetShaderTypeByName(const char* typeName)
@@ -39,35 +41,31 @@ namespace ghost
         return true;
     }
 
-    const ShaderByteCode* ShaderResource::GetByteCodeByType(ShaderType type) const
+    CompiledShader::~CompiledShader()
     {
-        //The code maybe cause memory crash, will be fix later.
-        auto byteCode = _byteCodes.find(type);
-        return byteCode == _byteCodes.end() ? nullptr : &byteCode->second;
+        for (ShaderByteCode& byteCode : _byteCodes)
+            SAFE_DELETE_ARRAY(byteCode.ByteCode);
     }
 
-    void ShaderResource::UpdateByteCodes(ShaderType type, unsigned char* byteCodes, int codeSize)
+    void CompiledShader::UpdateByteCode(ShaderType type, const void* byteCode, int codeSize)
     {
-        if (!byteCodes || codeSize < 0 || type == SHADER_TYPE_NUM)
+        if (!byteCode || codeSize <= 0 || type >= SHADER_TYPE_NUM)
             return;
 
-        auto currentByteCode = _byteCodes.find(type);
-        if (currentByteCode != _byteCodes.end())
-        {
-            SAFE_DELETE_ARRAY(currentByteCode->second.ByteCode);
-            currentByteCode->second.ByteCodeSize = 0;
+        ShaderByteCode& target = _byteCodes[static_cast<std::size_t>(type)];
+        SAFE_DELETE_ARRAY(target.ByteCode);
 
-            _byteCodes[type].ByteCodeSize = codeSize;
-            _byteCodes[type].ByteCode = new unsigned char[codeSize];
-            memcpy(_byteCodes[type].ByteCode, byteCodes, codeSize);
-        }
-        else
-        {
-            ShaderByteCode newByteCode{};
-            newByteCode.ByteCodeSize = codeSize;
-            newByteCode.ByteCode = new unsigned char[codeSize];
-            memcpy(newByteCode.ByteCode, byteCodes, codeSize);
-            _byteCodes[type] = newByteCode;
-        }
+        target.ByteCode = new unsigned char[codeSize];
+        target.ByteCodeSize = codeSize;
+        memcpy(target.ByteCode, byteCode, codeSize);
+    }
+
+    const ShaderByteCode* CompiledShader::GetByteCodeByType(ShaderType type) const
+    {
+        if (type >= SHADER_TYPE_NUM)
+            return nullptr;
+
+        const ShaderByteCode& byteCode = _byteCodes[static_cast<std::size_t>(type)];
+        return byteCode.ByteCode ? &byteCode : nullptr;
     }
 }

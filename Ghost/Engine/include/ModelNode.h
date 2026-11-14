@@ -44,6 +44,7 @@ namespace ghost
         void PrepareRendering(Camera* cam, unsigned index);
 
         void SetInstanceMaterial(unsigned subindex, const MaterialPtr& mat);
+        MaterialPtr GetMaterial(unsigned subindex) const;
 
         virtual void Render(Camera* cam);
 

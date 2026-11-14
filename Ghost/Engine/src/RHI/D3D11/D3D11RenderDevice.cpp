@@ -264,13 +264,15 @@ namespace ghost
         "ps_4_0"
     };
 
-    bool D3D11RenderDevice::CompileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader)
+    bool D3D11RenderDevice::CompileShader(ShaderType type, const char* entry,
+        const std::unordered_map<std::string, std::string>& defines,
+        const ShaderResource& source, CompiledShader& output)
     {
         if (type == SHADER_TYPE_NUM || !entry)
             return false;
 
-        unsigned char* rowdata = shader.GetRawdata();
-        int dataSize = shader.GetRawdataSize();
+        unsigned char* rowdata = source.GetRawdata();
+        int dataSize = source.GetRawdataSize();
 
         if (rowdata == nullptr || dataSize <= 0)
             return false;
@@ -291,36 +293,36 @@ namespace ghost
         macros.push_back(endMacro);
 
         ID3DBlobPtr byteCode, errorMsg;
-        HRESULT hr = D3DCompile(rowdata, dataSize, shader.GetName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], D3DCOMPILE_PACK_MATRIX_ROW_MAJOR | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
+        HRESULT hr = D3DCompile(rowdata, dataSize, source.GetName().c_str(), macros.size() > 1 ? &macros.front() : nullptr, nullptr, entry, ShaderProfile[type], D3DCOMPILE_PACK_MATRIX_ROW_MAJOR | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, byteCode.GetAddressOf(), errorMsg.GetAddressOf());
         if (FAILED(hr) || errorMsg)
         {
             if (errorMsg)
             {
                 const char* msg = (const char*)errorMsg->GetBufferPointer();
-                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", shader.GetName(), (const char*)errorMsg->GetBufferPointer());
-            }   
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed: %s", source.GetName(), (const char*)errorMsg->GetBufferPointer());
+            }
             else
             {
-                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed.", shader.GetName());
+                GHOST_LOG_FORMAT_ERROR("Compile shader[%s] failed.", source.GetName());
             }
 
             return false;
         }
 
-        shader.UpdateByteCodes(type, (unsigned char*)byteCode->GetBufferPointer(), byteCode->GetBufferSize());
+        output.UpdateByteCode(type, byteCode->GetBufferPointer(), static_cast<int>(byteCode->GetBufferSize()));
 
         return true;
     }
 
-    Shader* D3D11RenderDevice::CreateShader(const ShaderResourcePtr& shadersRes)
+    Shader* D3D11RenderDevice::CreateShader(const CompiledShaderPtr& compiledShader)
     {
-        if (shadersRes == nullptr)
+        if (compiledShader == nullptr)
             return nullptr;
 
         Shader* hardwareShader = new D3D11HarderwareShader();
         for (int i = 0; i < (int)SHADER_TYPE_NUM; ++i)
         {
-            const ShaderByteCode* byteCode = shadersRes->GetByteCodeByType((ShaderType)i);
+            const ShaderByteCode* byteCode = compiledShader->GetByteCodeByType((ShaderType)i);
             if (byteCode && byteCode->ByteCode && byteCode->ByteCodeSize > 0)
             {
                 HRESULT hr = S_OK;
@@ -352,14 +354,14 @@ namespace ghost
         return hardwareShader;
     }
 
-    void D3D11RenderDevice::ReflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params)
+    void D3D11RenderDevice::ReflectShader(const CompiledShaderPtr& compiledShader, ShaderParams& params)
     {
-        if (!shadersRes)
+        if (!compiledShader)
             return;
 
         for (unsigned i = 0; i < ShaderType::SHADER_TYPE_NUM; ++i)
         {
-            const ShaderByteCode* byteCode = shadersRes->GetByteCodeByType((ShaderType)i);
+            const ShaderByteCode* byteCode = compiledShader->GetByteCodeByType((ShaderType)i);
             if (!byteCode)
                 continue;
 

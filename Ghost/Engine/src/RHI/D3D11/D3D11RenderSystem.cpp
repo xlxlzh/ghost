@@ -269,10 +269,10 @@ namespace ghost
         ID3D11InputLayoutPtr inputlayoutPtr = nullptr;
         if (!inputDesc.empty())
         {
-            auto shaderRes = pass->GetLinkedShader();
-            if (shaderRes)
+            auto compiledShader = pass->GetCompiledShader();
+            if (compiledShader)
             {
-                const ShaderByteCode* shaderBytecode = shaderRes->GetByteCodeByType(SHADER_VS);
+                const ShaderByteCode* shaderBytecode = compiledShader->GetByteCodeByType(SHADER_VS);
                 if (shaderBytecode && shaderBytecode->ByteCode && shaderBytecode->ByteCodeSize > 0)
                 {
                     HRESULT hr = devicePtr->_device->CreateInputLayout(&inputDesc[0], inputDesc.size(),

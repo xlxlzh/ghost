@@ -557,18 +557,20 @@ namespace ghost
                         assetName.c_str());
                     return false;
                 }
-
-                if (!renderDevice->CompileShader(entry.type, entry.entry.c_str(),
-                    pass._defines, *shader))
-                {
-                    GHOST_LOG_FORMAT_ERROR("Material '%s': failed to compile %s entry '%s'.",
-                        assetName.c_str(), ShaderTypeName[entry.type], entry.entry.c_str());
-                    return false;
-                }
             }
 
-            if (shader->GetByteCodeByType(SHADER_VS))
-                renderDevice->ReflectShader(shader, pass._params);
+            pass._compiledShader = renderDevice->GetOrCreateCompiledShader(
+                shader, pass._shaderEntries, pass._defines);
+
+            if (!pass._compiledShader)
+            {
+                GHOST_LOG_FORMAT_ERROR("Material '%s': failed to compile shader '%s'.",
+                    assetName.c_str(), pass._shaderSource.c_str());
+                return false;
+            }
+
+            if (pass._compiledShader->GetByteCodeByType(SHADER_VS))
+                renderDevice->ReflectShader(pass._compiledShader, pass._params);
 
             for (const TextureSlotDefinition& slot : pass._textureSlots)
             {
@@ -839,7 +841,7 @@ namespace ghost
         if (!currentPass->_handwareShader)
         {
             auto renderDevice = Engine::GetInstance()->GetRenderDevice();
-            currentPass->_handwareShader = renderDevice->CreateShader(currentPass->_linkedShader);
+            currentPass->_handwareShader = renderDevice->CreateShader(currentPass->_compiledShader);
         }
 
         auto rendersystem = Engine::GetInstance()->GetRenderSystem();

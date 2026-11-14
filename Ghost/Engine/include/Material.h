@@ -119,14 +119,17 @@ namespace ghost
 
         RenderPass GetRenderPass() const { return _passType; }
         ShaderResourcePtr GetLinkedShader() { return _linkedShader; }
+        CompiledShaderPtr GetCompiledShader() { return _compiledShader; }
         InputSignatureList* GetShaderInputSignature() { return &_params._sigDesc; }
         unsigned GetConstBufferSlot(ShaderType type, const std::string& name);
 
+    private:
         void ApplyTextureToSlot(const std::string& name, Texture2DResPtr ptr);
         void ApplySamplerToSlot(const std::string& name, const Sampler& sampler);
 
     protected:
         ShaderResourcePtr _linkedShader = nullptr;
+        CompiledShaderPtr _compiledShader = nullptr;
         RenderPass _passType = RENDER_PASS_FORWARD;
 
         std::unordered_map<std::string, std::string> _defines{};

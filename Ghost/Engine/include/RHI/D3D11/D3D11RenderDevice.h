@@ -13,9 +13,11 @@ namespace ghost
         virtual bool InitDevice(bool fullscreen, unsigned msaaCount) override;
         virtual bool CheckSampleCount(unsigned checkCount) override;
 
-        virtual bool CompileShader(ShaderType type, const char* entry, const std::unordered_map<std::string, std::string>& defines, ShaderResource& shader) override;
-        virtual Shader* CreateShader(const ShaderResourcePtr& shadersRes) override;
-        virtual void ReflectShader(const ShaderResourcePtr& shadersRes, ShaderParams& params) override;
+        virtual bool CompileShader(ShaderType type, const char* entry,
+            const std::unordered_map<std::string, std::string>& defines,
+            const ShaderResource& source, CompiledShader& output) override;
+        virtual Shader* CreateShader(const CompiledShaderPtr& compiledShader) override;
+        virtual void ReflectShader(const CompiledShaderPtr& compiledShader, ShaderParams& params) override;
 
         virtual VertexBufferPtr CreateVertexBuffer(unsigned VertexSize, unsigned numVertices, ResourceUsage usage) override;
         virtual IndexBufferPtr CreateIndexBuffer(IndexBuffer::IndexType iType, unsigned numIndexes, ResourceUsage usage) override;
