@@ -311,9 +311,10 @@ namespace ghost
 
                 if (model->GetSubMeshCount() > 0)
                 {
-                    MaterialPtr material = modelNode->GetMaterial(0);
-                    if (material)
-                        data->materialPath = material->GetName();
+                    MaterialInterfacePtr material = modelNode->GetMaterial(0);
+                    Material* baseMaterial = material ? material->GetBaseMaterial() : nullptr;
+                    if (baseMaterial)
+                        data->materialPath = baseMaterial->GetName();
                 }
             }
         }

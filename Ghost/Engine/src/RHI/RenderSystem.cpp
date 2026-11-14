@@ -19,14 +19,15 @@ namespace ghost
         _clearColor = cl;
     }
 
-    void RenderSystem::SetMaterial(const MaterialPtr& mat)
+    void RenderSystem::SetMaterial(const MaterialInterfacePtr& mat)
     {
         if (_currentMaterial != mat || _renderpassChanged)
         {
             _renderpassChanged = false;
             _currentMaterial = mat;
 
-            _currentMaterial->ApplyToRenderPass(_currentRenderPass);
+            if (_currentMaterial)
+                _currentMaterial->ApplyToRenderPass(_currentRenderPass);
         }
     }
 

@@ -119,6 +119,34 @@ namespace ghost
         return 0;
     }
 
+    bool ShaderPass::GetTextureBindPoint(const std::string& name, unsigned& bindPoint) const
+    {
+        for (const TextureVariableInfo& info : _params._textures)
+        {
+            if (info._name == name)
+            {
+                bindPoint = info._bindPoint;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool ShaderPass::GetSamplerBindPoint(const std::string& name, unsigned& bindPoint) const
+    {
+        for (const SamplerInfo& info : _params._samplers)
+        {
+            if (info._name == name)
+            {
+                bindPoint = info._bindPoint;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void ShaderPass::ApplyTextureToSlot(const std::string& name, Texture2DResPtr ptr)
     {
         auto it = std::find_if(_params._textures.begin(), _params._textures.end(),
@@ -873,5 +901,75 @@ namespace ghost
         }
 
         return nullptr;
+    }
+
+    MaterialInstanceDynamic::MaterialInstanceDynamic(const MaterialPtr& baseMaterial) : _baseMaterial(baseMaterial)
+    {
+    }
+
+    Material* MaterialInstanceDynamic::GetBaseMaterial()
+    {
+        return _baseMaterial.get();
+    }
+
+    void MaterialInstanceDynamic::ApplyToRenderPass(RenderPass pass)
+    {
+        if (!_baseMaterial)
+            return;
+
+        _baseMaterial->ApplyToRenderPass(pass);
+
+        ShaderPass* shaderPass = _baseMaterial->GetShaderPass(pass);
+        if (!shaderPass)
+            return;
+
+        auto renderSystem = Engine::GetInstance()->GetRenderSystem();
+
+        for (const auto& textureOverride : _textureOverrides)
+        {
+            unsigned bindPoint = 0;
+            if (!shaderPass->GetTextureBindPoint(textureOverride.first, bindPoint))
+                continue;
+
+            Texture2DPtr texture = textureOverride.second
+                ? GPUObjectManager::GetInstance()->GetOrCreateTexture(textureOverride.second)
+                : nullptr;
+            renderSystem->SetTexture(bindPoint, texture);
+        }
+
+        for (const auto& samplerOverride : _samplerOverrides)
+        {
+            unsigned bindPoint = 0;
+            if (!shaderPass->GetSamplerBindPoint(samplerOverride.first, bindPoint))
+                continue;
+
+            renderSystem->SetSamplerState(bindPoint, samplerOverride.second);
+        }
+    }
+
+    void MaterialInstanceDynamic::SetTexture(const std::string& slot, const Texture2DResPtr& texture)
+    {
+        if (slot.empty())
+            return;
+
+        _textureOverrides[slot] = texture;
+    }
+
+    void MaterialInstanceDynamic::ClearTexture(const std::string& slot)
+    {
+        _textureOverrides.erase(slot);
+    }
+
+    void MaterialInstanceDynamic::SetSampler(const std::string& slot, const Sampler& sampler)
+    {
+        if (slot.empty())
+            return;
+
+        _samplerOverrides[slot] = sampler;
+    }
+
+    void MaterialInstanceDynamic::ClearSampler(const std::string& slot)
+    {
+        _samplerOverrides.erase(slot);
     }
 }

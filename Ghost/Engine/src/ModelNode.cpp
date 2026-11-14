@@ -92,7 +92,7 @@ namespace ghost
         _dirty = true;
     }
 
-    void ModelNode::SetInstanceMaterial(unsigned subindex, const MaterialPtr& mat)
+    void ModelNode::SetInstanceMaterial(unsigned subindex, const MaterialInterfacePtr& mat)
     {
         if (!_mesh || subindex >= _mesh->GetSubMeshCount())
             return;
@@ -103,7 +103,7 @@ namespace ghost
         _instanceMaterial[subindex] = mat;
     }
 
-    MaterialPtr ModelNode::GetMaterial(unsigned subindex) const
+    MaterialInterfacePtr ModelNode::GetMaterial(unsigned subindex) const
     {
         if (subindex < _instanceMaterial.size() && _instanceMaterial[subindex])
             return _instanceMaterial[subindex];
@@ -122,7 +122,7 @@ namespace ghost
         auto renderSystem = Engine::GetInstance()->GetRenderSystem();
         Light* mainLight = _owner->GetMainLigt();
 
-        MaterialPtr mat = GetMaterial(index);
+        MaterialInterfacePtr mat = GetMaterial(index);
         renderSystem->SetMaterial(mat);
 
         Matrix4x4f worldMat = _mesh->_meshes[index]._localMatrix * _absTrans;

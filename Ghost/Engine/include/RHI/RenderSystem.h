@@ -38,7 +38,7 @@ namespace ghost
 
         virtual void SetPrimitiveType(PrimitiveType pType) = 0;
 
-        virtual void SetMaterial(const MaterialPtr& mat);
+        virtual void SetMaterial(const MaterialInterfacePtr& mat);
 
         virtual void SetShader(const Shader* shader) = 0;
         virtual void DrawPrimitive(unsigned numVertices, unsigned startIndex) = 0;
@@ -77,7 +77,7 @@ namespace ghost
         RenderTargetPtr _activeRenerTarget = nullptr;
         RenderDevicePtr _renderDevice = nullptr;
 
-        MaterialPtr _currentMaterial = nullptr;
+        MaterialInterfacePtr _currentMaterial = nullptr;
 
         CullMode _cullingMode;
         FillMode _fillMode;

@@ -209,10 +209,11 @@ namespace ghost
 
     void D3D11RenderSystem::SetVertexDeclaration(VertexDeclarationPtr vDecl)
     {
-        if (!_currentMaterial || !vDecl)
+        Material* baseMaterial = _currentMaterial ? _currentMaterial->GetBaseMaterial() : nullptr;
+        if (!baseMaterial || !vDecl)
             return;
 
-        ShaderPass* pass = _currentMaterial->GetShaderPass(_currentRenderPass);
+        ShaderPass* pass = baseMaterial->GetShaderPass(_currentRenderPass);
         if (!pass)
             return;
 
@@ -251,7 +252,7 @@ namespace ghost
             if (!matchedElement)
             {
                 GHOST_LOG_FORMAT_ERROR("No vertex element for semantic %s%s in shader %s found",
-                    matSig._semantic.c_str(), matSig._index, _currentMaterial->GetName().c_str());
+                    matSig._semantic.c_str(), matSig._index, baseMaterial->GetName().c_str());
                 continue;
             }
 
@@ -294,8 +295,15 @@ namespace ghost
     {
         if (_currentMaterial == nullptr)
             return;
-        
-        ShaderPass* pass = _currentMaterial->GetShaderPass(_currentRenderPass);
+
+        Material* baseMaterial = _currentMaterial->GetBaseMaterial();
+        if (!baseMaterial)
+            return;
+
+        ShaderPass* pass = baseMaterial->GetShaderPass(_currentRenderPass);
+        if (!pass)
+            return;
+
         unsigned slot = pass->GetConstBufferSlot(shaderType, constBuffer->GetName());
 
         D3D11RenderDevicePtr devicePtr = GHOST_SMARTPOINTER_CAST(D3D11RenderDevice, _renderDevice);

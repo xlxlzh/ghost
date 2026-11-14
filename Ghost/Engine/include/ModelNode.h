@@ -43,8 +43,8 @@ namespace ghost
 
         void PrepareRendering(Camera* cam, unsigned index);
 
-        void SetInstanceMaterial(unsigned subindex, const MaterialPtr& mat);
-        MaterialPtr GetMaterial(unsigned subindex) const;
+        void SetInstanceMaterial(unsigned subindex, const MaterialInterfacePtr& mat);
+        MaterialInterfacePtr GetMaterial(unsigned subindex) const;
 
         virtual void Render(Camera* cam);
 
@@ -59,7 +59,7 @@ namespace ghost
         ModelPtr _mesh = nullptr;
         ModelRenderDataPtr _renderData = nullptr;
 
-        std::vector<MaterialPtr> _instanceMaterial;
+        std::vector<MaterialInterfacePtr> _instanceMaterial;
 
         ConstBufferPtr _meshParams;
 

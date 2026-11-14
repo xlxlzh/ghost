@@ -123,6 +123,9 @@ namespace ghost
         InputSignatureList* GetShaderInputSignature() { return &_params._sigDesc; }
         unsigned GetConstBufferSlot(ShaderType type, const std::string& name);
 
+        bool GetTextureBindPoint(const std::string& name, unsigned& bindPoint) const;
+        bool GetSamplerBindPoint(const std::string& name, unsigned& bindPoint) const;
+
     private:
         void ApplyTextureToSlot(const std::string& name, Texture2DResPtr ptr);
         void ApplySamplerToSlot(const std::string& name, const Sampler& sampler);
@@ -144,7 +147,22 @@ namespace ghost
         ShaderParams _params;
     };
 
-    class GHOST_API Material : public Resource
+    class Material;
+
+    DECLAR_SMART_POINTER(Material);
+
+    class GHOST_API MaterialInterface
+    {
+    public:
+        virtual ~MaterialInterface() = default;
+
+        virtual Material* GetBaseMaterial() = 0;
+        virtual void ApplyToRenderPass(RenderPass pass) = 0;
+    };
+
+    DECLAR_SMART_POINTER(MaterialInterface);
+
+    class GHOST_API Material : public Resource, public MaterialInterface
     {
     public:
         Material() : Material(RESOURCE_MATERIAL, "", 0) { }
@@ -154,7 +172,8 @@ namespace ghost
         virtual bool Save(DataStream& dataStream) override;
         virtual bool SaveXml(DataStream& dataStream) override;
 
-        void ApplyToRenderPass(RenderPass pass);
+        virtual Material* GetBaseMaterial() override { return this; }
+        virtual void ApplyToRenderPass(RenderPass pass) override;
 
         static int GetTypeStatic() { return RESOURCE_MATERIAL; }
 
@@ -175,7 +194,26 @@ namespace ghost
         std::vector<ShaderPass> _passes;
     };
 
-    DECLAR_SMART_POINTER(Material);
+    class GHOST_API MaterialInstanceDynamic : public MaterialInterface
+    {
+    public:
+        explicit MaterialInstanceDynamic(const MaterialPtr& baseMaterial);
+
+        virtual Material* GetBaseMaterial() override;
+        virtual void ApplyToRenderPass(RenderPass pass) override;
+
+        void SetTexture(const std::string& slot, const Texture2DResPtr& texture);
+        void ClearTexture(const std::string& slot);
+        void SetSampler(const std::string& slot, const Sampler& sampler);
+        void ClearSampler(const std::string& slot);
+
+    protected:
+        MaterialPtr _baseMaterial;
+        std::unordered_map<std::string, Texture2DResPtr> _textureOverrides;
+        std::unordered_map<std::string, Sampler> _samplerOverrides;
+    };
+
+    DECLAR_SMART_POINTER(MaterialInstanceDynamic);
 }
 
 #endif
