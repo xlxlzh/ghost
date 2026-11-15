@@ -6,12 +6,36 @@
 #include "Texture2D.h"
 #include "RenderCommon.h"
 #include "TextureUnitState.h"
+#include "ConstBuffer.h"
 
+#include <cstdint>
 #include <unordered_map>
 #include <array>
 
 namespace ghost
 {
+    enum class MaterialParameterType : uint8_t
+    {
+        Unknown,
+        Float,
+        Float2,
+        Float3,
+        Float4,
+        Color,
+        Int,
+        Bool
+    };
+
+    struct GHOST_API MaterialParameterValue
+    {
+        MaterialParameterType _type = MaterialParameterType::Unknown;
+        std::array<float, 4> _values{};
+    };
+
+    using MaterialParameterMap = std::unordered_map<std::string, MaterialParameterValue>;
+
+    constexpr const char* MaterialParameterBufferName = "MaterialParams";
+
     struct GHOST_API InputSignature
     {
         unsigned short _index;
@@ -32,11 +56,12 @@ namespace ghost
 
     using InputSignatureList = std::vector<InputSignature>;
 
-    struct GHOST_API ConstBufferVariable 
+    struct GHOST_API ConstBufferVariable
     {
         std::string _name;
         unsigned _offset;
         unsigned _size;
+        MaterialParameterType _type = MaterialParameterType::Unknown;
     };
 
     using ConstBufferVariableList = std::vector<ConstBufferVariable>;
@@ -125,6 +150,7 @@ namespace ghost
 
         bool GetTextureBindPoint(const std::string& name, unsigned& bindPoint) const;
         bool GetSamplerBindPoint(const std::string& name, unsigned& bindPoint) const;
+        const ConstBufferInfo* GetConstBufferInfo(ShaderType type, const std::string& name) const;
 
     private:
         void ApplyTextureToSlot(const std::string& name, Texture2DResPtr ptr);
@@ -147,6 +173,23 @@ namespace ghost
         ShaderParams _params;
     };
 
+    class GHOST_API MaterialParameterBinding
+    {
+    public:
+        void Apply(const MaterialParameterMap& defaults,
+            const MaterialParameterMap* overrides, ShaderPass& pass);
+
+    private:
+        struct BufferEntry
+        {
+            ConstBufferPtr _buffer;
+            unsigned _size = 0;
+        };
+
+        std::array<std::array<BufferEntry, static_cast<std::size_t>(SHADER_TYPE_NUM)>,
+            static_cast<std::size_t>(RENDER_PASS_NUM)> _buffers{};
+    };
+
     class Material;
 
     DECLAR_SMART_POINTER(Material);
@@ -158,6 +201,7 @@ namespace ghost
 
         virtual Material* GetBaseMaterial() = 0;
         virtual void ApplyToRenderPass(RenderPass pass) = 0;
+        virtual uint32_t GetVersion() const = 0;
     };
 
     DECLAR_SMART_POINTER(MaterialInterface);
@@ -174,24 +218,31 @@ namespace ghost
 
         virtual Material* GetBaseMaterial() override { return this; }
         virtual void ApplyToRenderPass(RenderPass pass) override;
+        virtual uint32_t GetVersion() const override { return 0; }
 
         static int GetTypeStatic() { return RESOURCE_MATERIAL; }
 
         ShaderPass* GetShaderPass(RenderPass pass);
 
+        const MaterialParameterMap& GetParameters() const { return _parameters; }
+
     private:
         static bool LoadPassesXml(DataStream& dataStream, std::vector<ShaderPass>& passes,
-            const std::string& assetName);
+            MaterialParameterMap& parameters, const std::string& assetName);
         static bool LoadPassesBinary(DataStream& dataStream, std::vector<ShaderPass>& passes,
-            const std::string& assetName);
+            MaterialParameterMap& parameters, const std::string& assetName);
         static bool FinalizePasses(std::vector<ShaderPass>& passes,
             const std::string& assetName);
         static bool SavePassesBinary(const std::vector<ShaderPass>& passes,
-            DataStream& dataStream, const std::string& assetName);
+            const MaterialParameterMap& parameters, DataStream& dataStream,
+            const std::string& assetName);
         static bool SavePassesXml(const std::vector<ShaderPass>& passes,
-            DataStream& dataStream, const std::string& assetName);
+            const MaterialParameterMap& parameters, DataStream& dataStream,
+            const std::string& assetName);
 
         std::vector<ShaderPass> _passes;
+        MaterialParameterMap _parameters;
+        MaterialParameterBinding _parameterBinding;
     };
 
     class GHOST_API MaterialInstanceDynamic : public MaterialInterface
@@ -201,16 +252,30 @@ namespace ghost
 
         virtual Material* GetBaseMaterial() override;
         virtual void ApplyToRenderPass(RenderPass pass) override;
+        virtual uint32_t GetVersion() const override { return _version; }
 
         void SetTexture(const std::string& slot, const Texture2DResPtr& texture);
         void ClearTexture(const std::string& slot);
         void SetSampler(const std::string& slot, const Sampler& sampler);
         void ClearSampler(const std::string& slot);
 
+        void SetParameter(const std::string& name, const MaterialParameterValue& value);
+        void SetFloat(const std::string& name, float value);
+        void SetFloat2(const std::string& name, float x, float y);
+        void SetFloat3(const std::string& name, float x, float y, float z);
+        void SetFloat4(const std::string& name, float x, float y, float z, float w);
+        void SetColor(const std::string& name, float r, float g, float b, float a = 1.0f);
+        void SetInt(const std::string& name, int value);
+        void SetBool(const std::string& name, bool value);
+        void ClearParameter(const std::string& name);
+
     protected:
         MaterialPtr _baseMaterial;
         std::unordered_map<std::string, Texture2DResPtr> _textureOverrides;
         std::unordered_map<std::string, Sampler> _samplerOverrides;
+        MaterialParameterMap _parameterOverrides;
+        MaterialParameterBinding _parameterBinding;
+        uint32_t _version = 0;
     };
 
     DECLAR_SMART_POINTER(MaterialInstanceDynamic);

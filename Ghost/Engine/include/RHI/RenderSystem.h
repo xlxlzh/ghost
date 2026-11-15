@@ -78,6 +78,7 @@ namespace ghost
         RenderDevicePtr _renderDevice = nullptr;
 
         MaterialInterfacePtr _currentMaterial = nullptr;
+        uint32_t _currentMaterialVersion = 0;
 
         CullMode _cullingMode;
         FillMode _fillMode;

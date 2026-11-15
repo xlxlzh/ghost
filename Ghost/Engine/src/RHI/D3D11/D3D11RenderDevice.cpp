@@ -264,6 +264,46 @@ namespace ghost
         "ps_4_0"
     };
 
+    static MaterialParameterType GetMaterialParameterType(const D3D11_SHADER_TYPE_DESC& desc)
+    {
+        if (desc.Elements > 0)
+            return MaterialParameterType::Unknown;
+
+        if (desc.Class == D3D_SVC_SCALAR)
+        {
+            switch (desc.Type)
+            {
+            case D3D_SVT_FLOAT:
+                return MaterialParameterType::Float;
+            case D3D_SVT_INT:
+            case D3D_SVT_UINT:
+                return MaterialParameterType::Int;
+            case D3D_SVT_BOOL:
+                return MaterialParameterType::Bool;
+            default:
+                return MaterialParameterType::Unknown;
+            }
+        }
+
+        if (desc.Class == D3D_SVC_VECTOR && desc.Type == D3D_SVT_FLOAT)
+        {
+            const unsigned components = desc.Rows > 1 ? desc.Rows : desc.Columns;
+            switch (components)
+            {
+            case 2:
+                return MaterialParameterType::Float2;
+            case 3:
+                return MaterialParameterType::Float3;
+            case 4:
+                return MaterialParameterType::Float4;
+            default:
+                return MaterialParameterType::Unknown;
+            }
+        }
+
+        return MaterialParameterType::Unknown;
+    }
+
     bool D3D11RenderDevice::CompileShader(ShaderType type, const char* entry,
         const std::unordered_map<std::string, std::string>& defines,
         const ShaderResource& source, CompiledShader& output)
@@ -425,6 +465,14 @@ namespace ghost
                         bufferVar._name = varDesc.Name;
                         bufferVar._offset = varDesc.StartOffset;
                         bufferVar._size = varDesc.Size;
+
+                        ID3D11ShaderReflectionType* variableType = var->GetType();
+                        if (variableType)
+                        {
+                            D3D11_SHADER_TYPE_DESC typeDesc{};
+                            if (SUCCEEDED(variableType->GetDesc(&typeDesc)))
+                                bufferVar._type = GetMaterialParameterType(typeDesc);
+                        }
 
                         cbInfo._variables.push_back(bufferVar);
                     }

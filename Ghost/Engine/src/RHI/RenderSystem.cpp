@@ -21,10 +21,13 @@ namespace ghost
 
     void RenderSystem::SetMaterial(const MaterialInterfacePtr& mat)
     {
-        if (_currentMaterial != mat || _renderpassChanged)
+        const uint32_t version = mat ? mat->GetVersion() : 0;
+
+        if (_currentMaterial != mat || _currentMaterialVersion != version || _renderpassChanged)
         {
             _renderpassChanged = false;
             _currentMaterial = mat;
+            _currentMaterialVersion = version;
 
             if (_currentMaterial)
                 _currentMaterial->ApplyToRenderPass(_currentRenderPass);
