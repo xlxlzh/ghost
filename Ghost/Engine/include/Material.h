@@ -3,6 +3,7 @@
 
 #include "Resource.h"
 #include "Shader.h"
+#include "ShaderAsset.h"
 #include "Texture2D.h"
 #include "RenderCommon.h"
 #include "TextureUnitState.h"
@@ -105,21 +106,6 @@ namespace ghost
     };
 
 
-    enum RenderPass
-    {
-        RENDER_PASS_FORWARD,
-        RENDER_PASS_SHADOW,
-        RENDER_PASS_DEPTH,
-        RENDER_PASS_DEFERRED,
-        RENDER_PASS_NUM
-    };
-
-    struct GHOST_API ShaderEntryDefinition
-    {
-        ShaderType type = SHADER_TYPE_NUM;
-        std::string entry;
-    };
-
     struct GHOST_API TextureSlotDefinition
     {
         std::string name;
@@ -143,6 +129,7 @@ namespace ghost
         ~ShaderPass();
 
         RenderPass GetRenderPass() const { return _passType; }
+        const PassRenderState& GetRenderState() const { return _renderState; }
         ShaderResourcePtr GetLinkedShader() { return _linkedShader; }
         CompiledShaderPtr GetCompiledShader() { return _compiledShader; }
         InputSignatureList* GetShaderInputSignature() { return &_params._sigDesc; }
@@ -170,6 +157,7 @@ namespace ghost
 
         Shader* _handwareShader{ nullptr };
 
+        PassRenderState _renderState;
         ShaderParams _params;
     };
 

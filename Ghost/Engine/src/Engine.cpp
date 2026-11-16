@@ -34,6 +34,7 @@ namespace ghost
         }
 
         resMan->RegisterResourceFactory(new ResourceFactoryIml<Material>());
+        resMan->RegisterResourceFactory(new ResourceFactoryIml<ShaderAsset>());
         resMan->RegisterResourceFactory(new ResourceFactoryIml<ShaderResource>());
         resMan->RegisterResourceFactory(new ResourceFactoryIml<Model>());
         resMan->RegisterResourceFactory(new ResourceFactoryIml<Scene>());

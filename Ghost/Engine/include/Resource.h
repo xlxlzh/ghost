@@ -20,6 +20,7 @@ namespace ghost
         RESOURCE_SCENE,
         RESOURCE_MESH,
         RESOURCE_MODEL,
+        RESOURCE_SHADER_ASSET,
     };
 
     class Resource;

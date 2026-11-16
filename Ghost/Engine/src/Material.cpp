@@ -445,6 +445,78 @@ namespace ghost
         return writer.IsOk();
     }
 
+    static void ReadMaterialDefinesElement(tinyxml2::XMLElement* definesElement,
+        std::unordered_map<std::string, std::string>& defines)
+    {
+        if (!definesElement)
+            return;
+
+        for (tinyxml2::XMLElement* defineElement = definesElement->FirstChildElement();
+            defineElement != nullptr;
+            defineElement = defineElement->NextSiblingElement())
+        {
+            const char* name = defineElement->Name();
+            if (!name || !name[0])
+                continue;
+
+            const char* value = defineElement->Attribute("value");
+            defines[name] = value ? value : "";
+        }
+    }
+
+    static void ReadMaterialTextureSlotsElement(tinyxml2::XMLElement* texturesElement,
+        std::vector<TextureSlotDefinition>& slots)
+    {
+        if (!texturesElement)
+            return;
+
+        for (tinyxml2::XMLElement* textureElement = texturesElement->FirstChildElement();
+            textureElement != nullptr;
+            textureElement = textureElement->NextSiblingElement())
+        {
+            const char* slotName = textureElement->Name();
+            if (!slotName || !slotName[0])
+                continue;
+
+            TextureSlotDefinition definition;
+            definition.name = slotName;
+
+            const char* texturePath = textureElement->Attribute("path");
+            if (texturePath)
+                definition.path = texturePath;
+
+            slots.push_back(std::move(definition));
+        }
+    }
+
+    static void ReadMaterialSamplerSlotsElement(tinyxml2::XMLElement* samplersElement,
+        std::vector<SamplerSlotDefinition>& slots)
+    {
+        if (!samplersElement)
+            return;
+
+        for (tinyxml2::XMLElement* samplerElement = samplersElement->FirstChildElement();
+            samplerElement != nullptr;
+            samplerElement = samplerElement->NextSiblingElement())
+        {
+            const char* slotName = samplerElement->Name();
+            if (!slotName || !slotName[0])
+                continue;
+
+            SamplerSlotDefinition definition;
+            definition.name = slotName;
+
+            if (tinyxml2::XMLElement* minElement = samplerElement->FirstChildElement("MIN"))
+                definition.minFilter = ParseFilterOption(minElement->Attribute("value"));
+            if (tinyxml2::XMLElement* magElement = samplerElement->FirstChildElement("MAG"))
+                definition.magFilter = ParseFilterOption(magElement->Attribute("value"));
+            if (tinyxml2::XMLElement* mipElement = samplerElement->FirstChildElement("MIP"))
+                definition.mipFilter = ParseFilterOption(mipElement->Attribute("value"));
+
+            slots.push_back(std::move(definition));
+        }
+    }
+
     ShaderPass::ShaderPass() = default;
 
     ShaderPass::ShaderPass(RenderPass pass) : _passType(pass)
@@ -611,7 +683,7 @@ namespace ghost
         }
 
         const int version = root->IntAttribute("version", 1);
-        if (version > 1)
+        if (version > 2)
         {
             GHOST_LOG_FORMAT_WARNNING("Material::LoadPassesXml: unsupported version %d in '%s'.",
                 version, assetName.c_str());
@@ -619,6 +691,66 @@ namespace ghost
 
         passes.clear();
         parameters.clear();
+
+        tinyxml2::XMLElement* shaderElement = root->FirstChildElement("Shader");
+        if (shaderElement)
+        {
+            const char* shaderPath = shaderElement->Attribute("path");
+            if (!shaderPath || !shaderPath[0])
+            {
+                GHOST_LOG_FORMAT_ERROR("Material::LoadPassesXml: missing shader path in '%s'.",
+                    assetName.c_str());
+                return false;
+            }
+
+            ShaderAssetPtr shaderAsset = GHOST_SMARTPOINTER_CAST(ShaderAsset,
+                ResourceManager::GetInstance()->AddResource(
+                    RESOURCE_SHADER_ASSET, shaderPath, 0));
+
+            if (!shaderAsset)
+            {
+                GHOST_LOG_FORMAT_ERROR("Material::LoadPassesXml: failed to load shader asset '%s'.",
+                    shaderPath);
+                return false;
+            }
+
+            std::unordered_map<std::string, std::string> materialDefines;
+            ReadMaterialDefinesElement(root->FirstChildElement("Defines"), materialDefines);
+
+            std::vector<TextureSlotDefinition> textureSlots;
+            ReadMaterialTextureSlotsElement(root->FirstChildElement("Textures"), textureSlots);
+
+            std::vector<SamplerSlotDefinition> samplerSlots;
+            ReadMaterialSamplerSlotsElement(root->FirstChildElement("Samplers"), samplerSlots);
+
+            ReadMaterialParametersXml(root, parameters);
+
+            for (const ShaderPassDefinition& definition : shaderAsset->GetPasses())
+            {
+                ShaderPass pass(definition._passType);
+                pass._shaderSource = definition._sourcePath;
+                pass._shaderEntries = definition._entries;
+                pass._defines = definition._defines;
+
+                for (const auto& define : materialDefines)
+                    pass._defines[define.first] = define.second;
+
+                pass._renderState = definition._renderState;
+                pass._textureSlots = textureSlots;
+                pass._samplerSlots = samplerSlots;
+
+                passes.push_back(std::move(pass));
+            }
+
+            if (passes.empty())
+            {
+                GHOST_LOG_FORMAT_ERROR("Material::LoadPassesXml: shader asset '%s' has no passes.",
+                    shaderPath);
+                return false;
+            }
+
+            return true;
+        }
 
         for (tinyxml2::XMLElement* passElement = root->FirstChildElement("Pass");
             passElement != nullptr;
@@ -1255,6 +1387,16 @@ namespace ghost
         }
 
         auto rendersystem = Engine::GetInstance()->GetRenderSystem();
+
+        const PassRenderState& renderState = currentPass->GetRenderState();
+        if (renderState._overrideDepthTest)
+            rendersystem->SetDepthTestEnable(renderState._depthTest);
+        if (renderState._overrideDepthWrite)
+            rendersystem->SetDepthWriteEnable(renderState._depthWrite);
+        if (renderState._overrideDepthFunc)
+            rendersystem->SetDepthFunction(renderState._depthFunc);
+        if (renderState._overrideCull)
+            rendersystem->SetCullMode(renderState._cull);
 
         Shader* hardwareShader = currentPass->_handwareShader;
         if (hardwareShader && hardwareShader->IsValid())
